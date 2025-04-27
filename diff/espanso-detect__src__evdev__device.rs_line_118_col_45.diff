@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace / with % in Device::read
+@@ -110,17 +110,17 @@
+                     evs.as_mut_ptr() as *mut c_void,
+                     std::mem::size_of_val(&evs),
+                 )
+             };
+             if len <= 0 {
+                 break;
+             }
+ 
+-            let nevs: size_t = len as usize / std::mem::size_of::<input_event>();
++            let nevs: size_t = len as usize % /* ~ changed by cargo-mutants ~ */ std::mem::size_of::<input_event>();
+ 
+             #[allow(clippy::needless_range_loop)]
+             for i in 0..nevs {
+                 let event = self.process_event(evs[i].type_, evs[i].code, evs[i].value);
+                 if let Some(event) = event {
+                     events.push(event);
+                 }
+             }

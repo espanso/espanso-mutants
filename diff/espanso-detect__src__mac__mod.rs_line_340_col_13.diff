@@ -1,0 +1,64 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -332,60 +332,17 @@
+         let status = match raw.status {
+             INPUT_STATUS_RELEASED => Released,
+             INPUT_STATUS_PRESSED => Pressed,
+             _ => Pressed,
+         };
+ 
+         match raw.event_type {
+             // Keyboard events
+-            INPUT_EVENT_TYPE_KEYBOARD => {
+-                let (key, variant) = key_code_to_key(raw.key_code);
+-
+-                // When a global keyboard shortcut is relased, the callback returns an event with keycode 0
+-                // and status 0.
+-                // We need to handle it for this reason: https://github.com/espanso/espanso/issues/791
+-                if raw.key_code == 0 && raw.status == 0 {
+-                    return Some(InputEvent::AllModifiersReleased);
+-                }
+-
+-                let value = if raw.buffer_len > 0 {
+-                    let raw_string_result =
+-                        CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
+-                    match raw_string_result {
+-                        Ok(c_string) => {
+-                            let string_result = c_string.to_str();
+-                            match string_result {
+-                                Ok(value) => Some(value.to_string()),
+-                                Err(err) => {
+-                                    warn!("CocoaSource event utf8 conversion error: {}", err);
+-                                    None
+-                                }
+-                            }
+-                        }
+-                        Err(err) => {
+-                            trace!("Received malformed event buffer: {}", err);
+-                            None
+-                        }
+-                    }
+-                } else {
+-                    None
+-                };
+-
+-                return Some(InputEvent::Keyboard(KeyboardEvent {
+-                    key,
+-                    value,
+-                    status,
+-                    variant,
+-                    code: raw
+-                        .key_code
+-                        .try_into()
+-                        .expect("unable to convert keycode to u32"),
+-                }));
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             // Mouse events
+             INPUT_EVENT_TYPE_MOUSE => {
+                 let button = raw_to_mouse_button(raw.key_code);
+ 
+                 if let Some(button) = button {
+                     return Some(InputEvent::Mouse(MouseEvent { button, status }));
+                 }
+             }

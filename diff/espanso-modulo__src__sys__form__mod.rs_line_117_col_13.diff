@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl Interoperable for OwnedForm>::as_ptr -> *const c_void with Default::default()
+@@ -109,17 +109,17 @@
+         fields: Vec<OwnedField>,
+ 
+         metadata: Vec<FieldMetadata>,
+         interop: Box<FormMetadata>,
+     }
+ 
+     impl Interoperable for OwnedForm {
+         fn as_ptr(&self) -> *const c_void {
+-            std::ptr::from_ref::<FormMetadata>(&(*self.interop)) as *const c_void
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<types::Form> for OwnedForm {
+         fn from(form: types::Form) -> Self {
+             let title = CString::new(form.title).expect("unable to convert form title to CString");
+             let fields: Vec<OwnedField> = form.fields.into_iter().map(Into::into).collect();
+ 

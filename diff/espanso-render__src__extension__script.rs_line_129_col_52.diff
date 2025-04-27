@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/script.rs
++++ delete ! in <impl Extension for ScriptExtension>::calculate
+@@ -121,17 +121,17 @@
+                     }
+ 
+                     let ignore_error = params
+                         .get("ignore_error")
+                         .and_then(|v| v.as_bool())
+                         .copied()
+                         .unwrap_or(false);
+ 
+-                    if !output.status.success() || !error_str.trim().is_empty() {
++                    if !output.status.success() ||  /* ~ changed by cargo-mutants ~ */error_str.trim().is_empty() {
+                         warn!(
+                             "script command exited with code: {} and error: {}",
+                             output.status, error_str
+                         );
+ 
+                         if !ignore_error {
+                             return ExtensionResult::Error(
+                                 ScriptExtensionError::ExecutionError(error_str.to_string()).into(),

@@ -1,0 +1,28 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::convert_to_record_array -> Result<Vec<KeyRecord>> with Ok(vec![])
+@@ -300,24 +300,17 @@
+                 unsafe { XFree(_reset as *mut c_void) };
+             }
+         }
+ 
+         Ok(deadkeys)
+     }
+ 
+     fn convert_to_record_array(&self, syms: &[KeySym]) -> Result<Vec<KeyRecord>> {
+-        syms.iter()
+-            .map(|sym| {
+-                self.sym_map
+-                    .get(sym)
+-                    .copied()
+-                    .ok_or_else(|| X11InjectorError::SymMapping(*sym).into())
+-            })
+-            .collect()
++        Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     // This method was inspired by the wonderful xdotool by Jordan Sissel
+     // https://github.com/jordansissel/xdotool
+     fn get_modifier_codes(&self) -> Vec<Vec<KeyCode>> {
+         let modifiers_ptr = unsafe { XGetModifierMapping(self.display) };
+         let modifiers = unsafe { *modifiers_ptr };
+ 

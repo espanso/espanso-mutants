@@ -1,0 +1,30 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace CombinedMatchCache<'a>::load -> Self with Default::default()
+@@ -90,26 +90,17 @@
+ 
+ pub enum MatchVariant<'a> {
+     User(&'a Match),
+     Builtin(&'a BuiltInMatch),
+ }
+ 
+ impl<'a> CombinedMatchCache<'a> {
+     pub fn load(user_match_cache: &'a MatchCache<'a>, builtin_matches: &'a [BuiltInMatch]) -> Self {
+-        let mut builtin_match_cache = HashMap::new();
+-
+-        for m in builtin_matches {
+-            builtin_match_cache.insert(m.id, m);
+-        }
+-
+-        Self {
+-            user_match_cache,
+-            builtin_match_cache,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get(&self, match_id: i32) -> Option<MatchVariant<'a>> {
+         if let Some(user_match) = self.user_match_cache.cache.get(&match_id).copied() {
+             return Some(MatchVariant::User(user_match));
+         }
+ 
+         if let Some(builtin_match) = self.builtin_match_cache.get(&match_id).copied() {

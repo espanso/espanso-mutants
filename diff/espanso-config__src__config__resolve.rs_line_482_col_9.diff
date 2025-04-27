@@ -1,0 +1,35 @@
+--- espanso-config/src/config/resolve.rs
++++ replace ResolvedConfig::aggregate_excludes -> HashSet<String> with HashSet::from_iter([String::new()])
+@@ -474,31 +474,17 @@
+                 includes.insert(include.to_string());
+             }
+         }
+ 
+         includes
+     }
+ 
+     fn aggregate_excludes(config: &ParsedConfig) -> HashSet<String> {
+-        let mut excludes = HashSet::new();
+-
+-        if let Some(yaml_excludes) = config.excludes.as_ref() {
+-            for exclude in yaml_excludes {
+-                excludes.insert(exclude.to_string());
+-            }
+-        }
+-
+-        if let Some(extra_excludes) = config.extra_excludes.as_ref() {
+-            for exclude in extra_excludes {
+-                excludes.insert(exclude.to_string());
+-            }
+-        }
+-
+-        excludes
++        HashSet::from_iter([String::new()]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn generate_match_paths(config: &ParsedConfig, base_dir: &Path) -> HashSet<String> {
+         let includes = Self::aggregate_includes(config);
+         let excludes = Self::aggregate_excludes(config);
+ 
+         // Extract the paths
+         let exclude_paths = calculate_paths(base_dir, excludes.iter());

@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -399,17 +399,17 @@
+         0xFFBE => (F1, None),
+         0xFFBF => (F2, None),
+         0xFFC0 => (F3, None),
+         0xFFC1 => (F4, None),
+         0xFFC2 => (F5, None),
+         0xFFC3 => (F6, None),
+         0xFFC4 => (F7, None),
+         0xFFC5 => (F8, None),
+-        0xFFC6 => (F9, None),
++         /* ~ changed by cargo-mutants ~ */
+         0xFFC7 => (F10, None),
+         0xFFC8 => (F11, None),
+         0xFFC9 => (F12, None),
+         0xFFCA => (F13, None),
+         0xFFCB => (F14, None),
+         0xFFCC => (F15, None),
+         0xFFCD => (F16, None),
+         0xFFCE => (F17, None),

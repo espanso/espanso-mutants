@@ -1,0 +1,35 @@
+--- espanso-modulo/src/form/parser/split.rs
++++ replace <impl Iterator for SplitCaptures<'_, 't>>::next -> Option<SplitState<'t>> with Some(Default::default())
+@@ -24,31 +24,11 @@
+     Unmatched(&'t str),
+     Captured(Captures<'t>),
+ }
+ 
+ impl<'t> Iterator for SplitCaptures<'_, 't> {
+     type Item = SplitState<'t>;
+ 
+     fn next(&mut self) -> Option<SplitState<'t>> {
+-        if let Some(caps) = self.caps.take() {
+-            return Some(SplitState::Captured(caps));
+-        }
+-        match self.finder.next() {
+-            None => {
+-                if self.last >= self.text.len() {
+-                    None
+-                } else {
+-                    let s = &self.text[self.last..];
+-                    self.last = self.text.len();
+-                    Some(SplitState::Unmatched(s))
+-                }
+-            }
+-            Some(caps) => {
+-                let m = caps.get(0).unwrap();
+-                let unmatched = &self.text[self.last..m.start()];
+-                self.last = m.end();
+-                self.caps = Some(caps);
+-                Some(SplitState::Unmatched(unmatched))
+-            }
+-        }
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

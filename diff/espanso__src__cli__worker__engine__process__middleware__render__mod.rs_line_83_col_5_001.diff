@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace generate_global_vars_map -> HashMap<i32, Variable> with HashMap::new()
+@@ -75,27 +75,17 @@
+     for m in match_provider.matches() {
+         let entry = convert_to_template(m);
+         template_map.insert(m.id, entry);
+     }
+     template_map
+ }
+ 
+ fn generate_global_vars_map(config_provider: &dyn ConfigProvider) -> HashMap<i32, Variable> {
+-    let mut global_vars_map = HashMap::new();
+-
+-    for (_, match_set) in config_provider.configs() {
+-        for var in &match_set.global_vars {
+-            global_vars_map
+-                .entry(var.id)
+-                .or_insert_with(|| convert_var((*var).clone()));
+-        }
+-    }
+-
+-    global_vars_map
++    HashMap::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn generate_context<'a>(
+     match_set: &MatchSet,
+     template_map: &'a HashMap<i32, Option<Template>>,
+     global_vars_map: &'a HashMap<i32, Variable>,
+ ) -> Context<'a> {
+     let mut templates = Vec::new();

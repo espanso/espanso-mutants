@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace == with != in <impl Middleware for MatcherMiddleware<'_, State>>::next
+@@ -106,17 +106,17 @@
+             let prev_states = if matcher_states.is_empty() {
+                 None
+             } else {
+                 matcher_states.back()
+             };
+ 
+             if let EventType::Keyboard(keyboard_event) = &event.etype {
+                 // Backspace handling
+-                if keyboard_event.key == Key::Backspace {
++                if keyboard_event.key != /* ~ changed by cargo-mutants ~ */ Key::Backspace {
+                     trace!("popping the last matcher state");
+                     matcher_states.pop_back();
+                     return event;
+                 }
+ 
+                 // We need to filter out some keyboard events if they are generated
+                 // while some modifier keys are pressed, otherwise we could have
+                 // wrong matches being detected.

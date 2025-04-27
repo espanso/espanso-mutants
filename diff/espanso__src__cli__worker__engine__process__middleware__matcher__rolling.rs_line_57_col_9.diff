@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/rolling.rs
++++ replace <impl Matcher<'a, MatcherState<'a>> for RollingMatcherAdapter>::process -> (MatcherState<'a>, Vec<MatchResult>) with (Default::default(), vec![])
+@@ -49,27 +49,11 @@
+ }
+ 
+ impl<'a> Matcher<'a, MatcherState<'a>> for RollingMatcherAdapter {
+     fn process(
+         &'a self,
+         prev_state: Option<&MatcherState<'a>>,
+         event: &MatcherEvent,
+     ) -> (MatcherState<'a>, Vec<MatchResult>) {
+-        use espanso_match::Matcher;
+-
+-        let prev_state = prev_state.map(|state| {
+-            if let Some(state) = state.as_rolling() {
+-                state
+-            } else {
+-                panic!("invalid state type received in RollingMatcherAdapter")
+-            }
+-        });
+-        let event = convert_to_match_event(event);
+-
+-        let (state, results) = self.matcher.process(prev_state, event);
+-
+-        let enum_state = MatcherState::Rolling(state);
+-        let results: Vec<MatchResult> = results.into_iter().map(convert_to_engine_result).collect();
+-
+-        (enum_state, results)
++        (Default::default(), vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ }

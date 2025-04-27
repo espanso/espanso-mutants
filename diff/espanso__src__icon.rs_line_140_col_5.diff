@@ -1,0 +1,29 @@
+--- espanso/src/icon.rs
++++ replace load_icon_paths -> Result<IconPaths> with Ok(Default::default())
+@@ -132,25 +132,17 @@
+             &runtime_dir.join("icon_explain_image.png"),
+         )?),
+         ..Default::default()
+     })
+ }
+ 
+ #[cfg(target_os = "linux")]
+ pub fn load_icon_paths(runtime_dir: &Path) -> Result<IconPaths> {
+-    Ok(IconPaths {
+-        logo: Some(extract_icon(ICON_BINARY, &runtime_dir.join("iconv2.png"))?),
+-        search_icon: Some(extract_icon(ICON_BINARY, &runtime_dir.join("search.png"))?),
+-        logo_no_background: Some(extract_icon(
+-            LOGO_NO_BACKGROUND_BINARY,
+-            &runtime_dir.join("icon_no_background.png"),
+-        )?),
+-        ..Default::default()
+-    })
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn extract_icon(data: &[u8], target_file: &Path) -> Result<PathBuf> {
+     if target_file.exists() {
+         debug!(
+             "skipping extraction for '{:?}', as it's already present",
+             target_file
+         );

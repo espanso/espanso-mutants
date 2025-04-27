@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -283,17 +283,17 @@
+         144 => Some(0x00C9), // Latin capital letter E with acute
+         145 => Some(0x00E6), // Latin small letter ae, ash (from Old English æsc)
+         146 => Some(0x00C6), // Latin capital letter AE
+         147 => Some(0x00F4), // Latin small letter o with circumflex
+         148 => Some(0x00F6), // Latin small letter o with diaeresis
+         149 => Some(0x00F2), // Latin small letter o with grave
+         150 => Some(0x00FB), // Latin small letter u with circumflex
+         151 => Some(0x00F9), // Latin small letter u with grave
+-        152 => Some(0x00FF), // Latin small letter y with diaeresis
++         /* ~ changed by cargo-mutants ~ */ // Latin small letter y with diaeresis
+         153 => Some(0x00D6), // Latin capital letter O with diaeresis
+         154 => Some(0x00DC), // Latin capital letter U with diaeresis
+         155 => Some(0x00A2), // Cent sign
+         156 => Some(0x00A3), // Pound sign, pound sterling, Irish punt, lira sign
+         157 => Some(0x00A5), // Yen sign, yuan sign
+         158 => Some(0x20A7), // Peseta sign
+         159 => Some(0x0192), // Latin small letter f with hook, florin currency symbol, function symbol
+         160 => Some(0x00E1), // Latin small letter a with acute

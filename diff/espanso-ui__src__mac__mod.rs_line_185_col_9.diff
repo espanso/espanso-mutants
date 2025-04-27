@@ -1,0 +1,25 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIRemote for MacRemote>::update_tray_icon with ()
+@@ -177,21 +177,17 @@
+ impl MacRemote {
+     pub(crate) fn new(icon_indexes: HashMap<TrayIcon, usize>) -> Self {
+         Self { icon_indexes }
+     }
+ }
+ 
+ impl UIRemote for MacRemote {
+     fn update_tray_icon(&self, icon: TrayIcon) {
+-        if let Some(index) = self.icon_indexes.get(&icon) {
+-            unsafe { ui_update_tray_icon((*index) as i32) }
+-        } else {
+-            error!("Unable to update tray icon, invalid icon id");
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_notification(&self, message: &str) {
+         let c_string = CString::new(message);
+         match c_string {
+             Ok(message) => unsafe { ui_show_notification(message.as_ptr(), 3.0) },
+             Err(error) => {
+                 error!("Unable to show notification {}", error);

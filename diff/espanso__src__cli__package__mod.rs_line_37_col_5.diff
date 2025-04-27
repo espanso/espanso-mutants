@@ -1,0 +1,29 @@
+--- espanso/src/cli/package/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -29,25 +29,17 @@
+ use super::{CliModule, CliModuleArgs};
+ 
+ mod install;
+ mod list;
+ mod uninstall;
+ mod update;
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        enable_logs: true,
+-        disable_logs_terminal_output: true,
+-        requires_paths: true,
+-        subcommand: "package".to_string(),
+-        log_mode: super::LogMode::AppendOnly,
+-        entry: package_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn package_main(args: CliModuleArgs) -> i32 {
+     configure_custom_panic_hook(PACKAGE_UNEXPECTED_FAILURE);
+ 
+     let paths = args.paths.expect("missing paths argument");
+     let cli_args = args.cli_args.expect("missing cli_args");
+ 

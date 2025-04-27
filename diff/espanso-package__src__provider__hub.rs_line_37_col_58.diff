@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/hub.rs
++++ replace * with /
+@@ -29,17 +29,17 @@
+ };
+ use anyhow::{anyhow, Context, Result};
+ use serde::{Deserialize, Serialize};
+ 
+ pub const ESPANSO_HUB_PACKAGE_INDEX_URL: &str =
+     "https://github.com/espanso/hub/releases/latest/download/package_index.json";
+ 
+ const PACKAGE_INDEX_CACHE_FILE: &str = "package_index_cache.json";
+-const PACKAGE_INDEX_CACHE_INVALIDATION_SECONDS: u64 = 60 * 60;
++const PACKAGE_INDEX_CACHE_INVALIDATION_SECONDS: u64 = 60 / /* ~ changed by cargo-mutants ~ */ 60;
+ 
+ pub struct EspansoHubPackageProvider {
+     runtime_dir: PathBuf,
+     force_index_update: bool,
+ }
+ 
+ impl EspansoHubPackageProvider {
+     pub fn new(runtime_dir: &Path, force_index_update: bool) -> Self {

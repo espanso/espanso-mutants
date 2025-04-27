@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+@@ -66,17 +66,17 @@
+                         .global_vars
+                         .iter()
+                         .map(|var| (&*var.name, *var))
+                         .collect();
+                     template
+                         .vars
+                         .iter()
+                         .filter_map(|var| {
+-                            if var.var_type == "global" {
++                            if var.var_type != /* ~ changed by cargo-mutants ~ */ "global" {
+                                 global_vars.get(&*var.name).copied()
+                             } else {
+                                 Some(var)
+                             }
+                         })
+                         .collect()
+                 } else {
+                     template.vars.iter().collect()

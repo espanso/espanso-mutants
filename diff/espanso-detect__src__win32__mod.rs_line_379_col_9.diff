@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -371,17 +371,17 @@
+ 
+         // Whitespace
+         0x0D => (Enter, None),
+         0x09 => (Tab, None),
+         0x20 => (Space, None),
+ 
+         // Navigation
+         0x28 => (ArrowDown, None),
+-        0x25 => (ArrowLeft, None),
++         /* ~ changed by cargo-mutants ~ */
+         0x27 => (ArrowRight, None),
+         0x26 => (ArrowUp, None),
+         0x23 => (End, None),
+         0x24 => (Home, None),
+         0x22 => (PageDown, None),
+         0x21 => (PageUp, None),
+ 
+         // UI

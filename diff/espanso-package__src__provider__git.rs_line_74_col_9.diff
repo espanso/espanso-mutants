@@ -1,0 +1,38 @@
+--- espanso-package/src/provider/git.rs
++++ replace <impl PackageProvider for GitPackageProvider>::download -> Result<Box<dyn Package>> with Ok(Box::new(Default::default()))
+@@ -66,34 +66,11 @@
+ }
+ 
+ impl PackageProvider for GitPackageProvider {
+     fn name(&self) -> String {
+         "git".to_string()
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+-        if !Self::is_git_installed() {
+-            bail!("unable to invoke 'git' command, please make sure it is installed and visible in PATH");
+-        }
+-
+-        let repo_url = package
+-            .git_repo_url
+-            .as_deref()
+-            .ok_or_else(|| anyhow!("missing git repository url"))?;
+-        let repo_branch = package.git_branch.as_deref();
+-
+-        let temp_dir = tempdir::TempDir::new("espanso-package-download")?;
+-
+-        Self::clone_repo(temp_dir.path(), repo_url, repo_branch)?;
+-
+-        let resolved_package =
+-            resolve_package(temp_dir.path(), &package.name, package.version.as_deref())?;
+-
+-        let package = DefaultPackage::new(
+-            resolved_package.manifest,
+-            temp_dir,
+-            resolved_package.base_dir,
+-        );
+-
+-        Ok(Box::new(package))
++        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }

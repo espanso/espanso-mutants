@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ delete ! in <impl Extension for ShellExtension>::calculate
+@@ -255,17 +255,17 @@
+                         info!("exit status: '{}'", output.status);
+                         info!("stdout: '{}'", output_str);
+                         info!("stderr: '{}'", error_str);
+                         info!(
+                             "this debug information was shown because the 'debug' option is true."
+                         );
+                     }
+ 
+-                    if !output.status.success() {
++                    if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+                         error!(
+                             "shell command exited with code: {} and error: {}",
+                             output.status, error_str
+                         );
+ 
+                         return ExtensionResult::Error(
+                             ShellExtensionError::ExecutionError(error_str.to_string()).into(),
+                         );

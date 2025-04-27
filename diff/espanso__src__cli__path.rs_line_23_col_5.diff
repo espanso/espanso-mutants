@@ -1,0 +1,27 @@
+--- espanso/src/cli/path.rs
++++ replace new -> CliModule with Default::default()
+@@ -15,23 +15,17 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use super::{CliModule, CliModuleArgs};
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        requires_paths: true,
+-        requires_config: true,
+-        subcommand: "path".to_string(),
+-        entry: path_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn path_main(args: CliModuleArgs) -> i32 {
+     let paths = args.paths.expect("missing paths argument");
+     let cli_args = args.cli_args.expect("missing cli_args argument");
+ 
+     if cli_args.subcommand_matches("config").is_some() {
+         println!("{}", paths.config.to_string_lossy());

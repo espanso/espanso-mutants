@@ -1,0 +1,79 @@
+--- espanso/src/cli/service/linux.rs
++++ replace start_service -> Result<()> with Ok(())
+@@ -174,75 +174,17 @@
+         }
+     } else {
+         false
+     }
+ }
+ 
+ pub fn start_service() -> Result<()> {
+     // Check if systemd is available in the system
+-    if let Ok(status) = Command::new("systemctl")
+-        .args(["--version"])
+-        .stdin(Stdio::null())
+-        .stdout(Stdio::null())
+-        .status()
+-    {
+-        if !status.success() {
+-            return Err(StartError::SystemctlNonZeroExitCode.into());
+-        }
+-    } else {
+-        error_eprintln!(
+-            "Systemd was not found in this system, which means espanso can't run in managed mode"
+-        );
+-        error_eprintln!(
+-            "You can run it in unmanaged mode with `espanso service start --unmanaged`"
+-        );
+-        error_eprintln!("");
+-        error_eprintln!(
+-            "NOTE: unmanaged mode means espanso does not rely on the system service manager"
+-        );
+-        error_eprintln!(
+-            "      to run, but as a result, you are in charge of starting/stopping espanso"
+-        );
+-        error_eprintln!("      when needed.");
+-        return Err(StartError::SystemdNotFound.into());
+-    }
+-
+-    if !is_registered() {
+-        error_eprintln!("Unable to start espanso as a service as it's not been registered.");
+-        error_eprintln!("You can either register it first with `espanso service register` or");
+-        error_eprintln!(
+-            "you can run it in unmanaged mode with `espanso service start --unmanaged`"
+-        );
+-        error_eprintln!("");
+-        error_eprintln!(
+-            "NOTE: unmanaged mode means espanso does not rely on the system service manager"
+-        );
+-        error_eprintln!(
+-            "      to run, but as a result, you are in charge of starting/stopping espanso"
+-        );
+-        error_eprintln!("      when needed.");
+-        return Err(StartError::NotRegistered.into());
+-    }
+-
+-    match Command::new("systemctl")
+-        .args(["--user", "start", LINUX_SERVICE_NAME])
+-        .status()
+-    {
+-        Ok(status) => {
+-            if !status.success() {
+-                return Err(StartError::SystemctlStartFailed.into());
+-            }
+-        }
+-        Err(err) => {
+-            return Err(StartError::SystemctlFailed(err.into()).into());
+-        }
+-    }
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum StartError {
+     #[error("not registered as a service")]
+     NotRegistered,
+ 
+     #[error("systemd not found")]

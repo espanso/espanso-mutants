@@ -1,0 +1,23 @@
+--- espanso-mac-utils/src/lib.rs
++++ replace exit_headless_eventloop with ()
+@@ -114,19 +114,17 @@
+ pub fn start_headless_eventloop() {
+     unsafe {
+         ffi::mac_utils_start_headless_eventloop();
+     }
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn exit_headless_eventloop() {
+-    unsafe {
+-        ffi::mac_utils_exit_headless_eventloop();
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ #[cfg(target_os = "macos")]
+ mod tests {
+     use super::*;
+ 
+     #[test]

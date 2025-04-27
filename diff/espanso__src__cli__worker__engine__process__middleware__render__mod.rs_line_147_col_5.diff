@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace convert_var -> espanso_render::Variable with Default::default()
+@@ -139,23 +139,17 @@
+     }
+ }
+ 
+ fn convert_vars(vars: Vec<espanso_config::matches::Variable>) -> Vec<espanso_render::Variable> {
+     vars.into_iter().map(convert_var).collect()
+ }
+ 
+ fn convert_var(var: espanso_config::matches::Variable) -> espanso_render::Variable {
+-    Variable {
+-        name: var.name,
+-        var_type: var.var_type,
+-        params: convert_params(var.params),
+-        inject_vars: var.inject_vars,
+-        depends_on: var.depends_on,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn convert_params(params: espanso_config::matches::Params) -> espanso_render::Params {
+     let mut new_params = espanso_render::Params::new();
+     for (key, value) in params {
+         new_params.insert(key, convert_value(value));
+     }
+     new_params

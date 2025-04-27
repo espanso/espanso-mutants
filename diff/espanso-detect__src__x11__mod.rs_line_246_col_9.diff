@@ -1,0 +1,30 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace <impl Drop for X11Source>::drop with ()
+@@ -238,26 +238,17 @@
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Drop for X11Source {
+     fn drop(&mut self) {
+-        if self.handle.is_null() {
+-            error!("X11Source destruction cannot be performed, handle is null");
+-            return;
+-        }
+-
+-        let result = unsafe { detect_destroy(self.handle) };
+-
+-        if result != 0 {
+-            error!("X11Source destruction returned non-zero code");
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKeyRequest> {
+     let key_sym = hk.key.to_code()?;
+     Some(RawHotKeyRequest {
+         key_sym,
+         ctrl: i32::from(hk.has_ctrl()),

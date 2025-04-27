@@ -1,0 +1,26 @@
+--- espanso/src/path/mod.rs
++++ replace get_legacy_packages_dir -> Option<PathBuf> with None
+@@ -273,22 +273,17 @@
+         debug!("detected legacy packages dir: {:?}", packages_dir);
+         Some(packages_dir)
+     } else {
+         None
+     }
+ }
+ 
+ fn get_legacy_packages_dir(legacy_data_dir: &Path) -> Option<PathBuf> {
+-    let legacy_dir = legacy_data_dir.join("packages");
+-    if legacy_dir.is_dir() {
+-        Some(legacy_dir)
+-    } else {
+-        None
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_legacy_embedded_packages_dir(config_dir: &Path) -> Option<PathBuf> {
+     let legacy_dir = config_dir.join("packages");
+     if legacy_dir.is_dir() {
+         Some(legacy_dir)
+     } else {
+         None

@@ -1,0 +1,36 @@
+--- espanso-package/src/archive/default.rs
++++ replace <impl Archiver for DefaultArchiver>::list -> Result<Vec<StoredPackage>> with Ok(vec![Default::default()])
+@@ -115,32 +115,17 @@
+         let source_path = target_dir.join(PACKAGE_SOURCE_FILE);
+         let source =
+             PackageSource::parse(&source_path).context("unable to parse package source file")?;
+ 
+         Ok(StoredPackage::Modern(ArchivedPackage { manifest, source }))
+     }
+ 
+     fn list(&self) -> Result<Vec<StoredPackage>> {
+-        let mut output = Vec::new();
+-
+-        for path in std::fs::read_dir(&self.package_dir)? {
+-            let path = path?.path();
+-            if !path.is_dir() {
+-                continue;
+-            }
+-
+-            if let Some(package_name) = path.file_name() {
+-                let package_name = package_name.to_string_lossy().to_string();
+-
+-                output.push(self.get(&package_name)?);
+-            }
+-        }
+-
+-        Ok(output)
++        Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn delete(&self, name: &str) -> Result<()> {
+         let target_dir = self.package_dir.join(name);
+ 
+         if !target_dir.is_dir() {
+             bail!("package {} not found", name);
+         }

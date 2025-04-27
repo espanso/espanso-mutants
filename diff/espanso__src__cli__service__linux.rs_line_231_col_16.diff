@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in start_service
+@@ -223,17 +223,17 @@
+         return Err(StartError::NotRegistered.into());
+     }
+ 
+     match Command::new("systemctl")
+         .args(["--user", "start", LINUX_SERVICE_NAME])
+         .status()
+     {
+         Ok(status) => {
+-            if !status.success() {
++            if  /* ~ changed by cargo-mutants ~ */status.success() {
+                 return Err(StartError::SystemctlStartFailed.into());
+             }
+         }
+         Err(err) => {
+             return Err(StartError::SystemctlFailed(err.into()).into());
+         }
+     }
+ 

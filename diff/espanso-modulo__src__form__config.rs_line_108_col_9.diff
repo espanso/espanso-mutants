@@ -1,0 +1,22 @@
+--- espanso-modulo/src/form/config.rs
++++ replace <impl serde::Deserialize<'de> for FieldConfig>::deserialize -> Result<Self, D::Error> with Ok(Default::default())
+@@ -100,18 +100,17 @@
+     pub default: String,
+ }
+ 
+ impl<'de> serde::Deserialize<'de> for FieldConfig {
+     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+     where
+         D: Deserializer<'de>,
+     {
+-        let auto_field = AutoFieldConfig::deserialize(deserializer)?;
+-        Ok(FieldConfig::from(&auto_field))
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<'a> From<&'a AutoFieldConfig> for FieldConfig {
+     fn from(other: &'a AutoFieldConfig) -> Self {
+         let field_type = match other.field_type.as_ref() {
+             "text" => {
+                 let mut config = TextFieldConfig::default();

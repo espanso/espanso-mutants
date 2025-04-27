@@ -1,0 +1,56 @@
+--- espanso-render/src/renderer/util.rs
++++ replace render_variables -> Result<String> with Ok(String::new())
+@@ -62,52 +62,17 @@
+             }
+             local_names
+         }
+         _ => HashSet::new(),
+     }
+ }
+ 
+ pub(crate) fn render_variables(body: &str, scope: &Scope) -> Result<String> {
+-    let mut replacing_error = None;
+-    let output = VAR_REGEX
+-        .replace_all(body, |caps: &Captures| {
+-            let var_name = caps.name("name").unwrap().as_str();
+-            let var_subname = caps.name("subname");
+-            if let Some(output) = scope.get(var_name) {
+-                match output {
+-                    ExtensionOutput::Single(output) => output,
+-                    ExtensionOutput::Multiple(results) => {
+-                        if let Some(var_subname) = var_subname {
+-                            let var_subname = var_subname.as_str();
+-                            results.get(var_subname).map_or("", |value| value)
+-                        } else {
+-                            error!("nested name missing from multi-value variable: {var_name}");
+-                            replacing_error = Some(RendererError::MissingVariable(format!(
+-                                "nested name missing from multi-value variable: {var_name}"
+-                            )));
+-                            ""
+-                        }
+-                    }
+-                }
+-            } else {
+-                replacing_error = Some(RendererError::MissingVariable(format!(
+-                    "variable '{var_name}' is missing"
+-                )));
+-                ""
+-            }
+-        })
+-        .to_string();
+-
+-    if let Some(error) = replacing_error {
+-        return Err(error.into());
+-    }
+-
+-    let unescaped_output = unescape_variable_inections(&output);
+-    Ok(unescaped_output)
++    Ok(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub(crate) fn unescape_variable_inections(body: &str) -> String {
+     body.replace("\\{\\{", "{{").replace("\\}\\}", "}}")
+ }
+ 
+ pub(crate) fn inject_variables_into_params(params: &Params, scope: &Scope) -> Result<Params> {
+     let mut params = params.clone();

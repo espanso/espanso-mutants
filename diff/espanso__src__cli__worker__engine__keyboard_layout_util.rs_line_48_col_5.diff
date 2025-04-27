@@ -1,0 +1,32 @@
+--- espanso/src/cli/worker/engine/keyboard_layout_util.rs
++++ replace generate_detect_rmlvo -> Option<espanso_detect::KeyboardConfig> with Some(Default::default())
+@@ -40,28 +40,17 @@
+         })
+     } else {
+         warn!("unable to determine keyboard layout automatically, please explicitly specify it in the configuration.");
+         None
+     }
+ }
+ 
+ pub fn generate_detect_rmlvo(config: &dyn Config) -> Option<espanso_detect::KeyboardConfig> {
+-    generate_rmlvo_config(config)
+-        .map(|config| {
+-            info!("detection module will use this keyboard layout: {}", config);
+-            config
+-        })
+-        .map(|config| espanso_detect::KeyboardConfig {
+-            rules: config.rules,
+-            model: config.model,
+-            layout: config.layout,
+-            variant: config.variant,
+-            options: config.options,
+-        })
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn generate_inject_rmlvo(config: &dyn Config) -> Option<espanso_inject::KeyboardConfig> {
+     generate_rmlvo_config(config)
+         .map(|config| {
+             info!("inject module will use this keyboard layout: {}", config);
+             config
+         })

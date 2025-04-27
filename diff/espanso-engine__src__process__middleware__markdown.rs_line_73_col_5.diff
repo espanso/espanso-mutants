@@ -1,0 +1,34 @@
+--- espanso-engine/src/process/middleware/markdown.rs
++++ replace remove_paragraph_tag_if_single_occurrence -> &str with ""
+@@ -65,30 +65,17 @@
+ 
+ // If the match is composed of a single paragraph, we remove the tag to avoid
+ // a forced "newline" on some editors. In other words, we assume that if the snippet
+ // is composed of a single paragraph, then it should be inlined.
+ // On the other hand, if the snippet is composed of multiple paragraphs, then we
+ // avoid removing the paragraph to prevent HTML corruption.
+ // See: https://github.com/espanso/espanso/issues/811
+ fn remove_paragraph_tag_if_single_occurrence(html: &str) -> &str {
+-    let paragraph_count = html.matches("<p>").count();
+-    if paragraph_count <= 1 {
+-        let mut new_html = html;
+-        if new_html.starts_with("<p>") {
+-            new_html = new_html.trim_start_matches("<p>");
+-        }
+-        if new_html.ends_with("</p>") {
+-            new_html = new_html.trim_end_matches("</p>");
+-        }
+-
+-        new_html
+-    } else {
+-        html
+-    }
++    "" /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     fn test_remove_paragraph_tag_if_single_occurrence() {

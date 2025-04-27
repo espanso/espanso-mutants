@@ -1,0 +1,27 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -377,23 +377,17 @@
+                     variant,
+                     code: raw
+                         .key_code
+                         .try_into()
+                         .expect("unable to convert keycode to u32"),
+                 }));
+             }
+             // Mouse events
+-            INPUT_EVENT_TYPE_MOUSE => {
+-                let button = raw_to_mouse_button(raw.key_code);
+-
+-                if let Some(button) = button {
+-                    return Some(InputEvent::Mouse(MouseEvent { button, status }));
+-                }
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             // HOTKEYS
+             INPUT_EVENT_TYPE_HOTKEY => {
+                 let id = raw.key_code;
+                 return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: id }));
+             }
+             _ => {}
+         }
+ 

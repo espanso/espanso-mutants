@@ -1,0 +1,21 @@
+--- espanso-inject/src/keys.rs
++++ delete match arm
+@@ -297,17 +297,17 @@
+             "U" => Some(Key::U),
+             "V" => Some(Key::V),
+             "W" => Some(Key::W),
+             "X" => Some(Key::X),
+             "Y" => Some(Key::Y),
+             "Z" => Some(Key::Z),
+             "0" => Some(Key::N0),
+             "1" => Some(Key::N1),
+-            "2" => Some(Key::N2),
++             /* ~ changed by cargo-mutants ~ */
+             "3" => Some(Key::N3),
+             "4" => Some(Key::N4),
+             "5" => Some(Key::N5),
+             "6" => Some(Key::N6),
+             "7" => Some(Key::N7),
+             "8" => Some(Key::N8),
+             "9" => Some(Key::N9),
+             "NUMPAD0" => Some(Key::Numpad0),

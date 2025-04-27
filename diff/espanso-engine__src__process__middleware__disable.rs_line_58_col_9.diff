@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ replace <impl Middleware for DisableMiddleware>::name -> &'static str with "xyzzy"
+@@ -50,17 +50,17 @@
+             last_toggle_press: RefCell::new(None),
+             options,
+         }
+     }
+ }
+ 
+ impl Middleware for DisableMiddleware {
+     fn name(&self) -> &'static str {
+-        "disable"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         let mut has_status_changed = false;
+         let mut enabled = self.enabled.borrow_mut();
+ 
+         match &event.etype {
+             EventType::Keyboard(m_event) => {

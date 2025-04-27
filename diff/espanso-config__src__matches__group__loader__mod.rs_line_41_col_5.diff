@@ -1,0 +1,37 @@
+--- espanso-config/src/matches/group/loader/mod.rs
++++ replace load_match_group -> Result<(MatchGroup, Option<NonFatalErrorSet>)> with Ok((Default::default(), Some(Default::default())))
+@@ -33,33 +33,17 @@
+     fn is_supported(&self, extension: &str) -> bool;
+     fn load_group(&self, path: &Path) -> Result<(MatchGroup, Option<NonFatalErrorSet>)>;
+ }
+ 
+ static IMPORTERS: LazyLock<Vec<Box<dyn Importer + Sync + Send>>> =
+     LazyLock::new(|| vec![Box::new(YAMLImporter::new())]);
+ 
+ pub(crate) fn load_match_group(path: &Path) -> Result<(MatchGroup, Option<NonFatalErrorSet>)> {
+-    if let Some(extension) = path.extension() {
+-        let extension = extension.to_string_lossy().to_lowercase();
+-
+-        let importer = IMPORTERS
+-            .iter()
+-            .find(|importer| importer.is_supported(&extension));
+-
+-        match importer {
+-            Some(importer) => match importer.load_group(path) {
+-                Ok((group, non_fatal_error_set)) => Ok((group, non_fatal_error_set)),
+-                Err(err) => Err(LoadError::ParsingError(err).into()),
+-            },
+-            None => Err(LoadError::InvalidFormat.into()),
+-        }
+-    } else {
+-        Err(LoadError::MissingExtension.into())
+-    }
++    Ok((Default::default(), Some(Default::default()))) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum LoadError {
+     #[error("missing extension in match group file")]
+     MissingExtension,
+ 
+     #[error("invalid match group format")]

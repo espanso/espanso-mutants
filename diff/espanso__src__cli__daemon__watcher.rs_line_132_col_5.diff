@@ -1,0 +1,27 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ replace is_file_hidden -> bool with true
+@@ -124,23 +124,17 @@
+ 
+             has_received_event = false;
+           },
+         }
+     }
+ }
+ 
+ fn is_file_hidden(path: &Path) -> bool {
+-    let starts_with_dot = path
+-        .file_name()
+-        .unwrap_or_default()
+-        .to_string_lossy()
+-        .starts_with('.');
+-
+-    starts_with_dot || has_hidden_attribute(path)
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(windows)]
+ fn has_hidden_attribute(path: &Path) -> bool {
+     use std::os::windows::prelude::*;
+     let metadata = std::fs::metadata(path);
+     if metadata.is_err() {
+         return false;

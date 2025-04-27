@@ -1,0 +1,140 @@
+
+*** espanso-match/src/rolling/matcher.rs:75:9: replace <impl Matcher<'a, RollingMatcherState<'a, Id>, Id> for RollingMatcher<Id>>::process -> (RollingMatcherState<'a, Id>, Vec<MatchResult<Id>>) with (RollingMatcherState::from(Default::default()), vec![MatchResult::new()])
+
+*** mutation diff:
+--- espanso-match/src/rolling/matcher.rs
++++ replace <impl Matcher<'a, RollingMatcherState<'a, Id>, Id> for RollingMatcher<Id>>::process -> (RollingMatcherState<'a, Id>, Vec<MatchResult<Id>>) with (RollingMatcherState::from(Default::default()), vec![MatchResult::new()])
+@@ -67,72 +67,17 @@
+ where
+     Id: Clone,
+ {
+     fn process(
+         &'a self,
+         prev_state: Option<&RollingMatcherState<'a, Id>>,
+         event: Event,
+     ) -> (RollingMatcherState<'a, Id>, Vec<MatchResult<Id>>) {
+-        let mut next_refs = Vec::new();
+-
+-        // First compute the old refs
+-        if let Some(prev_state) = prev_state {
+-            for node_path in &prev_state.paths {
+-                next_refs.extend(
+-                    self.find_refs(node_path.node, &event, true)
+-                        .into_iter()
+-                        .map(|(node_ref, is_word_separator)| {
+-                            let mut new_events = node_path.events.clone();
+-                            new_events.push((event.clone(), is_word_separator));
+-                            (node_ref, new_events)
+-                        }),
+-                );
+-            }
+-        }
+-
+-        // Calculate new ones
+-        let root_refs = self.find_refs(&self.root, &event, prev_state.is_some());
+-        next_refs.extend(root_refs.into_iter().map(|(node_ref, is_word_separator)| {
+-            (node_ref, vec![(event.clone(), is_word_separator)])
+-        }));
+-
+-        let mut next_paths = Vec::new();
+-
+-        for (node_ref, events) in next_refs {
+-            match node_ref {
+-                MatcherTreeRef::Matches(matches) => {
+-                    let (trigger, left_separator, right_separator) =
+-                        extract_string_from_events(&events);
+-                    let results = matches
+-                        .iter()
+-                        .map(|id| MatchResult {
+-                            id: id.clone(),
+-                            trigger: trigger.clone(),
+-                            left_separator: left_separator.clone(),
+-                            right_separator: right_separator.clone(),
+-                            vars: HashMap::new(),
+-                        })
+-                        .collect();
+-
+-                    // Reset the state and return the matches
+-                    return (RollingMatcherState::default(), results);
+-                }
+-                MatcherTreeRef::Node(node) => {
+-                    next_paths.push(RollingMatcherStatePath {
+-                        node: node.as_ref(),
+-                        events,
+-                    });
+-                }
+-            }
+-        }
+-
+-        let current_state = RollingMatcherState { paths: next_paths };
+-
+-        (current_state, Vec::new())
++        (RollingMatcherState::from(Default::default()), vec![MatchResult::new()]) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<Id: Clone> RollingMatcher<Id> {
+     pub fn new(matches: &[RollingMatch<Id>], opt: RollingMatcherOptions) -> Self {
+         let root = MatcherTreeNode::from_matches(matches);
+         Self {
+             root,
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-match@0.1.0
+       Fresh version_check v0.9.2
+       Fresh cfg-if v1.0.0
+       Fresh regex-syntax v0.6.27
+       Fresh memchr v2.5.0
+       Fresh aho-corasick v0.7.19
+       Fresh log v0.4.14
+       Fresh unicase v2.6.0
+       Fresh regex v1.5.5
+       Dirty espanso-match v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-match): the file `espanso-match/src/regex/mod.rs` has changed (1745793759.066253065s, 1s after last build at 1745793758.306862962s)
+   Compiling espanso-match v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-match)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=276e2828d4f92be8 -C extra-filename=-95f43789b61ad67b --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=68155d0edef3b3b9 -C extra-filename=-ee826f5ca4fa053d --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rmeta`
+warning: unused import: `std::collections::HashMap`
+  --> espanso-match/src/rolling/matcher.rs:20:5
+   |
+20 | use std::collections::HashMap;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `util::extract_string_from_events`
+  --> espanso-match/src/rolling/matcher.rs:24:5
+   |
+24 |     util::extract_string_from_events,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no function or associated item named `new` found for struct `MatchResult` in the current scope
+   --> espanso-match/src/rolling/matcher.rs:75:75
+    |
+75  |         (RollingMatcherState::from(Default::default()), vec![MatchResult::new()]) /* ~ changed by cargo-mutants ~ */
+    |                                                                           ^^^ function or associated item not found in `MatchResult<_>`
+    |
+   ::: espanso-match/src/lib.rs:30:1
+    |
+30  | pub struct MatchResult<Id> {
+    | -------------------------- function or associated item `new` not found for this struct
+    |
+help: there is a method `ne` with a similar name, but with different arguments
+   --> /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/lib/rustlib/src/rust/library/core/src/cmp.rs:262:5
+    |
+262 |     fn ne(&self, other: &Rhs) -> bool {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For more information about this error, try `rustc --explain E0599`.
+warning: `espanso-match` (lib) generated 2 warnings
+error: could not compile `espanso-match` (lib) due to 1 previous error; 2 warnings emitted
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=68155d0edef3b3b9 -C extra-filename=-ee826f5ca4fa053d --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rmeta` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+warning: `espanso-match` (lib test) generated 2 warnings (2 duplicates)
+error: could not compile `espanso-match` (lib test) due to 1 previous error; 2 warnings emitted
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=276e2828d4f92be8 -C extra-filename=-95f43789b61ad67b --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rlib` (exit status: 1)
+
+*** result: Failure(101)

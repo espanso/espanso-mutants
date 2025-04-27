@@ -1,0 +1,14 @@
+--- espanso-config/src/counter.rs
++++ replace next_id -> StructId with Default::default()
+@@ -25,10 +25,10 @@
+ }
+ 
+ pub type StructId = i32;
+ 
+ /// Some structs need a unique id.
+ /// In order to generate it, we use an atomic static variable
+ /// that is incremented for each struct.
+ pub fn next_id() -> StructId {
+-    STRUCT_COUNTER.with(|count| count.fetch_add(1, Ordering::SeqCst))
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

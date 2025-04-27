@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/mod.rs
++++ replace match guard with false
+@@ -285,17 +285,17 @@
+                     error!("unable to revoke linux capabilities: {}", err);
+                 }
+             }
+ 
+             match start_reason.as_deref() {
+                 Some(flag) if flag == WORKER_START_REASON_CONFIG_CHANGED => {
+                     notification_manager.notify_config_reloaded(false);
+                 }
+-                Some(flag) if flag == WORKER_START_REASON_MANUAL => {
++                Some(flag) if false /* ~ changed by cargo-mutants ~ */ => {
+                     notification_manager.notify_config_reloaded(true);
+                 }
+                 Some(flag) if flag == WORKER_START_REASON_KEYBOARD_LAYOUT_CHANGED => {
+                     notification_manager.notify_keyboard_layout_reloaded();
+                 }
+                 _ => {
+                     notification_manager.notify_start();
+ 

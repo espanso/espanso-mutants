@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in get_service_file_dir
+@@ -260,17 +260,17 @@
+ 
+ fn get_service_file_dir() -> Result<PathBuf> {
+     // User level systemd services should be placed in this directory:
+     // $XDG_CONFIG_HOME/systemd/user/, usually: ~/.config/systemd/user/
+     let config_dir = dirs::config_dir().expect("Could not get configuration directory");
+     let systemd_dir = config_dir.join("systemd");
+     let user_dir = systemd_dir.join("user");
+ 
+-    if !user_dir.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */user_dir.is_dir() {
+         create_dir_all(&user_dir)?;
+     }
+ 
+     Ok(user_dir)
+ }
+ 
+ fn get_service_file_path() -> Result<PathBuf> {
+     Ok(get_service_file_dir()?.join(LINUX_SERVICE_FILENAME))

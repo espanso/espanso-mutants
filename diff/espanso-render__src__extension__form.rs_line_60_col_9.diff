@@ -1,0 +1,37 @@
+--- espanso-render/src/extension/form.rs
++++ replace <impl Extension for FormExtension<'_>>::calculate -> crate::ExtensionResult with Default::default()
+@@ -52,33 +52,17 @@
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {
+-        let Some(Value::String(layout)) = params.get("layout") else {
+-            return crate::ExtensionResult::Error(FormExtensionError::MissingLayout.into());
+-        };
+-
+-        let fields = if let Some(Value::Object(fields)) = params.get("fields") {
+-            fields.clone()
+-        } else {
+-            Params::new()
+-        };
+-
+-        match self.provider.show(layout, &fields, &EMPTY_PARAMS) {
+-            FormProviderResult::Success(values) => {
+-                ExtensionResult::Success(ExtensionOutput::Multiple(values))
+-            }
+-            FormProviderResult::Aborted => ExtensionResult::Aborted,
+-            FormProviderResult::Error(error) => ExtensionResult::Error(error),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum FormExtensionError {
+     #[error("missing layout parameter")]
+     MissingLayout,
+ }

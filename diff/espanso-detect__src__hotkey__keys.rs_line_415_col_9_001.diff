@@ -1,0 +1,106 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ replace ShortcutKey::to_code -> Option<u32> with None
+@@ -407,102 +407,17 @@
+             ShortcutKey::Raw(code) => Some(*code),
+         }
+     }
+ 
+     // Windows key codes
+ 
+     #[cfg(target_os = "windows")]
+     pub fn to_code(&self) -> Option<u32> {
+-        let vkey = match self {
+-            ShortcutKey::Alt => 0x12,
+-            ShortcutKey::Control => 0x11,
+-            ShortcutKey::Meta => 0x5B,
+-            ShortcutKey::Shift => 0xA0,
+-            ShortcutKey::Enter => 0x0D,
+-            ShortcutKey::Tab => 0x09,
+-            ShortcutKey::Space => 0x20,
+-            ShortcutKey::ArrowDown => 0x28,
+-            ShortcutKey::ArrowLeft => 0x25,
+-            ShortcutKey::ArrowRight => 0x27,
+-            ShortcutKey::ArrowUp => 0x26,
+-            ShortcutKey::End => 0x23,
+-            ShortcutKey::Home => 0x24,
+-            ShortcutKey::PageDown => 0x22,
+-            ShortcutKey::PageUp => 0x21,
+-            ShortcutKey::Insert => 0x2D,
+-            ShortcutKey::F1 => 0x70,
+-            ShortcutKey::F2 => 0x71,
+-            ShortcutKey::F3 => 0x72,
+-            ShortcutKey::F4 => 0x73,
+-            ShortcutKey::F5 => 0x74,
+-            ShortcutKey::F6 => 0x75,
+-            ShortcutKey::F7 => 0x76,
+-            ShortcutKey::F8 => 0x77,
+-            ShortcutKey::F9 => 0x78,
+-            ShortcutKey::F10 => 0x79,
+-            ShortcutKey::F11 => 0x7A,
+-            ShortcutKey::F12 => 0x7B,
+-            ShortcutKey::F13 => 0x7C,
+-            ShortcutKey::F14 => 0x7D,
+-            ShortcutKey::F15 => 0x7E,
+-            ShortcutKey::F16 => 0x7F,
+-            ShortcutKey::F17 => 0x80,
+-            ShortcutKey::F18 => 0x81,
+-            ShortcutKey::F19 => 0x82,
+-            ShortcutKey::F20 => 0x83,
+-            ShortcutKey::A => 0x41,
+-            ShortcutKey::B => 0x42,
+-            ShortcutKey::C => 0x43,
+-            ShortcutKey::D => 0x44,
+-            ShortcutKey::E => 0x45,
+-            ShortcutKey::F => 0x46,
+-            ShortcutKey::G => 0x47,
+-            ShortcutKey::H => 0x48,
+-            ShortcutKey::I => 0x49,
+-            ShortcutKey::J => 0x4A,
+-            ShortcutKey::K => 0x4B,
+-            ShortcutKey::L => 0x4C,
+-            ShortcutKey::M => 0x4D,
+-            ShortcutKey::N => 0x4E,
+-            ShortcutKey::O => 0x4F,
+-            ShortcutKey::P => 0x50,
+-            ShortcutKey::Q => 0x51,
+-            ShortcutKey::R => 0x52,
+-            ShortcutKey::S => 0x53,
+-            ShortcutKey::T => 0x54,
+-            ShortcutKey::U => 0x55,
+-            ShortcutKey::V => 0x56,
+-            ShortcutKey::W => 0x57,
+-            ShortcutKey::X => 0x58,
+-            ShortcutKey::Y => 0x59,
+-            ShortcutKey::Z => 0x5A,
+-            ShortcutKey::N0 => 0x30,
+-            ShortcutKey::N1 => 0x31,
+-            ShortcutKey::N2 => 0x32,
+-            ShortcutKey::N3 => 0x33,
+-            ShortcutKey::N4 => 0x34,
+-            ShortcutKey::N5 => 0x35,
+-            ShortcutKey::N6 => 0x36,
+-            ShortcutKey::N7 => 0x37,
+-            ShortcutKey::N8 => 0x38,
+-            ShortcutKey::N9 => 0x39,
+-            ShortcutKey::Numpad0 => 0x60,
+-            ShortcutKey::Numpad1 => 0x61,
+-            ShortcutKey::Numpad2 => 0x62,
+-            ShortcutKey::Numpad3 => 0x63,
+-            ShortcutKey::Numpad4 => 0x64,
+-            ShortcutKey::Numpad5 => 0x65,
+-            ShortcutKey::Numpad6 => 0x66,
+-            ShortcutKey::Numpad7 => 0x67,
+-            ShortcutKey::Numpad8 => 0x68,
+-            ShortcutKey::Numpad9 => 0x69,
+-            ShortcutKey::Raw(code) => *code,
+-        };
+-        Some(vkey)
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     // Linux mappings
+     // NOTE: on linux, this method returns the KeySym and not the KeyCode
+     //       which should be obtained in other ways depending on the backend.
+     //       (X11 or Wayland)
+     #[cfg(target_os = "linux")]
+     pub fn to_code(&self) -> Option<u32> {

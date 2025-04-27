@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -66,17 +66,17 @@
+                     } else if let Some(buffer) = &mut *code_buffer {
+                         match keyboard_event.key {
+                             Key::Numpad0 => buffer.push('0'),
+                             Key::Numpad1 => buffer.push('1'),
+                             Key::Numpad2 => buffer.push('2'),
+                             Key::Numpad3 => buffer.push('3'),
+                             Key::Numpad4 => buffer.push('4'),
+                             Key::Numpad5 => buffer.push('5'),
+-                            Key::Numpad6 => buffer.push('6'),
++                             /* ~ changed by cargo-mutants ~ */
+                             Key::Numpad7 => buffer.push('7'),
+                             Key::Numpad8 => buffer.push('8'),
+                             Key::Numpad9 => buffer.push('9'),
+                             _ => {}
+                         }
+                     }
+                 } else if keyboard_event.key == Key::Alt {
+                     if let Some(codes) = &*code_buffer {

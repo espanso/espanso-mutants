@@ -1,0 +1,29 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -42,25 +42,17 @@
+ use super::{CliModule, CliModuleArgs, PathsOverrides};
+ 
+ mod ipc;
+ mod keyboard_layout_watcher;
+ mod troubleshoot;
+ mod watcher;
+ 
+ pub fn new() -> CliModule {
+-    #[allow(clippy::needless_update)]
+-    CliModule {
+-        requires_paths: true,
+-        enable_logs: true,
+-        log_mode: super::LogMode::CleanAndAppend,
+-        subcommand: "daemon".to_string(),
+-        entry: daemon_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn daemon_main(args: CliModuleArgs) -> i32 {
+     prevent_running_as_root_on_macos();
+ 
+     let paths = args.paths.expect("missing paths in daemon main");
+     let paths_overrides = args
+         .paths_overrides

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ replace match guard with true
+@@ -50,17 +50,17 @@
+ 
+ fn convert_fields(fields: &Params) -> HashMap<String, FormField> {
+     let mut out = HashMap::new();
+     for (name, field) in fields {
+         let mut form_field = None;
+ 
+         if let Value::Object(params) = field {
+             form_field = match params.get("type") {
+-                Some(Value::String(field_type)) if field_type == "choice" => {
++                Some(Value::String(field_type)) if true /* ~ changed by cargo-mutants ~ */ => {
+                     Some(FormField::Choice {
+                         default: params
+                             .get("default")
+                             .and_then(|val| val.as_string())
+                             .cloned(),
+                         values: params
+                             .get("values")
+                             .and_then(|v| extract_values(v, params.get("trim_string_values")))

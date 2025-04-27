@@ -1,0 +1,24 @@
+--- espanso-inject/src/evdev/uinput.rs
++++ replace <impl Drop for UInputDevice>::drop with ()
+@@ -81,20 +81,17 @@
+         unsafe {
+             uinput_emit(self.fd, key_code, pressed);
+         }
+     }
+ }
+ 
+ impl Drop for UInputDevice {
+     fn drop(&mut self) {
+-        unsafe {
+-            ioctl(self.fd, ui_dev_destroy());
+-            close(self.fd);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum UInputDeviceError {
+     #[error("could not open uinput device")]
+     Open(),
+ 

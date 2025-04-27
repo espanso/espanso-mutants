@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_title -> String with String::new()
+@@ -16,17 +16,17 @@
+  * You should have received a copy of the GNU General Public License
+  * along with modulo.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use serde::{Deserialize, Deserializer, Serialize};
+ use std::collections::HashMap;
+ 
+ fn default_title() -> String {
+-    "espanso".to_owned()
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_icon() -> Option<String> {
+     None
+ }
+ 
+ fn default_fields() -> HashMap<String, FieldConfig> {
+     HashMap::new()

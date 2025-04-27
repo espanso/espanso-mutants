@@ -1,0 +1,25 @@
+--- espanso-inject/src/win32/mod.rs
++++ replace <impl Injector for Win32Injector>::send_string -> Result<()> with Ok(())
+@@ -56,21 +56,17 @@
+             }
+         }
+         Ok(virtual_keys)
+     }
+ }
+ 
+ impl Injector for Win32Injector {
+     fn send_string(&self, string: &str, _: InjectionOptions) -> Result<()> {
+-        let wide_string = widestring::WideCString::from_str(string)?;
+-        unsafe {
+-            inject_string(wide_string.as_ptr());
+-        }
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         let virtual_keys = Self::convert_to_vk_array(keys)?;
+         // note: multiplying by 2 because there is a press and release event
+         espanso_info::add_expansion_events(keys.len() * 2);
+ 
+         if options.delay == 0 {

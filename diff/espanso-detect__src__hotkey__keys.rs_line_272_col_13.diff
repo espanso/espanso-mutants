@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ delete match arm
+@@ -264,17 +264,17 @@
+             "J" => Some(ShortcutKey::J),
+             "K" => Some(ShortcutKey::K),
+             "L" => Some(ShortcutKey::L),
+             "M" => Some(ShortcutKey::M),
+             "N" => Some(ShortcutKey::N),
+             "O" => Some(ShortcutKey::O),
+             "P" => Some(ShortcutKey::P),
+             "Q" => Some(ShortcutKey::Q),
+-            "R" => Some(ShortcutKey::R),
++             /* ~ changed by cargo-mutants ~ */
+             "S" => Some(ShortcutKey::S),
+             "T" => Some(ShortcutKey::T),
+             "U" => Some(ShortcutKey::U),
+             "V" => Some(ShortcutKey::V),
+             "W" => Some(ShortcutKey::W),
+             "X" => Some(ShortcutKey::X),
+             "Y" => Some(ShortcutKey::Y),
+             "Z" => Some(ShortcutKey::Z),

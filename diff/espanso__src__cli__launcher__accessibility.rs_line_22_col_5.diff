@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/accessibility.rs
++++ replace is_accessibility_enabled -> bool with false
+@@ -14,17 +14,17 @@
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ #[cfg(not(target_os = "macos"))]
+ pub fn is_accessibility_enabled() -> bool {
+-    true
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(not(target_os = "macos"))]
+ pub fn prompt_enable_accessibility() -> bool {
+     true
+ }
+ 
+ #[cfg(target_os = "macos")]

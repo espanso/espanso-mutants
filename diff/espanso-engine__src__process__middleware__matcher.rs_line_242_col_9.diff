@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ delete match arm
+@@ -234,17 +234,17 @@
+                 | Key::ArrowRight
+                 | Key::ArrowUp
+                 | Key::End
+                 | Key::Home
+                 | Key::PageDown
+                 | Key::PageUp
+                 | Key::Escape
+         ),
+-        EventType::Mouse(_) => true,
++         /* ~ changed by cargo-mutants ~ */
+         _ => false,
+     }
+ }
+ 
+ fn should_skip_key_event_due_to_modifier_press(modifier_state: &ModifierState) -> bool {
+     if cfg!(target_os = "macos") {
+         modifier_state.is_meta_down
+     } else if cfg!(target_os = "windows") {

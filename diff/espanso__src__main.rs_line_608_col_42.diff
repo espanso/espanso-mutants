@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ replace == with != in main
+@@ -600,17 +600,17 @@
+                 cli_args.non_fatal_errors = config_result.non_fatal_errors;
+             }
+ 
+             if handler.enable_logs {
+                 log_proxy
+                     .set_output_file(
+                         &paths.runtime.join(LOG_FILE_NAME),
+                         handler.log_mode == LogMode::Read,
+-                        handler.log_mode == LogMode::CleanAndAppend,
++                        handler.log_mode != /* ~ changed by cargo-mutants ~ */ LogMode::CleanAndAppend,
+                     )
+                     .expect("unable to set up log output file");
+             }
+ 
+             cli_args.paths = Some(paths);
+         }
+ 
+         // If the current handler is an alias, rather than sending the sub-arguments

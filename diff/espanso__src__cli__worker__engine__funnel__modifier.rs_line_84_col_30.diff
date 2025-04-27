@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace == with != in ModifierStateStore::update_state
+@@ -76,17 +76,17 @@
+             }
+         }
+         is_any_modifier_pressed
+     }
+ 
+     pub fn update_state(&self, modifier: Modifier, is_pressed: bool) {
+         let mut state = self.state.lock().expect("unable to obtain modifier state");
+         for (curr_modifier, status) in &mut state.modifiers {
+-            if curr_modifier == &modifier {
++            if curr_modifier != /* ~ changed by cargo-mutants ~ */ &modifier {
+                 if is_pressed {
+                     status.press();
+                 } else {
+                     status.release();
+                 }
+                 break;
+             }
+         }

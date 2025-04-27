@@ -1,0 +1,45 @@
+--- espanso-engine/src/process/middleware/open_config.rs
++++ replace <impl Middleware for ConfigMiddleware<'_>>::next -> Event with Default::default()
+@@ -39,41 +39,11 @@
+ }
+ 
+ impl Middleware for ConfigMiddleware<'_> {
+     fn name(&self) -> &'static str {
+         "open_config"
+     }
+ 
+     fn next(&self, event: Event, _dispatch: &mut dyn FnMut(Event)) -> Event {
+-        let config_path = match self.provider.get_config_path().canonicalize() {
+-            Ok(path) => path,
+-            Err(err) => {
+-                error!(
+-                    "unable to canonicalize the config path into the image resolver: {}",
+-                    err
+-                );
+-                self.provider.get_config_path().to_owned()
+-            }
+-        };
+-        if let EventType::ShowConfigFolder = event.etype {
+-            let program: &str;
+-            if env::consts::OS == "macos" {
+-                program = "open";
+-            } else if env::consts::OS == "windows" {
+-                program = "explorer";
+-            } else if env::consts::OS == "linux" {
+-                program = "xdg-open";
+-            } else {
+-                panic!("Unsupported OS")
+-            }
+-
+-            #[allow(unused_must_use)]
+-            Command::new(program)
+-                .arg(config_path)
+-                .spawn()
+-                .unwrap()
+-                .wait();
+-            return Event::caused_by(event.source_id, EventType::NOOP);
+-        }
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

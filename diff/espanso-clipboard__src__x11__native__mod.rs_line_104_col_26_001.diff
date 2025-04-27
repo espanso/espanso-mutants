@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/native/mod.rs
++++ replace > with == in <impl Clipboard for X11NativeClipboard>::set_html
+@@ -96,17 +96,17 @@
+         let fallback_ptr = if fallback_text.is_some() {
+             fallback_string.as_ptr()
+         } else {
+             std::ptr::null()
+         };
+ 
+         let native_result =
+             unsafe { ffi::clipboard_x11_set_html(html_string.as_ptr(), fallback_ptr) };
+-        if native_result > 0 {
++        if native_result == /* ~ changed by cargo-mutants ~ */ 0 {
+             Ok(())
+         } else {
+             Err(X11NativeClipboardError::SetOperationFailed().into())
+         }
+     }
+ }
+ 
+ #[derive(Error, Debug)]

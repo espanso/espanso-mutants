@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace <impl TextInjector for ClipboardInjectorAdapter<'_>>::name -> &'static str with "xyzzy"
+@@ -123,17 +123,17 @@
+         ClipboardOperationOptions {
+             use_xclip_backend: params.x11_use_xclip_backend,
+         }
+     }
+ }
+ 
+ impl TextInjector for ClipboardInjectorAdapter<'_> {
+     fn name(&self) -> &'static str {
+-        "clipboard"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn inject_text(&self, text: &str) -> anyhow::Result<()> {
+         let _guard = self.restore_clipboard_guard();
+ 
+         self.clipboard
+             .set_text(text, &self.get_operation_options())?;
+ 

@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ replace == with != in watcher_main
+@@ -74,17 +74,17 @@
+ 
+                 if let Some(path) = path {
+                     let extension = path
+                         .extension()
+                         .unwrap_or_default()
+                         .to_string_lossy()
+                         .to_ascii_lowercase();
+ 
+-                    if ["yml", "yaml"].iter().any(|ext| ext == &extension) {
++                    if ["yml", "yaml"].iter().any(|ext| ext != /* ~ changed by cargo-mutants ~ */ &extension) {
+                         // Only load non-hidden yml files
+                         !is_file_hidden(&path)
+                     } else {
+                         // If there is no extension, it's probably a folder
+                         extension.is_empty()
+                     }
+                 } else {
+                     false

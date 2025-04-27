@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl ShmHandler for SimpleWindow>::shm_state -> &mut Shm with Box::leak(Box::new(Default::default()))
+@@ -356,17 +356,17 @@
+             meta: modifiers.logo,
+             num_lock: modifiers.num_lock,
+         });
+     }
+ }
+ 
+ impl ShmHandler for SimpleWindow {
+     fn shm_state(&mut self) -> &mut Shm {
+-        &mut self.shm
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[allow(clippy::many_single_char_names)]
+ #[allow(clippy::single_match_else)]
+ impl SimpleWindow {
+     pub fn draw(&mut self, _conn: &Connection, qh: &QueueHandle<Self>) {
+         let width = self.width;

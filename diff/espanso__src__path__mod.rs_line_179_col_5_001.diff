@@ -1,0 +1,25 @@
+--- espanso/src/path/mod.rs
++++ replace get_default_config_dir -> Option<PathBuf> with Some(Default::default())
+@@ -171,21 +171,17 @@
+         if home_espanso_dir.is_dir() {
+             return Some(home_espanso_dir);
+         }
+     }
+     None
+ }
+ 
+ fn get_default_config_dir() -> Option<PathBuf> {
+-    let config_path = get_default_config_path();
+-    if config_path.is_dir() {
+-        return Some(config_path);
+-    }
+-    None
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_default_config_path() -> PathBuf {
+     let config_dir = dirs::config_dir().expect("unable to obtain dirs::config_dir()");
+     config_dir.join("espanso")
+ }
+ 
+ // Due to the original behavior of the dirs crate, espanso placed the config

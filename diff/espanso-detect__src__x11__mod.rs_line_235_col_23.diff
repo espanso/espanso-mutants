@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace <= with > in <impl Source for X11Source>::eventloop
+@@ -227,17 +227,17 @@
+                 } else {
+                     trace!("Unable to convert raw event to input event");
+                 }
+             }
+         }
+ 
+         let error_code = unsafe { detect_eventloop(self.handle, callback) };
+ 
+-        if error_code <= 0 {
++        if error_code > /* ~ changed by cargo-mutants ~ */ 0 {
+             error!("X11Source eventloop returned a negative error code");
+             return Err(X11SourceError::Internal().into());
+         }
+ 
+         Ok(())
+     }
+ }
+ 

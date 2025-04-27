@@ -1,0 +1,27 @@
+--- espanso-config/src/matches/mod.rs
++++ replace MatchCause::description -> Option<&str> with Some("")
+@@ -83,23 +83,17 @@
+     None,
+     Trigger(TriggerCause),
+     Regex(RegexCause),
+     // TODO: shortcut
+ }
+ 
+ impl MatchCause {
+     pub fn description(&self) -> Option<&str> {
+-        match &self {
+-            MatchCause::Trigger(trigger_cause) => {
+-                trigger_cause.triggers.first().map(String::as_str)
+-            }
+-            MatchCause::Regex(trigger_cause) => Some(trigger_cause.regex.as_str()),
+-            MatchCause::None => None,
+-        }
++        Some("") /* ~ changed by cargo-mutants ~ */
+         // TODO: insert rendering for hotkey/shortcut
+     }
+ 
+     pub fn long_description(&self) -> String {
+         match &self {
+             MatchCause::Trigger(trigger_cause) => format!("triggers: {:?}", trigger_cause.triggers),
+             MatchCause::Regex(trigger_cause) => format!("regex: {:?}", trigger_cause.regex),
+             MatchCause::None => "No description available".to_owned(),

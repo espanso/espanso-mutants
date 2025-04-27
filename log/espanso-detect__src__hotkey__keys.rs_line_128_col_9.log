@@ -1,0 +1,238 @@
+
+*** espanso-detect/src/hotkey/keys.rs:128:9: replace <impl Display for ShortcutKey>::fmt -> std::fmt::Result with Ok(Default::default())
+
+*** mutation diff:
+--- espanso-detect/src/hotkey/keys.rs
++++ replace <impl Display for ShortcutKey>::fmt -> std::fmt::Result with Ok(Default::default())
+@@ -120,101 +120,17 @@
+     Numpad9,
+ 
+     // Specify the raw platform-specific virtual key code.
+     Raw(u32),
+ }
+ 
+ impl Display for ShortcutKey {
+     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+-        match *self {
+-            ShortcutKey::Alt => write!(f, "ALT"),
+-            ShortcutKey::Control => write!(f, "CTRL"),
+-            ShortcutKey::Meta => write!(f, "META"),
+-            ShortcutKey::Shift => write!(f, "SHIFT"),
+-            ShortcutKey::Enter => write!(f, "ENTER"),
+-            ShortcutKey::Tab => write!(f, "TAB"),
+-            ShortcutKey::Space => write!(f, "SPACE"),
+-            ShortcutKey::Insert => write!(f, "INSERT"),
+-            ShortcutKey::ArrowDown => write!(f, "DOWN"),
+-            ShortcutKey::ArrowLeft => write!(f, "LEFT"),
+-            ShortcutKey::ArrowRight => write!(f, "RIGHT"),
+-            ShortcutKey::ArrowUp => write!(f, "UP"),
+-            ShortcutKey::End => write!(f, "END"),
+-            ShortcutKey::Home => write!(f, "HOME"),
+-            ShortcutKey::PageDown => write!(f, "PAGEDOWN"),
+-            ShortcutKey::PageUp => write!(f, "PAGEUP"),
+-            ShortcutKey::F1 => write!(f, "F1"),
+-            ShortcutKey::F2 => write!(f, "F2"),
+-            ShortcutKey::F3 => write!(f, "F3"),
+-            ShortcutKey::F4 => write!(f, "F4"),
+-            ShortcutKey::F5 => write!(f, "F5"),
+-            ShortcutKey::F6 => write!(f, "F6"),
+-            ShortcutKey::F7 => write!(f, "F7"),
+-            ShortcutKey::F8 => write!(f, "F8"),
+-            ShortcutKey::F9 => write!(f, "F9"),
+-            ShortcutKey::F10 => write!(f, "F10"),
+-            ShortcutKey::F11 => write!(f, "F11"),
+-            ShortcutKey::F12 => write!(f, "F12"),
+-            ShortcutKey::F13 => write!(f, "F13"),
+-            ShortcutKey::F14 => write!(f, "F14"),
+-            ShortcutKey::F15 => write!(f, "F15"),
+-            ShortcutKey::F16 => write!(f, "F16"),
+-            ShortcutKey::F17 => write!(f, "F17"),
+-            ShortcutKey::F18 => write!(f, "F18"),
+-            ShortcutKey::F19 => write!(f, "F19"),
+-            ShortcutKey::F20 => write!(f, "F20"),
+-            ShortcutKey::A => write!(f, "A"),
+-            ShortcutKey::B => write!(f, "B"),
+-            ShortcutKey::C => write!(f, "C"),
+-            ShortcutKey::D => write!(f, "D"),
+-            ShortcutKey::E => write!(f, "E"),
+-            ShortcutKey::F => write!(f, "F"),
+-            ShortcutKey::G => write!(f, "G"),
+-            ShortcutKey::H => write!(f, "H"),
+-            ShortcutKey::I => write!(f, "I"),
+-            ShortcutKey::J => write!(f, "J"),
+-            ShortcutKey::K => write!(f, "K"),
+-            ShortcutKey::L => write!(f, "L"),
+-            ShortcutKey::M => write!(f, "M"),
+-            ShortcutKey::N => write!(f, "N"),
+-            ShortcutKey::O => write!(f, "O"),
+-            ShortcutKey::P => write!(f, "P"),
+-            ShortcutKey::Q => write!(f, "Q"),
+-            ShortcutKey::R => write!(f, "R"),
+-            ShortcutKey::S => write!(f, "S"),
+-            ShortcutKey::T => write!(f, "T"),
+-            ShortcutKey::U => write!(f, "U"),
+-            ShortcutKey::V => write!(f, "V"),
+-            ShortcutKey::W => write!(f, "W"),
+-            ShortcutKey::X => write!(f, "X"),
+-            ShortcutKey::Y => write!(f, "Y"),
+-            ShortcutKey::Z => write!(f, "Z"),
+-            ShortcutKey::N0 => write!(f, "0"),
+-            ShortcutKey::N1 => write!(f, "1"),
+-            ShortcutKey::N2 => write!(f, "2"),
+-            ShortcutKey::N3 => write!(f, "3"),
+-            ShortcutKey::N4 => write!(f, "4"),
+-            ShortcutKey::N5 => write!(f, "5"),
+-            ShortcutKey::N6 => write!(f, "6"),
+-            ShortcutKey::N7 => write!(f, "7"),
+-            ShortcutKey::N8 => write!(f, "8"),
+-            ShortcutKey::N9 => write!(f, "9"),
+-            ShortcutKey::Numpad0 => write!(f, "NUMPAD0"),
+-            ShortcutKey::Numpad1 => write!(f, "NUMPAD1"),
+-            ShortcutKey::Numpad2 => write!(f, "NUMPAD2"),
+-            ShortcutKey::Numpad3 => write!(f, "NUMPAD3"),
+-            ShortcutKey::Numpad4 => write!(f, "NUMPAD4"),
+-            ShortcutKey::Numpad5 => write!(f, "NUMPAD5"),
+-            ShortcutKey::Numpad6 => write!(f, "NUMPAD6"),
+-            ShortcutKey::Numpad7 => write!(f, "NUMPAD7"),
+-            ShortcutKey::Numpad8 => write!(f, "NUMPAD8"),
+-            ShortcutKey::Numpad9 => write!(f, "NUMPAD9"),
+-            ShortcutKey::Raw(code) => write!(f, "RAW({code})"),
+-        }
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ShortcutKey {
+     pub fn parse(key: &str) -> Option<ShortcutKey> {
+         let parsed = match key {
+             "ALT" | "OPTION" => Some(ShortcutKey::Alt),
+             "CTRL" => Some(ShortcutKey::Control),
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-detect@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh autocfg v1.1.0
+       Fresh cfg-if v1.0.0
+       Fresh proc-macro2 v1.0.94
+       Fresh cfg_aliases v0.2.1
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+       Fresh libc v0.2.161
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+       Fresh syn v2.0.100
+       Fresh memoffset v0.9.1
+       Fresh aho-corasick v0.7.19
+       Fresh bitflags v2.4.1
+       Fresh regex-syntax v0.6.27
+       Fresh espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh heck v0.4.1
+       Fresh thiserror-impl v1.0.56
+       Fresh regex v1.5.5
+       Fresh nix v0.29.0
+       Fresh lazycell v1.3.0
+       Fresh enum-as-inner v0.6.0
+warning: espanso-detect@0.1.0: src/mac/native.mm:143:51: warning: unused parameter '_next' [-Wunused-parameter]
+warning: espanso-detect@0.1.0:   143 | OSStatus hotkey_event_handler(EventHandlerCallRef _next, EventRef evt, void *userData)
+warning: espanso-detect@0.1.0:       |                                                   ^
+warning: espanso-detect@0.1.0: 1 warning generated.
+       Fresh thiserror v1.0.56
+       Dirty espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect): the file `espanso-detect/src/hotkey/keys.rs` has changed (1745790932.147574087s, 26s after last build at 1745790906.192476636s)
+   Compiling espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_detect --edition=2021 espanso-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("sctk", "wayland"))' -C metadata=d768265830cbedbf -C extra-filename=-dfabb6a7ab5029ea --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rlib --extern lazycell=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblazycell-69a4db9f63905a25.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern nix=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnix-3e1336f5d2a0beb6.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-detect-a78a469d6111876a/out -l static=espansodetect -l c++ -l dylib=c++ -l static=espansodetect -l framework=Cocoa -l framework=Carbon -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_detect --edition=2021 espanso-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("sctk", "wayland"))' -C metadata=c5914c908036df0d -C extra-filename=-f8683c2b0513ec07 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rmeta --extern lazycell=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblazycell-69a4db9f63905a25.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern nix=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnix-3e1336f5d2a0beb6.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-detect-a78a469d6111876a/out -l static=espansodetect -l c++ -l dylib=c++ -l static=espansodetect -l framework=Cocoa -l framework=Carbon -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+warning: unused variable: `f`
+   --> espanso-detect/src/hotkey/keys.rs:127:19
+    |
+127 |     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    |                   ^ help: if this is intentional, prefix it with an underscore: `_f`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-detect` (lib) generated 1 warning
+warning: `espanso-detect` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.42s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_detect-dfabb6a7ab5029ea`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-detect@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh autocfg v1.1.0
+       Fresh cfg-if v1.0.0
+       Fresh cfg_aliases v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh libc v0.2.161
+       Fresh memoffset v0.9.1
+       Fresh bitflags v2.4.1
+       Fresh regex-syntax v0.6.27
+       Fresh espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh heck v0.4.1
+       Fresh thiserror-impl v1.0.56
+       Fresh regex v1.5.5
+       Fresh nix v0.29.0
+       Fresh lazycell v1.3.0
+       Fresh enum-as-inner v0.6.0
+warning: espanso-detect@0.1.0: src/mac/native.mm:143:51: warning: unused parameter '_next' [-Wunused-parameter]
+warning: espanso-detect@0.1.0:   143 | OSStatus hotkey_event_handler(EventHandlerCallRef _next, EventRef evt, void *userData)
+warning: espanso-detect@0.1.0:       |                                                   ^
+warning: espanso-detect@0.1.0: 1 warning generated.
+       Fresh thiserror v1.0.56
+warning: unused variable: `f`
+   --> espanso-detect/src/hotkey/keys.rs:127:19
+    |
+127 |     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+    |                   ^ help: if this is intentional, prefix it with an underscore: `_f`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-detect` (lib) generated 1 warning
+warning: `espanso-detect` (lib test) generated 1 warning (1 duplicate)
+       Fresh espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_detect-dfabb6a7ab5029ea`
+
+running 7 tests
+test hotkey::tests::modifiers_detected_correcty ... ok
+test mac::tests::raw_to_input_event_keyboard_works_correctly ... ok
+test mac::tests::raw_to_input_event_mouse_works_correctly ... ok
+test hotkey::tests::modifies_formatted_correctly ... FAILED
+test hotkey::tests::parse_correctly ... ok
+test hotkey::keys::tests::parse_invalid_keys ... ok
+test hotkey::keys::tests::parse_works_correctly ... ok
+
+failures:
+
+---- hotkey::tests::modifies_formatted_correctly stdout ----
+
+thread 'hotkey::tests::modifies_formatted_correctly' panicked at espanso-detect/src/hotkey/mod.rs:154:9:
+assertion `left == right` failed
+  left: "SHIFT+V"
+ right: "+"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    hotkey::tests::modifies_formatted_correctly
+
+test result: FAILED. 6 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p espanso-detect --lib`
+
+*** result: Failure(101)

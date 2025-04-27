@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -630,17 +630,17 @@
+         0xD5 => Some(0x00D5), // #LATIN CAPITAL LETTER O WITH TILDE
+         0xD6 => Some(0x00D6), // #LATIN CAPITAL LETTER O WITH DIAERESIS
+         0xD7 => Some(0x00D7), // #MULTIPLICATION SIGN
+         0xD8 => Some(0x00D8), // #LATIN CAPITAL LETTER O WITH STROKE
+         0xD9 => Some(0x00D9), // #LATIN CAPITAL LETTER U WITH GRAVE
+         0xDA => Some(0x00DA), // #LATIN CAPITAL LETTER U WITH ACUTE
+         0xDB => Some(0x00DB), // #LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+         0xDC => Some(0x00DC), // #LATIN CAPITAL LETTER U WITH DIAERESIS
+-        0xDD => Some(0x00DD), // #LATIN CAPITAL LETTER Y WITH ACUTE
++         /* ~ changed by cargo-mutants ~ */ // #LATIN CAPITAL LETTER Y WITH ACUTE
+         0xDE => Some(0x00DE), // #LATIN CAPITAL LETTER THORN
+         0xDF => Some(0x00DF), // #LATIN SMALL LETTER SHARP S
+         0xE0 => Some(0x00E0), // #LATIN SMALL LETTER A WITH GRAVE
+         0xE1 => Some(0x00E1), // #LATIN SMALL LETTER A WITH ACUTE
+         0xE2 => Some(0x00E2), // #LATIN SMALL LETTER A WITH CIRCUMFLEX
+         0xE3 => Some(0x00E3), // #LATIN SMALL LETTER A WITH TILDE
+         0xE4 => Some(0x00E4), // #LATIN SMALL LETTER A WITH DIAERESIS
+         0xE5 => Some(0x00E5), // #LATIN SMALL LETTER A WITH RING ABOVE

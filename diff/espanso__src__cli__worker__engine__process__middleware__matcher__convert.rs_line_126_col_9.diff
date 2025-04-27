@@ -1,0 +1,17 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/convert.rs
++++ replace MatchConverter<'a>::global_match_set -> MatchSet with Default::default()
+@@ -118,13 +118,11 @@
+                 }
+             }
+         }
+ 
+         hotkeys
+     }
+ 
+     fn global_match_set(&self) -> MatchSet {
+-        let paths = self.config_store.get_all_match_paths();
+-        self.match_store
+-            .query(&paths.into_iter().collect::<Vec<_>>())
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

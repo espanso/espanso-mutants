@@ -1,0 +1,21 @@
+--- espanso/src/cli/modulo/textview.rs
++++ replace == with != in textview_main
+@@ -22,17 +22,17 @@
+ use espanso_modulo::textview::TextViewOptions;
+ 
+ pub fn textview_main(matches: &ArgMatches, icon_paths: &IconPaths) -> i32 {
+     let title = matches.value_of("title").unwrap_or("Espanso");
+ 
+     let input_file = matches
+         .value_of("input_file")
+         .expect("missing input, please specify the -i option");
+-    let data = if input_file == "-" {
++    let data = if input_file != /* ~ changed by cargo-mutants ~ */ "-" {
+         use std::io::Read;
+         let mut buffer = String::new();
+         std::io::stdin()
+             .read_to_string(&mut buffer)
+             .expect("unable to obtain input from stdin");
+         buffer
+     } else {
+         std::fs::read_to_string(input_file).expect("unable to read input file")

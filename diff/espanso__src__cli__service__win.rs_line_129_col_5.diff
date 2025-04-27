@@ -1,0 +1,33 @@
+--- espanso/src/cli/service/win.rs
++++ replace get_shortcut_target_file -> Result<PathBuf> with Ok(Default::default())
+@@ -121,29 +121,17 @@
+ }
+ 
+ fn get_startup_shortcut_file() -> Result<PathBuf> {
+     let parent = get_startup_dir()?;
+     Ok(parent.join("espanso.lnk"))
+ }
+ 
+ fn get_shortcut_target_file(shortcut_path: &Path) -> Result<PathBuf> {
+-    let output = Command::new("powershell")
+-            .arg("-c")
+-            .arg("$sh = New-Object -ComObject WScript.Shell; $target = $sh.CreateShortcut($env:TARGET_FILE_PATH).TargetPath; echo $target")
+-            .env("TARGET_FILE_PATH", shortcut_path.to_string_lossy().to_string())
+-            .output()?;
+-
+-    if !output.status.success() {
+-        return Err(ShortcutError::PowershellNonZeroExitCode.into());
+-    }
+-
+-    let raw_path = String::from_utf8_lossy(&output.stdout);
+-    let path = PathBuf::from(raw_path.trim().to_string());
+-    Ok(path)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn create_shortcut_target_file(
+     shortcut_path: &Path,
+     target_path: &Path,
+     arguments: &str,
+ ) -> Result<()> {
+     let mut command = Command::new("powershell");

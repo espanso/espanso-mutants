@@ -1,0 +1,53 @@
+--- espanso/src/icon.rs
++++ replace load_icon_paths -> Result<IconPaths> with Ok(Default::default())
+@@ -95,49 +95,17 @@
+             &runtime_dir.join("tray_explain_image.png"),
+         )?),
+         ..Default::default()
+     })
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn load_icon_paths(runtime_dir: &Path) -> Result<IconPaths> {
+-    Ok(IconPaths {
+-        search_icon: Some(extract_icon(
+-            ICON_BINARY,
+-            &runtime_dir.join("searchv2.png"),
+-        )?),
+-        tray_icon_normal: Some(extract_icon(MAC_BINARY, &runtime_dir.join("normalv2.png"))?),
+-        tray_icon_disabled: Some(extract_icon(
+-            MAC_DISABLED_BINARY,
+-            &runtime_dir.join("disabledv2.png"),
+-        )?),
+-        tray_icon_system_disabled: Some(extract_icon(
+-            MAC_SYSTEM_DISABLED_BINARY,
+-            &runtime_dir.join("systemdisabledv2.png"),
+-        )?),
+-        logo: Some(extract_icon(ICON_BINARY, &runtime_dir.join("iconv2.png"))?),
+-        logo_no_background: Some(extract_icon(
+-            LOGO_NO_BACKGROUND_BINARY,
+-            &runtime_dir.join("icon_no_background.png"),
+-        )?),
+-        accessibility_image_1: Some(extract_icon(
+-            MAC_ACCESSIBILITY_1_BINARY,
+-            &runtime_dir.join("accessibility_1.png"),
+-        )?),
+-        accessibility_image_2: Some(extract_icon(
+-            MAC_ACCESSIBILITY_2_BINARY,
+-            &runtime_dir.join("accessibility_2.png"),
+-        )?),
+-        tray_explain_image: Some(extract_icon(
+-            MAC_STATUS_ICON_EXPLAIN_IMAGE,
+-            &runtime_dir.join("icon_explain_image.png"),
+-        )?),
+-        ..Default::default()
+-    })
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "linux")]
+ pub fn load_icon_paths(runtime_dir: &Path) -> Result<IconPaths> {
+     Ok(IconPaths {
+         logo: Some(extract_icon(ICON_BINARY, &runtime_dir.join("iconv2.png"))?),
+         search_icon: Some(extract_icon(ICON_BINARY, &runtime_dir.join("search.png"))?),
+         logo_no_background: Some(extract_icon(

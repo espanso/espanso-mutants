@@ -1,0 +1,55 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace <impl Source for CocoaSource>::initialize -> Result<()> with Ok(())
+@@ -215,51 +215,17 @@
+             receiver: LazyCell::new(),
+             hotkeys: hotkeys.to_vec(),
+         }
+     }
+ }
+ 
+ impl Source for CocoaSource {
+     fn initialize(&mut self) -> Result<()> {
+-        let (sender, receiver) = channel();
+-
+-        // Set the global sender
+-        {
+-            let mut lock = CURRENT_SENDER
+-                .lock()
+-                .expect("unable to acquire CocoaSource sender lock during initialization");
+-            *lock = Some(sender);
+-        }
+-
+-        // Generate the options
+-        let hotkeys: Vec<RawHotKey> = self
+-            .hotkeys
+-            .iter()
+-            .filter_map(|hk| {
+-                let raw = convert_hotkey_to_raw(hk);
+-                if raw.is_none() {
+-                    error!("unable to register hotkey: {:?}", hk);
+-                }
+-                raw
+-            })
+-            .collect();
+-        let options = RawInitializationOptions {
+-            hotkeys: hotkeys.as_ptr(),
+-            hotkeys_count: hotkeys.len() as i32,
+-        };
+-
+-        unsafe { detect_initialize(native_callback, options) };
+-
+-        if self.receiver.fill(receiver).is_err() {
+-            error!("Unable to set CocoaSource receiver");
+-            return Err(CocoaSourceError::Unknown().into());
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+         if let Some(receiver) = self.receiver.borrow() {
+             loop {
+                 let event = receiver.recv();
+                 match event {
+                     Ok(event) => {

@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace < with == in <impl Source for EVDEVSource>::eventloop
+@@ -177,17 +177,17 @@
+             return Err(EVDEVSourceError::NoDevices().into());
+         }
+ 
+         let raw_epfd = unsafe { libc::epoll_create1(0) };
+         let epfd = scopeguard::guard(raw_epfd, |raw_epfd| unsafe {
+             close(raw_epfd);
+         });
+ 
+-        if *epfd < 0 {
++        if *epfd == /* ~ changed by cargo-mutants ~ */ 0 {
+             error!("could not create epoll instance");
+             return Err(EVDEVSourceError::Internal().into());
+         }
+ 
+         // Setup epoll for all input devices
+         let errno_ptr = unsafe { __errno_location() };
+         for (i, device) in self.devices.iter().enumerate() {
+             let mut ev: epoll_event = unsafe { std::mem::zeroed() };

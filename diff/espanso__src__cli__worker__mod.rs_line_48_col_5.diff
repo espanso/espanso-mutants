@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -40,27 +40,17 @@
+ mod daemon_monitor;
+ mod engine;
+ mod ipc;
+ mod match_cache;
+ mod secure_input;
+ mod ui;
+ 
+ pub fn new() -> CliModule {
+-    #[allow(clippy::needless_update)]
+-    CliModule {
+-        requires_paths: true,
+-        requires_config: true,
+-        requires_linux_capabilities: true,
+-        enable_logs: true,
+-        log_mode: super::LogMode::AppendOnly,
+-        subcommand: "worker".to_string(),
+-        entry: worker_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn worker_main(args: CliModuleArgs) -> i32 {
+     prevent_running_as_root_on_macos();
+ 
+     let paths = args.paths.expect("missing paths in worker main");
+     let cli_args = args.cli_args.expect("missing cli_args in worker main");
+ 

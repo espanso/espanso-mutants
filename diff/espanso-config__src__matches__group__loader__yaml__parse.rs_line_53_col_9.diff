@@ -1,0 +1,22 @@
+--- espanso-config/src/matches/group/loader/yaml/parse.rs
++++ replace YAMLMatchGroup::parse_from_file -> Result<Self> with Ok(Default::default())
+@@ -45,18 +45,17 @@
+                 "arbitrary_field_that_will_not_block_the_parser: true",
+             )?);
+         }
+ 
+         Ok(serde_yaml::from_str(yaml)?)
+     }
+ 
+     pub fn parse_from_file(path: &Path) -> Result<Self> {
+-        let content = std::fs::read_to_string(path)?;
+-        Self::parse_from_str(&content)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct YAMLMatch {
+     #[serde(default)]
+     pub label: Option<String>,
+ 

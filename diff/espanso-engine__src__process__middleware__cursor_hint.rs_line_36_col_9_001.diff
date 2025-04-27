@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/cursor_hint.rs
++++ replace <impl Middleware for CursorHintMiddleware>::name -> &'static str with ""
+@@ -28,17 +28,17 @@
+ impl CursorHintMiddleware {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Middleware for CursorHintMiddleware {
+     fn name(&self) -> &'static str {
+-        "cursor_hint"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::Rendered(m_event) = event.etype {
+             let (body, cursor_hint_back_count) = process_cursor_hint(m_event.body);
+ 
+             if let Some(cursor_hint_back_count) = cursor_hint_back_count {
+                 dispatch(Event::caused_by(

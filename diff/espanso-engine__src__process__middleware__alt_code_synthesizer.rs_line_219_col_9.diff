@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -211,17 +211,17 @@
+         72 => Some(0x0048),  // Latin capital letter H
+         73 => Some(0x0049),  // Latin capital letter I
+         74 => Some(0x004A),  // Latin capital letter J
+         75 => Some(0x004B),  // Latin capital letter K
+         76 => Some(0x004C),  // Latin capital letter L
+         77 => Some(0x004D),  // Latin capital letter M
+         78 => Some(0x004E),  // Latin capital letter N
+         79 => Some(0x004F),  // Latin capital letter O
+-        80 => Some(0x0050),  // Latin capital letter P
++         /* ~ changed by cargo-mutants ~ */  // Latin capital letter P
+         81 => Some(0x0051),  // Latin capital letter Q
+         82 => Some(0x0052),  // Latin capital letter R
+         83 => Some(0x0053),  // Latin capital letter S
+         84 => Some(0x0054),  // Latin capital letter T
+         85 => Some(0x0055),  // Latin capital letter U
+         86 => Some(0x0056),  // Latin capital letter V
+         87 => Some(0x0057),  // Latin capital letter W
+         88 => Some(0x0058),  // Latin capital letter X

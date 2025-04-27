@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -223,17 +223,17 @@
+         84 => Some(0x0054),  // Latin capital letter T
+         85 => Some(0x0055),  // Latin capital letter U
+         86 => Some(0x0056),  // Latin capital letter V
+         87 => Some(0x0057),  // Latin capital letter W
+         88 => Some(0x0058),  // Latin capital letter X
+         89 => Some(0x0059),  // Latin capital letter Y
+         90 => Some(0x005A),  // Latin capital letter Z
+         91 => Some(0x005B),  // Left square bracket, opening square bracket
+-        92 => Some(0x005C),  // Reverse solidus, back slash
++         /* ~ changed by cargo-mutants ~ */  // Reverse solidus, back slash
+         93 => Some(0x005D),  // Right square bracket, closing square bracket
+         94 => Some(0x005E),  // Circumflex accent
+         95 => Some(0x005F),  // Low line, underscore
+         96 => Some(0x0060),  // Grave accent
+         97 => Some(0x0061),  // Latin small letter a
+         98 => Some(0x0062),  // Latin small letter b
+         99 => Some(0x0063),  // Latin small letter c
+         100 => Some(0x0064), // Latin small letter d

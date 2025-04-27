@@ -1,0 +1,22 @@
+--- espanso/src/lock.rs
++++ replace <impl Drop for Lock>::drop with ()
+@@ -51,18 +51,17 @@
+         } else {
+             None
+         }
+     }
+ }
+ 
+ impl Drop for Lock {
+     fn drop(&mut self) {
+-        fs2::FileExt::unlock(&self.lock_file)
+-            .unwrap_or_else(|_| panic!("unable to unlock lock_file: {:?}", self.lock_file));
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub fn acquire_daemon_lock(runtime_dir: &Path) -> Option<Lock> {
+     Lock::acquire(runtime_dir, "espanso-daemon")
+ }
+ 
+ pub fn acquire_worker_lock(runtime_dir: &Path) -> Option<Lock> {

@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace ClipboardRestoreGuard<'a>::lock -> Self with Default::default()
+@@ -186,24 +186,17 @@
+ }
+ 
+ impl<'a> ClipboardRestoreGuard<'a> {
+     pub fn lock(
+         clipboard: &'a dyn Clipboard,
+         restore_delay: u64,
+         clipboard_operation_options: ClipboardOperationOptions,
+     ) -> Self {
+-        let clipboard_content = clipboard.get_text(&clipboard_operation_options);
+-
+-        Self {
+-            clipboard,
+-            content: clipboard_content,
+-            restore_delay,
+-            clipboard_operation_options,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for ClipboardRestoreGuard<'_> {
+     fn drop(&mut self) {
+         if let Some(content) = self.content.take() {
+             // Sometimes an expansion gets overwritten before pasting by the previous content
+             // A delay is needed to mitigate the problem

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/undo.rs
++++ replace <impl Middleware for UndoMiddleware<'_>>::name -> &'static str with ""
+@@ -41,17 +41,17 @@
+             undo_enabled_provider,
+             record: RefCell::new(None),
+         }
+     }
+ }
+ 
+ impl Middleware for UndoMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "undo"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         let mut record = self.record.borrow_mut();
+ 
+         if let EventType::TriggerCompensation(m_event) = &event.etype {
+             *record = Some(InjectionRecord {
+                 id: Some(event.source_id),

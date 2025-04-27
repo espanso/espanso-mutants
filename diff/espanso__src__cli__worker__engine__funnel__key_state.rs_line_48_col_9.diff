@@ -1,0 +1,35 @@
+--- espanso/src/cli/worker/engine/funnel/key_state.rs
++++ replace KeyStateStore::is_key_pressed -> bool with false
+@@ -40,31 +40,17 @@
+ impl KeyStateStore {
+     pub fn new() -> Self {
+         Self {
+             state: Arc::new(Mutex::new(KeyState::default())),
+         }
+     }
+ 
+     pub fn is_key_pressed(&self, key_code: u32) -> bool {
+-        let mut state = self.state.lock().expect("unable to obtain modifier state");
+-
+-        if let Some(status) = state.keys.get_mut(&key_code) {
+-            if status.is_outdated() {
+-                warn!(
+-                    "detected outdated key records for {:?}, releasing the state",
+-                    key_code
+-                );
+-                status.release();
+-            }
+-
+-            status.is_pressed()
+-        } else {
+-            false
+-        }
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn update_state(&self, key_code: u32, is_pressed: bool) {
+         let mut state = self.state.lock().expect("unable to obtain key state");
+         if let Some(status) = state.keys.get_mut(&key_code) {
+             if is_pressed {
+                 status.press();
+             } else {

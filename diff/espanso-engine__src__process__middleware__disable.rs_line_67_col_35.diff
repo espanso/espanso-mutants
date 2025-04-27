@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ replace == with != in <impl Middleware for DisableMiddleware>::next
+@@ -59,17 +59,17 @@
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         let mut has_status_changed = false;
+         let mut enabled = self.enabled.borrow_mut();
+ 
+         match &event.etype {
+             EventType::Keyboard(m_event) => {
+-                if m_event.status == Status::Released {
++                if m_event.status != /* ~ changed by cargo-mutants ~ */ Status::Released {
+                     let mut last_toggle_press = self.last_toggle_press.borrow_mut();
+                     if is_toggle_key(m_event, &self.options) {
+                         if let Some(previous_press) = *last_toggle_press {
+                             if previous_press.elapsed() < self.options.toggle_key_maximum_window {
+                                 *enabled = !*enabled;
+                                 *last_toggle_press = None;
+                                 has_status_changed = true;
+                             } else {

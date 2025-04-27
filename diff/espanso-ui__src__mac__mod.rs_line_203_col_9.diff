@@ -1,0 +1,35 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIRemote for MacRemote>::show_context_menu with ()
+@@ -195,31 +195,17 @@
+             Ok(message) => unsafe { ui_show_notification(message.as_ptr(), 3.0) },
+             Err(error) => {
+                 error!("Unable to show notification {}", error);
+             }
+         }
+     }
+ 
+     fn show_context_menu(&self, menu: &Menu) {
+-        match menu.to_json() {
+-            Ok(payload) => {
+-                let c_string = CString::new(payload);
+-                match c_string {
+-                    Ok(c_string) => unsafe { ui_show_context_menu(c_string.as_ptr()) },
+-                    Err(error) => error!(
+-            "Unable to show context menu, impossible to convert payload to c_string: {}",
+-            error
+-          ),
+-                }
+-            }
+-            Err(error) => {
+-                error!("Unable to show context menu, {}", error);
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn exit(&self) {
+         unsafe { ui_exit() };
+     }
+ }
+ 
+ impl From<RawUIEvent> for Option<UIEvent> {

@@ -1,0 +1,26 @@
+--- espanso-config/src/config/util.rs
++++ replace os_matches -> bool with true
+@@ -34,22 +34,17 @@
+           $x: None,
+         )*
+       };
+     }
+   };
+ }
+ 
+ pub fn os_matches(os: &str) -> bool {
+-    match os {
+-        "macos" => cfg!(target_os = "macos"),
+-        "windows" => cfg!(target_os = "windows"),
+-        "linux" => cfg!(target_os = "linux"),
+-        _ => false,
+-    }
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     #[cfg(target_os = "linux")]

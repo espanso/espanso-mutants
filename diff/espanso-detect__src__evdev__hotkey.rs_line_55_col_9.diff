@@ -1,0 +1,38 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace HotKeyFilter::initialize with ()
+@@ -47,34 +47,17 @@
+             map: HashMap::new(),
+             memory: HotkeyMemoryMap::new(),
+             hotkey_raw_map: HashMap::new(),
+         }
+     }
+ 
+     pub fn initialize(&mut self, state: &State, hotkeys: &[HotKey]) {
+         // First load the map
+-        self.map = HashMap::new();
+-        for code in 0..256 {
+-            if let Some(sym) = state.get_sym(code) {
+-                self.map.insert(sym, code);
+-            }
+-        }
+-
+-        // Then the actual hotkeys
+-        self.hotkey_raw_map = hotkeys
+-            .iter()
+-            .filter_map(|hk| {
+-                let codes = Self::convert_hotkey_to_codes(self, hk);
+-                if codes.is_none() {
+-                    error!("unable to register hotkey {:?}", hk);
+-                }
+-                Some((hk.id, codes?))
+-            })
+-            .collect();
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn process_event(&mut self, event: &KeyboardEvent) -> Option<i32> {
+         let mut hotkey = None;
+         let mut key_code = None;
+ 
+         let mut to_be_removed = Vec::new();
+ 

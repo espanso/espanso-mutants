@@ -1,0 +1,21 @@
+--- espanso-kvs/src/persistent.rs
++++ replace > with < in is_valid_key_name
+@@ -110,17 +110,17 @@
+             std::fs::remove_file(target_file)?;
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ fn is_valid_key_name(key: &str) -> bool {
+-    if key.is_empty() || key.len() > 200 {
++    if key.is_empty() || key.len() < /* ~ changed by cargo-mutants ~ */ 200 {
+         return false;
+     }
+ 
+     if !key.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
+         return false;
+     }
+ 
+     true

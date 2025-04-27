@@ -1,0 +1,79 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::find_deadkeys -> Result<Vec<Option<KeyPair>>> with Ok(vec![])
+@@ -238,75 +238,17 @@
+         debug!("Populated char_map with {} symbols", char_map.len());
+         debug!("Populated sym_map with {} symbols", sym_map.len());
+         debug!("Detected {} dead key combinations", deadkeys.len());
+ 
+         Ok((char_map, sym_map))
+     }
+ 
+     fn find_deadkeys(display: *mut Display, input_context: &XIC) -> Result<Vec<Option<KeyPair>>> {
+-        let mut deadkeys = vec![None];
+-        let mut seen_keysyms: HashSet<KeySym> = HashSet::new();
+-
+-        // Cycle through all state/code combinations to populate the reverse lookup tables
+-        for key_code in 0..256u32 {
+-            for modifier_state in 0..256u32 {
+-                let code_with_offset = key_code + EVDEV_OFFSET;
+-                let mut event = XKeyEvent {
+-                    display,
+-                    keycode: code_with_offset,
+-                    state: modifier_state,
+-
+-                    // These might not even need to be filled
+-                    window: 0,
+-                    root: 0,
+-                    same_screen: 1,
+-                    time: 0,
+-                    type_: KeyPress,
+-                    x_root: 1,
+-                    y_root: 1,
+-                    x: 1,
+-                    y: 1,
+-                    subwindow: 0,
+-                    serial: 0,
+-                    send_event: 0,
+-                };
+-
+-                let filter = unsafe { XFilterEvent(&mut event, 0) };
+-                if filter == 1 {
+-                    let mut sym: KeySym = 0;
+-                    let mut buffer: [c_char; 10] = [0; 10];
+-
+-                    unsafe {
+-                        Xutf8LookupString(
+-                            *input_context,
+-                            &mut event,
+-                            buffer.as_mut_ptr(),
+-                            (buffer.len() - 1) as i32,
+-                            &mut sym,
+-                            std::ptr::null_mut(),
+-                        )
+-                    };
+-
+-                    if sym != 0 && !seen_keysyms.contains(&sym) {
+-                        let key_record = KeyPair {
+-                            code: code_with_offset,
+-                            state: modifier_state,
+-                        };
+-                        deadkeys.push(Some(key_record));
+-                        seen_keysyms.insert(sym);
+-                    }
+-                }
+-
+-                let _reset = unsafe { XmbResetIC(*input_context) };
+-                unsafe { XFree(_reset as *mut c_void) };
+-            }
+-        }
+-
+-        Ok(deadkeys)
++        Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn convert_to_record_array(&self, syms: &[KeySym]) -> Result<Vec<KeyRecord>> {
+         syms.iter()
+             .map(|sym| {
+                 self.sym_map
+                     .get(sym)
+                     .copied()

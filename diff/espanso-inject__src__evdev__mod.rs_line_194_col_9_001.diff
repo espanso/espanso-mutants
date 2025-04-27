@@ -1,0 +1,31 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace EVDEVInjector::generate_combinations -> Vec<Vec<u32>> with vec![vec![]]
+@@ -186,27 +186,17 @@
+                 }
+             }
+         }
+ 
+         Ok((char_map, sym_map))
+     }
+ 
+     fn generate_combinations(modifiers: &[u32], max_modifier_sequence_len: i32) -> Vec<Vec<u32>> {
+-        let mut combinations = vec![vec![]]; // Initial empty combination
+-
+-        for sequence_len in 1..=max_modifier_sequence_len {
+-            let current_combinations = modifiers
+-                .iter()
+-                .copied()
+-                .combinations(sequence_len as usize);
+-            combinations.extend(current_combinations);
+-        }
+-
+-        combinations
++        vec![vec![]] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn convert_to_record_array(&self, syms: &[u64]) -> Result<Vec<KeyRecord>> {
+         syms.iter()
+             .map(|sym| {
+                 self.sym_map
+                     .get(&(*sym as u32))
+                     .cloned()

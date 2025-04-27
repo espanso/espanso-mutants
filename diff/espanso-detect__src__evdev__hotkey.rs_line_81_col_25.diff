@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace == with != in HotKeyFilter::process_event
+@@ -73,17 +73,17 @@
+     }
+ 
+     pub fn process_event(&mut self, event: &KeyboardEvent) -> Option<i32> {
+         let mut hotkey = None;
+         let mut key_code = None;
+ 
+         let mut to_be_removed = Vec::new();
+ 
+-        if event.status == Status::Released {
++        if event.status != /* ~ changed by cargo-mutants ~ */ Status::Released {
+             // Remove from the memory all the key occurrences
+             to_be_removed.extend(self.memory.iter().enumerate().filter_map(|(i, (code, _))| {
+                 if *code == event.code {
+                     Some(i)
+                 } else {
+                     None
+                 }
+             }));

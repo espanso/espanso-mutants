@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/stop.rs
++++ replace != with == in forcefully_terminate_espanso
+@@ -100,17 +100,17 @@
+     } else {
+         vec!["espanso"]
+     };
+ 
+     let current_pid = std::process::id();
+ 
+     // We want to terminate all Espanso processes except this one
+     for (pid, process) in sys.processes() {
+-        if target_process_names.contains(&process.name()) && pid.as_u32() != current_pid {
++        if target_process_names.contains(&process.name()) && pid.as_u32() == /* ~ changed by cargo-mutants ~ */ current_pid {
+             let str_pid = pid.as_u32().to_string();
+             info_println!("killing espanso process with PID: {}", str_pid);
+ 
+             if cfg!(target_os = "windows") {
+                 let _ = Command::new("taskkill")
+                     .args(["/pid", &str_pid, "/f"])
+                     .output();
+             } else {

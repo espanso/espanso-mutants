@@ -1,0 +1,21 @@
+--- espanso-match/src/regex/mod.rs
++++ delete ! in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+@@ -99,17 +99,17 @@
+         // Find matches
+         if self.regex_set.is_match(&buffer) {
+             let mut matches = Vec::new();
+ 
+             for index in self.regex_set.matches(&buffer) {
+                 if let (Some(id), Some(regex)) = (self.ids.get(index), self.regexes.get(index)) {
+                     if let Some(captures) = regex.captures(&buffer) {
+                         let full_match = captures.get(0).map_or("", |m| m.as_str());
+-                        if !full_match.is_empty() {
++                        if  /* ~ changed by cargo-mutants ~ */full_match.is_empty() {
+                             // Now extract the captured names as variables
+                             let variables: HashMap<String, String> = regex
+                                 .capture_names()
+                                 .flatten()
+                                 .filter_map(|n| {
+                                     Some((n.to_string(), captures.name(n)?.as_str().to_string()))
+                                 })
+                                 .collect();

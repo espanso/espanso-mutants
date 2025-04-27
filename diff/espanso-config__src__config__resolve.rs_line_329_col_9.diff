@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::post_search_delay -> usize with 0
+@@ -321,19 +321,17 @@
+         self.parsed.max_form_width.unwrap_or(700)
+     }
+ 
+     fn max_form_height(&self) -> usize {
+         self.parsed.max_form_height.unwrap_or(500)
+     }
+ 
+     fn post_search_delay(&self) -> usize {
+-        self.parsed
+-            .post_search_delay
+-            .unwrap_or(DEFAULT_POST_SEARCH_DELAY)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn win32_exclude_orphan_events(&self) -> bool {
+         self.parsed.win32_exclude_orphan_events.unwrap_or(true)
+     }
+ 
+     fn evdev_modifier_delay(&self) -> Option<usize> {
+         self.parsed.evdev_modifier_delay

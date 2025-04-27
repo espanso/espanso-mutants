@@ -1,0 +1,105 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ replace ShortcutKey::to_code -> Option<u32> with None
+@@ -316,101 +316,17 @@
+ 
+         parsed
+     }
+ 
+     // macOS keycodes
+ 
+     #[cfg(target_os = "macos")]
+     pub fn to_code(&self) -> Option<u32> {
+-        match self {
+-            ShortcutKey::Alt => Some(0x3A),
+-            ShortcutKey::Control => Some(0x3B),
+-            ShortcutKey::Meta => Some(0x37),
+-            ShortcutKey::Shift => Some(0x38),
+-            ShortcutKey::Enter => Some(0x24),
+-            ShortcutKey::Tab => Some(0x30),
+-            ShortcutKey::Space => Some(0x31),
+-            ShortcutKey::ArrowDown => Some(0x7D),
+-            ShortcutKey::ArrowLeft => Some(0x7B),
+-            ShortcutKey::ArrowRight => Some(0x7C),
+-            ShortcutKey::ArrowUp => Some(0x7E),
+-            ShortcutKey::End => Some(0x77),
+-            ShortcutKey::Home => Some(0x73),
+-            ShortcutKey::PageDown => Some(0x79),
+-            ShortcutKey::PageUp => Some(0x74),
+-            ShortcutKey::Insert => None,
+-            ShortcutKey::F1 => Some(0x7A),
+-            ShortcutKey::F2 => Some(0x78),
+-            ShortcutKey::F3 => Some(0x63),
+-            ShortcutKey::F4 => Some(0x76),
+-            ShortcutKey::F5 => Some(0x60),
+-            ShortcutKey::F6 => Some(0x61),
+-            ShortcutKey::F7 => Some(0x62),
+-            ShortcutKey::F8 => Some(0x64),
+-            ShortcutKey::F9 => Some(0x65),
+-            ShortcutKey::F10 => Some(0x6D),
+-            ShortcutKey::F11 => Some(0x67),
+-            ShortcutKey::F12 => Some(0x6F),
+-            ShortcutKey::F13 => Some(0x69),
+-            ShortcutKey::F14 => Some(0x6B),
+-            ShortcutKey::F15 => Some(0x71),
+-            ShortcutKey::F16 => Some(0x6A),
+-            ShortcutKey::F17 => Some(0x40),
+-            ShortcutKey::F18 => Some(0x4F),
+-            ShortcutKey::F19 => Some(0x50),
+-            ShortcutKey::F20 => Some(0x5A),
+-            ShortcutKey::A => Some(0x00),
+-            ShortcutKey::B => Some(0x0B),
+-            ShortcutKey::C => Some(0x08),
+-            ShortcutKey::D => Some(0x02),
+-            ShortcutKey::E => Some(0x0E),
+-            ShortcutKey::F => Some(0x03),
+-            ShortcutKey::G => Some(0x05),
+-            ShortcutKey::H => Some(0x04),
+-            ShortcutKey::I => Some(0x22),
+-            ShortcutKey::J => Some(0x26),
+-            ShortcutKey::K => Some(0x28),
+-            ShortcutKey::L => Some(0x25),
+-            ShortcutKey::M => Some(0x2E),
+-            ShortcutKey::N => Some(0x2D),
+-            ShortcutKey::O => Some(0x1F),
+-            ShortcutKey::P => Some(0x23),
+-            ShortcutKey::Q => Some(0x0C),
+-            ShortcutKey::R => Some(0x0F),
+-            ShortcutKey::S => Some(0x01),
+-            ShortcutKey::T => Some(0x11),
+-            ShortcutKey::U => Some(0x20),
+-            ShortcutKey::V => Some(0x09),
+-            ShortcutKey::W => Some(0x0D),
+-            ShortcutKey::X => Some(0x07),
+-            ShortcutKey::Y => Some(0x10),
+-            ShortcutKey::Z => Some(0x06),
+-            ShortcutKey::N0 => Some(0x1D),
+-            ShortcutKey::N1 => Some(0x12),
+-            ShortcutKey::N2 => Some(0x13),
+-            ShortcutKey::N3 => Some(0x14),
+-            ShortcutKey::N4 => Some(0x15),
+-            ShortcutKey::N5 => Some(0x17),
+-            ShortcutKey::N6 => Some(0x16),
+-            ShortcutKey::N7 => Some(0x1A),
+-            ShortcutKey::N8 => Some(0x1C),
+-            ShortcutKey::N9 => Some(0x19),
+-            ShortcutKey::Numpad0 => Some(0x52),
+-            ShortcutKey::Numpad1 => Some(0x53),
+-            ShortcutKey::Numpad2 => Some(0x54),
+-            ShortcutKey::Numpad3 => Some(0x55),
+-            ShortcutKey::Numpad4 => Some(0x56),
+-            ShortcutKey::Numpad5 => Some(0x57),
+-            ShortcutKey::Numpad6 => Some(0x58),
+-            ShortcutKey::Numpad7 => Some(0x59),
+-            ShortcutKey::Numpad8 => Some(0x5B),
+-            ShortcutKey::Numpad9 => Some(0x5C),
+-            ShortcutKey::Raw(code) => Some(*code),
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     // Windows key codes
+ 
+     #[cfg(target_os = "windows")]
+     pub fn to_code(&self) -> Option<u32> {
+         let vkey = match self {
+             ShortcutKey::Alt => 0x12,

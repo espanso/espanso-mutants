@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/config.rs
++++ replace default_items -> Vec<SearchItem> with vec![]
+@@ -23,17 +23,17 @@
+     "espanso".to_owned()
+ }
+ 
+ fn default_icon() -> Option<String> {
+     None
+ }
+ 
+ fn default_items() -> Vec<SearchItem> {
+-    Vec::new()
++    vec![] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_algorithm() -> String {
+     "ikey".to_owned()
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct SearchConfig {

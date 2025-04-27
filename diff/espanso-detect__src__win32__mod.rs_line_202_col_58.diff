@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace == with != in <impl Source for Win32Source>::eventloop::callback
+@@ -194,17 +194,17 @@
+             // This is needed to filter out the software-generated events, including
+             // those from espanso.
+             if event.event_type == INPUT_EVENT_TYPE_KEYBOARD
+                 && event.has_known_source == 0
+                 && (unsafe { (*_self).exclude_orphan_events }
+                     || espanso_info::expansion_is_in_progress())
+             {
+                 trace!("skipping keyboard event with unknown HID source (probably software generated).");
+-                if event.key_code == 8 || event.key_code == 13 {
++                if event.key_code == 8 || event.key_code != /* ~ changed by cargo-mutants ~ */ 13 {
+                     // For expansion in progress, only care about backspace (8) and enter (13)
+                     espanso_info::decr_expansion_events();
+                 }
+                 return;
+             }
+ 
+             let event: Option<InputEvent> = event.into();
+             if let Some(callback) = unsafe { (*_self).callback.borrow() } {

@@ -1,0 +1,26 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace generate_template_map -> HashMap<i32, Option<Template>> with HashMap::from_iter([(0, Some(Default::default()))])
+@@ -66,22 +66,17 @@
+             template_map,
+             global_vars_map,
+             context_cache: RefCell::new(HashMap::new()),
+         }
+     }
+ }
+ 
+ fn generate_template_map(match_provider: &dyn MatchProvider) -> HashMap<i32, Option<Template>> {
+-    let mut template_map = HashMap::new();
+-    for m in match_provider.matches() {
+-        let entry = convert_to_template(m);
+-        template_map.insert(m.id, entry);
+-    }
+-    template_map
++    HashMap::from_iter([(0, Some(Default::default()))]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn generate_global_vars_map(config_provider: &dyn ConfigProvider) -> HashMap<i32, Variable> {
+     let mut global_vars_map = HashMap::new();
+ 
+     for (_, match_set) in config_provider.configs() {
+         for var in &match_set.global_vars {
+             global_vars_map

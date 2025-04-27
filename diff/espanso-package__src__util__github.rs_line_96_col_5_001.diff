@@ -1,0 +1,24 @@
+--- espanso-package/src/util/github.rs
++++ replace generate_github_download_url -> String with String::new()
+@@ -88,20 +88,17 @@
+ 
+     let url = generate_github_download_url(parts, branch);
+     let response = client.head(url).send()?;
+ 
+     Ok(response.status() == StatusCode::FOUND || response.status() == StatusCode::OK)
+ }
+ 
+ fn generate_github_download_url(parts: &GitHubParts, branch: &str) -> String {
+-    format!(
+-        "https://github.com/{}/{}/archive/refs/heads/{}.zip",
+-        parts.author, parts.name, branch
+-    )
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     fn test_extract_github_url_parts() {

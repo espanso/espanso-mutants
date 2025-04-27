@@ -1,0 +1,35 @@
+--- espanso/src/gui/modulo/form.rs
++++ replace convert_fields_into_object -> Map<String, Value> with Default::default()
+@@ -95,31 +95,10 @@
+     title: &'a str,
+     layout: &'a str,
+     fields: Map<String, Value>,
+     max_form_width: usize,
+     max_form_height: usize,
+ }
+ 
+ fn convert_fields_into_object(fields: &HashMap<String, FormField>) -> Map<String, Value> {
+-    let mut obj = Map::new();
+-    for (name, field) in fields {
+-        let value = match field {
+-            FormField::Text { default, multiline } => json!({
+-              "type": "text",
+-              "default": default,
+-              "multiline": multiline,
+-            }),
+-            FormField::Choice { default, values } => json!({
+-              "type": "choice",
+-              "default": default,
+-              "values": values,
+-            }),
+-            FormField::List { default, values } => json!({
+-              "type": "list",
+-              "default": default,
+-              "values": values,
+-            }),
+-        };
+-        obj.insert(name.clone(), value);
+-    }
+-    obj
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

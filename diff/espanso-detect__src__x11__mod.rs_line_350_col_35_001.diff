@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace & with ^ in convert_raw_input_event_to_input_event
+@@ -342,17 +342,17 @@
+             let button = raw_to_mouse_button(raw.key_code);
+ 
+             if let Some(button) = button {
+                 return Some(InputEvent::Mouse(MouseEvent { button, status }));
+             }
+         }
+         // Hotkey events
+         INPUT_EVENT_TYPE_HOTKEY => {
+-            let state = raw.state & valid_modifiers_mask;
++            let state = raw.state ^ /* ~ changed by cargo-mutants ~ */ valid_modifiers_mask;
+             if let Some(id) = raw_hotkey_mapping.get(&(raw.key_code, state)) {
+                 return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: *id }));
+             }
+         }
+         _ => {}
+     }
+ 
+     None

@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ delete match arm
+@@ -343,17 +343,17 @@
+         0xFFE9 => (Alt, Some(Left)),
+         0xFFEA => (Alt, Some(Right)),
+         0xFFE5 => (CapsLock, None),
+         0xFFE3 => (Control, Some(Left)),
+         0xFFE4 => (Control, Some(Right)),
+         0xFFE7 | 0xFFEB => (Meta, Some(Left)),
+         0xFFE8 | 0xFFEC => (Meta, Some(Right)),
+         0xFF7F => (NumLock, None),
+-        0xFFE1 => (Shift, Some(Left)),
++         /* ~ changed by cargo-mutants ~ */
+         0xFFE2 => (Shift, Some(Right)),
+ 
+         // Whitespace
+         0xFF0D => (Enter, None),
+         0xFF09 => (Tab, None),
+         0x20 => (Space, None),
+ 
+         // Navigation

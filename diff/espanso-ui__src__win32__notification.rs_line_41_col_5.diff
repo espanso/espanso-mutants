@@ -1,0 +1,55 @@
+--- espanso-ui/src/win32/notification.rs
++++ replace initialize_notification_thread -> Result<()> with Ok(())
+@@ -33,51 +33,17 @@
+ use winrt_notification::{IconCrop, Toast};
+ 
+ const ESPANSO_APP_USER_MODEL_ID: &str = "{5E3B6C0F-1A4D-45C4-8872-D8174702101A}";
+ 
+ static SEND_CHANNEL: LazyLock<Arc<Mutex<Option<Sender<String>>>>> =
+     LazyLock::new(|| Arc::new(Mutex::new(None)));
+ 
+ pub fn initialize_notification_thread(notification_icon_path: PathBuf) -> Result<()> {
+-    let (sender, receiver) = channel::<String>();
+-
+-    {
+-        let mut lock = SEND_CHANNEL
+-            .lock()
+-            .map_err(|e| anyhow!("failed to define shared notification sender: {}", e))?;
+-        *lock = Some(sender);
+-    }
+-
+-    std::thread::Builder::new().name("notification-thread".to_string()).spawn(move || {
+-    // First determine which AppUserModelID we can use
+-      static APP_USER_MODEL_ID: LazyLock<&'static str> = LazyLock::new(||
+-      if is_espanso_app_user_model_id_set() {
+-        ESPANSO_APP_USER_MODEL_ID
+-      } else {
+-        warn!("unable to find espanso AppUserModelID in the list of registered ones, falling back to Powershell");
+-        Toast::POWERSHELL_APP_ID
+-      }
+-    );
+-
+-
+-    while let Ok(message) = receiver.recv() {
+-      if let Err(err) = Toast::new(&APP_USER_MODEL_ID)
+-        .icon(&notification_icon_path, IconCrop::Square, "Espanso")
+-        .title("Espanso")
+-        .text1(&message)
+-        .sound(None)
+-        .show()
+-        .map_err(|e| anyhow!("failed to show notification: {}", e)) {    
+-          error!("unable to show notification: {}", err); 
+-      }
+-    }
+-  })?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn show_notification(msg: &str) -> Result<()> {
+     let mut lock = SEND_CHANNEL
+         .lock()
+         .map_err(|e| anyhow!("unable to acquire notification send channel: {}", e))?;
+     match &mut *lock {
+         Some(sender) => {

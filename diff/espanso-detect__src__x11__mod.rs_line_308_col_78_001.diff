@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace + with * in convert_raw_input_event_to_input_event
+@@ -300,17 +300,17 @@
+     };
+ 
+     match raw.event_type {
+         // Keyboard events
+         INPUT_EVENT_TYPE_KEYBOARD => {
+             let (key, variant) = key_sym_to_key(raw.key_sym);
+             let value = if raw.buffer_len > 0 {
+                 let raw_string_result =
+-                    CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
++                    CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len * /* ~ changed by cargo-mutants ~ */ 1) as usize)]);
+                 match raw_string_result {
+                     Ok(c_string) => {
+                         let string_result = c_string.to_str();
+                         match string_result {
+                             Ok(value) => Some(value.to_string()),
+                             Err(err) => {
+                                 warn!("char conversion error: {}", err);
+                                 None

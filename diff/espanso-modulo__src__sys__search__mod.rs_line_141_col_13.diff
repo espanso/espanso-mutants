@@ -1,0 +1,32 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace interop::<impl From<&types::SearchItem> for OwnedSearchItem>::from -> Self with Default::default()
+@@ -133,28 +133,17 @@
+                 label: self.label.as_ptr(),
+                 trigger: self.trigger.as_ptr(),
+             }
+         }
+     }
+ 
+     impl From<&types::SearchItem> for OwnedSearchItem {
+         fn from(item: &types::SearchItem) -> Self {
+-            let id = CString::new(item.id.clone()).expect("unable to convert item id to CString");
+-            let label =
+-                CString::new(item.label.clone()).expect("unable to convert item label to CString");
+-
+-            let trigger = if let Some(trigger) = item.trigger.as_deref() {
+-                CString::new(trigger.to_string())
+-                    .expect("unable to convert item trigger to CString")
+-            } else {
+-                CString::new(String::new()).expect("unable to convert item trigger to CString")
+-            };
+-
+-            Self { id, label, trigger }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ }
+ 
+ type SearchAlgorithmCallback = dyn Fn(&str, &[types::SearchItem]) -> Vec<usize>;
+ 
+ struct SearchData {
+     owned_search: interop::OwnedSearch,

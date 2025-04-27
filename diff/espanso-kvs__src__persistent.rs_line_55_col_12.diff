@@ -1,0 +1,21 @@
+--- espanso-kvs/src/persistent.rs
++++ delete ! in <impl KVS for PersistentJsonKVS>::get
+@@ -47,17 +47,17 @@
+             kvs_dir,
+             store: Arc::new(Mutex::new(HashMap::new())),
+         })
+     }
+ }
+ 
+ impl KVS for PersistentJsonKVS {
+     fn get<T: serde::de::DeserializeOwned>(&self, key: &str) -> Result<Option<T>> {
+-        if !is_valid_key_name(key) {
++        if  /* ~ changed by cargo-mutants ~ */is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS read lock");
+ 
+         if let Some(cached_value) = lock.get(key) {
+             let converted_value = serde_json::from_value(cached_value.clone())?;
+             return Ok(Some(converted_value));

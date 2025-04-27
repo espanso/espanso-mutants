@@ -1,0 +1,29 @@
+--- espanso/src/cli/launcher/daemon.rs
++++ replace spawn_and_wait -> Result<ExitStatus> with Ok(Default::default())
+@@ -54,25 +54,10 @@
+ }
+ 
+ // On macOS, if we simply wait for the daemon process to terminate, the application will
+ // appear as "Not Responding" after a few seconds, even though it's working correctly.
+ // To avoid this undesirable behavior, we spawn an headless eventloop so that the
+ // launcher looks "alive", while waiting for the daemon
+ #[cfg(target_os = "macos")]
+ fn spawn_and_wait(mut command: Command) -> Result<ExitStatus> {
+-    let mut child = command.spawn()?;
+-
+-    let result = std::thread::Builder::new()
+-        .name("daemon-monitor-thread".to_owned())
+-        .spawn(move || {
+-            let results = child.wait();
+-
+-            espanso_mac_utils::exit_headless_eventloop();
+-
+-            results
+-        })?;
+-
+-    espanso_mac_utils::start_headless_eventloop();
+-
+-    let thread_result = result.join().expect("unable to join daemon-monitor-thread");
+-    Ok(thread_result?)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }

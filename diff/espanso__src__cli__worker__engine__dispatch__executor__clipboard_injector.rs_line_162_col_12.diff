@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ delete ! in <impl ImageInjector for ClipboardInjectorAdapter<'_>>::inject_image
+@@ -154,17 +154,17 @@
+ 
+         Ok(())
+     }
+ }
+ 
+ impl ImageInjector for ClipboardInjectorAdapter<'_> {
+     fn inject_image(&self, image_path: &str) -> anyhow::Result<()> {
+         let path = PathBuf::from(image_path);
+-        if !path.is_file() {
++        if  /* ~ changed by cargo-mutants ~ */path.is_file() {
+             return Err(std::io::Error::new(
+                 std::io::ErrorKind::NotFound,
+                 "image can't be found in the given path",
+             )
+             .into());
+         }
+ 
+         let _guard = self.restore_clipboard_guard();

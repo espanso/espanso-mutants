@@ -1,0 +1,24 @@
+--- espanso-ui/src/linux/mod.rs
++++ replace create -> (LinuxRemote, LinuxEventLoop) with (Default::default(), Default::default())
+@@ -29,20 +29,17 @@
+ 
+ use crate::{event::UIEvent, UIEventLoop, UIRemote};
+ 
+ pub struct LinuxUIOptions {
+     pub notification_icon_path: String,
+ }
+ 
+ pub fn create(options: LinuxUIOptions) -> (LinuxRemote, LinuxEventLoop) {
+-    let (tx, rx) = unbounded();
+-    let remote = LinuxRemote::new(tx, options.notification_icon_path);
+-    let eventloop = LinuxEventLoop::new(rx);
+-    (remote, eventloop)
++    (Default::default(), Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub struct LinuxRemote {
+     tx: Sender<()>,
+     notification_icon_path: String,
+ }
+ 
+ impl LinuxRemote {

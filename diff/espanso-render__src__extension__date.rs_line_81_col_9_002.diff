@@ -1,0 +1,25 @@
+--- espanso-render/src/extension/date.rs
++++ replace DateExtension<'_>::get_date -> DateTime<Local> with DateTime::new(Default::default())
+@@ -73,21 +73,17 @@
+         };
+ 
+         ExtensionResult::Success(ExtensionOutput::Single(date))
+     }
+ }
+ 
+ impl DateExtension<'_> {
+     fn get_date(&self) -> DateTime<Local> {
+-        if let Some(fixed_date) = self.fixed_date {
+-            fixed_date
+-        } else {
+-            Local::now()
+-        }
++        DateTime::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn format_date_with_locale(date: DateTime<Local>, format: &str, locale: Locale) -> String {
+         date.format_localized(format, locale).to_string()
+     }
+ 
+     fn format_date_with_locale_string(
+         date: DateTime<Local>,

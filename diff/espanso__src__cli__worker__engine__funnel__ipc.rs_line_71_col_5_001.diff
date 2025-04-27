@@ -1,0 +1,22 @@
+--- espanso/src/cli/worker/engine/funnel/ipc.rs
++++ replace is_event_type_allowed -> bool with true
+@@ -63,18 +63,10 @@
+         Some(Event {
+             source_id: self.sequencer.next_id(),
+             etype: ipc_event,
+         })
+     }
+ }
+ 
+ fn is_event_type_allowed(event: &EventType) -> bool {
+-    matches!(
+-        event,
+-        EventType::MatchExecRequest(_)
+-            | EventType::ShowSearchBar
+-            | EventType::ShowConfigFolder
+-            | EventType::DisableRequest
+-            | EventType::EnableRequest
+-            | EventType::ToggleRequest
+-    )
++    true /* ~ changed by cargo-mutants ~ */
+ }

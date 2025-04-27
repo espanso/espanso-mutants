@@ -1,0 +1,32 @@
+--- espanso/src/path/win.rs
++++ replace send_change_broadcast with ()
+@@ -72,28 +72,10 @@
+ fn write_user_path_value(value: String) -> Result<()> {
+     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+     let env = hkcu.open_subkey_with_flags("Environment", KEY_ALL_ACCESS)?;
+     env.set_value("Path", &value)?;
+     Ok(())
+ }
+ 
+ fn send_change_broadcast() {
+-    let wide_string = widestring::WideString::from("Environment".to_string());
+-
+-    unsafe {
+-        // a null ptr
+-        let res = std::ptr::null_mut::<usize>();
+-
+-        // docs: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagetimeoutw
+-        SendMessageTimeoutW(
+-            HWND_BROADCAST,
+-            // WM_SETTINGCHANGE, WPARM and LPARM docs:
+-            // https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-settingchange
+-            WM_SETTINGCHANGE,
+-            WPARAM(0),
+-            LPARAM(*wide_string.as_ptr() as isize),
+-            SMTO_ABORTIFHUNG,
+-            50,
+-            Some(res),
+-        );
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }

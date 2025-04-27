@@ -1,0 +1,30 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace show::open_file with ()
+@@ -134,26 +134,17 @@
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.dont_show_again_changed.as_ref() {
+             let value = dont_show == 1;
+             (*handler_ref)(value);
+         }
+     }
+ 
+     extern "C" fn open_file(file_path: *const c_char) {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in open_file method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.open_file.as_ref() {
+-            let c_string = unsafe { CStr::from_ptr(file_path) };
+-            let string = c_string.to_string_lossy();
+-            let path = PathBuf::from(string.to_string());
+-            (*handler_ref)(&path);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     {
+         let mut lock = HANDLERS.lock().expect("unable to acquire handlers lock");
+         *lock = Some(options.handlers);
+     }
+ 
+     let troubleshooting_metadata = TroubleshootingMetadata {

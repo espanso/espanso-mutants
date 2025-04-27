@@ -1,0 +1,27 @@
+--- espanso/src/cli/match_cli/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -18,23 +18,17 @@
+  */
+ 
+ use super::{CliModule, CliModuleArgs};
+ 
+ mod exec;
+ mod list;
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        requires_paths: true,
+-        requires_config: true,
+-        subcommand: "match".to_string(),
+-        entry: match_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn match_main(args: CliModuleArgs) -> i32 {
+     let cli_args = args.cli_args.expect("missing cli_args");
+     let config_store = args.config_store.expect("missing config_store");
+     let match_store = args.match_store.expect("missing match_store");
+     let paths = args.paths.expect("missing paths");
+ 

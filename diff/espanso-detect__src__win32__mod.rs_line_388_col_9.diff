@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -380,17 +380,17 @@
+         0x27 => (ArrowRight, None),
+         0x26 => (ArrowUp, None),
+         0x23 => (End, None),
+         0x24 => (Home, None),
+         0x22 => (PageDown, None),
+         0x21 => (PageUp, None),
+ 
+         // UI
+-        0x1B => (Escape, None),
++         /* ~ changed by cargo-mutants ~ */
+ 
+         // Editing keys
+         0x08 => (Backspace, None),
+ 
+         // Function keys
+         0x70 => (F1, None),
+         0x71 => (F2, None),
+         0x72 => (F3, None),

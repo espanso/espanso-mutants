@@ -1,0 +1,62 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace <impl From<RawInputEvent> for Option<InputEvent>>::from -> Option<InputEvent> with Some(Default::default())
+@@ -286,58 +286,17 @@
+     NoDevices(),
+ 
+     #[error("internal error")]
+     Internal(),
+ }
+ 
+ impl From<RawInputEvent> for Option<InputEvent> {
+     fn from(raw: RawInputEvent) -> Option<InputEvent> {
+-        match raw {
+-            RawInputEvent::Keyboard(keyboard_event) => {
+-                let (key, variant) = key_sym_to_key(keyboard_event.sym as i32);
+-                let value = if keyboard_event.value.is_empty() {
+-                    None
+-                } else {
+-                    Some(keyboard_event.value)
+-                };
+-
+-                let status = if keyboard_event.state == KEY_STATE_PRESS {
+-                    Pressed
+-                } else if keyboard_event.state == KEY_STATE_RELEASE {
+-                    Released
+-                } else {
+-                    // Filter out the "repeated" events
+-                    return None;
+-                };
+-
+-                return Some(InputEvent::Keyboard(KeyboardEvent {
+-                    key,
+-                    value,
+-                    status,
+-                    variant,
+-                    code: keyboard_event.code,
+-                }));
+-            }
+-            RawInputEvent::Mouse(mouse_event) => {
+-                let button = raw_to_mouse_button(mouse_event.code);
+-
+-                let status = if mouse_event.is_down {
+-                    Pressed
+-                } else {
+-                    Released
+-                };
+-
+-                if let Some(button) = button {
+-                    return Some(InputEvent::Mouse(MouseEvent { button, status }));
+-                }
+-            }
+-        }
+-
+-        None
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ fn key_sym_to_key(key_sym: i32) -> (Key, Option<Variant>) {
+     match key_sym {
+         // Modifiers
+         0xFFE9 => (Alt, Some(Left)),

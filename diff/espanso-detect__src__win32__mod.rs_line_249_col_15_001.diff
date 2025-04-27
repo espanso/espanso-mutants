@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace |= with &= in convert_hotkey_to_raw
+@@ -241,17 +241,17 @@
+         }
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKey> {
+     let key_code = hk.key.to_code()?;
+     let mut flags = 0x4000; // NOREPEAT flags
+     if hk.has_ctrl() {
+-        flags |= 0x0002;
++        flags &= /* ~ changed by cargo-mutants ~ */ 0x0002;
+     }
+     if hk.has_alt() {
+         flags |= 0x0001;
+     }
+     if hk.has_meta() {
+         flags |= 0x0008;
+     }
+     if hk.has_shift() {

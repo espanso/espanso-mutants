@@ -1,0 +1,51 @@
+--- espanso/src/cli/service/stop.rs
++++ replace terminate_worker -> Result<()> with Ok(())
+@@ -29,47 +29,17 @@
+ use crate::info_println;
+ use crate::{
+     ipc::{create_ipc_client_to_worker, IPCEvent},
+     lock::acquire_worker_lock,
+     warn_eprintln,
+ };
+ 
+ pub fn terminate_worker(runtime_dir: &Path) -> Result<()> {
+-    match create_ipc_client_to_worker(runtime_dir) {
+-        Ok(mut worker_ipc) => {
+-            if let Err(err) = worker_ipc.send_async(IPCEvent::ExitAllProcesses) {
+-                error!(
+-                    "unable to send termination signal to worker process: {}",
+-                    err
+-                );
+-                return Err(StopError::IPCError(err).into());
+-            }
+-        }
+-        Err(err) => {
+-            error!("could not establish IPC connection with worker: {}", err);
+-            return Err(StopError::IPCError(err).into());
+-        }
+-    }
+-
+-    if wait_for_worker_to_be_stopped(runtime_dir) {
+-        return Ok(());
+-    }
+-
+-    warn_eprintln!(
+-        "unable to gracefully terminate espanso (timed-out), trying to force the termination..."
+-    );
+-
+-    forcefully_terminate_espanso();
+-
+-    if wait_for_worker_to_be_stopped(runtime_dir) {
+-        return Ok(());
+-    }
+-
+-    Err(StopError::WorkerTimedOut.into())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum StopError {
+     #[error("worker timed out")]
+     WorkerTimedOut,
+ 
+     #[error("ipc error: `{0}`")]

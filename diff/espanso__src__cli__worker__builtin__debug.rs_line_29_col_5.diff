@@ -1,0 +1,34 @@
+--- espanso/src/cli/worker/builtin/debug.rs
++++ replace create_match_paste_active_config_info -> BuiltInMatch with Default::default()
+@@ -21,30 +21,17 @@
+ 
+ use crate::cli::worker::builtin::generate_next_builtin_id;
+ 
+ use super::BuiltInMatch;
+ 
+ // TODO: create task that opens up a GUI with this content
+ 
+ pub fn create_match_paste_active_config_info() -> BuiltInMatch {
+-    BuiltInMatch {
+-        id: generate_next_builtin_id(),
+-        label: "Paste active config information",
+-        triggers: vec!["#pacfg#".to_string()],
+-        action: |context| {
+-            let dump = context.get_active_config().pretty_dump();
+-
+-            EventType::TextInject(TextInjectRequest {
+-                text: dump,
+-                force_mode: None,
+-            })
+-        },
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn create_match_paste_active_app_info() -> BuiltInMatch {
+     BuiltInMatch {
+         id: generate_next_builtin_id(),
+         label: "Paste active application information (detect)",
+         triggers: vec!["#pdetect#".to_string()],
+         action: |context| {

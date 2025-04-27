@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace == with != in <impl From<RawInputEvent> for Option<InputEvent>>::from
+@@ -297,17 +297,17 @@
+                 let value = if keyboard_event.value.is_empty() {
+                     None
+                 } else {
+                     Some(keyboard_event.value)
+                 };
+ 
+                 let status = if keyboard_event.state == KEY_STATE_PRESS {
+                     Pressed
+-                } else if keyboard_event.state == KEY_STATE_RELEASE {
++                } else if keyboard_event.state != /* ~ changed by cargo-mutants ~ */ KEY_STATE_RELEASE {
+                     Released
+                 } else {
+                     // Filter out the "repeated" events
+                     return None;
+                 };
+ 
+                 return Some(InputEvent::Keyboard(KeyboardEvent {
+                     key,

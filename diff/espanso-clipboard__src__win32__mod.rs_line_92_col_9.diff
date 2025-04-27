@@ -1,0 +1,35 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ replace <impl Clipboard for Win32Clipboard>::set_html -> anyhow::Result<()> with Ok(())
+@@ -84,31 +84,17 @@
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         fallback_text: Option<&str>,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        let html_descriptor = generate_html_descriptor(html);
+-        let html_string = CString::new(html_descriptor)?;
+-        let fallback_string = U16CString::from_str(fallback_text.unwrap_or_default())?;
+-        let fallback_ptr = if fallback_text.is_some() {
+-            fallback_string.as_ptr()
+-        } else {
+-            std::ptr::null()
+-        };
+-
+-        let native_result = unsafe { ffi::clipboard_set_html(html_string.as_ptr(), fallback_ptr) };
+-        if native_result > 0 {
+-            Ok(())
+-        } else {
+-            Err(Win32ClipboardError::SetOperationFailed().into())
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn generate_html_descriptor(html: &str) -> String {
+     // In order to set the HTML clipboard, we have to create a prefix with a specific format
+     // For more information, look here:
+     // https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format
+     // https://docs.microsoft.com/en-za/troubleshoot/cpp/add-html-code-clipboard

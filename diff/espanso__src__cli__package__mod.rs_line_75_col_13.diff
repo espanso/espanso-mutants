@@ -1,0 +1,22 @@
+--- espanso/src/cli/package/mod.rs
++++ delete match arm
+@@ -67,18 +67,15 @@
+             return PACKAGE_LIST_FAILED;
+         }
+     } else if let Some(sub_matches) = cli_args.subcommand_matches("update") {
+         match update::update_package(&paths, sub_matches) {
+             Ok(update::UpdateResults::PartialFailure) => {
+                 error_eprintln!("some packages were updated, but not all of them. Check the previous log for more information");
+                 return PACKAGE_UPDATE_PARTIAL_FAILURE;
+             }
+-            Err(err) => {
+-                error_eprintln!("unable to update package: {:?}", err);
+-                return PACKAGE_UPDATE_FAILED;
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             _ => {}
+         }
+     }
+ 
+     PACKAGE_SUCCESS
+ }

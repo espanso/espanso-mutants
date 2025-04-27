@@ -1,0 +1,29 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl SeatHandler for SimpleWindow>::new_capability with ()
+@@ -254,25 +254,17 @@
+ 
+     fn new_capability(
+         &mut self,
+         _conn: &Connection,
+         qh: &QueueHandle<Self>,
+         seat: wl_seat::WlSeat,
+         capability: Capability,
+     ) {
+-        if capability == Capability::Keyboard && self.keyboard.is_none() {
+-            debug!("Set keyboard capability");
+-            let keyboard = self
+-                .seat_state
+-                .get_keyboard(qh, &seat, None)
+-                .expect("Failed to create keyboard");
+-
+-            self.keyboard = Some(keyboard);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn remove_capability(
+         &mut self,
+         _conn: &Connection,
+         _: &QueueHandle<Self>,
+         _: wl_seat::WlSeat,
+         capability: Capability,

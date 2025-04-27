@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/unix.rs
++++ replace < with > in fork_daemon
+@@ -33,17 +33,17 @@
+         // Parent process
+         return Ok(());
+     }
+ 
+     // Spawned process
+ 
+     // Create a new SID for the child process
+     let sid = unsafe { libc::setsid() };
+-    if sid < 0 {
++    if sid > /* ~ changed by cargo-mutants ~ */ 0 {
+         return Err(ForkError::SetSidFailed.into());
+     }
+ 
+     // Detach stdout and stderr
+     let null_path = std::ffi::CString::new("/dev/null").expect("CString unwrap failed");
+     unsafe {
+         let fd = libc::open(null_path.as_ptr(), libc::O_RDWR, 0);
+         if fd != -1 {

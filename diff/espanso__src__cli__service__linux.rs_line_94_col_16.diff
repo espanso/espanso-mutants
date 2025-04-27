@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in unregister
+@@ -86,17 +86,17 @@
+ 
+     info_println!("disabling espanso systemd service");
+ 
+     match Command::new("systemctl")
+         .args(["--user", "disable", LINUX_SERVICE_NAME])
+         .status()
+     {
+         Ok(status) => {
+-            if !status.success() {
++            if  /* ~ changed by cargo-mutants ~ */status.success() {
+                 return Err(UnregisterError::SystemdDisableFailed.into());
+             }
+         }
+         Err(err) => {
+             error_eprintln!("unable to call systemctl: {}", err);
+             return Err(UnregisterError::SystemdCallFailed(err.into()).into());
+         }
+     }

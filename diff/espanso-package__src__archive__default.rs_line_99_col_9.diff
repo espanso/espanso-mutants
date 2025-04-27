@@ -1,0 +1,41 @@
+--- espanso-package/src/archive/default.rs
++++ replace <impl Archiver for DefaultArchiver>::get -> Result<StoredPackage> with Ok(Default::default())
+@@ -91,37 +91,17 @@
+ 
+         let archived_package = super::read::read_archived_package(&target_dir)
+             .context("unable to load archived package")?;
+ 
+         Ok(archived_package)
+     }
+ 
+     fn get(&self, name: &str) -> Result<StoredPackage> {
+-        let target_dir = self.package_dir.join(name);
+-
+-        if !target_dir.is_dir() {
+-            bail!("package '{}' not found", name);
+-        }
+-
+-        let manifest_path = target_dir.join("_manifest.yml");
+-        if !manifest_path.is_file() {
+-            return Ok(StoredPackage::Legacy(LegacyPackage {
+-                name: name.to_string(),
+-            }));
+-        }
+-
+-        let manifest =
+-            Manifest::parse(&manifest_path).context("unable to parse package manifest")?;
+-
+-        let source_path = target_dir.join(PACKAGE_SOURCE_FILE);
+-        let source =
+-            PackageSource::parse(&source_path).context("unable to parse package source file")?;
+-
+-        Ok(StoredPackage::Modern(ArchivedPackage { manifest, source }))
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn list(&self) -> Result<Vec<StoredPackage>> {
+         let mut output = Vec::new();
+ 
+         for path in std::fs::read_dir(&self.package_dir)? {
+             let path = path?.path();
+             if !path.is_dir() {

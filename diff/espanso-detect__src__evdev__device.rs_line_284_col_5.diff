@@ -1,0 +1,52 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace get_devices -> Result<Vec<Device>> with Ok(vec![])
+@@ -276,48 +276,17 @@
+     fn drop(&mut self) {
+         unsafe {
+             xkb_state_unref(self.state);
+         }
+     }
+ }
+ 
+ pub fn get_devices(keymap: &Keymap) -> Result<Vec<Device>> {
+-    let mut keyboards = Vec::new();
+-    let dirs = std::fs::read_dir("/dev/input/")?;
+-    for entry in dirs {
+-        match entry {
+-            Ok(device) => {
+-                // Skip non-eventX devices
+-                if !device.file_name().to_string_lossy().starts_with("event") {
+-                    continue;
+-                }
+-
+-                let path = device.path().to_string_lossy().to_string();
+-                let keyboard = Device::from(&path, keymap);
+-                match keyboard {
+-                    Ok(keyboard) => {
+-                        keyboards.push(keyboard);
+-                    }
+-                    Err(error) => {
+-                        trace!("error opening keyboard: {}", error);
+-                    }
+-                }
+-            }
+-            Err(error) => {
+-                trace!("could not read keyboard device: {}", error);
+-            }
+-        }
+-    }
+-
+-    if keyboards.is_empty() {
+-        return Err(DeviceError::NoDevicesFound().into());
+-    }
+-
+-    Ok(keyboards)
++    Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum DeviceError {
+     #[error("could not create xkb state for `{0}`")]
+     InvalidState(String),
+ 
+     #[error("`{0}` is not a valid device")]

@@ -1,0 +1,39 @@
+--- espanso-package/src/provider/github.rs
++++ replace <impl PackageProvider for GitHubPackageProvider>::download -> Result<Box<dyn Package>> with Ok(Box::new(Default::default()))
+@@ -38,35 +38,17 @@
+ }
+ 
+ impl PackageProvider for GitHubPackageProvider {
+     fn name(&self) -> String {
+         "github".to_string()
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+-        let download_url = format!(
+-            "https://github.com/{}/{}/archive/refs/heads/{}.zip",
+-            &self.author, &self.name, &self.branch
+-        );
+-
+-        let temp_dir = tempdir::TempDir::new("espanso-package-download")?;
+-
+-        crate::util::download::download_and_extract_zip(&download_url, temp_dir.path())?;
+-
+-        let resolved_package =
+-            resolve_package(temp_dir.path(), &package.name, package.version.as_deref())?;
+-
+-        let package = DefaultPackage::new(
+-            resolved_package.manifest,
+-            temp_dir,
+-            resolved_package.base_dir,
+-        );
+-
+-        Ok(Box::new(package))
++        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]

@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/tree.rs
++++ replace == with != in insert_items_recursively
+@@ -62,17 +62,17 @@
+ }
+ 
+ fn insert_items_recursively<Id>(id: Id, node: &mut MatcherTreeNode<Id>, items: &[RollingItem]) {
+     if items.is_empty() {
+         return;
+     }
+ 
+     let item = items.first().unwrap();
+-    if items.len() == 1 {
++    if items.len() != /* ~ changed by cargo-mutants ~ */ 1 {
+         match item {
+             RollingItem::WordSeparator => {
+                 let mut new_matches = Vec::new();
+                 if let Some(MatcherTreeRef::Matches(matches)) = node.word_separators.take() {
+                     new_matches.extend(matches);
+                 }
+                 new_matches.push(id);
+                 node.word_separators = Some(MatcherTreeRef::Matches(new_matches));

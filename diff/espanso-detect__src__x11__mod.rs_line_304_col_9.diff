@@ -1,0 +1,56 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -296,52 +296,17 @@
+     let status = match raw.status {
+         INPUT_STATUS_RELEASED => Released,
+         INPUT_STATUS_PRESSED => Pressed,
+         _ => Pressed,
+     };
+ 
+     match raw.event_type {
+         // Keyboard events
+-        INPUT_EVENT_TYPE_KEYBOARD => {
+-            let (key, variant) = key_sym_to_key(raw.key_sym);
+-            let value = if raw.buffer_len > 0 {
+-                let raw_string_result =
+-                    CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
+-                match raw_string_result {
+-                    Ok(c_string) => {
+-                        let string_result = c_string.to_str();
+-                        match string_result {
+-                            Ok(value) => Some(value.to_string()),
+-                            Err(err) => {
+-                                warn!("char conversion error: {}", err);
+-                                None
+-                            }
+-                        }
+-                    }
+-                    Err(err) => {
+-                        warn!("Received malformed char: {}", err);
+-                        None
+-                    }
+-                }
+-            } else {
+-                None
+-            };
+-
+-            return Some(InputEvent::Keyboard(KeyboardEvent {
+-                key,
+-                value,
+-                status,
+-                variant,
+-                code: raw
+-                    .key_code
+-                    .try_into()
+-                    .expect("invalid keycode conversion to u32"),
+-            }));
+-        }
++         /* ~ changed by cargo-mutants ~ */
+         // Mouse events
+         INPUT_EVENT_TYPE_MOUSE => {
+             let button = raw_to_mouse_button(raw.key_code);
+ 
+             if let Some(button) = button {
+                 return Some(InputEvent::Mouse(MouseEvent { button, status }));
+             }
+         }

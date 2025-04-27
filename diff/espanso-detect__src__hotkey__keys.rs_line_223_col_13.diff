@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ delete match arm
+@@ -215,17 +215,17 @@
+ 
+ impl ShortcutKey {
+     pub fn parse(key: &str) -> Option<ShortcutKey> {
+         let parsed = match key {
+             "ALT" | "OPTION" => Some(ShortcutKey::Alt),
+             "CTRL" => Some(ShortcutKey::Control),
+             "META" | "CMD" => Some(ShortcutKey::Meta),
+             "SHIFT" => Some(ShortcutKey::Shift),
+-            "ENTER" => Some(ShortcutKey::Enter),
++             /* ~ changed by cargo-mutants ~ */
+             "TAB" => Some(ShortcutKey::Tab),
+             "SPACE" => Some(ShortcutKey::Space),
+             "INSERT" => Some(ShortcutKey::Insert),
+             "DOWN" => Some(ShortcutKey::ArrowDown),
+             "LEFT" => Some(ShortcutKey::ArrowLeft),
+             "RIGHT" => Some(ShortcutKey::ArrowRight),
+             "UP" => Some(ShortcutKey::ArrowUp),
+             "END" => Some(ShortcutKey::End),

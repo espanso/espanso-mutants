@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -305,17 +305,17 @@
+         166 => Some(0x00AA), // Feminine ordinal indicator
+         167 => Some(0x00BA), // Masculine ordinal indicator
+         168 => Some(0x00BF), // Inverted question mark, turned question mark
+         169 => Some(0x2310), // Reversed not sign, beginning of line
+         170 => Some(0x00AC), // Not sign, angled dash
+         171 => Some(0x00BD), // Vulgar fraction one half
+         172 => Some(0x00BC), // Vulgar fraction one quarter
+         173 => Some(0x00A1), // Inverted exclamation mark
+-        174 => Some(0x00AB), // Left-pointing double angle quotation mark, left guillemet, chevrons (in typography)
++         /* ~ changed by cargo-mutants ~ */ // Left-pointing double angle quotation mark, left guillemet, chevrons (in typography)
+         175 => Some(0x00BB), // Right-pointing double angle quotation mark, right guillemet
+         176 => Some(0x2591), // Light shade
+         177 => Some(0x2592), // Medium shade, speckles fill, dotted fill
+         178 => Some(0x2593), // Dark shade
+         179 => Some(0x2502), // Box drawings light vertical
+         180 => Some(0x2524), // Box drawings light vertical and left
+         181 => Some(0x2561), // Box drawings vertical single and left double
+         182 => Some(0x2562), // Box drawings vertical double and left single

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::x11_use_xdotool_backend -> bool with false
+@@ -345,17 +345,17 @@
+             .unwrap_or(2000)
+     }
+ 
+     fn x11_use_xclip_backend(&self) -> bool {
+         self.parsed.x11_use_xclip_backend.unwrap_or(false)
+     }
+ 
+     fn x11_use_xdotool_backend(&self) -> bool {
+-        self.parsed.x11_use_xdotool_backend.unwrap_or(false)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ResolvedConfig {
+     pub fn load(path: &Path, parent: Option<&Self>) -> Result<Self> {
+         let mut config = ParsedConfig::load(path)?;
+ 
+         // Merge with parent config if present

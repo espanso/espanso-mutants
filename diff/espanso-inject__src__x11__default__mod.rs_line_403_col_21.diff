@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace != with == in X11DefaultInjector::send_key
+@@ -395,17 +395,17 @@
+             serial: 0,
+             send_event: 0,
+         };
+         unsafe {
+             XSendEvent(self.display, window, 1, 0, &mut event);
+             XFlush(self.display);
+         }
+ 
+-        if delay_us != 0 {
++        if delay_us == /* ~ changed by cargo-mutants ~ */ 0 {
+             unsafe {
+                 libc::usleep(delay_us);
+             }
+         }
+     }
+ 
+     fn xtest_send_modifiers(&self, modmask: u32, pressed: bool) {
+         let modifiers_codes = self.get_modifier_codes();

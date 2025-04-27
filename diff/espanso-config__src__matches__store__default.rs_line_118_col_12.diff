@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/store/default.rs
++++ delete ! in query_matches_for_paths
+@@ -110,17 +110,17 @@
+     visited_paths: &mut HashSet<String>,
+     visited_matches: &mut HashSet<StructId>,
+     visited_global_vars: &mut HashSet<StructId>,
+     matches: &mut Vec<&'a Match>,
+     global_vars: &mut Vec<&'a Variable>,
+     paths: &[String],
+ ) {
+     for path in paths {
+-        if !visited_paths.contains(path) {
++        if  /* ~ changed by cargo-mutants ~ */visited_paths.contains(path) {
+             visited_paths.insert(path.clone());
+ 
+             if let Some(group) = groups.get(path) {
+                 query_matches_for_paths(
+                     groups,
+                     visited_paths,
+                     visited_matches,
+                     visited_global_vars,

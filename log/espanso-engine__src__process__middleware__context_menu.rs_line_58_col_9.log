@@ -1,0 +1,265 @@
+
+*** espanso-engine/src/process/middleware/context_menu.rs:58:9: replace <impl Middleware for ContextMenuMiddleware>::next -> Event with Default::default()
+
+*** mutation diff:
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ replace <impl Middleware for ContextMenuMiddleware>::next -> Event with Default::default()
+@@ -50,154 +50,11 @@
+ }
+ 
+ impl Middleware for ContextMenuMiddleware {
+     fn name(&self) -> &'static str {
+         "context_menu"
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+-        let mut is_enabled = self.is_enabled.borrow_mut();
+-        let mut is_secure_input_enabled = self.is_secure_input_enabled.borrow_mut();
+-
+-        match &event.etype {
+-            EventType::TrayIconClicked => {
+-                // TODO: fetch top matches for the active config to be added
+-
+-                let mut items = vec![
+-                    MenuItem::Simple(if *is_enabled {
+-                        SimpleMenuItem {
+-                            id: CONTEXT_ITEM_DISABLE,
+-                            label: "Disable".to_string(),
+-                        }
+-                    } else {
+-                        SimpleMenuItem {
+-                            id: CONTEXT_ITEM_ENABLE,
+-                            label: "Enable".to_string(),
+-                        }
+-                    }),
+-                    MenuItem::Simple(SimpleMenuItem {
+-                        id: CONTEXT_ITEM_OPEN_SEARCH,
+-                        label: "Open search bar".to_string(),
+-                    }),
+-                    MenuItem::Separator,
+-                    MenuItem::Simple(SimpleMenuItem {
+-                        id: CONTEXT_ITEM_RELOAD,
+-                        label: "Reload config".to_string(),
+-                    }),
+-                    MenuItem::Simple(SimpleMenuItem {
+-                        id: CONTEXT_ITEM_OPEN_CONFIG_FOLDER,
+-                        label: "Open config folder".to_string(),
+-                    }),
+-                    MenuItem::Simple(SimpleMenuItem {
+-                        id: CONTEXT_ITEM_SHOW_LOGS,
+-                        label: "Show logs".to_string(),
+-                    }),
+-                    MenuItem::Separator,
+-                    MenuItem::Simple(SimpleMenuItem {
+-                        id: CONTEXT_ITEM_EXIT,
+-                        label: "Exit espanso".to_string(),
+-                    }),
+-                ];
+-
+-                if *is_secure_input_enabled {
+-                    items.insert(
+-                        0,
+-                        MenuItem::Simple(SimpleMenuItem {
+-                            id: CONTEXT_ITEM_SECURE_INPUT_EXPLAIN,
+-                            label: "Why is Espanso not working?".to_string(),
+-                        }),
+-                    );
+-                    items.insert(
+-                        1,
+-                        MenuItem::Simple(SimpleMenuItem {
+-                            id: CONTEXT_ITEM_SECURE_INPUT_TRIGGER_WORKAROUND,
+-                            label: "Launch SecureInput auto-fix".to_string(),
+-                        }),
+-                    );
+-                    items.insert(2, MenuItem::Separator);
+-                }
+-
+-                // TODO: my idea is to use a set of reserved u32 ids for built-in
+-                // actions such as Exit, Open Editor etc
+-                // then we need some u32 for the matches, so we need to create
+-                // a mapping structure match_id <-> context-menu-id
+-                Event::caused_by(
+-                    event.source_id,
+-                    EventType::ShowContextMenu(ShowContextMenuEvent {
+-                        // TODO: add actual entries
+-                        items,
+-                    }),
+-                )
+-            }
+-            EventType::ContextMenuClicked(context_click_event) => {
+-                match context_click_event.context_item_id {
+-                    CONTEXT_ITEM_EXIT => Event::caused_by(
+-                        event.source_id,
+-                        EventType::ExitRequested(ExitMode::ExitAllProcesses),
+-                    ),
+-                    CONTEXT_ITEM_RELOAD => Event::caused_by(
+-                        event.source_id,
+-                        EventType::ExitRequested(ExitMode::RestartWorker),
+-                    ),
+-                    CONTEXT_ITEM_ENABLE => {
+-                        dispatch(Event::caused_by(event.source_id, EventType::EnableRequest));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_DISABLE => {
+-                        dispatch(Event::caused_by(event.source_id, EventType::DisableRequest));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_SECURE_INPUT_EXPLAIN => {
+-                        dispatch(Event::caused_by(
+-                            event.source_id,
+-                            EventType::DisplaySecureInputTroubleshoot,
+-                        ));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_SECURE_INPUT_TRIGGER_WORKAROUND => {
+-                        dispatch(Event::caused_by(
+-                            event.source_id,
+-                            EventType::LaunchSecureInputAutoFix,
+-                        ));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_OPEN_SEARCH => {
+-                        dispatch(Event::caused_by(event.source_id, EventType::ShowSearchBar));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_SHOW_LOGS => {
+-                        dispatch(Event::caused_by(event.source_id, EventType::ShowLogs));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    CONTEXT_ITEM_OPEN_CONFIG_FOLDER => {
+-                        dispatch(Event::caused_by(
+-                            event.source_id,
+-                            EventType::ShowConfigFolder,
+-                        ));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
+-                    _ => {
+-                        // TODO: handle dynamic items
+-                        todo!()
+-                    }
+-                }
+-            }
+-            EventType::Disabled => {
+-                *is_enabled = false;
+-                event
+-            }
+-            EventType::Enabled => {
+-                *is_enabled = true;
+-                event
+-            }
+-            EventType::SecureInputEnabled(_) => {
+-                *is_secure_input_enabled = true;
+-                event
+-            }
+-            EventType::SecureInputDisabled => {
+-                *is_secure_input_enabled = false;
+-                event
+-            }
+-            _ => event,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-engine@0.1.0
+       Fresh cfg-if v1.0.0
+       Fresh unicode-ident v1.0.12
+       Fresh siphasher v0.3.6
+       Fresh ppv-lite86 v0.2.10
+       Fresh autocfg v1.1.0
+       Fresh lazy_static v1.5.0
+       Fresh phf_shared v0.8.0
+       Fresh new_debug_unreachable v1.0.4
+       Fresh proc-macro2 v1.0.94
+       Fresh scopeguard v1.1.0
+       Fresh mac v0.1.1
+       Fresh quote v1.0.35
+       Fresh getrandom v0.1.16
+       Fresh getrandom v0.2.2
+       Fresh serde v1.0.123
+       Fresh futf v0.1.4
+       Fresh crossbeam-utils v0.8.19
+       Fresh phf_shared v0.10.0
+       Fresh rand_core v0.5.1
+       Fresh rand_core v0.6.2
+       Fresh utf-8 v0.7.6
+       Fresh precomputed-hash v0.1.1
+       Fresh unicode-xid v0.2.1
+       Fresh phf v0.10.1
+       Fresh log v0.4.14
+       Fresh rand_chacha v0.2.2
+       Fresh rand_chacha v0.3.0
+       Fresh rand_pcg v0.2.1
+       Fresh tendril v0.4.2
+       Fresh syn v1.0.67
+       Fresh string_cache v0.8.1
+       Fresh rand v0.7.3
+       Fresh rand v0.8.3
+       Fresh memoffset v0.6.5
+       Fresh libc v0.2.161
+       Fresh memchr v2.5.0
+       Fresh phf_generator v0.8.0
+       Fresh phf_generator v0.10.0
+       Fresh syn v2.0.100
+       Fresh smallvec v1.13.2
+       Fresh phf_codegen v0.10.0
+       Fresh string_cache_codegen v0.5.1
+       Fresh thiserror-impl v1.0.56
+       Fresh parking_lot_core v0.9.9
+       Fresh lock_api v0.4.11
+       Fresh crossbeam-epoch v0.9.8
+       Fresh aho-corasick v0.7.19
+       Fresh once_cell v1.19.0
+       Fresh hashbrown v0.12.3
+       Fresh regex-syntax v0.6.27
+       Fresh crossbeam-queue v0.3.5
+       Fresh crossbeam-deque v0.8.1
+       Fresh thiserror v1.0.56
+       Fresh regex v1.5.5
+       Fresh dashmap v5.4.0
+       Fresh crossbeam-channel v0.5.0
+       Fresh pipeline v0.5.0
+       Fresh unicode-width v0.1.8
+       Fresh unicode-segmentation v1.12.0
+       Fresh markup5ever v0.11.0
+       Fresh markdown v0.3.0
+       Fresh anyhow v1.0.38
+       Fresh crossbeam v0.8.1
+       Fresh html5ever v0.26.0
+       Fresh xml5ever v0.17.0
+       Fresh html2text v0.12.0
+       Dirty espanso-engine v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-engine): the file `espanso-engine/src/process/middleware/alt_code_synthesizer.rs` has changed (1745786230.699415737s, 659425382ns after last build at 1745786230.039990355s)
+   Compiling espanso-engine v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-engine)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_engine --edition=2021 espanso-engine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=77ecac42cd76ea87 -C extra-filename=-736ee6c99a8d5179 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern crossbeam=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libcrossbeam-8841152c4f26c132.rlib --extern html2text=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhtml2text-dd2cb502d2a044fb.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern markdown=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libmarkdown-72cc0aa38afcc09b.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern unicode_segmentation=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicode_segmentation-a578f495eddae48f.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_engine --edition=2021 espanso-engine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=b4b5c63eb9fb35b1 -C extra-filename=-85d5814a48d06b68 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern crossbeam=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libcrossbeam-8841152c4f26c132.rmeta --extern html2text=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhtml2text-dd2cb502d2a044fb.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern markdown=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libmarkdown-72cc0aa38afcc09b.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern unicode_segmentation=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicode_segmentation-a578f495eddae48f.rmeta`
+warning: unused imports: `EventType`, `ExitMode`, `MenuItem`, `ShowContextMenuEvent`, and `SimpleMenuItem`
+  --> espanso-engine/src/process/middleware/context_menu.rs:24:10
+   |
+24 |     ui::{MenuItem, ShowContextMenuEvent, SimpleMenuItem},
+   |          ^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^
+25 |     Event, EventType, ExitMode,
+   |            ^^^^^^^^^  ^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+error[E0277]: the trait bound `Event: std::default::Default` is not satisfied
+  --> espanso-engine/src/process/middleware/context_menu.rs:58:9
+   |
+58 |         Default::default() /* ~ changed by cargo-mutants ~ */
+   |         ^^^^^^^^^^^^^^^^^^ the trait `std::default::Default` is not implemented for `Event`
+
+For more information about this error, try `rustc --explain E0277`.
+warning: `espanso-engine` (lib test) generated 1 warning
+error: could not compile `espanso-engine` (lib test) due to 1 previous error; 1 warning emitted
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_engine --edition=2021 espanso-engine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=77ecac42cd76ea87 -C extra-filename=-736ee6c99a8d5179 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern crossbeam=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libcrossbeam-8841152c4f26c132.rlib --extern html2text=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhtml2text-dd2cb502d2a044fb.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern markdown=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libmarkdown-72cc0aa38afcc09b.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern unicode_segmentation=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicode_segmentation-a578f495eddae48f.rlib` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+warning: `espanso-engine` (lib) generated 1 warning (1 duplicate)
+error: could not compile `espanso-engine` (lib) due to 1 previous error; 1 warning emitted
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_engine --edition=2021 espanso-engine/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=b4b5c63eb9fb35b1 -C extra-filename=-85d5814a48d06b68 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern crossbeam=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libcrossbeam-8841152c4f26c132.rmeta --extern html2text=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhtml2text-dd2cb502d2a044fb.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern markdown=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libmarkdown-72cc0aa38afcc09b.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern unicode_segmentation=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicode_segmentation-a578f495eddae48f.rmeta` (exit status: 1)
+
+*** result: Failure(101)

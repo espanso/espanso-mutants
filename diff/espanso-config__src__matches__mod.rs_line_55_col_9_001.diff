@@ -1,0 +1,29 @@
+--- espanso-config/src/matches/mod.rs
++++ replace Match::description -> &str with "xyzzy"
+@@ -47,25 +47,17 @@
+             id: 0,
+             search_terms: vec![],
+         }
+     }
+ }
+ 
+ impl Match {
+     pub fn description(&self) -> &str {
+-        if let Some(label) = &self.label {
+-            label
+-        } else if let MatchEffect::Text(text_effect) = &self.effect {
+-            &text_effect.replace
+-        } else if let MatchEffect::Image(_) = &self.effect {
+-            "Image content"
+-        } else {
+-            "No description available for this match"
+-        }
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn cause_description(&self) -> Option<&str> {
+         self.cause.description()
+     }
+ 
+     pub fn search_terms(&self) -> Vec<&str> {
+         self.search_terms

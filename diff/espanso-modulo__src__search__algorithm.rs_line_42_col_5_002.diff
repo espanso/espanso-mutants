@@ -1,0 +1,30 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace exact_match -> Vec<usize> with vec![0]
+@@ -34,26 +34,17 @@
+     if use_command_filter {
+         command_filter(search_algorithm)
+     } else {
+         search_algorithm
+     }
+ }
+ 
+ fn exact_match(query: &str, items: &[SearchItem]) -> Vec<usize> {
+-    items
+-        .iter()
+-        .enumerate()
+-        .filter(|(_, item)| {
+-            item.label.contains(query)
+-                || item.trigger.as_deref().is_some_and(|t| t.contains(query))
+-                || item.search_terms.iter().any(|term| term.contains(query))
+-        })
+-        .map(|(i, _)| i)
+-        .collect()
++    vec![0] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn case_insensitive_exact_match(query: &str, items: &[SearchItem]) -> Vec<usize> {
+     let lowercase_query = query.to_lowercase();
+     items
+         .iter()
+         .enumerate()
+         .filter(|(_, item)| {

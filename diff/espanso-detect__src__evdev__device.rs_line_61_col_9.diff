@@ -1,0 +1,45 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace Device::from -> Result<Device> with Ok(Default::default())
+@@ -53,41 +53,17 @@
+ pub struct Device {
+     path: String,
+     file: File,
+     state: *mut xkb_state,
+ }
+ 
+ impl Device {
+     pub fn from(path: &str, keymap: &Keymap) -> Result<Device> {
+-        let file = OpenOptions::new()
+-            .read(true)
+-            .custom_flags(O_NONBLOCK | O_CLOEXEC | O_RDONLY)
+-            .open(path)?;
+-
+-        if unsafe { is_keyboard_or_mouse(file.as_raw_fd()) == 0 } {
+-            return Err(DeviceError::InvalidDevice(path.to_string()).into());
+-        }
+-
+-        let raw_state = unsafe { xkb_state_new(keymap.get_handle()) };
+-        // Automatically close the state if the function does not return correctly
+-        let state = scopeguard::guard(raw_state, |raw_state| unsafe {
+-            xkb_state_unref(raw_state);
+-        });
+-
+-        if raw_state.is_null() {
+-            return Err(DeviceError::InvalidState(path.to_string()).into());
+-        }
+-
+-        Ok(Self {
+-            path: path.to_string(),
+-            file,
+-            // Release the state without freeing it
+-            state: ScopeGuard::into_inner(state),
+-        })
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get_state(&self) -> *mut xkb_state {
+         self.state
+     }
+ 
+     pub fn get_raw_fd(&self) -> i32 {
+         self.file.as_raw_fd()

@@ -1,0 +1,21 @@
+--- espanso/src/cli/workaround/secure_input.rs
++++ replace == with != in execute_secure_input_workaround
+@@ -83,17 +83,17 @@
+         }
+ 
+         if espanso_mac_utils::get_secure_input_pid().is_none() {
+             return Ok(());
+         }
+     }
+ 
+     // Ask the user if he wants to try locking the screen
+-    if run_apple_script(SECURE_INPUT_ASK_LOCK_SCREEN_SCRIPT)?.trim() == "yes" {
++    if run_apple_script(SECURE_INPUT_ASK_LOCK_SCREEN_SCRIPT)?.trim() != /* ~ changed by cargo-mutants ~ */ "yes" {
+         if let Err(err) = lock_screen() {
+             eprintln!("failed to lock the screen: {err}");
+         }
+     }
+ 
+     if espanso_mac_utils::get_secure_input_pid().is_some() {
+         bail!("failed to release secure input");
+     }

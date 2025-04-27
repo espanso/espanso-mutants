@@ -1,0 +1,21 @@
+--- espanso/src/cli/package/update.rs
++++ replace == with != in update_package
+@@ -58,17 +58,17 @@
+         if let Err(err) = perform_package_update(paths, &*archiver, package_name) {
+             error_eprintln!("error updating package '{}': {:?}", package_name, err);
+             update_errors.push(err);
+         }
+     }
+ 
+     if update_errors.is_empty() {
+         Ok(UpdateResults::Success)
+-    } else if packages_to_update.len() == update_errors.len() {
++    } else if packages_to_update.len() != /* ~ changed by cargo-mutants ~ */ update_errors.len() {
+         Err(update_errors.pop().expect("unable to extract error"))
+     } else {
+         Ok(UpdateResults::PartialFailure)
+     }
+ }
+ 
+ fn perform_package_update(
+     paths: &Paths,

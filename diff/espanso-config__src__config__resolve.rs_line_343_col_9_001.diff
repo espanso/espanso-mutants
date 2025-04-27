@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::win32_keyboard_layout_cache_interval -> i64 with 1
+@@ -335,19 +335,17 @@
+         self.parsed.win32_exclude_orphan_events.unwrap_or(true)
+     }
+ 
+     fn evdev_modifier_delay(&self) -> Option<usize> {
+         self.parsed.evdev_modifier_delay
+     }
+ 
+     fn win32_keyboard_layout_cache_interval(&self) -> i64 {
+-        self.parsed
+-            .win32_keyboard_layout_cache_interval
+-            .unwrap_or(2000)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn x11_use_xclip_backend(&self) -> bool {
+         self.parsed.x11_use_xclip_backend.unwrap_or(false)
+     }
+ 
+     fn x11_use_xdotool_backend(&self) -> bool {
+         self.parsed.x11_use_xdotool_backend.unwrap_or(false)

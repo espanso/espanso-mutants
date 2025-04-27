@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/engine/funnel/secure_input.rs
++++ replace <impl funnel::Source<'a> for SecureInputSource<'a>>::receive -> Option<Event> with None
+@@ -42,23 +42,11 @@
+ }
+ 
+ impl<'a> funnel::Source<'a> for SecureInputSource<'a> {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+         select.recv(&self.receiver)
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+-        let si_event = op
+-            .recv(&self.receiver)
+-            .expect("unable to select data from SecureInputSource receiver");
+-
+-        Some(Event {
+-            source_id: self.sequencer.next_id(),
+-            etype: match si_event {
+-                SecureInputEvent::Disabled => EventType::SecureInputDisabled,
+-                SecureInputEvent::Enabled { app_name, app_path } => {
+-                    EventType::SecureInputEnabled(SecureInputEnabledEvent { app_name, app_path })
+-                }
+-            },
+-        })
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }

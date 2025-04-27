@@ -1,0 +1,21 @@
+--- espanso-package/src/package/default.rs
++++ replace <impl Package for DefaultPackage>::name -> &str with ""
+@@ -40,17 +40,17 @@
+             temp_dir,
+             location,
+         }
+     }
+ }
+ 
+ impl Package for DefaultPackage {
+     fn name(&self) -> &str {
+-        self.manifest.name.as_str()
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn title(&self) -> &str {
+         self.manifest.title.as_str()
+     }
+ 
+     fn description(&self) -> &str {
+         self.manifest.description.as_str()

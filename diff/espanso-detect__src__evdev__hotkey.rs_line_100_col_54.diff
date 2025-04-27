@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace > with == in HotKeyFilter::process_event
+@@ -92,17 +92,17 @@
+         }
+ 
+         // Remove the old entries
+         to_be_removed.extend(
+             self.memory
+                 .iter()
+                 .enumerate()
+                 .filter_map(|(i, (_, instant))| {
+-                    if instant.elapsed().as_millis() > HOTKEY_WINDOW_TIMEOUT {
++                    if instant.elapsed().as_millis() == /* ~ changed by cargo-mutants ~ */ HOTKEY_WINDOW_TIMEOUT {
+                         Some(i)
+                     } else {
+                         None
+                     }
+                 }),
+         );
+ 
+         // Remove duplicates and revert

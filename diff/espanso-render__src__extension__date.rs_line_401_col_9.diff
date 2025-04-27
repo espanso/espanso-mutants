@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -393,17 +393,17 @@
+         "wae-CH" => Some(Locale::wae_CH),
+         "wal-ET" => Some(Locale::wal_ET),
+         "wo-SN" => Some(Locale::wo_SN),
+         "xh-ZA" => Some(Locale::xh_ZA),
+         "yi-US" => Some(Locale::yi_US),
+         "yo-NG" => Some(Locale::yo_NG),
+         "yue-HK" => Some(Locale::yue_HK),
+         "yuw-PG" => Some(Locale::yuw_PG),
+-        "zh-CN" => Some(Locale::zh_CN),
++         /* ~ changed by cargo-mutants ~ */
+         "zh-HK" => Some(Locale::zh_HK),
+         "zh-SG" => Some(Locale::zh_SG),
+         "zh-TW" => Some(Locale::zh_TW),
+         "zu-ZA" => Some(Locale::zu_ZA),
+         _ => None,
+     }
+ }
+ 

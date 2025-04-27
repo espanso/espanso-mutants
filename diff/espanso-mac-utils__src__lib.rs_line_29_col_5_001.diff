@@ -1,0 +1,30 @@
+--- espanso-mac-utils/src/lib.rs
++++ replace get_secure_input_pid -> Option<i64> with None
+@@ -21,26 +21,17 @@
+ use std::{ffi::CStr, os::raw::c_char};
+ 
+ mod ffi;
+ 
+ /// Check whether an application is currently holding the Secure Input.
+ /// Return None if no application has claimed `SecureInput`, its PID otherwise.
+ #[cfg(target_os = "macos")]
+ pub fn get_secure_input_pid() -> Option<i64> {
+-    unsafe {
+-        let mut pid: i64 = -1;
+-        let res = ffi::mac_utils_get_secure_input_process(std::ptr::from_mut::<i64>(&mut pid));
+-
+-        if res > 0 {
+-            Some(pid)
+-        } else {
+-            None
+-        }
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ /// Check whether an application is currently holding the Secure Input.
+ /// Return None if no application has claimed `SecureInput`, `Some((AppName, AppPath))` otherwise.
+ #[cfg(target_os = "macos")]
+ pub fn get_secure_input_application() -> Option<(String, String)> {
+     unsafe {
+         let pid = get_secure_input_pid();

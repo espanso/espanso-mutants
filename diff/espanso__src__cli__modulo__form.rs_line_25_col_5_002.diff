@@ -1,0 +1,48 @@
+--- espanso/src/cli/modulo/form.rs
++++ replace form_main -> i32 with -1
+@@ -17,44 +17,10 @@
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use crate::icon::IconPaths;
+ use clap::ArgMatches;
+ use espanso_modulo::form::*;
+ 
+ pub fn form_main(matches: &ArgMatches, _icon_paths: &IconPaths) -> i32 {
+-    let as_json: bool = matches.is_present("json");
+-
+-    let input_file = matches
+-        .value_of("input_file")
+-        .expect("missing input, please specify the -i option");
+-    let data = if input_file == "-" {
+-        use std::io::Read;
+-        let mut buffer = String::new();
+-        std::io::stdin()
+-            .read_to_string(&mut buffer)
+-            .expect("unable to obtain input from stdin");
+-        buffer
+-    } else {
+-        std::fs::read_to_string(input_file).expect("unable to read input file")
+-    };
+-
+-    let mut config: config::FormConfig = if as_json {
+-        serde_json::from_str(&data).expect("unable to parse form configuration")
+-    } else {
+-        serde_yaml::from_str(&data).expect("unable to parse form configuration")
+-    };
+-
+-    // Overwrite the icon
+-    config.icon = _icon_paths
+-        .form_icon
+-        .as_deref()
+-        .map(|path| path.to_string_lossy().to_string());
+-
+-    let form = generator::generate(config);
+-    let values = show(form);
+-
+-    let output = serde_json::to_string(&values).expect("unable to encode values as JSON");
+-    println!("{output}");
+-
+-    0
++    -1 /* ~ changed by cargo-mutants ~ */
+ }

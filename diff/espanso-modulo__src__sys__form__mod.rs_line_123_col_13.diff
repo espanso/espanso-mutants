@@ -1,0 +1,62 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl From<types::Form> for OwnedForm>::from -> Self with Default::default()
+@@ -115,58 +115,17 @@
+     impl Interoperable for OwnedForm {
+         fn as_ptr(&self) -> *const c_void {
+             std::ptr::from_ref::<FormMetadata>(&(*self.interop)) as *const c_void
+         }
+     }
+ 
+     impl From<types::Form> for OwnedForm {
+         fn from(form: types::Form) -> Self {
+-            let title = CString::new(form.title).expect("unable to convert form title to CString");
+-            let fields: Vec<OwnedField> = form.fields.into_iter().map(Into::into).collect();
+-
+-            let metadata: Vec<FieldMetadata> = fields
+-                .iter()
+-                .map(sys::form::interop::OwnedField::metadata)
+-                .collect();
+-
+-            let icon_path = if let Some(icon_path) = form.icon.as_ref() {
+-                icon_path.clone()
+-            } else {
+-                String::new()
+-            };
+-
+-            let icon_path =
+-                CString::new(icon_path).expect("unable to convert form icon to CString");
+-
+-            let icon_path_ptr = if form.icon.is_some() {
+-                icon_path.as_ptr()
+-            } else {
+-                std::ptr::null()
+-            };
+-
+-            let max_form_width = form.max_form_width;
+-            let max_form_height = form.max_form_height;
+-
+-            let interop = Box::new(FormMetadata {
+-                windowTitle: title.as_ptr(),
+-                iconPath: icon_path_ptr,
+-                fields: metadata.as_ptr(),
+-                fieldSize: fields.len() as c_int,
+-                maxWindowWidth: max_form_width,
+-                maxWindowHeight: max_form_height,
+-            });
+-
+-            Self {
+-                title,
+-                icon_path,
+-                fields,
+-                metadata,
+-                interop,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     struct OwnedField {
+         id: Option<CString>,
+         field_type: FieldType,
+         specific: Box<dyn Interoperable>,
+     }

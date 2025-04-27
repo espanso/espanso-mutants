@@ -1,0 +1,19 @@
+--- espanso/src/cli/cmd.rs
++++ replace send_event_to_worker -> Result<()> with Ok(())
+@@ -61,15 +61,10 @@
+         eprintln!("unable to send command, error: {error:?}");
+         return 2;
+     }
+ 
+     0
+ }
+ 
+ fn send_event_to_worker(runtime_path: &Path, event: IPCEvent) -> Result<()> {
+-    if acquire_worker_lock(runtime_path).is_some() {
+-        bail!("Worker process is not running, please start Espanso first.")
+-    }
+-
+-    let mut client = create_ipc_client_to_worker(runtime_path)?;
+-    client.send_async(event)
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

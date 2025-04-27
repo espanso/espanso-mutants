@@ -1,0 +1,22 @@
+--- espanso-clipboard/src/lib.rs
++++ replace get_clipboard -> Result<Box<dyn Clipboard>> with Ok(Box::new(Default::default()))
+@@ -73,18 +73,17 @@
+ #[cfg(target_os = "windows")]
+ pub fn get_clipboard(_: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+     info!("using Win32Clipboard");
+     Ok(Box::new(win32::Win32Clipboard::new()))
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn get_clipboard(_: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+-    info!("using CocoaClipboard");
+-    Ok(Box::new(cocoa::CocoaClipboard::new()?))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(not(feature = "wayland"))]
+ pub fn get_clipboard(_: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+     info!("using X11Clipboard");
+     Ok(Box::new(x11::X11Clipboard::new()?))
+ }

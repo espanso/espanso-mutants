@@ -1,0 +1,23 @@
+--- espanso-engine/src/dispatch/executor/context_menu.rs
++++ replace <impl Executor for ContextMenuExecutor<'_>>::execute -> bool with false
+@@ -33,19 +33,11 @@
+ impl<'a> ContextMenuExecutor<'a> {
+     pub fn new(handler: &'a dyn ContextMenuHandler) -> Self {
+         Self { handler }
+     }
+ }
+ 
+ impl Executor for ContextMenuExecutor<'_> {
+     fn execute(&self, event: &Event) -> bool {
+-        if let EventType::ShowContextMenu(context_menu_event) = &event.etype {
+-            if let Err(error) = self.handler.show_context_menu(&context_menu_event.items) {
+-                error!("context menu handler reported an error: {:?}", error);
+-            }
+-
+-            return true;
+-        }
+-
+-        false
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ }

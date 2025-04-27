@@ -1,0 +1,40 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace convert_hotkey_to_raw -> Option<RawHotKey> with None
+@@ -238,36 +238,17 @@
+ 
+         if result != 0 {
+             error!("Win32Source destruction returned non-zero code");
+         }
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKey> {
+-    let key_code = hk.key.to_code()?;
+-    let mut flags = 0x4000; // NOREPEAT flags
+-    if hk.has_ctrl() {
+-        flags |= 0x0002;
+-    }
+-    if hk.has_alt() {
+-        flags |= 0x0001;
+-    }
+-    if hk.has_meta() {
+-        flags |= 0x0008;
+-    }
+-    if hk.has_shift() {
+-        flags |= 0x0004;
+-    }
+-
+-    Some(RawHotKey {
+-        id: hk.id,
+-        code: key_code,
+-        flags,
+-    })
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum Win32SourceError {
+     #[error("window registration failed")]
+     WindowFailed(),
+ 
+     #[error("raw input API failed")]

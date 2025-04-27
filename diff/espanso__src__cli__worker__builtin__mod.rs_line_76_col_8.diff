@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/builtin/mod.rs
++++ replace >= with < in is_builtin_match
+@@ -68,17 +68,17 @@
+             config.search_shortcut(),
+         ));
+     }
+ 
+     matches
+ }
+ 
+ pub fn is_builtin_match(id: i32) -> bool {
+-    id >= MIN_BUILTIN_MATCH_ID
++    id < /* ~ changed by cargo-mutants ~ */ MIN_BUILTIN_MATCH_ID
+ }
+ 
+ thread_local! {
+   static CURRENT_BUILTIN_MATCH_ID: Cell<i32> = const { Cell::new(MIN_BUILTIN_MATCH_ID) };
+ }
+ 
+ fn generate_next_builtin_id() -> i32 {
+     CURRENT_BUILTIN_MATCH_ID.with(|value| {

@@ -1,0 +1,62 @@
+--- espanso-modulo/src/form/config.rs
++++ replace <impl From<&'a AutoFieldConfig> for FieldConfig>::from -> Self with Default::default()
+@@ -107,58 +107,17 @@
+     {
+         let auto_field = AutoFieldConfig::deserialize(deserializer)?;
+         Ok(FieldConfig::from(&auto_field))
+     }
+ }
+ 
+ impl<'a> From<&'a AutoFieldConfig> for FieldConfig {
+     fn from(other: &'a AutoFieldConfig) -> Self {
+-        let field_type = match other.field_type.as_ref() {
+-            "text" => {
+-                let mut config = TextFieldConfig::default();
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                config.multiline = other.multiline;
+-
+-                FieldTypeConfig::Text(config)
+-            }
+-            "choice" => {
+-                let mut config = ChoiceFieldConfig {
+-                    values: other.values.clone(),
+-                    ..Default::default()
+-                };
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                FieldTypeConfig::Choice(config)
+-            }
+-            "list" => {
+-                let mut config = ListFieldConfig {
+-                    values: other.values.clone(),
+-                    ..Default::default()
+-                };
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                FieldTypeConfig::List(config)
+-            }
+-            _ => {
+-                panic!("invalid field type: {}", other.field_type);
+-            }
+-        };
+-
+-        Self { field_type }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn default_type() -> String {
+     "text".to_owned()
+ }
+ 
+ fn default_default() -> Option<String> {

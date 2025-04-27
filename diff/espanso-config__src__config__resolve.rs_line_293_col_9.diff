@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::undo_backspace -> bool with false
+@@ -285,17 +285,17 @@
+         match self.parsed.search_shortcut.as_deref() {
+             Some("OFF" | "off") => None,
+             Some(x) => Some(x.to_string()),
+             None => Some("ALT+SPACE".to_string()),
+         }
+     }
+ 
+     fn undo_backspace(&self) -> bool {
+-        self.parsed.undo_backspace.unwrap_or(true)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_icon(&self) -> bool {
+         self.parsed.show_icon.unwrap_or(true)
+     }
+ 
+     fn show_notifications(&self) -> bool {
+         self.parsed.show_notifications.unwrap_or(true)

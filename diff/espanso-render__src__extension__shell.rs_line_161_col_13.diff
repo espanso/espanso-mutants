@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ delete match arm
+@@ -153,17 +153,17 @@
+ 
+     fn from_string(shell: &str) -> Option<Shell> {
+         match shell {
+             "bash" => Some(Shell::Bash),
+             "cmd" => Some(Shell::Cmd),
+             "nu" => Some(Shell::Nu),
+             "powershell" => Some(Shell::Powershell),
+             "pwsh" => Some(Shell::Pwsh),
+-            "sh" => Some(Shell::Sh),
++             /* ~ changed by cargo-mutants ~ */
+             "wsl" => Some(Shell::WSL),
+             "wsl2" => Some(Shell::WSL2),
+             "zsh" => Some(Shell::Zsh),
+             _ => None,
+         }
+     }
+ }
+ 

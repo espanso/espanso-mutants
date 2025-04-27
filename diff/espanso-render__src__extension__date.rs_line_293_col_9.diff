@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -285,17 +285,17 @@
+         "mag-IN" => Some(Locale::mag_IN),
+         "mai-IN" => Some(Locale::mai_IN),
+         "mai-NP" => Some(Locale::mai_NP),
+         "mfe-MU" => Some(Locale::mfe_MU),
+         "mg-MG" => Some(Locale::mg_MG),
+         "mhr-RU" => Some(Locale::mhr_RU),
+         "mi-NZ" => Some(Locale::mi_NZ),
+         "miq-NI" => Some(Locale::miq_NI),
+-        "mjw-IN" => Some(Locale::mjw_IN),
++         /* ~ changed by cargo-mutants ~ */
+         "mk-MK" => Some(Locale::mk_MK),
+         "ml-IN" => Some(Locale::ml_IN),
+         "mn-MN" => Some(Locale::mn_MN),
+         "mni-IN" => Some(Locale::mni_IN),
+         "mnw-MM" => Some(Locale::mnw_MM),
+         "mr-IN" => Some(Locale::mr_IN),
+         "ms-MY" => Some(Locale::ms_MY),
+         "mt-MT" => Some(Locale::mt_MT),

@@ -1,0 +1,39 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl super::engine::process::middleware::match_select::MatchProvider<'a> for CombinedMatchCache<'a>>::get_matches -> Vec<MatchSummary<'a>> with vec![]
+@@ -119,35 +119,17 @@
+         None
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::match_select::MatchProvider<'a>
+     for CombinedMatchCache<'a>
+ {
+     fn get_matches(&self, ids: &[i32]) -> Vec<MatchSummary<'a>> {
+-        ids.iter()
+-            .filter_map(|id| self.get(*id))
+-            .map(|m| match m {
+-                MatchVariant::User(m) => MatchSummary {
+-                    id: m.id,
+-                    label: m.description(),
+-                    tag: m.cause_description(),
+-                    additional_search_terms: m.search_terms(),
+-                    is_builtin: false,
+-                },
+-                MatchVariant::Builtin(m) => MatchSummary {
+-                    id: m.id,
+-                    label: m.label,
+-                    tag: m.triggers.first().map(String::as_ref),
+-                    additional_search_terms: vec![],
+-                    is_builtin: true,
+-                },
+-            })
+-            .collect()
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::multiplex::MatchProvider<'a>
+     for CombinedMatchCache<'a>
+ {
+     fn get(
+         &self,

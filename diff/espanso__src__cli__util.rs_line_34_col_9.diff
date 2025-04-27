@@ -1,0 +1,40 @@
+--- espanso/src/cli/util.rs
++++ replace <impl CommandExt for Command>::with_paths_overrides -> &mut Self with Box::leak(Box::new(Default::default()))
+@@ -26,36 +26,17 @@
+ 
+ impl CommandExt for Command {
+     fn with_paths_overrides(&mut self, paths_overrides: &PathsOverrides) -> &mut Self {
+         // We only inject the paths that were explicitly overrided because otherwise
+         // the migration process might create some incompatibilities.
+         // For example, after the migration the "packages" dir could have been
+         // moved to a different one, and that might cause the daemon to crash
+         // if we inject the old packages dir that was automatically resolved.
+-        if let Some(config_override) = &paths_overrides.config {
+-            self.env(
+-                "ESPANSO_CONFIG_DIR",
+-                config_override.to_string_lossy().to_string(),
+-            );
+-        }
+-        if let Some(packages_override) = &paths_overrides.packages {
+-            self.env(
+-                "ESPANSO_PACKAGE_DIR",
+-                packages_override.to_string_lossy().to_string(),
+-            );
+-        }
+-        if let Some(runtime_override) = &paths_overrides.runtime {
+-            self.env(
+-                "ESPANSO_RUNTIME_DIR",
+-                runtime_override.to_string_lossy().to_string(),
+-            );
+-        }
+-
+-        self
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ // For context, see also this issue: https://github.com/espanso/espanso/issues/648
+ #[cfg(target_os = "macos")]
+ pub fn prevent_running_as_root_on_macos() {
+     use crate::{error_eprintln, exit_code::UNEXPECTED_RUN_AS_ROOT};
+ 

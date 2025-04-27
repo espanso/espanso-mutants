@@ -1,0 +1,22 @@
+--- espanso-detect/src/layout/wayland.rs
++++ replace pid_from_wayland_display_fd -> i32 with 1
+@@ -1,18 +1,17 @@
+ use nix::sys::socket;
+ use std::fs::File;
+ use std::io::Read;
+ use std::os::fd::BorrowedFd;
+ use wayland_client::Connection;
+ use wayland_client::Proxy;
+ 
+ fn pid_from_wayland_display_fd(fd: BorrowedFd) -> i32 {
+-    let soc_peer_process = socket::getsockopt(&fd, socket::sockopt::PeerCredentials).unwrap();
+-    soc_peer_process.pid()
++    1 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_compositor_pid() -> i32 {
+     let wl_conn = Connection::connect_to_env().unwrap();
+     let wl_display = wl_conn.display();
+     let wl_display_backend = wl_display.backend().upgrade().unwrap();
+ 
+     pid_from_wayland_display_fd(wl_display_backend.poll_fd())

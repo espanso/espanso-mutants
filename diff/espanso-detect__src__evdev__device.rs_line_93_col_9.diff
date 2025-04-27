@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace Device::get_raw_fd -> i32 with 0
+@@ -85,17 +85,17 @@
+         })
+     }
+ 
+     pub fn get_state(&self) -> *mut xkb_state {
+         self.state
+     }
+ 
+     pub fn get_raw_fd(&self) -> i32 {
+-        self.file.as_raw_fd()
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get_path(&self) -> String {
+         self.path.to_string()
+     }
+ 
+     pub fn read(&self) -> Result<Vec<RawInputEvent>> {
+         let errno_ptr = unsafe { libc::__errno_location() };

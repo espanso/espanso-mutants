@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl super::engine::process::middleware::render::MatchProvider<'a> for MatchCache<'a>>::get -> Option<&'a Match> with Some(&Default::default())
+@@ -51,17 +51,17 @@
+ }
+ 
+ impl<'a> super::engine::process::middleware::render::MatchProvider<'a> for MatchCache<'a> {
+     fn matches(&self) -> Vec<&'a Match> {
+         self.cache.values().copied().collect()
+     }
+ 
+     fn get(&self, id: i32) -> Option<&'a Match> {
+-        self.cache.get(&id).copied()
++        Some(&Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::MatchInfoProvider for MatchCache<'_> {
+     fn get_force_mode(
+         &self,
+         match_id: i32,
+     ) -> Option<espanso_engine::event::effect::TextInjectMode> {

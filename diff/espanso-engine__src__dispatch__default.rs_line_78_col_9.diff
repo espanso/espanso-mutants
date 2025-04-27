@@ -1,0 +1,19 @@
+--- espanso-engine/src/dispatch/default.rs
++++ replace <impl Dispatcher for DefaultDispatcher<'_>>::dispatch with ()
+@@ -70,15 +70,11 @@
+                 )),
+             ],
+         }
+     }
+ }
+ 
+ impl Dispatcher for DefaultDispatcher<'_> {
+     fn dispatch(&self, event: Event) {
+-        for executor in &self.executors {
+-            if executor.execute(&event) {
+-                break;
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }

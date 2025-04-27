@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/gitlab.rs
++++ replace <impl PackageProvider for GitLabPackageProvider>::name -> String with "xyzzy".into()
+@@ -34,17 +34,17 @@
+             name: repo_name,
+             branch: repo_branch,
+         }
+     }
+ }
+ 
+ impl PackageProvider for GitLabPackageProvider {
+     fn name(&self) -> String {
+-        "gitlab".to_string()
++        "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+         let download_url = format!(
+             "https://gitlab.com/{}/{}/-/archive/{}/{}-{}.zip",
+             &self.author, &self.name, &self.branch, &self.name, &self.branch
+         );
+ 

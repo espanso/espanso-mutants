@@ -1,0 +1,61 @@
+--- espanso-match/src/rolling/matcher.rs
++++ replace RollingMatcher<Id>::find_refs -> Vec<(&'a MatcherTreeRef<Id>, IsWordSeparator)> with vec![(&MatcherTreeRef::new(), Default::default())]
+@@ -142,57 +142,17 @@
+     }
+ 
+     fn find_refs<'a>(
+         &'a self,
+         node: &'a MatcherTreeNode<Id>,
+         event: &Event,
+         has_previous_state: bool,
+     ) -> Vec<(&'a MatcherTreeRef<Id>, IsWordSeparator)> {
+-        let mut refs = Vec::new();
+-
+-        if let Event::Key { key, chars } = event {
+-            // Key matching
+-            if let Some((_, node_ref)) = node.keys.iter().find(|(k, _)| k == key) {
+-                refs.push((node_ref, false));
+-            }
+-
+-            if let Some(char) = chars {
+-                // Char matching
+-                if let Some((_, node_ref)) = node.chars.iter().find(|(c, _)| c == char) {
+-                    refs.push((node_ref, false));
+-                }
+-
+-                // Char case-insensitive
+-                let insensitive_char = UniCase::new(char);
+-                if let Some((_, node_ref)) = node
+-                    .chars_insensitive
+-                    .iter()
+-                    .find(|(c, _)| *c == insensitive_char)
+-                {
+-                    refs.push((node_ref, false));
+-                }
+-            }
+-        }
+-
+-        if self.is_word_separator(event) {
+-            if let Some(node_ref) = node.word_separators.as_ref() {
+-                refs.push((node_ref, true));
+-            }
+-        }
+-
+-        // If there is no previous state, we handle it as a word separator, exploring a step forward
+-        // in the state.
+-        if !has_previous_state {
+-            if let Some(MatcherTreeRef::Node(node)) = node.word_separators.as_ref() {
+-                refs.extend(self.find_refs(node, event, true));
+-            }
+-        }
+-
+-        refs
++        vec![(&MatcherTreeRef::new(), Default::default())] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn is_word_separator(&self, event: &Event) -> bool {
+         match event {
+             Event::Key { key, chars } => {
+                 if self.key_word_separators.contains(key) {
+                     true
+                 } else if let Some(char) = chars {

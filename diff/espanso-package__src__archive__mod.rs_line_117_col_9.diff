@@ -1,0 +1,31 @@
+--- espanso-package/src/archive/mod.rs
++++ replace <impl From<&ArchivedPackage> for PackageSpecifier>::from -> Self with Default::default()
+@@ -109,27 +109,11 @@
+         } else {
+             Self::Hub
+         }
+     }
+ }
+ 
+ impl From<&ArchivedPackage> for PackageSpecifier {
+     fn from(package: &ArchivedPackage) -> Self {
+-        match &package.source {
+-            PackageSource::Hub => PackageSpecifier {
+-                name: package.manifest.name.to_string(),
+-                ..Default::default()
+-            },
+-            PackageSource::Git {
+-                repo_url,
+-                repo_branch,
+-                use_native_git,
+-            } => PackageSpecifier {
+-                name: package.manifest.name.to_string(),
+-                git_repo_url: Some(repo_url.to_string()),
+-                git_branch: repo_branch.clone(),
+-                use_native_git: *use_native_git,
+-                ..Default::default()
+-            },
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

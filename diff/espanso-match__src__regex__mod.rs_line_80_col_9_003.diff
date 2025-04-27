@@ -1,0 +1,83 @@
+--- espanso-match/src/regex/mod.rs
++++ replace <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process -> (RegexMatcherState, Vec<MatchResult<Id>>) with (Default::default(), vec![])
+@@ -72,79 +72,17 @@
+ where
+     Id: Clone,
+ {
+     fn process(
+         &'a self,
+         prev_state: Option<&RegexMatcherState>,
+         event: Event,
+     ) -> (RegexMatcherState, Vec<MatchResult<Id>>) {
+-        let mut buffer = if let Some(prev_state) = prev_state {
+-            prev_state.buffer.clone()
+-        } else {
+-            String::new()
+-        };
+-
+-        if let Event::Key {
+-            key: _,
+-            chars: Some(chars),
+-        } = event
+-        {
+-            buffer.push_str(&chars);
+-        }
+-
+-        // Keep the buffer length in check
+-        if buffer.len() > self.max_buffer_size {
+-            buffer.remove(0);
+-        }
+-
+-        // Find matches
+-        if self.regex_set.is_match(&buffer) {
+-            let mut matches = Vec::new();
+-
+-            for index in self.regex_set.matches(&buffer) {
+-                if let (Some(id), Some(regex)) = (self.ids.get(index), self.regexes.get(index)) {
+-                    if let Some(captures) = regex.captures(&buffer) {
+-                        let full_match = captures.get(0).map_or("", |m| m.as_str());
+-                        if !full_match.is_empty() {
+-                            // Now extract the captured names as variables
+-                            let variables: HashMap<String, String> = regex
+-                                .capture_names()
+-                                .flatten()
+-                                .filter_map(|n| {
+-                                    Some((n.to_string(), captures.name(n)?.as_str().to_string()))
+-                                })
+-                                .collect();
+-
+-                            let result = MatchResult {
+-                                id: (*id).clone(),
+-                                trigger: full_match.to_string(),
+-                                left_separator: None,
+-                                right_separator: None,
+-                                vars: variables,
+-                            };
+-
+-                            matches.push(result);
+-                        }
+-                    }
+-                } else {
+-                    error!(
+-                        "received inconsistent index from regex set with index: {}",
+-                        index
+-                    );
+-                }
+-            }
+-
+-            if !matches.is_empty() {
+-                return (RegexMatcherState::default(), matches);
+-            }
+-        }
+-
+-        let current_state = RegexMatcherState { buffer };
+-        (current_state, Vec::new())
++        (Default::default(), vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<Id: Clone> RegexMatcher<Id> {
+     pub fn new(matches: &[RegexMatch<Id>], opt: RegexMatcherOptions) -> Self {
+         let mut ids = Vec::new();
+         let mut regexes = Vec::new();
+         let mut good_regexes = Vec::new();

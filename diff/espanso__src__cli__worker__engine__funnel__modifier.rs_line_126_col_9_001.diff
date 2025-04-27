@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace ModifierStatus::is_pressed -> bool with true
+@@ -118,17 +118,17 @@
+ }
+ 
+ struct ModifierStatus {
+     pressed_at: Option<Instant>,
+ }
+ 
+ impl ModifierStatus {
+     fn is_pressed(&self) -> bool {
+-        self.pressed_at.is_some()
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn is_outdated(&self) -> bool {
+         let now = Instant::now();
+         if let Some(pressed_at) = self.pressed_at {
+             now.duration_since(pressed_at) > MAXIMUM_MODIFIERS_PRESS_TIME_RECORD
+         } else {
+             false

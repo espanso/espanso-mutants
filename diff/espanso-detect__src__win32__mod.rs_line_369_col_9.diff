@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -361,17 +361,17 @@
+         0x14 => (CapsLock, None),
+         0x11 => (Control, None),
+         0xA2 => (Control, Some(Left)),
+         0xA3 => (Control, Some(Right)),
+         0x5B => (Meta, Some(Left)),
+         0x5C => (Meta, Some(Right)),
+         0x90 => (NumLock, None),
+         0x10 => (Shift, None),
+-        0xA0 => (Shift, Some(Left)),
++         /* ~ changed by cargo-mutants ~ */
+         0xA1 => (Shift, Some(Right)),
+ 
+         // Whitespace
+         0x0D => (Enter, None),
+         0x09 => (Tab, None),
+         0x20 => (Space, None),
+ 
+         // Navigation

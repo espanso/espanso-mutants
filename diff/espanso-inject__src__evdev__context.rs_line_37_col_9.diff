@@ -1,0 +1,23 @@
+--- espanso-inject/src/evdev/context.rs
++++ replace <impl Drop for Context>::drop with ()
+@@ -29,19 +29,17 @@
+ 
+     pub fn get_handle(&self) -> *mut xkb_context {
+         self.context
+     }
+ }
+ 
+ impl Drop for Context {
+     fn drop(&mut self) {
+-        unsafe {
+-            xkb_context_unref(self.context);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ContextError {
+     #[error("could not create xkb context")]
+     FailedCreation(),
+ }

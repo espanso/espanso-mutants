@@ -1,0 +1,54 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace calculate_casing_style -> CasingStyle with Default::default()
+@@ -268,50 +268,10 @@
+         false
+     }
+ }
+ 
+ fn calculate_casing_style(
+     trigger: &str,
+     uppercasing_style: Option<UpperCasingStyle>,
+ ) -> CasingStyle {
+-    let mut first_alphabetic = None;
+-    let mut second_alphabetic = None;
+-
+-    for c in trigger.chars() {
+-        if c.is_alphabetic() {
+-            if first_alphabetic.is_none() {
+-                first_alphabetic = Some(c);
+-            } else if second_alphabetic.is_none() {
+-                second_alphabetic = Some(c);
+-            } else {
+-                break;
+-            }
+-        }
+-    }
+-
+-    if let Some(first) = first_alphabetic {
+-        if let Some(second) = second_alphabetic {
+-            if first.is_uppercase() {
+-                if second.is_uppercase() {
+-                    CasingStyle::Uppercase
+-                } else {
+-                    match uppercasing_style {
+-                        Some(UpperCasingStyle::CapitalizeWords) => CasingStyle::CapitalizeWords,
+-                        _ => CasingStyle::Capitalize,
+-                    }
+-                }
+-            } else {
+-                CasingStyle::None
+-            }
+-        } else if first.is_uppercase() {
+-            match uppercasing_style {
+-                Some(UpperCasingStyle::Capitalize) => CasingStyle::Capitalize,
+-                Some(UpperCasingStyle::CapitalizeWords) => CasingStyle::CapitalizeWords,
+-                _ => CasingStyle::Uppercase,
+-            }
+-        } else {
+-            CasingStyle::None
+-        }
+-    } else {
+-        CasingStyle::None
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

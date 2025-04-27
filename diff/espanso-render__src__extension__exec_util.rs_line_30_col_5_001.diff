@@ -1,0 +1,44 @@
+--- espanso-render/src/extension/exec_util.rs
++++ replace determine_path_env_variable_override -> Option<String> with Some(String::new())
+@@ -22,40 +22,17 @@
+     Nu,
+     Pwsh,
+     Sh,
+     Zsh,
+ }
+ 
+ // Determine the PATH env variable value for macOS available inside a regular terminal session
+ pub fn determine_path_env_variable_override(explicit_shell: Option<MacShell>) -> Option<String> {
+-    if cfg!(not(target_os = "macos")) {
+-        return None;
+-    }
+-    let shell: MacShell = explicit_shell.or_else(determine_default_macos_shell)?;
+-
+-    match shell {
+-        MacShell::Bash => launch_command_and_get_output(
+-            "bash",
+-            &["--login", "-c", "source ~/.bashrc; echo $PATH"],
+-        ),
+-        MacShell::Nu => launch_command_and_get_output("nu", &["--login", "-c", "$env.PATH"]),
+-        MacShell::Pwsh => launch_command_and_get_output(
+-            "pwsh",
+-            &[
+-                "-Login",
+-                "-Command",
+-                "if(Test-Path \"$PROFILE\") { . \"$PROFILE\" }; Write-Host $env:PATH",
+-            ],
+-        ),
+-        MacShell::Sh => launch_command_and_get_output("sh", &["--login", "-c", "echo $PATH"]),
+-        MacShell::Zsh => {
+-            launch_command_and_get_output("zsh", &["--login", "-c", "source ~/.zshrc; echo $PATH"])
+-        }
+-    }
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn determine_default_macos_shell() -> Option<MacShell> {
+     if cfg!(not(target_os = "macos")) {
+         return None;
+     }
+     use regex::Regex;
+     use std::process::Command;

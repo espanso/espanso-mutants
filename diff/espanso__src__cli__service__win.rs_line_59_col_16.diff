@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/win.rs
++++ delete ! in is_registered
+@@ -51,17 +51,17 @@
+ pub enum UnregisterError {
+     #[error("entry not found")]
+     EntryNotFound,
+ }
+ 
+ pub fn is_registered() -> bool {
+     match get_startup_shortcut_file() {
+         Ok(shortcut_path) => {
+-            if !shortcut_path.is_file() {
++            if  /* ~ changed by cargo-mutants ~ */shortcut_path.is_file() {
+                 return false;
+             }
+ 
+             match get_shortcut_target_file(&shortcut_path) {
+                 Ok(target_path) => {
+                     // Check if the target file is the same as the current binary
+                     let current_path = std::env::current_exe().expect("unable to get exec path");
+ 

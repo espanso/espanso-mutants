@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/matcher.rs
++++ delete ! in RollingMatcher<Id>::find_refs
+@@ -176,17 +176,17 @@
+         if self.is_word_separator(event) {
+             if let Some(node_ref) = node.word_separators.as_ref() {
+                 refs.push((node_ref, true));
+             }
+         }
+ 
+         // If there is no previous state, we handle it as a word separator, exploring a step forward
+         // in the state.
+-        if !has_previous_state {
++        if  /* ~ changed by cargo-mutants ~ */has_previous_state {
+             if let Some(MatcherTreeRef::Node(node)) = node.word_separators.as_ref() {
+                 refs.extend(self.find_refs(node, event, true));
+             }
+         }
+ 
+         refs
+     }
+ 

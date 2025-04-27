@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl WindowHandler for SimpleWindow>::request_close with ()
+@@ -204,17 +204,17 @@
+         _qh: &QueueHandle<Self>,
+         _output: wl_output::WlOutput,
+     ) {
+     }
+ }
+ 
+ impl WindowHandler for SimpleWindow {
+     fn request_close(&mut self, _: &Connection, _: &QueueHandle<Self>, _: &Window) {
+-        self.exit = true;
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn configure(
+         &mut self,
+         conn: &Connection,
+         qh: &QueueHandle<Self>,
+         _window: &Window,
+         configure: WindowConfigure,

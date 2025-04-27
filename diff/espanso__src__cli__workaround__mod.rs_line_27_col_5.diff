@@ -1,0 +1,25 @@
+--- espanso/src/cli/workaround/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -19,21 +19,17 @@
+ 
+ use super::{CliModule, CliModuleArgs};
+ use crate::{error_eprintln, exit_code::WORKAROUND_SUCCESS};
+ 
+ #[cfg(target_os = "macos")]
+ mod secure_input;
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        subcommand: "workaround".to_string(),
+-        entry: workaround_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn workaround_main(args: CliModuleArgs) -> i32 {
+     let cli_args = args.cli_args.expect("missing cli_args");
+ 
+     if cli_args.subcommand_matches("secure-input").is_some() {
+         #[cfg(target_os = "macos")]
+         {

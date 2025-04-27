@@ -1,0 +1,39 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace <impl Source for CocoaSource>::eventloop -> Result<()> with Ok(())
+@@ -253,35 +253,17 @@
+             error!("Unable to set CocoaSource receiver");
+             return Err(CocoaSourceError::Unknown().into());
+         }
+ 
+         Ok(())
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+-        if let Some(receiver) = self.receiver.borrow() {
+-            loop {
+-                let event = receiver.recv();
+-                match event {
+-                    Ok(event) => {
+-                        event_callback(event);
+-                    }
+-                    Err(error) => {
+-                        error!("CocoaSource receiver reported error: {}", error);
+-                        break;
+-                    }
+-                }
+-            }
+-        } else {
+-            error!("Unable to start event loop if CocoaSource receiver is null");
+-            return Err(CocoaSourceError::Unknown().into());
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for CocoaSource {
+     fn drop(&mut self) {
+         // Reset the global sender
+         {
+             let mut lock = CURRENT_SENDER

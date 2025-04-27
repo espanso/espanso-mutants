@@ -1,0 +1,30 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace <impl Drop for Win32Source>::drop with ()
+@@ -224,26 +224,17 @@
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Drop for Win32Source {
+     fn drop(&mut self) {
+-        if self.handle.is_null() {
+-            error!("Win32Source destruction cannot be performed, handle is null");
+-            return;
+-        }
+-
+-        let result = unsafe { detect_destroy(self.handle) };
+-
+-        if result != 0 {
+-            error!("Win32Source destruction returned non-zero code");
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKey> {
+     let key_code = hk.key.to_code()?;
+     let mut flags = 0x4000; // NOREPEAT flags
+     if hk.has_ctrl() {
+         flags |= 0x0002;

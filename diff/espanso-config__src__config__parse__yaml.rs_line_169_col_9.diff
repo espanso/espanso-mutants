@@ -1,0 +1,27 @@
+--- espanso-config/src/config/parse/yaml.rs
++++ replace YAMLConfig::parse_from_str -> Result<Self> with Ok(Default::default())
+@@ -161,23 +161,17 @@
+ 
+     #[serde(default)]
+     pub filter_os: Option<String>,
+ }
+ 
+ impl YAMLConfig {
+     pub fn parse_from_str(yaml: &str) -> Result<Self> {
+         // Because an empty string is not valid YAML but we want to support it anyway
+-        if is_yaml_empty(yaml) {
+-            return Ok(serde_yaml::from_str(
+-                "arbitrary_field_that_will_not_block_the_parser: true",
+-            )?);
+-        }
+-
+-        Ok(serde_yaml::from_str(yaml)?)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl TryFrom<YAMLConfig> for ParsedConfig {
+     type Error = anyhow::Error;
+ 
+     fn try_from(yaml_config: YAMLConfig) -> Result<Self, Self::Error> {
+         Ok(Self {

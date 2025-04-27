@@ -1,0 +1,21 @@
+--- espanso-config/src/config/store.rs
++++ delete ! in DefaultConfigStore::load
+@@ -70,17 +70,17 @@
+ impl DefaultConfigStore {
+     pub fn load(config_dir: &Path) -> Result<(Self, Vec<NonFatalErrorSet>)> {
+         if !config_dir.is_dir() {
+             return Err(ConfigStoreError::InvalidConfigDir().into());
+         }
+ 
+         // First get the default.yml file
+         let default_file = config_dir.join("default.yml");
+-        if !default_file.exists() || !default_file.is_file() {
++        if !default_file.exists() ||  /* ~ changed by cargo-mutants ~ */default_file.is_file() {
+             return Err(ConfigStoreError::MissingDefault().into());
+         }
+ 
+         let mut non_fatal_errors = Vec::new();
+ 
+         let default = ResolvedConfig::load(&default_file, None)
+             .context("failed to load default.yml configuration")?;
+         debug!("loaded default config at path: {:?}", default_file);

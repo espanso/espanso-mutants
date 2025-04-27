@@ -1,0 +1,30 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace interop::<impl From<&ErrorRecord> for OwnedErrorMetadata>::from -> Self with Default::default()
+@@ -98,26 +98,17 @@
+                 level: self.level,
+                 message: self.message.as_ptr(),
+             }
+         }
+     }
+ 
+     impl From<&ErrorRecord> for OwnedErrorMetadata {
+         fn from(item: &ErrorRecord) -> Self {
+-            let message = CString::new(item.message.clone())
+-                .expect("unable to convert item message to CString");
+-
+-            Self {
+-                level: match item.level {
+-                    crate::troubleshooting::ErrorLevel::Error => ERROR_METADATA_LEVEL_ERROR,
+-                    crate::troubleshooting::ErrorLevel::Warning => ERROR_METADATA_LEVEL_WARNING,
+-                },
+-                message,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ }
+ 
+ pub fn show(options: TroubleshootingOptions) -> Result<()> {
+     let (_c_window_icon_path, c_window_icon_path_ptr) =
+         convert_to_cstring_or_null(options.window_icon_path);
+ 

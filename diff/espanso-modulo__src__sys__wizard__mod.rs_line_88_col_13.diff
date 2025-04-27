@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ delete - in show::enable_accessibility
+@@ -80,17 +80,17 @@
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in enable_accessibility method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.enable_accessibility.as_ref() {
+             (*handler_ref)();
+             1
+         } else {
+-            -1
++             /* ~ changed by cargo-mutants ~ */1
+         }
+     }
+ 
+     extern "C" fn is_accessibility_enabled() -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in is_accessibility_enabled method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");

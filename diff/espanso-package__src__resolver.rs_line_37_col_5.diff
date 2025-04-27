@@ -1,0 +1,50 @@
+--- espanso-package/src/resolver.rs
++++ replace resolve_package -> Result<ResolvedPackage> with Ok(Default::default())
+@@ -29,46 +29,17 @@
+     pub base_dir: PathBuf,
+ }
+ 
+ pub fn resolve_package(
+     base_dir: &Path,
+     name: &str,
+     version: Option<&str>,
+ ) -> Result<ResolvedPackage> {
+-    let packages = resolve_all_packages(base_dir)?;
+-
+-    let mut matching_packages: Vec<ResolvedPackage> = packages
+-        .into_iter()
+-        .filter(|package| package.manifest.name == name)
+-        .collect();
+-
+-    if matching_packages.is_empty() {
+-        bail!("no package found with name: {}", name);
+-    }
+-
+-    matching_packages.sort_by(|a, b| natord::compare(&a.manifest.version, &b.manifest.version));
+-
+-    let matching_package = if let Some(explicit_version) = version {
+-        matching_packages
+-            .into_iter()
+-            .find(|package| package.manifest.version == explicit_version)
+-    } else {
+-        matching_packages.into_iter().next_back()
+-    };
+-
+-    if let Some(matching_package) = matching_package {
+-        Ok(matching_package)
+-    } else {
+-        bail!(
+-            "unable to find version: {} for package: {}",
+-            version.unwrap_or_default(),
+-            name
+-        );
+-    }
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn resolve_all_packages(base_dir: &Path) -> Result<Vec<ResolvedPackage>> {
+     let manifest_files = find_all_manifests(base_dir)?;
+ 
+     if manifest_files.is_empty() {
+         bail!("no manifests found in base_dir");
+     }

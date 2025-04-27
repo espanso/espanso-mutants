@@ -1,0 +1,30 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl From<types::TextMetadata> for OwnedTextMetadata>::from -> Self with Default::default()
+@@ -260,26 +260,17 @@
+     impl Interoperable for OwnedTextMetadata {
+         fn as_ptr(&self) -> *const c_void {
+             std::ptr::from_ref::<TextMetadata>(&(*self.interop)) as *const c_void
+         }
+     }
+ 
+     impl From<types::TextMetadata> for OwnedTextMetadata {
+         fn from(text_metadata: types::TextMetadata) -> Self {
+-            let default_text = CString::new(text_metadata.default_text)
+-                .expect("unable to convert default text to CString");
+-            let interop = Box::new(TextMetadata {
+-                defaultText: default_text.as_ptr(),
+-                multiline: i32::from(text_metadata.multiline),
+-            });
+-            Self {
+-                default_text,
+-                interop,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     struct OwnedChoiceMetadata {
+         values: Vec<CString>,
+         values_ptr_array: Vec<*const c_char>,
+         default_value: CString,
+         interop: Box<ChoiceMetadata>,

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/match_select.rs
++++ replace == with != in <impl Middleware for MatchSelectMiddleware<'_>>::next
+@@ -88,17 +88,17 @@
+                 }
+                 _ => {
+                     let start_event_id = self.event_sequence_provider.get_next_id();
+ 
+                     // Multiple matches, we need to ask the user which one to use
+                     let next_event = if let Some(selected_id) =
+                         self.match_selector.select(&valid_ids, m_event.is_search)
+                     {
+-                        let m = m_event.matches.into_iter().find(|m| m.id == selected_id);
++                        let m = m_event.matches.into_iter().find(|m| m.id != /* ~ changed by cargo-mutants ~ */ selected_id);
+                         if let Some(m) = m {
+                             Event::caused_by(
+                                 event.source_id,
+                                 EventType::MatchSelected(MatchSelectedEvent { chosen: m }),
+                             )
+                         } else {
+                             error!("MatchSelectMiddleware could not find the correspondent match");
+                             Event::caused_by(event.source_id, EventType::NOOP)

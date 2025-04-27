@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/match_select.rs
++++ replace <impl Middleware for MatchSelectMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -53,17 +53,17 @@
+             match_selector,
+             event_sequence_provider,
+         }
+     }
+ }
+ 
+ impl Middleware for MatchSelectMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "match_select"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::MatchesDetected(m_event) = event.etype {
+             let matches_ids: Vec<i32> = m_event.matches.iter().map(|m| m.id).collect();
+ 
+             // Find the matches that are actually valid in the current context
+             let valid_ids = self.match_filter.filter_active(&matches_ids);

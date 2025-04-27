@@ -1,0 +1,22 @@
+--- espanso/src/cli/service/mod.rs
++++ replace status_main -> i32 with 1
+@@ -173,18 +173,10 @@
+         error_eprintln!("unable to stop espanso: {}", err);
+         return SERVICE_FAILURE;
+     }
+ 
+     SERVICE_SUCCESS
+ }
+ 
+ fn status_main(paths: &Paths) -> i32 {
+-    let lock_file = acquire_worker_lock(&paths.runtime);
+-    if lock_file.is_some() {
+-        error_eprintln!("espanso is not running");
+-        return SERVICE_NOT_RUNNING;
+-    }
+-    drop(lock_file);
+-
+-    info_println!("espanso is running");
+-    SERVICE_SUCCESS
++    1 /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/context/default.rs
++++ replace <impl ConfigContext for DefaultContext<'_>>::get_active_config -> Arc<dyn Config> with Arc::new(Default::default())
+@@ -42,17 +42,17 @@
+ impl Context for DefaultContext<'_> {}
+ 
+ impl ConfigContext for DefaultContext<'_> {
+     // fn get_default_config(&self) -> Arc<dyn Config> {
+     //   self.config_manager.default()
+     // }
+ 
+     fn get_active_config(&self) -> Arc<dyn Config> {
+-        self.config_manager.active()
++        Arc::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl AppInfoContext for DefaultContext<'_> {
+     fn get_active_app_info(&self) -> AppInfo {
+         self.app_info_provider.get_info()
+     }
+ }

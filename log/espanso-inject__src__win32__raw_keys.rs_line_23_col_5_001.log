@@ -1,0 +1,197 @@
+
+*** espanso-inject/src/win32/raw_keys.rs:23:5: replace convert_key_to_vkey -> Option<i32> with Some(0)
+
+*** mutation diff:
+--- espanso-inject/src/win32/raw_keys.rs
++++ replace convert_key_to_vkey -> Option<i32> with Some(0)
+@@ -15,100 +15,10 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use crate::keys::Key;
+ 
+ pub fn convert_key_to_vkey(key: &Key) -> Option<i32> {
+-    let vkey = match key {
+-        Key::Alt => 0x12,
+-        Key::CapsLock => 0x14,
+-        Key::Control => 0x11,
+-        Key::Meta => 0x5B,
+-        Key::NumLock => 0x90,
+-        Key::Shift => 0xA0,
+-        Key::Enter => 0x0D,
+-        Key::Tab => 0x09,
+-        Key::Space => 0x20,
+-        Key::ArrowDown => 0x28,
+-        Key::ArrowLeft => 0x25,
+-        Key::ArrowRight => 0x27,
+-        Key::ArrowUp => 0x26,
+-        Key::End => 0x23,
+-        Key::Home => 0x24,
+-        Key::PageDown => 0x22,
+-        Key::PageUp => 0x21,
+-        Key::Escape => 0x1B,
+-        Key::Backspace => 0x08,
+-        Key::Insert => 0x2D,
+-        Key::Delete => 0x2E,
+-        Key::F1 => 0x70,
+-        Key::F2 => 0x71,
+-        Key::F3 => 0x72,
+-        Key::F4 => 0x73,
+-        Key::F5 => 0x74,
+-        Key::F6 => 0x75,
+-        Key::F7 => 0x76,
+-        Key::F8 => 0x77,
+-        Key::F9 => 0x78,
+-        Key::F10 => 0x79,
+-        Key::F11 => 0x7A,
+-        Key::F12 => 0x7B,
+-        Key::F13 => 0x7C,
+-        Key::F14 => 0x7D,
+-        Key::F15 => 0x7E,
+-        Key::F16 => 0x7F,
+-        Key::F17 => 0x80,
+-        Key::F18 => 0x81,
+-        Key::F19 => 0x82,
+-        Key::F20 => 0x83,
+-        Key::A => 0x41,
+-        Key::B => 0x42,
+-        Key::C => 0x43,
+-        Key::D => 0x44,
+-        Key::E => 0x45,
+-        Key::F => 0x46,
+-        Key::G => 0x47,
+-        Key::H => 0x48,
+-        Key::I => 0x49,
+-        Key::J => 0x4A,
+-        Key::K => 0x4B,
+-        Key::L => 0x4C,
+-        Key::M => 0x4D,
+-        Key::N => 0x4E,
+-        Key::O => 0x4F,
+-        Key::P => 0x50,
+-        Key::Q => 0x51,
+-        Key::R => 0x52,
+-        Key::S => 0x53,
+-        Key::T => 0x54,
+-        Key::U => 0x55,
+-        Key::V => 0x56,
+-        Key::W => 0x57,
+-        Key::X => 0x58,
+-        Key::Y => 0x59,
+-        Key::Z => 0x5A,
+-        Key::N0 => 0x30,
+-        Key::N1 => 0x31,
+-        Key::N2 => 0x32,
+-        Key::N3 => 0x33,
+-        Key::N4 => 0x34,
+-        Key::N5 => 0x35,
+-        Key::N6 => 0x36,
+-        Key::N7 => 0x37,
+-        Key::N8 => 0x38,
+-        Key::N9 => 0x39,
+-        Key::Numpad0 => 0x60,
+-        Key::Numpad1 => 0x61,
+-        Key::Numpad2 => 0x62,
+-        Key::Numpad3 => 0x63,
+-        Key::Numpad4 => 0x64,
+-        Key::Numpad5 => 0x65,
+-        Key::Numpad6 => 0x66,
+-        Key::Numpad7 => 0x67,
+-        Key::Numpad8 => 0x68,
+-        Key::Numpad9 => 0x69,
+-        Key::Raw(code) => *code,
+-    };
+-    Some(vkey)
++    Some(0) /* ~ changed by cargo-mutants ~ */
+ }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-inject@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh cfg-if v1.0.0
+       Fresh regex-syntax v0.6.27
+       Fresh proc-macro2 v1.0.94
+       Fresh heck v0.4.1
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+warning: espanso-inject@0.1.0: src/mac/native.mm:64:14: warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long') [-Wsign-compare]
+warning: espanso-inject@0.1.0:    64 |     while (i < buffer.size()) {
+warning: espanso-inject@0.1.0:       |            ~ ^ ~~~~~~~~~~~~~
+warning: espanso-inject@0.1.0: src/mac/native.mm:65:26: warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long') [-Wsign-compare]
+warning: espanso-inject@0.1.0:    65 |       if ((i+chunk_size) >  buffer.size()) {
+warning: espanso-inject@0.1.0:       |            ~~~~~~~~~~~~  ^  ~~~~~~~~~~~~~
+warning: espanso-inject@0.1.0: 2 warnings generated.
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh thiserror-impl v1.0.56
+       Fresh regex v1.5.5
+       Fresh enum-as-inner v0.6.0
+       Fresh thiserror v1.0.56
+       Dirty espanso-inject v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-inject): the file `espanso-inject/src/keys.rs` has changed (1745791753.319417257s, 1s after last build at 1745791752.589961346s)
+   Compiling espanso-inject v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-inject)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_inject --edition=2021 espanso-inject/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("wayland"))' -C metadata=a05449732031a6f0 -C extra-filename=-dcd269590062c10f --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-inject-2c2d5d121b73e535/out -l static=espansoinject -l c++ -l dylib=c++ -l static=espansoinject -l framework=Cocoa -l framework=CoreGraphics -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_inject --edition=2021 espanso-inject/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("wayland"))' -C metadata=aee367736f6119e4 -C extra-filename=-262d516d9b9df20e --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-inject-2c2d5d121b73e535/out -l static=espansoinject -l c++ -l dylib=c++ -l static=espansoinject -l framework=Cocoa -l framework=CoreGraphics -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_inject-dcd269590062c10f`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-inject@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh cfg-if v1.0.0
+       Fresh regex-syntax v0.6.27
+       Fresh proc-macro2 v1.0.94
+       Fresh heck v0.4.1
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh anyhow v1.0.38
+       Fresh log v0.4.14
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+warning: espanso-inject@0.1.0: src/mac/native.mm:64:14: warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long') [-Wsign-compare]
+warning: espanso-inject@0.1.0:    64 |     while (i < buffer.size()) {
+warning: espanso-inject@0.1.0:       |            ~ ^ ~~~~~~~~~~~~~
+warning: espanso-inject@0.1.0: src/mac/native.mm:65:26: warning: comparison of integers of different signs: 'int' and 'size_type' (aka 'unsigned long') [-Wsign-compare]
+warning: espanso-inject@0.1.0:    65 |       if ((i+chunk_size) >  buffer.size()) {
+warning: espanso-inject@0.1.0:       |            ~~~~~~~~~~~~  ^  ~~~~~~~~~~~~~
+warning: espanso-inject@0.1.0: 2 warnings generated.
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh thiserror-impl v1.0.56
+       Fresh regex v1.5.5
+       Fresh enum-as-inner v0.6.0
+       Fresh thiserror v1.0.56
+       Fresh espanso-inject v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-inject)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_inject-dcd269590062c10f`
+
+running 3 tests
+test mac::tests::convert_raw_to_virtual_key_array ... ok
+test keys::tests::parse_invalid_keys ... ok
+test keys::tests::parse_works_correctly ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests espanso_inject
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name espanso_inject --test espanso-inject/src/lib.rs --test-run-directory /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-inject -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-inject-2c2d5d121b73e535/out '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rlib --extern espanso_inject=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_inject-262d516d9b9df20e.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("wayland"))' --error-format human`
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+*** result: Success

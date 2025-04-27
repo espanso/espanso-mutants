@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/mod.rs
++++ replace <impl Injector for X11ProxyInjector>::send_keys -> Result<()> with Ok(())
+@@ -84,17 +84,17 @@
+ 
+ impl Injector for X11ProxyInjector {
+     fn send_string(&self, string: &str, options: crate::InjectionOptions) -> Result<()> {
+         self.get_active_injector(&options)?
+             .send_string(string, options)
+     }
+ 
+     fn send_keys(&self, keys: &[crate::keys::Key], options: crate::InjectionOptions) -> Result<()> {
+-        self.get_active_injector(&options)?.send_keys(keys, options)
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key_combination(
+         &self,
+         keys: &[crate::keys::Key],
+         options: crate::InjectionOptions,
+     ) -> Result<()> {
+         self.get_active_injector(&options)?

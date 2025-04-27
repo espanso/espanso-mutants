@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/keyboard_layout_util.rs
++++ delete ! in generate_rmlvo_config
+@@ -22,17 +22,17 @@
+ 
+ fn generate_rmlvo_config(config: &dyn Config) -> Option<RMLVOConfig> {
+     // Not needed on Windows and macOS
+     if !cfg!(target_os = "linux") {
+         return None;
+     }
+ 
+     // Not needed on X11
+-    if !cfg!(feature = "wayland") {
++    if  /* ~ changed by cargo-mutants ~ */cfg!(feature = "wayland") {
+         return None;
+     }
+ 
+     if let Some(keyboard_config) = config.keyboard_layout() {
+         Some(keyboard_config)
+     } else if let Some(active_layout) = espanso_detect::get_active_layout() {
+         Some(RMLVOConfig {
+             layout: Some(active_layout),

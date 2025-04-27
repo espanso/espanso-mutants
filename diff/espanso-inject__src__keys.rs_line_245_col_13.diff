@@ -1,0 +1,21 @@
+--- espanso-inject/src/keys.rs
++++ delete match arm
+@@ -237,17 +237,17 @@
+             "CAPSLOCK" => Some(Key::CapsLock),
+             "CTRL" => Some(Key::Control),
+             "META" | "CMD" => Some(Key::Meta),
+             "NUMLOCK" => Some(Key::NumLock),
+             "SHIFT" => Some(Key::Shift),
+             "ENTER" => Some(Key::Enter),
+             "TAB" => Some(Key::Tab),
+             "SPACE" => Some(Key::Space),
+-            "DOWN" => Some(Key::ArrowDown),
++             /* ~ changed by cargo-mutants ~ */
+             "LEFT" => Some(Key::ArrowLeft),
+             "RIGHT" => Some(Key::ArrowRight),
+             "UP" => Some(Key::ArrowUp),
+             "END" => Some(Key::End),
+             "HOME" => Some(Key::Home),
+             "PAGEDOWN" => Some(Key::PageDown),
+             "PAGEUP" => Some(Key::PageUp),
+             "ESC" => Some(Key::Escape),

@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -391,17 +391,17 @@
+         0x08 => (Backspace, None),
+ 
+         // Function keys
+         0x70 => (F1, None),
+         0x71 => (F2, None),
+         0x72 => (F3, None),
+         0x73 => (F4, None),
+         0x74 => (F5, None),
+-        0x75 => (F6, None),
++         /* ~ changed by cargo-mutants ~ */
+         0x76 => (F7, None),
+         0x77 => (F8, None),
+         0x78 => (F9, None),
+         0x79 => (F10, None),
+         0x7A => (F11, None),
+         0x7B => (F12, None),
+         0x7C => (F13, None),
+         0x7D => (F14, None),

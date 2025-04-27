@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -244,17 +244,17 @@
+         105 => Some(0x0069), // Latin small letter i
+         106 => Some(0x006A), // Latin small letter j
+         107 => Some(0x006B), // Latin small letter k
+         108 => Some(0x006C), // Latin small letter l
+         109 => Some(0x006D), // Latin small letter m
+         110 => Some(0x006E), // Latin small letter n
+         111 => Some(0x006F), // Latin small letter o
+         112 => Some(0x0070), // Latin small letter p
+-        113 => Some(0x0071), // Latin small letter q
++         /* ~ changed by cargo-mutants ~ */ // Latin small letter q
+         114 => Some(0x0072), // Latin small letter r
+         115 => Some(0x0073), // Latin small letter s
+         116 => Some(0x0074), // Latin small letter t
+         117 => Some(0x0075), // Latin small letter u
+         118 => Some(0x0076), // Latin small letter v
+         119 => Some(0x0077), // Latin small letter w
+         120 => Some(0x0078), // Latin small letter x
+         121 => Some(0x0079), // Latin small letter y

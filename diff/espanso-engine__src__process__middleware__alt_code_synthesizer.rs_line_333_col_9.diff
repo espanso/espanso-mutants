@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -325,17 +325,17 @@
+         186 => Some(0x2551), // Box drawings double vertical
+         187 => Some(0x2557), // Box drawings double down and left
+         188 => Some(0x255D), // Box drawings double up and left
+         189 => Some(0x255C), // Box drawings up double and left single
+         190 => Some(0x255B), // Box drawings up single and left double
+         191 => Some(0x2510), // Box drawings light down and left
+         192 => Some(0x2514), // Box drawings light up and right
+         193 => Some(0x2534), // Box drawings light up and horizontal
+-        194 => Some(0x252C), // Box drawings light down and horizontal
++         /* ~ changed by cargo-mutants ~ */ // Box drawings light down and horizontal
+         195 => Some(0x251C), // Box drawings light vertical and right
+         196 => Some(0x2500), // Box drawings light horizontal
+         197 => Some(0x253C), // Box drawings light vertical and horizontal
+         198 => Some(0x255E), // Box drawings vertical single and right double
+         199 => Some(0x255F), // Box drawings vertical double and right single
+         200 => Some(0x255A), // Box drawings double up and right
+         201 => Some(0x2554), // Box drawings double down and right
+         202 => Some(0x2569), // Box drawings double up and horizontal

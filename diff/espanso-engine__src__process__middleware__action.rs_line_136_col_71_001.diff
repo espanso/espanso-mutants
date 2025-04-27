@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ replace - with / in <impl Middleware for ActionMiddleware<'_>>::next
+@@ -128,17 +128,17 @@
+                     EventType::KeySequenceInject(KeySequenceInjectRequest {
+                         keys: (0..backspace_count).map(|_| Key::Backspace).collect(),
+                     }),
+                 )
+             }
+             EventType::Undo(m_event) => {
+                 // We subtract one, because the backspace that triggered the undo feature
+                 // already removed the last char
+-                let backspace_count = m_event.replace.chars().count() - 1;
++                let backspace_count = m_event.replace.chars().count() / /* ~ changed by cargo-mutants ~ */ 1;
+ 
+                 dispatch(Event::caused_by(
+                     event.source_id,
+                     EventType::TextInject(TextInjectRequest {
+                         text: m_event.trigger.clone(),
+                         force_mode: self.match_info_provider.get_force_mode(m_event.match_id),
+                     }),
+                 ));

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace convert_vars -> Vec<espanso_render::Variable> with vec![Default::default()]
+@@ -135,17 +135,17 @@
+             vars: convert_vars(text_effect.vars.clone()),
+         })
+     } else {
+         None
+     }
+ }
+ 
+ fn convert_vars(vars: Vec<espanso_config::matches::Variable>) -> Vec<espanso_render::Variable> {
+-    vars.into_iter().map(convert_var).collect()
++    vec![Default::default()] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn convert_var(var: espanso_config::matches::Variable) -> espanso_render::Variable {
+     Variable {
+         name: var.name,
+         var_type: var.var_type,
+         params: convert_params(var.params),
+         inject_vars: var.inject_vars,

@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_default -> Option<String> with Some(String::new())
+@@ -157,17 +157,17 @@
+     }
+ }
+ 
+ fn default_type() -> String {
+     "text".to_owned()
+ }
+ 
+ fn default_default() -> Option<String> {
+-    None
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_multiline() -> bool {
+     false
+ }
+ 
+ fn default_values() -> Vec<String> {
+     Vec::new()

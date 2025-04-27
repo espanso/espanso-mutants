@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace <impl Middleware for MatcherMiddleware<'_, State>>::name -> &'static str with "xyzzy"
+@@ -92,17 +92,17 @@
+             max_history_size,
+             modifier_status_provider,
+         }
+     }
+ }
+ 
+ impl<State> Middleware for MatcherMiddleware<'_, State> {
+     fn name(&self) -> &'static str {
+-        "matcher"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if is_event_of_interest(&event.etype) {
+             let mut matcher_states = self.matcher_states.borrow_mut();
+             let prev_states = if matcher_states.is_empty() {
+                 None
+             } else {

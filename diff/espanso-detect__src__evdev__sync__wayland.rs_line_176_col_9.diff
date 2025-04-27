@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl CompositorHandler for SimpleWindow>::frame with ()
+@@ -168,17 +168,17 @@
+ 
+     fn frame(
+         &mut self,
+         conn: &Connection,
+         qh: &QueueHandle<Self>,
+         _surface: &wl_surface::WlSurface,
+         _time: u32,
+     ) {
+-        self.draw(conn, qh);
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl OutputHandler for SimpleWindow {
+     fn output_state(&mut self) -> &mut OutputState {
+         &mut self.output_state
+     }
+ 

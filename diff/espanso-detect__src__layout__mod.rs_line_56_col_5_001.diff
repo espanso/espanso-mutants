@@ -1,0 +1,14 @@
+--- espanso-detect/src/layout/mod.rs
++++ replace get_active_layout -> Option<String> with Some(String::new())
+@@ -48,10 +48,10 @@
+         );
+         None
+     }
+ }
+ 
+ #[cfg(not(target_os = "linux"))]
+ pub fn get_active_layout() -> Option<String> {
+     // Not available on Windows and macOS yet
+-    None
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,41 @@
+--- espanso-engine/src/process/middleware/discard.rs
++++ replace <impl Middleware for EventsDiscardMiddleware>::next -> Event with Default::default()
+@@ -43,37 +43,11 @@
+ }
+ 
+ impl Middleware for EventsDiscardMiddleware {
+     fn name(&self) -> &'static str {
+         "discard"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        let mut min_id_threshold = self.min_id_threshold.borrow_mut();
+-        let mut max_id_threshold = self.max_id_threshold.borrow_mut();
+-
+-        // Filter out previous events
+-        if event.source_id < *max_id_threshold && event.source_id >= *min_id_threshold {
+-            trace!("discarding previous event: {:?}", event);
+-            return Event::caused_by(event.source_id, EventType::NOOP);
+-        }
+-
+-        // Update the thresholds
+-        if let EventType::DiscardPrevious(m_event) = &event.etype {
+-            trace!(
+-                "updating discard max_id_threshold threshold for events to: {}",
+-                m_event.minimum_source_id
+-            );
+-            *max_id_threshold = m_event.minimum_source_id;
+-        } else if let EventType::DiscardBetween(m_event) = &event.etype {
+-            trace!(
+-                "updating discard thresholds for events to: max={} min={}",
+-                m_event.end_id,
+-                m_event.start_id
+-            );
+-            *max_id_threshold = m_event.end_id;
+-            *min_id_threshold = m_event.start_id;
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

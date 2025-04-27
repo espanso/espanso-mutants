@@ -1,0 +1,103 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace get_modifiers_state -> Result<Option<super::ModifiersState>> with Ok(None)
+@@ -34,99 +34,17 @@
+     },
+     shm::{
+         slot::{Buffer, SlotPool},
+         Shm, ShmHandler,
+     },
+ };
+ 
+ pub fn get_modifiers_state() -> Result<Option<super::ModifiersState>> {
+-    let conn = Connection::connect_to_env().unwrap();
+-
+-    // Enumerate the list of globals to get the protocols the server implements.
+-    let (globals, event_queue) = registry_queue_init(&conn).unwrap();
+-
+-    let qh = event_queue.handle();
+-
+-    let mut event_loop: EventLoop<SimpleWindow> =
+-        EventLoop::try_new().expect("Failed to initialize the event loop!");
+-
+-    let loop_handle = event_loop.handle();
+-
+-    WaylandSource::new(conn.clone(), event_queue)
+-        .insert(loop_handle)
+-        .unwrap();
+-
+-    // The compositor (not to be confused with the server which is commonly called the compositor) allows
+-    // configuring surfaces to be presented.
+-    let compositor = CompositorState::bind(&globals, &qh).expect("wl_compositor not available");
+-    // For desktop platforms, the XDG shell is the standard protocol for creating desktop windows.
+-    let xdg_shell = XdgShell::bind(&globals, &qh).expect("xdg shell is not available");
+-    // Since we are not using the GPU in this example, we use wl_shm to allow software rendering to a buffer
+-    // we share with the compositor process.
+-    let shm = Shm::bind(&globals, &qh).expect("wl shm is not available.");
+-    // If the compositor supports xdg-activation it probably wants us to use it to get focus
+-    let xdg_activation = ActivationState::bind(&globals, &qh).ok();
+-
+-    // A window is created from a surface.
+-    let surface = compositor.create_surface(&qh);
+-    // And then we can create the window.
+-    let window = xdg_shell.create_window(surface, WindowDecorations::RequestServer, &qh);
+-    // Configure the window, this may include hints to the compositor about the desired minimum size of the
+-    // window, app id for WM identification, the window title, etc.
+-    window.set_title("Espanso Sync Tool");
+-    // GitHub does not let projects use the `org.github` domain but the `io.github` domain is fine.
+-    window.set_app_id("Espanso.SyncTool");
+-    window.set_min_size(Some((256, 256)));
+-
+-    // In order for the window to be mapped, we need to perform an initial commit with no attached buffer.
+-    // For more info, see WaylandSurface::commit
+-    //
+-    // The compositor will respond with an initial configure that we can then use to present to the window with
+-    // the correct options.
+-    window.commit();
+-
+-    // We don't know how large the window will be yet, so lets assume the minimum size we suggested for the
+-    // initial memory allocation.
+-    let pool = SlotPool::new(256 * 256 * 4, &shm).expect("Failed to create pool");
+-
+-    let mut simple_window = SimpleWindow {
+-        // Seats and outputs may be hotplugged at runtime, therefore we need to setup a registry state to
+-        // listen for seats and outputs.
+-        registry_state: RegistryState::new(&globals),
+-        seat_state: SeatState::new(&globals, &qh),
+-        output_state: OutputState::new(&globals, &qh),
+-        shm,
+-        xdg_activation,
+-
+-        exit: false,
+-        first_configure: true,
+-        pool,
+-        width: 256,
+-        height: 256,
+-        shift: None,
+-        buffer: None,
+-        window,
+-        keyboard: None,
+-        keyboard_focus: false,
+-        modifiers: None,
+-    };
+-
+-    conn.flush().unwrap();
+-
+-    loop {
+-        if simple_window.modifiers.is_some() {
+-            debug!("{:?}", simple_window.modifiers);
+-            return Ok(simple_window.modifiers);
+-        }
+-
+-        event_loop
+-            .dispatch(Duration::from_millis(16), &mut simple_window)
+-            .unwrap();
+-    }
++    Ok(None) /* ~ changed by cargo-mutants ~ */
+     // We don't draw immediately, the configure will notify us when to first draw.
+ }
+ 
+ struct SimpleWindow {
+     registry_state: RegistryState,
+     seat_state: SeatState,
+     output_state: OutputState,
+     shm: Shm,

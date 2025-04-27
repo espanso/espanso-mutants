@@ -1,0 +1,25 @@
+--- espanso/src/cli/service/win.rs
++++ replace register -> Result<()> with Ok(())
+@@ -23,21 +23,17 @@
+ use std::path::{Path, PathBuf};
+ use std::process::Command;
+ use thiserror::Error;
+ 
+ use crate::util::set_command_flags;
+ use crate::{error_eprintln, warn_eprintln};
+ 
+ pub fn register() -> Result<()> {
+-    let current_path = std::env::current_exe().expect("unable to get exec path");
+-
+-    let shortcut_path = get_startup_shortcut_file()?;
+-
+-    create_shortcut_target_file(&shortcut_path, &current_path, "launcher")
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn unregister() -> Result<()> {
+     let shortcut_path = get_startup_shortcut_file()?;
+     if !shortcut_path.is_file() {
+         error_eprintln!("could not unregister espanso, as it's not registered");
+         return Err(UnregisterError::EntryNotFound.into());
+     }

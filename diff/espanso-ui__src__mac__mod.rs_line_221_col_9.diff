@@ -1,0 +1,21 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIRemote for MacRemote>::exit with ()
+@@ -213,17 +213,17 @@
+             }
+             Err(error) => {
+                 error!("Unable to show context menu, {}", error);
+             }
+         }
+     }
+ 
+     fn exit(&self) {
+-        unsafe { ui_exit() };
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl From<RawUIEvent> for Option<UIEvent> {
+     fn from(raw: RawUIEvent) -> Option<UIEvent> {
+         match raw.event_type {
+             UI_EVENT_TYPE_ICON_CLICK => {
+                 return Some(UIEvent::TrayIconClick);

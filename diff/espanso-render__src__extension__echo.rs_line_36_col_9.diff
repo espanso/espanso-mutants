@@ -1,0 +1,23 @@
+--- espanso-render/src/extension/echo.rs
++++ replace EchoExtension::new_with_alias -> Self with Default::default()
+@@ -28,19 +28,17 @@
+ impl EchoExtension {
+     pub fn new() -> Self {
+         Self {
+             alias: "echo".to_string(),
+         }
+     }
+ 
+     pub fn new_with_alias(alias: &str) -> Self {
+-        Self {
+-            alias: alias.to_string(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Extension for EchoExtension {
+     fn name(&self) -> &str {
+         self.alias.as_str()
+     }
+ 

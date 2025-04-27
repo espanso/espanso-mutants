@@ -1,0 +1,24 @@
+--- espanso-ui/src/win32/mod.rs
++++ delete match arm
+@@ -168,20 +168,17 @@
+ 
+         if handle.is_null() {
+             return match error_code {
+                 -1 => Err(Win32UIError::EventLoopInitError(
+                     "Unable to initialize Win32EventLoop, error registering window class"
+                         .to_string(),
+                 )
+                 .into()),
+-                -2 => Err(Win32UIError::EventLoopInitError(
+-                    "Unable to initialize Win32EventLoop, error creating window".to_string(),
+-                )
+-                .into()),
++                 /* ~ changed by cargo-mutants ~ */
+                 _ => Err(Win32UIError::EventLoopInitError(
+                     "Unable to initialize Win32EventLoop, unknown error".to_string(),
+                 )
+                 .into()),
+             };
+         }
+ 
+         self.handle.store(handle, Ordering::Release);

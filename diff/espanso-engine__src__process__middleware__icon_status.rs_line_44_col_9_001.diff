@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/icon_status.rs
++++ replace <impl Middleware for IconStatusMiddleware>::name -> &'static str with ""
+@@ -36,17 +36,17 @@
+             enabled: RefCell::new(true),
+             secure_input_enabled: RefCell::new(false),
+         }
+     }
+ }
+ 
+ impl Middleware for IconStatusMiddleware {
+     fn name(&self) -> &'static str {
+-        "icon_status"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         let mut enabled = self.enabled.borrow_mut();
+         let mut secure_input_enabled = self.secure_input_enabled.borrow_mut();
+ 
+         let mut did_update = true;
+         match &event.etype {

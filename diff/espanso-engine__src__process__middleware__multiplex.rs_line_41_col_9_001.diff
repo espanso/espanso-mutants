@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/multiplex.rs
++++ replace <impl Middleware for MultiplexMiddleware<'_>>::name -> &'static str with ""
+@@ -33,17 +33,17 @@
+ impl<'a> MultiplexMiddleware<'a> {
+     pub fn new(multiplexer: &'a dyn Multiplexer) -> Self {
+         Self { multiplexer }
+     }
+ }
+ 
+ impl Middleware for MultiplexMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "multiplex"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::CauseCompensatedMatch(m_event) = event.etype {
+             return if let Some(new_event) = self.multiplexer.convert(m_event.m) {
+                 Event::caused_by(event.source_id, new_event)
+             } else {
+                 error!("match multiplexing failed");

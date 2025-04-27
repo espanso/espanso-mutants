@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_type -> String with String::new()
+@@ -153,17 +153,17 @@
+             }
+         };
+ 
+         Self { field_type }
+     }
+ }
+ 
+ fn default_type() -> String {
+-    "text".to_owned()
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_default() -> Option<String> {
+     None
+ }
+ 
+ fn default_multiline() -> bool {
+     false

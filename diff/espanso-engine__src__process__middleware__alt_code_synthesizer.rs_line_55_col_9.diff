@@ -1,0 +1,66 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ replace <impl Middleware for AltCodeSynthesizerMiddleware<'_>>::next -> Event with Default::default()
+@@ -47,62 +47,17 @@
+ }
+ 
+ impl Middleware for AltCodeSynthesizerMiddleware<'_> {
+     fn name(&self) -> &'static str {
+         "alt_code_synthesizer"
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+-        match &event.etype {
+-            EventType::Keyboard(keyboard_event)
+-                if self
+-                    .enabled_state_provider
+-                    .is_alt_code_synthesizer_enabled() =>
+-            {
+-                let mut code_buffer = self.code_buffer.borrow_mut();
+-
+-                if keyboard_event.status == Status::Pressed {
+-                    if let Key::Alt = &keyboard_event.key {
+-                        *code_buffer = Some(String::new());
+-                    } else if let Some(buffer) = &mut *code_buffer {
+-                        match keyboard_event.key {
+-                            Key::Numpad0 => buffer.push('0'),
+-                            Key::Numpad1 => buffer.push('1'),
+-                            Key::Numpad2 => buffer.push('2'),
+-                            Key::Numpad3 => buffer.push('3'),
+-                            Key::Numpad4 => buffer.push('4'),
+-                            Key::Numpad5 => buffer.push('5'),
+-                            Key::Numpad6 => buffer.push('6'),
+-                            Key::Numpad7 => buffer.push('7'),
+-                            Key::Numpad8 => buffer.push('8'),
+-                            Key::Numpad9 => buffer.push('9'),
+-                            _ => {}
+-                        }
+-                    }
+-                } else if keyboard_event.key == Key::Alt {
+-                    if let Some(codes) = &*code_buffer {
+-                        if let Some(target_char) = convert_buffer_into_char(codes) {
+-                            dispatch(Event::caused_by(
+-                                event.source_id,
+-                                EventType::TextInject(TextInjectRequest {
+-                                    text: target_char,
+-                                    ..Default::default()
+-                                }),
+-                            ));
+-                        }
+-                    }
+-
+-                    *code_buffer = None;
+-                }
+-            }
+-            _ => {}
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_buffer_into_char(buffer: &str) -> Option<String> {
+     if buffer.is_empty() {
+         debug!("unable to generate ALT code as the buffer is empty");
+         return None;
+     }

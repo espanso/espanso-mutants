@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ replace -= with += in <impl Middleware for ActionMiddleware<'_>>::next
+@@ -115,17 +115,17 @@
+                     }),
+                 )
+             }
+             EventType::TriggerCompensation(m_event) => {
+                 let mut backspace_count = m_event.trigger.chars().count();
+ 
+                 // We want to preserve the left separator if present
+                 if let Some(left_separator) = &m_event.left_separator {
+-                    backspace_count -= left_separator.chars().count();
++                    backspace_count += /* ~ changed by cargo-mutants ~ */ left_separator.chars().count();
+                 }
+ 
+                 Event::caused_by(
+                     event.source_id,
+                     EventType::KeySequenceInject(KeySequenceInjectRequest {
+                         keys: (0..backspace_count).map(|_| Key::Backspace).collect(),
+                     }),
+                 )

@@ -1,0 +1,39 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl espanso_engine::process::MatchFilter for ConfigManager<'_>>::filter_active -> Vec<i32> with vec![-1]
+@@ -71,35 +71,17 @@
+         title: info.title.as_deref(),
+         class: info.class.as_deref(),
+         exec: info.exec.as_deref(),
+     }
+ }
+ 
+ impl espanso_engine::process::MatchFilter for ConfigManager<'_> {
+     fn filter_active(&self, matches_ids: &[i32]) -> Vec<i32> {
+-        let ids_set: HashSet<i32> = matches_ids.iter().copied().collect::<HashSet<_>>();
+-        let (_, match_set) = self.active_context();
+-
+-        let active_user_defined_matches: Vec<i32> = match_set
+-            .matches
+-            .iter()
+-            .filter(|m| ids_set.contains(&m.id))
+-            .map(|m| m.id)
+-            .collect();
+-
+-        let builtin_matches: Vec<i32> = matches_ids
+-            .iter()
+-            .filter(|id| is_builtin_match(**id))
+-            .copied()
+-            .collect();
+-
+-        let mut output = active_user_defined_matches;
+-        output.extend(builtin_matches);
+-        output
++        vec![-1] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::render::ConfigProvider<'a> for ConfigManager<'a> {
+     fn configs(&self) -> Vec<(Arc<dyn Config>, MatchSet)> {
+         self.config_store
+             .configs()
+             .into_iter()

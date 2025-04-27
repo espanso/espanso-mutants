@@ -1,0 +1,27 @@
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ delete match arm
+@@ -163,23 +163,17 @@
+                     CONTEXT_ITEM_OPEN_SEARCH => {
+                         dispatch(Event::caused_by(event.source_id, EventType::ShowSearchBar));
+                         Event::caused_by(event.source_id, EventType::NOOP)
+                     }
+                     CONTEXT_ITEM_SHOW_LOGS => {
+                         dispatch(Event::caused_by(event.source_id, EventType::ShowLogs));
+                         Event::caused_by(event.source_id, EventType::NOOP)
+                     }
+-                    CONTEXT_ITEM_OPEN_CONFIG_FOLDER => {
+-                        dispatch(Event::caused_by(
+-                            event.source_id,
+-                            EventType::ShowConfigFolder,
+-                        ));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
++                     /* ~ changed by cargo-mutants ~ */
+                     _ => {
+                         // TODO: handle dynamic items
+                         todo!()
+                     }
+                 }
+             }
+             EventType::Disabled => {
+                 *is_enabled = false;

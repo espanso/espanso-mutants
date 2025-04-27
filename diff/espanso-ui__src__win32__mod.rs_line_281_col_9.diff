@@ -1,0 +1,31 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl UIRemote for Win32Remote>::update_tray_icon with ()
+@@ -273,27 +273,17 @@
+             handle,
+             icon_indexes,
+         }
+     }
+ }
+ 
+ impl UIRemote for Win32Remote {
+     fn update_tray_icon(&self, icon: TrayIcon) {
+-        let handle = self.handle.load(Ordering::Acquire);
+-        if handle.is_null() {
+-            error!("Unable to update tray icon, pointer is null");
+-            return;
+-        }
+-
+-        if let Some(index) = self.icon_indexes.get(&icon) {
+-            unsafe { ui_update_tray_icon(handle, (*index) as i32) }
+-        } else {
+-            error!("Unable to update tray icon, invalid icon id");
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_notification(&self, message: &str) {
+         if let Err(err) = notification::show_notification(message) {
+             error!("Unable to show notification: {}", err);
+         }
+     }
+ 

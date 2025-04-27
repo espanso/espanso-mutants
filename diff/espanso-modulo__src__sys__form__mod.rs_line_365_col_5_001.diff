@@ -1,0 +1,47 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace show -> HashMap<String, String> with HashMap::from_iter([(String::new(), "xyzzy".into())])
+@@ -357,43 +357,10 @@
+                 metadata,
+                 interop,
+             }
+         }
+     }
+ }
+ 
+ pub fn show(form: types::Form) -> HashMap<String, String> {
+-    use super::interop::{interop_show_form, FormMetadata, Interoperable, ValuePair};
+-    use std::os::raw::c_void;
+-
+-    let owned_form: interop::OwnedForm = form.into();
+-    let metadata: *const FormMetadata = owned_form.as_ptr() as *const FormMetadata;
+-
+-    let mut value_map: HashMap<String, String> = HashMap::new();
+-
+-    extern "C" fn callback(values: *const ValuePair, size: c_int, map: *mut c_void) {
+-        let values: &[ValuePair] = unsafe { std::slice::from_raw_parts(values, size as usize) };
+-        let map = map as *mut HashMap<String, String>;
+-        let map = unsafe { &mut (*map) };
+-        for pair in values {
+-            unsafe {
+-                let id = CStr::from_ptr(pair.id);
+-                let value = CStr::from_ptr(pair.value);
+-
+-                let id = id.to_string_lossy().to_string();
+-                let value = value.to_string_lossy().to_string();
+-                map.insert(id, value);
+-            }
+-        }
+-    }
+-
+-    unsafe {
+-        // TODO: Nested rows should fail, add check
+-        interop_show_form(
+-            metadata,
+-            callback,
+-            std::ptr::from_mut::<HashMap<String, String>>(&mut value_map) as *mut c_void,
+-        );
+-    }
+-
+-    value_map
++    HashMap::from_iter([(String::new(), "xyzzy".into())]) /* ~ changed by cargo-mutants ~ */
+ }

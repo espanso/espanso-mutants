@@ -1,0 +1,14 @@
+--- espanso/src/lock.rs
++++ replace acquire_worker_lock -> Option<Lock> with None
+@@ -61,10 +61,10 @@
+     }
+ }
+ 
+ pub fn acquire_daemon_lock(runtime_dir: &Path) -> Option<Lock> {
+     Lock::acquire(runtime_dir, "espanso-daemon")
+ }
+ 
+ pub fn acquire_worker_lock(runtime_dir: &Path) -> Option<Lock> {
+-    Lock::acquire(runtime_dir, "espanso-worker")
++    None /* ~ changed by cargo-mutants ~ */
+ }

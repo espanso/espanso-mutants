@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl super::engine::process::middleware::render::ConfigProvider<'a> for ConfigManager<'a>>::active -> (Arc<dyn Config>, MatchSet) with (Arc::new(Default::default()), Default::default())
+@@ -106,17 +106,17 @@
+             .map(|config| {
+                 let match_set = self.match_store.query(config.match_paths());
+                 (config, match_set)
+             })
+             .collect()
+     }
+ 
+     fn active(&self) -> (Arc<dyn Config>, MatchSet) {
+-        self.active_context()
++        (Arc::new(Default::default()), Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::dispatch::ModeProvider for ConfigManager<'_> {
+     fn active_mode(&self) -> espanso_engine::dispatch::Mode {
+         let config = self.active();
+         match config.backend() {
+             espanso_config::config::Backend::Inject => espanso_engine::dispatch::Mode::Event,

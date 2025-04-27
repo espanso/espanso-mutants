@@ -1,0 +1,23 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace <impl Drop for X11DefaultInjector>::drop with ()
+@@ -462,19 +462,17 @@
+                 }
+             }
+         }
+     }
+ }
+ 
+ impl Drop for X11DefaultInjector {
+     fn drop(&mut self) {
+-        unsafe {
+-            XCloseDisplay(self.display);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Injector for X11DefaultInjector {
+     fn send_string(&self, string: &str, options: InjectionOptions) -> Result<()> {
+         let focused_window = self.get_focused_window();
+ 
+         if options.disable_fast_inject {

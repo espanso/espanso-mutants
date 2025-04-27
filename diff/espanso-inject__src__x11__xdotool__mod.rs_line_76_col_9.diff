@@ -1,0 +1,26 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace X11XDOToolInjector::get_focused_window -> Window with Default::default()
+@@ -68,22 +68,17 @@
+                         }
+                     }
+                 }
+             }
+         }
+     }
+ 
+     fn get_focused_window(&self) -> Window {
+-        let mut focused_window: Window = 0;
+-        let mut revert_to = 0;
+-        unsafe {
+-            XGetInputFocus((*self.xdo).xdpy, &mut focused_window, &mut revert_to);
+-        }
+-        focused_window
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn xfake_send_string(
+         &self,
+         string: &str,
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+         // It may happen that when an expansion is triggered, some keys are still pressed.

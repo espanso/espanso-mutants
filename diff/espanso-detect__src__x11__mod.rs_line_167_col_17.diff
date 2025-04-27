@@ -1,0 +1,23 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -159,19 +159,17 @@
+         if handle.is_null() {
+             let error = match error_code {
+                 -1 => X11SourceError::DisplayFailure(),
+                 -2 => X11SourceError::XRecordMissing(),
+                 -3 => X11SourceError::XKeyboardMissing(),
+                 -4 => {
+                     X11SourceError::FailedRegistration("cannot initialize record range".to_owned())
+                 }
+-                -5 => X11SourceError::FailedRegistration(
+-                    "cannot initialize XRecord context".to_owned(),
+-                ),
++                 /* ~ changed by cargo-mutants ~ */
+                 -6 => {
+                     X11SourceError::FailedRegistration("cannot enable XRecord context".to_owned())
+                 }
+                 _ => X11SourceError::Unknown(),
+             };
+             return Err(error.into());
+         }
+ 

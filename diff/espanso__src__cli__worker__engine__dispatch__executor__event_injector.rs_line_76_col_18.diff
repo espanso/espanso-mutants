@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/event_injector.rs
++++ replace > with == in <impl TextInjector for EventInjectorAdapter<'_>>::inject_text
+@@ -68,17 +68,17 @@
+                 .try_into()
+                 .unwrap(),
+             x11_use_xdotool_fallback: params.x11_use_xdotool_backend,
+         };
+ 
+         // We don't use the lines() method because it skips emtpy lines, which is not what we want.
+         for (i, line) in text.split(split_sequence).enumerate() {
+             // We simulate an Return press between lines
+-            if i > 0 {
++            if i == /* ~ changed by cargo-mutants ~ */ 0 {
+                 self.injector
+                     .send_keys(&[espanso_inject::keys::Key::Enter], injection_options)?;
+             }
+ 
+             self.injector.send_string(line, injection_options)?;
+         }
+ 
+         Ok(())

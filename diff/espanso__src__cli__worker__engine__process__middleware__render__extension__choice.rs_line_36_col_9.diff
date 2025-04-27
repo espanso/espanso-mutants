@@ -1,0 +1,26 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/choice.rs
++++ replace <impl ChoiceSelector for ChoiceSelectorAdapter<'_>>::show -> ChoiceSelectorResult with Default::default()
+@@ -28,22 +28,17 @@
+ impl<'a> ChoiceSelectorAdapter<'a> {
+     pub fn new(search_ui: &'a dyn SearchUI) -> Self {
+         Self { search_ui }
+     }
+ }
+ 
+ impl ChoiceSelector for ChoiceSelectorAdapter<'_> {
+     fn show(&self, choices: &[espanso_render::extension::choice::Choice]) -> ChoiceSelectorResult {
+-        let items = convert_items(choices);
+-        match self.search_ui.show(&items, None) {
+-            Ok(Some(choice)) => ChoiceSelectorResult::Success(choice),
+-            Ok(None) => ChoiceSelectorResult::Aborted,
+-            Err(err) => ChoiceSelectorResult::Error(err),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_items(choices: &[espanso_render::extension::choice::Choice]) -> Vec<SearchItem> {
+     choices
+         .iter()
+         .map(|choice| SearchItem {
+             id: choice.id.to_string(),

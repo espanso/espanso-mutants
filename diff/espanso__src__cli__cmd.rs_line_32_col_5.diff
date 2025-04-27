@@ -1,0 +1,26 @@
+--- espanso/src/cli/cmd.rs
++++ replace new -> CliModule with Default::default()
+@@ -24,22 +24,17 @@
+     lock::acquire_worker_lock,
+ };
+ 
+ use super::{CliModule, CliModuleArgs};
+ use anyhow::{bail, Result};
+ use espanso_ipc::IPCClient;
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        requires_paths: true,
+-        subcommand: "cmd".to_string(),
+-        entry: cmd_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn cmd_main(args: CliModuleArgs) -> i32 {
+     let cli_args = args.cli_args.expect("missing cli_args");
+     let paths = args.paths.expect("missing paths");
+ 
+     #[allow(unused_variables)]
+     let event = if cli_args.subcommand_matches("enable").is_some() {

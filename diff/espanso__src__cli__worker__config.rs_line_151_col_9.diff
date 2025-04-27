@@ -1,0 +1,24 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl ClipboardOperationOptionsProvider for ConfigManager<'_>>::get_operation_options -> espanso_clipboard::ClipboardOperationOptions with Default::default()
+@@ -143,20 +143,17 @@
+             x11_use_xclip_backend: active.x11_use_xclip_backend(),
+             x11_use_xdotool_backend: active.x11_use_xdotool_backend(),
+         }
+     }
+ }
+ 
+ impl ClipboardOperationOptionsProvider for ConfigManager<'_> {
+     fn get_operation_options(&self) -> espanso_clipboard::ClipboardOperationOptions {
+-        let active = self.active();
+-        espanso_clipboard::ClipboardOperationOptions {
+-            use_xclip_backend: active.x11_use_xclip_backend(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl super::engine::dispatch::executor::InjectParamsProvider for ConfigManager<'_> {
+     fn get(&self) -> super::engine::dispatch::executor::InjectParams {
+         let active = self.active();
+         super::engine::dispatch::executor::InjectParams {
+             disable_x11_fast_inject: active.disable_x11_fast_inject(),

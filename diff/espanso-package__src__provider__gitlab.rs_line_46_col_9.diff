@@ -1,0 +1,33 @@
+--- espanso-package/src/provider/gitlab.rs
++++ replace <impl PackageProvider for GitLabPackageProvider>::download -> Result<Box<dyn Package>> with Ok(Box::new(Default::default()))
+@@ -38,29 +38,11 @@
+ }
+ 
+ impl PackageProvider for GitLabPackageProvider {
+     fn name(&self) -> String {
+         "gitlab".to_string()
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+-        let download_url = format!(
+-            "https://gitlab.com/{}/{}/-/archive/{}/{}-{}.zip",
+-            &self.author, &self.name, &self.branch, &self.name, &self.branch
+-        );
+-
+-        let temp_dir = tempdir::TempDir::new("espanso-package-download")?;
+-
+-        crate::util::download::download_and_extract_zip(&download_url, temp_dir.path())?;
+-
+-        let resolved_package =
+-            resolve_package(temp_dir.path(), &package.name, package.version.as_deref())?;
+-
+-        let package = DefaultPackage::new(
+-            resolved_package.manifest,
+-            temp_dir,
+-            resolved_package.base_dir,
+-        );
+-
+-        Ok(Box::new(package))
++        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }

@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/unix.rs
++++ replace < with == in fork_daemon
+@@ -20,17 +20,17 @@
+ use crate::cli::util::CommandExt;
+ use anyhow::Result;
+ use thiserror::Error;
+ 
+ use crate::cli::PathsOverrides;
+ 
+ pub fn fork_daemon(paths_overrides: &PathsOverrides) -> Result<()> {
+     let pid = unsafe { libc::fork() };
+-    if pid < 0 {
++    if pid == /* ~ changed by cargo-mutants ~ */ 0 {
+         return Err(ForkError::ForkFailed.into());
+     }
+ 
+     if pid > 0 {
+         // Parent process
+         return Ok(());
+     }
+ 

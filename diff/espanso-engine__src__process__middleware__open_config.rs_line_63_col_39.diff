@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/open_config.rs
++++ replace == with != in <impl Middleware for ConfigMiddleware<'_>>::next
+@@ -55,17 +55,17 @@
+             }
+         };
+         if let EventType::ShowConfigFolder = event.etype {
+             let program: &str;
+             if env::consts::OS == "macos" {
+                 program = "open";
+             } else if env::consts::OS == "windows" {
+                 program = "explorer";
+-            } else if env::consts::OS == "linux" {
++            } else if env::consts::OS != /* ~ changed by cargo-mutants ~ */ "linux" {
+                 program = "xdg-open";
+             } else {
+                 panic!("Unsupported OS")
+             }
+ 
+             #[allow(unused_must_use)]
+             Command::new(program)
+                 .arg(config_path)

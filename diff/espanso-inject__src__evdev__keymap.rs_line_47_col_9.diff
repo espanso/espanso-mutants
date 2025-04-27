@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/keymap.rs
++++ replace Keymap::get_handle -> *mut xkb_keymap with Default::default()
+@@ -39,17 +39,17 @@
+         }
+ 
+         Ok(Self {
+             keymap: ScopeGuard::into_inner(keymap),
+         })
+     }
+ 
+     pub fn get_handle(&self) -> *mut xkb_keymap {
+-        self.keymap
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn generate_owned_rmlvo(rmlvo: Option<KeyboardConfig>) -> OwnedRawKeyboardConfig {
+         let rules = rmlvo
+             .as_ref()
+             .and_then(|config| config.rules.clone())
+             .unwrap_or_default();
+         let model = rmlvo

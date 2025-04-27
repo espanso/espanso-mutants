@@ -1,0 +1,24 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl KeyboardHandler for SimpleWindow>::enter with ()
+@@ -292,20 +292,17 @@
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         surface: &wl_surface::WlSurface,
+         _: u32,
+         _: &[u32],
+         keysyms: &[Keysym],
+     ) {
+-        if self.window.wl_surface() == surface {
+-            debug!("Keyboard focus on window with pressed syms: {keysyms:?}");
+-            self.keyboard_focus = true;
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn leave(
+         &mut self,
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         surface: &wl_surface::WlSurface,

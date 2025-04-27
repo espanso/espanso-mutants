@@ -1,0 +1,32 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace get_algorithm -> Box<FilterCallback> with Box::new(Default::default())
+@@ -19,28 +19,17 @@
+ 
+ use std::collections::HashSet;
+ 
+ use crate::sys::search::types::SearchItem;
+ 
+ type FilterCallback = dyn Fn(&str, &[SearchItem]) -> Vec<usize>;
+ 
+ pub fn get_algorithm(name: &str, use_command_filter: bool) -> Box<FilterCallback> {
+-    let search_algorithm: Box<FilterCallback> = match name {
+-        "exact" => Box::new(exact_match),
+-        "iexact" => Box::new(case_insensitive_exact_match),
+-        "ikey" => Box::new(case_insensitive_keyword),
+-        _ => panic!("unknown search algorithm: {name}"),
+-    };
+-
+-    if use_command_filter {
+-        command_filter(search_algorithm)
+-    } else {
+-        search_algorithm
+-    }
++    Box::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn exact_match(query: &str, items: &[SearchItem]) -> Vec<usize> {
+     items
+         .iter()
+         .enumerate()
+         .filter(|(_, item)| {
+             item.label.contains(query)

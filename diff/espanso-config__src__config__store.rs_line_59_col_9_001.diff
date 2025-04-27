@@ -1,0 +1,28 @@
+--- espanso-config/src/config/store.rs
++++ replace <impl ConfigStore for DefaultConfigStore>::get_all_match_paths -> HashSet<String> with HashSet::from_iter([String::new()])
+@@ -51,24 +51,17 @@
+         for custom in &self.customs {
+             configs.push(Arc::clone(custom));
+         }
+ 
+         configs
+     }
+ 
+     fn get_all_match_paths(&self) -> HashSet<String> {
+-        let mut paths = HashSet::new();
+-
+-        paths.extend(self.default().match_paths().iter().cloned());
+-        for custom in &self.customs {
+-            paths.extend(custom.match_paths().iter().cloned());
+-        }
+-
+-        paths
++        HashSet::from_iter([String::new()]) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl DefaultConfigStore {
+     pub fn load(config_dir: &Path) -> Result<(Self, Vec<NonFatalErrorSet>)> {
+         if !config_dir.is_dir() {
+             return Err(ConfigStoreError::InvalidConfigDir().into());
+         }

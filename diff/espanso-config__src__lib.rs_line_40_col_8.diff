@@ -1,0 +1,21 @@
+--- espanso-config/src/lib.rs
++++ delete ! in load
+@@ -32,17 +32,17 @@
+ type LoadableConfig = (
+     Box<dyn ConfigStore>,
+     Box<dyn MatchStore>,
+     Vec<error::NonFatalErrorSet>,
+ );
+ 
+ pub fn load(base_path: &Path) -> Result<LoadableConfig> {
+     let config_dir = base_path.join("config");
+-    if !config_dir.exists() || !config_dir.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */config_dir.exists() || !config_dir.is_dir() {
+         return Err(ConfigError::MissingConfigDir().into());
+     }
+ 
+     let (config_store, non_fatal_config_errors) = config::load_store(&config_dir)?;
+     let root_paths = config_store.get_all_match_paths();
+ 
+     let (match_store, non_fatal_match_errors) =
+         matches::store::load(&root_paths.into_iter().collect::<Vec<String>>());

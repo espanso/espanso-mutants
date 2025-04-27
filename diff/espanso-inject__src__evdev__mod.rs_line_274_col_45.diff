@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace * with / in <impl Injector for EVDEVInjector>::send_string
+@@ -266,17 +266,17 @@
+             .map(|char| {
+                 self.char_map
+                     .get(&char)
+                     .cloned()
+                     .ok_or_else(|| EVDEVInjectorError::CharMappingFailure(char).into())
+             })
+             .collect();
+ 
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
++        let delay_us = options.delay as u32 / /* ~ changed by cargo-mutants ~ */ 1000; // Convert to micro seconds
+         let modifier_delay_ms = options.evdev_modifier_delay;
+ 
+         // We need to keep track of the modifiers currently pressed to
+         // press or release them accordingly
+         let mut current_modifiers: HashSet<u32> = HashSet::new();
+ 
+         for record in records? {
+             let record_modifiers = record.modifiers.iter().copied().collect::<HashSet<_>>();

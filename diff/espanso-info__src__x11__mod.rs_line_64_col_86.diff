@@ -1,0 +1,21 @@
+--- espanso-info/src/x11/mod.rs
++++ replace > with == in X11AppInfoProvider::get_class
+@@ -56,17 +56,17 @@
+             }
+         } else {
+             None
+         }
+     }
+ 
+     fn get_class(&self) -> Option<String> {
+         let mut buffer: [c_char; 2048] = [0; 2048];
+-        if unsafe { info_get_class(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
++        if unsafe { info_get_class(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } == /* ~ changed by cargo-mutants ~ */ 0 {
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             let string = string.to_string_lossy();
+             if string.is_empty() {
+                 None
+             } else {
+                 Some(string.to_string())
+             }
+         } else {

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/mod.rs
++++ replace == with != in worker_main
+@@ -82,17 +82,17 @@
+         .match_store
+         .expect("missing match store in worker main");
+ 
+     // TODO: show config loading errors in a GUI, if any
+ 
+     let use_evdev_backend = if cfg!(feature = "wayland") {
+         true
+     } else {
+-        std::env::var("USE_EVDEV").unwrap_or_else(|_| "false".to_string()) == "true"
++        std::env::var("USE_EVDEV").unwrap_or_else(|_| "false".to_string()) != /* ~ changed by cargo-mutants ~ */ "true"
+     };
+ 
+     let icon_paths =
+         crate::icon::load_icon_paths(&paths.runtime).expect("unable to initialize icons");
+ 
+     let (remote, mut eventloop) = espanso_ui::create_ui(espanso_ui::UIOptions {
+         show_icon: config_store.default().show_icon(),
+         icon_paths: convert_icon_paths_to_tray_vec(&icon_paths),

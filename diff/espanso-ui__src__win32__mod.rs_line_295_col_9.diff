@@ -1,0 +1,23 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl UIRemote for Win32Remote>::show_notification with ()
+@@ -287,19 +287,17 @@
+         if let Some(index) = self.icon_indexes.get(&icon) {
+             unsafe { ui_update_tray_icon(handle, (*index) as i32) }
+         } else {
+             error!("Unable to update tray icon, invalid icon id");
+         }
+     }
+ 
+     fn show_notification(&self, message: &str) {
+-        if let Err(err) = notification::show_notification(message) {
+-            error!("Unable to show notification: {}", err);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_context_menu(&self, menu: &Menu) {
+         let handle = self.handle.load(Ordering::Acquire);
+         if handle.is_null() {
+             error!("Unable to show context menu, pointer is null");
+             return;
+         }

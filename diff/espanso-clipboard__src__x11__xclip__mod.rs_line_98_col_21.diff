@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ delete match arm
+@@ -90,17 +90,17 @@
+         }
+ 
+         let extension = image_path.extension();
+         let mime = match extension {
+             Some(ext) => {
+                 let ext = ext.to_string_lossy().to_lowercase();
+                 match ext.as_ref() {
+                     "png" => "image/png",
+-                    "jpg" | "jpeg" => "image/jpeg",
++                     /* ~ changed by cargo-mutants ~ */
+                     "gif" => "image/gif",
+                     "svg" => "image/svg",
+                     _ => "image/png",
+                 }
+             }
+             None => "image/png",
+         };
+ 

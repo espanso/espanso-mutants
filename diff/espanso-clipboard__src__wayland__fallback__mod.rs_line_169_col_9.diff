@@ -1,0 +1,54 @@
+--- espanso-clipboard/src/wayland/fallback/mod.rs
++++ replace WaylandFallbackClipboard::invoke_command_with_timeout -> Result<()> with Ok(())
+@@ -161,50 +161,17 @@
+ 
+ impl WaylandFallbackClipboard {
+     fn invoke_command_with_timeout(
+         &self,
+         command: &mut Command,
+         data: &[u8],
+         name: &str,
+     ) -> Result<()> {
+-        let timeout = std::time::Duration::from_millis(self.command_timeout);
+-        match command.stdin(Stdio::piped()).spawn() {
+-            Ok(mut child) => {
+-                if let Some(stdin) = child.stdin.as_mut() {
+-                    stdin.write_all(data)?;
+-                }
+-                match child.wait_timeout(timeout) {
+-                    Ok(status_code) => {
+-                        if let Some(status) = status_code {
+-                            if status.success() {
+-                                Ok(())
+-                            } else {
+-                                error!("error, {} exited with non-zero exit code", name);
+-                                Err(WaylandFallbackClipboardError::SetOperationFailed().into())
+-                            }
+-                        } else {
+-                            error!("error, {} has timed-out, killing the process", name);
+-                            if child.kill().is_err() {
+-                                error!("unable to kill {}", name);
+-                            }
+-                            Err(WaylandFallbackClipboardError::SetOperationFailed().into())
+-                        }
+-                    }
+-                    Err(err) => {
+-                        error!("error while executing '{}': {}", name, err);
+-                        Err(WaylandFallbackClipboardError::SetOperationFailed().into())
+-                    }
+-                }
+-            }
+-            Err(err) => {
+-                error!("could not invoke '{}': {}", name, err);
+-                Err(WaylandFallbackClipboardError::SetOperationFailed().into())
+-            }
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub(crate) enum WaylandFallbackClipboardError {
+     #[error("wl-clipboard binaries are missing")]
+     MissingWLClipboard(),
+ 

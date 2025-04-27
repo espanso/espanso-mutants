@@ -1,0 +1,28 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace EVDEVInjector::convert_to_record_array -> Result<Vec<KeyRecord>> with Ok(vec![])
+@@ -200,24 +200,17 @@
+                 .combinations(sequence_len as usize);
+             combinations.extend(current_combinations);
+         }
+ 
+         combinations
+     }
+ 
+     fn convert_to_record_array(&self, syms: &[u64]) -> Result<Vec<KeyRecord>> {
+-        syms.iter()
+-            .map(|sym| {
+-                self.sym_map
+-                    .get(&(*sym as u32))
+-                    .cloned()
+-                    .ok_or_else(|| EVDEVInjectorError::SymMappingFailure(*sym as u32).into())
+-            })
+-            .collect()
++        Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key(&self, code: u32, pressed: bool, delay_us: u32) {
+         self.device.emit(code, pressed);
+         if delay_us != 0 {
+             unsafe {
+                 libc::usleep(delay_us);
+             }

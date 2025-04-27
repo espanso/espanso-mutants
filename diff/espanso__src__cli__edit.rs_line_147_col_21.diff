@@ -1,0 +1,21 @@
+--- espanso/src/cli/edit.rs
++++ replace && with || in determine_target_path
+@@ -139,17 +139,17 @@
+     if let Some(target_file) = target_file {
+         match target_file {
+             "default" => config_path.join("config").join("default.yml"),
+             "base" => config_path.join("match").join("base.yml"),
+             custom => {
+                 if !std::path::Path::new(custom)
+                     .extension()
+                     .is_some_and(|ext| ext.eq_ignore_ascii_case("yml"))
+-                    && !std::path::Path::new(custom)
++                    || /* ~ changed by cargo-mutants ~ */ !std::path::Path::new(custom)
+                         .extension()
+                         .is_some_and(|ext| ext.eq_ignore_ascii_case("yaml"))
+                 {
+                     config_path.join("match").join(format!("{custom}.yml"))
+                 } else {
+                     config_path.join(custom)
+                 }
+             }

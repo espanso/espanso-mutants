@@ -1,0 +1,45 @@
+--- espanso/src/path/mod.rs
++++ replace get_config_dir -> Option<PathBuf> with Some(Default::default())
+@@ -111,41 +111,17 @@
+         config: config_dir,
+         runtime: runtime_dir,
+         packages: packages_dir,
+         is_portable_mode,
+     }
+ }
+ 
+ fn get_config_dir() -> Option<PathBuf> {
+-    if let Some(portable_dir) = get_portable_config_dir() {
+-        // Portable mode
+-        debug!("detected portable config directory in {:?}", portable_dir);
+-        Some(portable_dir)
+-    } else if let Some(config_dir) = get_home_espanso_dir() {
+-        // $HOME/.espanso
+-        debug!("detected config directory in $HOME/.espanso");
+-        Some(config_dir)
+-    } else if let Some(config_dir) = get_home_config_espanso_dir() {
+-        // $HOME/.config/espanso
+-        debug!("detected config directory in $HOME/.config/espanso");
+-        Some(config_dir)
+-    } else if let Some(legacy_mac_dir) = get_legacy_mac_dir() {
+-        // Legacy macOS location in ~/Library/Preferences/espanso
+-        debug!(
+-            "detected legacy config directory location at {:?}",
+-            legacy_mac_dir
+-        );
+-        Some(legacy_mac_dir)
+-    } else if let Some(config_dir) = get_default_config_dir() {
+-        debug!("detected default config directory at {:?}", config_dir);
+-        Some(config_dir)
+-    } else {
+-        None
+-    }
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_portable_config_dir() -> Option<PathBuf> {
+     let espanso_exe_path = std::env::current_exe().expect("unable to obtain executable path");
+     let exe_dir = espanso_exe_path.parent();
+     if let Some(parent) = exe_dir {
+         let config_dir = parent.join(".espanso");
+         if config_dir.is_dir() {

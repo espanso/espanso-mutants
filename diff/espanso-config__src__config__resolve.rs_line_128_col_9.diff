@@ -1,0 +1,36 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::backend -> Backend with Default::default()
+@@ -120,32 +120,17 @@
+             true
+         };
+ 
+         // All the filters that have been specified must be true to define a match
+         is_os_match && is_exec_match && is_title_match && is_class_match
+     }
+ 
+     fn backend(&self) -> Backend {
+-        match self
+-            .parsed
+-            .backend
+-            .as_deref()
+-            .map(str::to_lowercase)
+-            .as_deref()
+-        {
+-            Some("clipboard") => Backend::Clipboard,
+-            Some("inject") => Backend::Inject,
+-            Some("auto") => Backend::Auto,
+-            None => Backend::Auto,
+-            err => {
+-                error!("invalid backend specified {:?}, falling back to Auto", err);
+-                Backend::Auto
+-            }
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn enable(&self) -> bool {
+         self.parsed.enable.unwrap_or(true)
+     }
+ 
+     fn clipboard_threshold(&self) -> usize {
+         self.parsed

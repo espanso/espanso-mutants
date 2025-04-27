@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/undo.rs
++++ replace == with != in <impl Middleware for UndoMiddleware<'_>>::next
+@@ -64,17 +64,17 @@
+                     if record.id == Some(event.source_id) {
+                         record.injected_text = Some(m_event.body.clone());
+                         record.match_id = Some(m_event.match_id);
+                     }
+                 }
+             }
+         } else if let EventType::Keyboard(m_event) = &event.etype {
+             if m_event.status == Status::Pressed {
+-                if m_event.key == Key::Backspace {
++                if m_event.key != /* ~ changed by cargo-mutants ~ */ Key::Backspace {
+                     if let Some(record) = (*record).take() {
+                         if let (Some(trigger), Some(injected_text), Some(match_id)) =
+                             (record.trigger, record.injected_text, record.match_id)
+                         {
+                             if self.undo_enabled_provider.is_undo_enabled() {
+                                 return Event::caused_by(
+                                     event.source_id,
+                                     EventType::Undo(UndoEvent {

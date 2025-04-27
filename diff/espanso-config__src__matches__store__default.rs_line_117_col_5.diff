@@ -1,0 +1,51 @@
+--- espanso-config/src/matches/store/default.rs
++++ replace query_matches_for_paths with ()
+@@ -109,47 +109,17 @@
+     groups: &'a HashMap<String, MatchGroup>,
+     visited_paths: &mut HashSet<String>,
+     visited_matches: &mut HashSet<StructId>,
+     visited_global_vars: &mut HashSet<StructId>,
+     matches: &mut Vec<&'a Match>,
+     global_vars: &mut Vec<&'a Variable>,
+     paths: &[String],
+ ) {
+-    for path in paths {
+-        if !visited_paths.contains(path) {
+-            visited_paths.insert(path.clone());
+-
+-            if let Some(group) = groups.get(path) {
+-                query_matches_for_paths(
+-                    groups,
+-                    visited_paths,
+-                    visited_matches,
+-                    visited_global_vars,
+-                    matches,
+-                    global_vars,
+-                    &group.imports,
+-                );
+-
+-                for m in &group.matches {
+-                    if !visited_matches.contains(&m.id) {
+-                        matches.push(m);
+-                        visited_matches.insert(m.id);
+-                    }
+-                }
+-
+-                for var in &group.global_vars {
+-                    if !visited_global_vars.contains(&var.id) {
+-                        global_vars.push(var);
+-                        visited_global_vars.insert(var.id);
+-                    }
+-                }
+-            }
+-        }
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use crate::{
+         matches::{MatchCause, MatchEffect, TextEffect, TriggerCause},
+         util::tests::use_test_directory,

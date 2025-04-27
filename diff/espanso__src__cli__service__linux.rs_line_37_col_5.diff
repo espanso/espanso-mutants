@@ -1,0 +1,52 @@
+--- espanso/src/cli/service/linux.rs
++++ replace register -> Result<()> with Ok(())
+@@ -29,48 +29,17 @@
+ use crate::{error_eprintln, info_println, warn_eprintln};
+ 
+ const LINUX_SERVICE_NAME: &str = "espanso";
+ const LINUX_SERVICE_CONTENT: &str = include_str!("../../res/linux/systemd.service");
+ #[allow(clippy::transmute_bytes_to_str)]
+ const LINUX_SERVICE_FILENAME: &str = formatcp!("{}.service", LINUX_SERVICE_NAME);
+ 
+ pub fn register() -> Result<()> {
+-    let service_file = get_service_file_path()?;
+-
+-    if service_file.exists() {
+-        warn_eprintln!("service file already exists, this operation will overwrite it");
+-    }
+-
+-    info_println!("creating service file in {:?}", service_file);
+-    let espanso_path = get_binary_path().expect("unable to get espanso executable path");
+-
+-    let service_content = String::from(LINUX_SERVICE_CONTENT)
+-        .replace("{{{espanso_path}}}", &espanso_path.to_string_lossy());
+-
+-    std::fs::write(service_file, service_content)?;
+-
+-    info_println!("enabling systemd service");
+-
+-    match Command::new("systemctl")
+-        .args(["--user", "enable", LINUX_SERVICE_NAME])
+-        .status()
+-    {
+-        Ok(status) => {
+-            if !status.success() {
+-                return Err(RegisterError::SystemdEnableFailed.into());
+-            }
+-        }
+-        Err(err) => {
+-            error_eprintln!("unable to call systemctl: {}", err);
+-            return Err(RegisterError::SystemdCallFailed(err.into()).into());
+-        }
+-    }
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum RegisterError {
+     #[error("systemctl command failed `{0}`")]
+     SystemdCallFailed(anyhow::Error),
+ 
+     #[error("systemctl enable failed")]

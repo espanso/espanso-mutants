@@ -1,0 +1,25 @@
+--- espanso-render/src/renderer/util.rs
++++ delete match arm
+@@ -129,21 +129,17 @@
+                 s_value.push_str(&new_value);
+             }
+         }
+         Value::Array(values) => {
+             for value in values {
+                 inject_variables_into_value(value, scope)?;
+             }
+         }
+-        Value::Object(fields) => {
+-            for value in fields.values_mut() {
+-                inject_variables_into_value(value, scope)?;
+-            }
+-        }
++         /* ~ changed by cargo-mutants ~ */
+         _ => {}
+     }
+ 
+     Ok(())
+ }
+ 
+ #[cfg(test)]
+ mod tests {

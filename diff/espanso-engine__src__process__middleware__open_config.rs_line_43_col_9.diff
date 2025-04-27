@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/open_config.rs
++++ replace <impl Middleware for ConfigMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -35,17 +35,17 @@
+ impl<'a> ConfigMiddleware<'a> {
+     pub fn new(provider: &'a dyn ConfigPathProvider) -> Self {
+         Self { provider }
+     }
+ }
+ 
+ impl Middleware for ConfigMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "open_config"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _dispatch: &mut dyn FnMut(Event)) -> Event {
+         let config_path = match self.provider.get_config_path().canonicalize() {
+             Ok(path) => path,
+             Err(err) => {
+                 error!(
+                     "unable to canonicalize the config path into the image resolver: {}",

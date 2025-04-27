@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/exit.rs
++++ replace <impl funnel::Source<'a> for ExitSource<'a>>::register -> usize with 0
+@@ -37,17 +37,17 @@
+             exit_signal,
+             sequencer,
+         }
+     }
+ }
+ 
+ impl<'a> funnel::Source<'a> for ExitSource<'a> {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+-        select.recv(&self.exit_signal)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+         let mode = op
+             .recv(&self.exit_signal)
+             .expect("unable to select data from ExitSource receiver");
+         Some(Event {
+             source_id: self.sequencer.next_id(),

@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace < with == in terminate_worker_if_already_running
+@@ -212,17 +212,17 @@
+             }
+         }
+         Err(err) => {
+             error!("could not establish IPC connection with worker: {}", err);
+         }
+     }
+ 
+     let now = Instant::now();
+-    while now.elapsed() < std::time::Duration::from_secs(3) {
++    while now.elapsed() == /* ~ changed by cargo-mutants ~ */ std::time::Duration::from_secs(3) {
+         let lock_file = acquire_worker_lock(runtime_dir);
+         if lock_file.is_some() {
+             return;
+         }
+ 
+         std::thread::sleep(std::time::Duration::from_millis(200));
+     }
+ 

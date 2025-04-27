@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/resolve.rs
++++ delete ! in resolve_dependencies
+@@ -163,17 +163,17 @@
+                 let resolved_ref = resolved.borrow();
+                 resolved_ref.contains(dependency)
+             };
+             let has_been_seen = {
+                 let seen_ref = seen.borrow();
+                 seen_ref.contains(dependency)
+             };
+ 
+-            if !has_been_resolved {
++            if  /* ~ changed by cargo-mutants ~ */has_been_resolved {
+                 if has_been_seen {
+                     return Err(RendererError::CircularDependency(
+                         node.name.to_string(),
+                         (*dependency).to_string(),
+                     )
+                     .into());
+                 }
+ 

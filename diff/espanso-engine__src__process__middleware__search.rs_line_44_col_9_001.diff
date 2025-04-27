@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/search.rs
++++ replace <impl Middleware for SearchMiddleware<'_>>::name -> &'static str with ""
+@@ -36,17 +36,17 @@
+ impl<'a> SearchMiddleware<'a> {
+     pub fn new(match_provider: &'a dyn MatchProvider) -> Self {
+         Self { match_provider }
+     }
+ }
+ 
+ impl Middleware for SearchMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "search"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::ShowSearchBar = event.etype {
+             let detected_matches = Event::caused_by(
+                 event.source_id,
+                 EventType::MatchesDetected(MatchesDetectedEvent {
+                     matches: self

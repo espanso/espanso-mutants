@@ -1,0 +1,40 @@
+--- espanso-inject/src/evdev/state.rs
++++ replace State::get_string -> Option<String> with Some("xyzzy".into())
+@@ -43,36 +43,17 @@
+             super::ffi::xkb_key_direction::UP
+         };
+         unsafe {
+             xkb_state_update_key(self.state, code, direction);
+         }
+     }
+ 
+     pub fn get_string(&self, code: u32) -> Option<String> {
+-        let mut buffer: [c_char; 16] = [0; 16];
+-        let len = unsafe {
+-            xkb_state_key_get_utf8(
+-                self.state,
+-                code,
+-                buffer.as_mut_ptr(),
+-                std::mem::size_of_val(&buffer),
+-            )
+-        };
+-        if len > 0 {
+-            let content_raw = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+-            let string = content_raw.to_string_lossy().to_string();
+-            if string.is_empty() {
+-                None
+-            } else {
+-                Some(string)
+-            }
+-        } else {
+-            None
+-        }
++        Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get_sym(&self, code: u32) -> Option<u32> {
+         let sym = unsafe { xkb_state_key_get_one_sym(self.state, code) };
+         if sym == 0 {
+             None
+         } else {
+             Some(sym)

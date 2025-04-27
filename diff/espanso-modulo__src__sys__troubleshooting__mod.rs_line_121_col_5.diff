@@ -1,0 +1,65 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace show -> Result<()> with Ok(())
+@@ -113,61 +113,10 @@
+                 },
+                 message,
+             }
+         }
+     }
+ }
+ 
+ pub fn show(options: TroubleshootingOptions) -> Result<()> {
+-    let (_c_window_icon_path, c_window_icon_path_ptr) =
+-        convert_to_cstring_or_null(options.window_icon_path);
+-
+-    let owned_error_sets: Vec<OwnedErrorSet> = options.error_sets.iter().map(Into::into).collect();
+-    let error_sets: Vec<ErrorSetMetadata> = owned_error_sets
+-        .iter()
+-        .map(sys::troubleshooting::interop::OwnedErrorSet::to_error_set_metadata)
+-        .collect();
+-
+-    extern "C" fn dont_show_again_changed(dont_show: c_int) {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in dont_show_again_changed method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.dont_show_again_changed.as_ref() {
+-            let value = dont_show == 1;
+-            (*handler_ref)(value);
+-        }
+-    }
+-
+-    extern "C" fn open_file(file_path: *const c_char) {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in open_file method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.open_file.as_ref() {
+-            let c_string = unsafe { CStr::from_ptr(file_path) };
+-            let string = c_string.to_string_lossy();
+-            let path = PathBuf::from(string.to_string());
+-            (*handler_ref)(&path);
+-        }
+-    }
+-
+-    {
+-        let mut lock = HANDLERS.lock().expect("unable to acquire handlers lock");
+-        *lock = Some(options.handlers);
+-    }
+-
+-    let troubleshooting_metadata = TroubleshootingMetadata {
+-        window_icon_path: c_window_icon_path_ptr,
+-        is_fatal_error: i32::from(options.is_fatal_error),
+-        error_sets: error_sets.as_ptr(),
+-        error_sets_count: error_sets.len() as c_int,
+-        dont_show_again_changed,
+-        open_file,
+-    };
+-
+-    unsafe {
+-        super::interop::interop_show_troubleshooting(&troubleshooting_metadata);
+-    }
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

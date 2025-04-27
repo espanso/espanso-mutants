@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ delete ! in <impl Clipboard for XClipClipboard>::set_image
+@@ -80,17 +80,17 @@
+         Ok(())
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !self.is_xclip_available {
++        if  /* ~ changed by cargo-mutants ~ */self.is_xclip_available {
+             bail!("attempted to use XClipClipboard, but `xclip` command can't be called");
+         }
+ 
+         let extension = image_path.extension();
+         let mime = match extension {
+             Some(ext) => {
+                 let ext = ext.to_string_lossy().to_lowercase();
+                 match ext.as_ref() {

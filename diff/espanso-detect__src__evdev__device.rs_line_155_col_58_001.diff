@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace + with - in Device::process_event
+@@ -147,17 +147,17 @@
+         // Check if the current event originated from a mouse
+         if (0x110..=0x117).contains(&code) {
+             // Mouse event
+             return Some(RawInputEvent::Mouse(RawMouseEvent { code, is_down }));
+         }
+ 
+         // Keyboard event
+ 
+-        let keycode: xkb_keycode_t = EVDEV_OFFSET as u32 + code as u32;
++        let keycode: xkb_keycode_t = EVDEV_OFFSET as u32 - /* ~ changed by cargo-mutants ~ */ code as u32;
+         let keymap = unsafe { xkb_state_get_keymap(self.get_state()) };
+ 
+         if value == KEY_STATE_REPEAT && unsafe { xkb_keymap_key_repeats(keymap, keycode) } == 0 {
+             return None;
+         }
+ 
+         let sym = unsafe { xkb_state_key_get_one_sym(self.get_state(), keycode) };
+         if sym == 0 {

@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/mod.rs
++++ replace Match::cause_description -> Option<&str> with Some("")
+@@ -59,17 +59,17 @@
+         } else if let MatchEffect::Image(_) = &self.effect {
+             "Image content"
+         } else {
+             "No description available for this match"
+         }
+     }
+ 
+     pub fn cause_description(&self) -> Option<&str> {
+-        self.cause.description()
++        Some("") /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn search_terms(&self) -> Vec<&str> {
+         self.search_terms
+             .iter()
+             .map(String::as_str)
+             .chain(self.cause.search_terms())
+             .collect()

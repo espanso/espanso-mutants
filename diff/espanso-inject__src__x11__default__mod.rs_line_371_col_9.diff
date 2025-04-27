@@ -1,0 +1,26 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::get_focused_window -> Window with Default::default()
+@@ -363,22 +363,17 @@
+                 }
+             }
+         }
+ 
+         records
+     }
+ 
+     fn get_focused_window(&self) -> Window {
+-        let mut focused_window: Window = 0;
+-        let mut revert_to = 0;
+-        unsafe {
+-            XGetInputFocus(self.display, &mut focused_window, &mut revert_to);
+-        }
+-        focused_window
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key(&self, window: Window, record: &KeyPair, pressed: bool, delay_us: u32) {
+         let root_window = unsafe { XDefaultRootWindow(self.display) };
+         let mut event = XKeyEvent {
+             display: self.display,
+             keycode: record.code,
+             state: record.state,

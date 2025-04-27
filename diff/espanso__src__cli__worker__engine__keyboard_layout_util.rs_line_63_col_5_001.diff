@@ -1,0 +1,25 @@
+--- espanso/src/cli/worker/engine/keyboard_layout_util.rs
++++ replace generate_inject_rmlvo -> Option<espanso_inject::KeyboardConfig> with None
+@@ -55,21 +55,10 @@
+             model: config.model,
+             layout: config.layout,
+             variant: config.variant,
+             options: config.options,
+         })
+ }
+ 
+ pub fn generate_inject_rmlvo(config: &dyn Config) -> Option<espanso_inject::KeyboardConfig> {
+-    generate_rmlvo_config(config)
+-        .map(|config| {
+-            info!("inject module will use this keyboard layout: {}", config);
+-            config
+-        })
+-        .map(|config| espanso_inject::KeyboardConfig {
+-            rules: config.rules,
+-            model: config.model,
+-            layout: config.layout,
+-            variant: config.variant,
+-            options: config.options,
+-        })
++    None /* ~ changed by cargo-mutants ~ */
+ }

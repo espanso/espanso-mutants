@@ -1,0 +1,32 @@
+--- espanso/src/cli/worker/secure_input.rs
++++ replace initialize_and_spawn -> Result<()> with Ok(())
+@@ -29,28 +29,17 @@
+ #[cfg(not(target_os = "macos"))]
+ pub fn initialize_and_spawn(_secure_input_send: Sender<SecureInputEvent>) -> Result<()> {
+     // NOOP on Windows and Linux
+     Ok(())
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn initialize_and_spawn(secure_input_sender: Sender<SecureInputEvent>) -> Result<()> {
+-    std::thread::Builder::new()
+-        .name("secure-input-monitor".to_string())
+-        .spawn(move || {
+-            // TODO: pass interval from config parameter
+-            secure_input_main(
+-                secure_input_sender,
+-                std::time::Duration::from_secs(3),
+-                std::time::Duration::from_secs(1),
+-            );
+-        })?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "macos")]
+ fn secure_input_main(
+     secure_input_sender: Sender<SecureInputEvent>,
+     min_watch_interval: std::time::Duration,
+     max_watch_interval: std::time::Duration,
+ ) {

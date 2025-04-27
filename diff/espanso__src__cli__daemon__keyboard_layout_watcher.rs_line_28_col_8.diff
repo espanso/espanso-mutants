@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/keyboard_layout_watcher.rs
++++ delete ! in initialize_and_spawn
+@@ -20,17 +20,17 @@
+ use anyhow::Result;
+ use crossbeam::channel::Sender;
+ use log::{debug, error, warn};
+ 
+ const WATCHER_INTERVAL: u64 = 1000;
+ 
+ pub fn initialize_and_spawn(watcher_notify: Sender<()>) -> Result<()> {
+     // On Windows and macOS we don't need to restart espanso when the layout changes
+-    if !cfg!(target_os = "linux") {
++    if  /* ~ changed by cargo-mutants ~ */cfg!(target_os = "linux") {
+         return Ok(());
+     }
+ 
+     std::thread::Builder::new()
+         .name("keyboard_layout_watcher".to_string())
+         .spawn(move || {
+             watcher_main(&watcher_notify);
+         })?;

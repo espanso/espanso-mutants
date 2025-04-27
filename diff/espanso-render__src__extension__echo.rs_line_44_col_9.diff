@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/echo.rs
++++ replace <impl Extension for EchoExtension>::name -> &str with "xyzzy"
+@@ -36,17 +36,17 @@
+         Self {
+             alias: alias.to_string(),
+         }
+     }
+ }
+ 
+ impl Extension for EchoExtension {
+     fn name(&self) -> &str {
+-        self.alias.as_str()
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {

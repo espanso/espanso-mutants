@@ -1,0 +1,21 @@
+--- espanso/src/cli/edit.rs
++++ replace default_editor -> String with "xyzzy".into()
+@@ -27,17 +27,17 @@
+     "/bin/nano".to_owned()
+ }
+ #[cfg(target_os = "macos")]
+ fn default_editor() -> String {
+     "/usr/bin/nano".to_owned()
+ }
+ #[cfg(target_os = "windows")]
+ fn default_editor() -> String {
+-    "C:\\Windows\\System32\\notepad.exe".to_owned()
++    "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn new() -> CliModule {
+     CliModule {
+         requires_paths: true,
+         subcommand: "edit".to_string(),
+         entry: edit_main,
+         ..Default::default()

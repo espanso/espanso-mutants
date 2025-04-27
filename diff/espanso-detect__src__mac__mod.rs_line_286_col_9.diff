@@ -1,0 +1,26 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace <impl Drop for CocoaSource>::drop with ()
+@@ -278,22 +278,17 @@
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Drop for CocoaSource {
+     fn drop(&mut self) {
+         // Reset the global sender
+-        {
+-            let mut lock = CURRENT_SENDER
+-                .lock()
+-                .expect("unable to acquire CocoaSource sender lock during initialization");
+-            *lock = None;
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKey> {
+     let key_code = hk.key.to_code()?;
+     let code: Result<u16, _> = key_code.try_into();
+     if let Ok(code) = code {
+         let mut flags = 0;

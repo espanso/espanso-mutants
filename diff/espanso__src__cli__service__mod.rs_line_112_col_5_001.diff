@@ -1,0 +1,70 @@
+--- espanso/src/cli/service/mod.rs
++++ replace start_main -> i32 with 0
+@@ -104,66 +104,17 @@
+     } else {
+         eprintln!("Invalid usage, please run `espanso service --help` for more information.");
+     }
+ 
+     SERVICE_SUCCESS
+ }
+ 
+ fn start_main(paths: &Paths, _paths_overrides: &PathsOverrides, args: &ArgMatches) -> i32 {
+-    let lock_file = acquire_worker_lock(&paths.runtime);
+-    if lock_file.is_none() {
+-        error_eprintln!("espanso is already running!");
+-        return SERVICE_ALREADY_RUNNING;
+-    }
+-    drop(lock_file);
+-
+-    if args.is_present("unmanaged") && !cfg!(target_os = "windows") {
+-        // Unmanaged service
+-        #[cfg(unix)]
+-        {
+-            if let Err(err) = fork_daemon(_paths_overrides) {
+-                error_eprintln!("unable to start service (unmanaged): {}", err);
+-                return SERVICE_FAILURE;
+-            }
+-        }
+-        #[cfg(windows)]
+-        {
+-            unreachable!();
+-        }
+-    } else {
+-        // Managed service
+-        if let Err(err) = start_service() {
+-            error_eprintln!("unable to start service: {}", err);
+-            return SERVICE_FAILURE;
+-        }
+-    }
+-
+-    let now = Instant::now();
+-    while now.elapsed() < std::time::Duration::from_secs(5) {
+-        let lock_file = acquire_worker_lock(&paths.runtime);
+-        if lock_file.is_none() {
+-            info_println!("espanso started correctly!");
+-            return SERVICE_SUCCESS;
+-        }
+-        drop(lock_file);
+-
+-        std::thread::sleep(std::time::Duration::from_millis(200));
+-    }
+-
+-    error_eprintln!("unable to start service: timed out");
+-
+-    error_eprintln!(
+-    "Hint: sometimes this happens because another Espanso process is left running for some reason."
+-  );
+-    error_eprintln!(
+-    "      Please try running 'espanso restart' or manually killing all Espanso processes, then try again."
+-  );
+-
+-    SERVICE_TIMED_OUT
++    0 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn stop_main(paths: &Paths) -> i32 {
+     let lock_file = acquire_worker_lock(&paths.runtime);
+     if lock_file.is_some() {
+         error_eprintln!("espanso is not running!");
+         return SERVICE_NOT_RUNNING;
+     }

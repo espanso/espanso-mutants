@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ delete match arm
+@@ -411,17 +411,17 @@
+     }
+ }
+ 
+ // These codes can be found in the "input-event-codes.h" header file
+ fn raw_to_mouse_button(raw: u16) -> Option<MouseButton> {
+     match raw {
+         BTN_LEFT => Some(MouseButton::Left),
+         BTN_RIGHT => Some(MouseButton::Right),
+-        BTN_MIDDLE => Some(MouseButton::Middle),
++         /* ~ changed by cargo-mutants ~ */
+         BTN_SIDE => Some(MouseButton::Button1),
+         BTN_EXTRA => Some(MouseButton::Button2),
+         _ => None,
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {

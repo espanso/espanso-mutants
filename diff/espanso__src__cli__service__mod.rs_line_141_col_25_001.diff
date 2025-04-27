@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/mod.rs
++++ replace < with == in start_main
+@@ -133,17 +133,17 @@
+         // Managed service
+         if let Err(err) = start_service() {
+             error_eprintln!("unable to start service: {}", err);
+             return SERVICE_FAILURE;
+         }
+     }
+ 
+     let now = Instant::now();
+-    while now.elapsed() < std::time::Duration::from_secs(5) {
++    while now.elapsed() == /* ~ changed by cargo-mutants ~ */ std::time::Duration::from_secs(5) {
+         let lock_file = acquire_worker_lock(&paths.runtime);
+         if lock_file.is_none() {
+             info_println!("espanso started correctly!");
+             return SERVICE_SUCCESS;
+         }
+         drop(lock_file);
+ 
+         std::thread::sleep(std::time::Duration::from_millis(200));

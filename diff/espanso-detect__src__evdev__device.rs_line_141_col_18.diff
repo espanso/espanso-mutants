@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace != with == in Device::process_event
+@@ -133,17 +133,17 @@
+ 
+             return Err(DeviceError::FailedRead(unsafe { *errno_ptr }).into());
+         }
+ 
+         Ok(events)
+     }
+ 
+     fn process_event(&self, _type: u16, code: u16, value: i32) -> Option<RawInputEvent> {
+-        if _type != EV_KEY {
++        if _type == /* ~ changed by cargo-mutants ~ */ EV_KEY {
+             return None;
+         }
+ 
+         let is_down = value == KEY_STATE_PRESS;
+ 
+         // Check if the current event originated from a mouse
+         if (0x110..=0x117).contains(&code) {
+             // Mouse event

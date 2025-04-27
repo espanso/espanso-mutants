@@ -1,0 +1,37 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ replace initialize_and_spawn -> Result<()> with Ok(())
+@@ -24,33 +24,17 @@
+ use anyhow::Result;
+ use crossbeam::{channel::Sender, select};
+ use log::{error, info, warn};
+ 
+ const WATCHER_NOTIFY_DELAY_MS: u64 = 500;
+ const WATCHER_DEBOUNCE_DURATION_MS: u64 = 1000;
+ 
+ pub fn initialize_and_spawn(config_dir: &Path, watcher_notify: Sender<()>) -> Result<()> {
+-    let config_dir = config_dir.to_path_buf();
+-
+-    let (debounce_tx, debounce_rx) = crossbeam::channel::unbounded();
+-
+-    std::thread::Builder::new()
+-        .name("watcher".to_string())
+-        .spawn(move || {
+-            watcher_main(&config_dir, debounce_tx);
+-        })?;
+-
+-    std::thread::Builder::new()
+-        .name("watcher-debouncer".to_string())
+-        .spawn(move || {
+-            debouncer_main(debounce_rx, &watcher_notify);
+-        })?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn watcher_main(config_dir: &Path, debounce_tx: Sender<()>) {
+     let (tx, rx) = std::sync::mpsc::channel();
+ 
+     let mut watcher: RecommendedWatcher =
+         Watcher::new(tx, Duration::from_millis(WATCHER_NOTIFY_DELAY_MS))
+             .expect("unable to create file watcher");

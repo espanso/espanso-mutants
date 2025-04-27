@@ -1,0 +1,23 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace <impl Drop for Device>::drop with ()
+@@ -269,19 +269,17 @@
+                 false,
+             );
+         }
+     }
+ }
+ 
+ impl Drop for Device {
+     fn drop(&mut self) {
+-        unsafe {
+-            xkb_state_unref(self.state);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub fn get_devices(keymap: &Keymap) -> Result<Vec<Device>> {
+     let mut keyboards = Vec::new();
+     let dirs = std::fs::read_dir("/dev/input/")?;
+     for entry in dirs {
+         match entry {

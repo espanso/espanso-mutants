@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/keyboard_layout_util.rs
++++ delete ! in generate_rmlvo_config
+@@ -17,17 +17,17 @@
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use espanso_config::config::{Config, RMLVOConfig};
+ use log::{info, warn};
+ 
+ fn generate_rmlvo_config(config: &dyn Config) -> Option<RMLVOConfig> {
+     // Not needed on Windows and macOS
+-    if !cfg!(target_os = "linux") {
++    if  /* ~ changed by cargo-mutants ~ */cfg!(target_os = "linux") {
+         return None;
+     }
+ 
+     // Not needed on X11
+     if !cfg!(feature = "wayland") {
+         return None;
+     }
+ 

@@ -1,0 +1,36 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace ModifierStateStore::is_any_conflicting_modifier_pressed -> bool with false
+@@ -55,32 +55,17 @@
+ impl ModifierStateStore {
+     pub fn new() -> Self {
+         Self {
+             state: Arc::new(Mutex::new(ModifiersState::default())),
+         }
+     }
+ 
+     pub fn is_any_conflicting_modifier_pressed(&self) -> bool {
+-        let mut state = self.state.lock().expect("unable to obtain modifier state");
+-        let mut is_any_modifier_pressed = false;
+-        for (modifier, status) in &mut state.modifiers {
+-            if status.is_outdated() {
+-                warn!(
+-                    "detected outdated modifier records for {:?}, releasing the state",
+-                    modifier
+-                );
+-                status.release();
+-            }
+-
+-            if status.is_pressed() && CONFLICTING_MODIFIERS.contains(modifier) {
+-                is_any_modifier_pressed = true;
+-            }
+-        }
+-        is_any_modifier_pressed
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn update_state(&self, modifier: Modifier, is_pressed: bool) {
+         let mut state = self.state.lock().expect("unable to obtain modifier state");
+         for (curr_modifier, status) in &mut state.modifiers {
+             if curr_modifier == &modifier {
+                 if is_pressed {
+                     status.press();

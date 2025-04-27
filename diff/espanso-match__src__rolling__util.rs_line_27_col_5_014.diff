@@ -1,0 +1,44 @@
+--- espanso-match/src/rolling/util.rs
++++ replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some("xyzzy".into()), Some(String::new()))
+@@ -19,40 +19,17 @@
+ 
+ use crate::Event;
+ 
+ use super::matcher::IsWordSeparator;
+ 
+ pub(crate) fn extract_string_from_events(
+     events: &[(Event, IsWordSeparator)],
+ ) -> (String, Option<String>, Option<String>) {
+-    let mut string = String::new();
+-
+-    let mut left_separator = None;
+-    let mut right_separator = None;
+-
+-    for (i, (event, is_word_separator)) in events.iter().enumerate() {
+-        if let Event::Key {
+-            key: _,
+-            chars: Some(chars),
+-        } = event
+-        {
+-            string.push_str(chars);
+-
+-            if *is_word_separator {
+-                if i == 0 {
+-                    left_separator = Some(chars.clone());
+-                } else if i == (events.len() - 1) {
+-                    right_separator = Some(chars.clone());
+-                }
+-            }
+-        }
+-    }
+-
+-    (string, left_separator, right_separator)
++    (String::new(), Some("xyzzy".into()), Some(String::new())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use crate::event::Key;
+ 
+     #[test]

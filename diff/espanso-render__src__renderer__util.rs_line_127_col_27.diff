@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/util.rs
++++ replace != with == in inject_variables_into_value
+@@ -119,17 +119,17 @@
+     Ok(params)
+ }
+ 
+ fn inject_variables_into_value(value: &mut Value, scope: &Scope) -> Result<()> {
+     match value {
+         Value::String(s_value) => {
+             let new_value = render_variables(s_value, scope)?;
+ 
+-            if &new_value != s_value {
++            if &new_value == /* ~ changed by cargo-mutants ~ */ s_value {
+                 s_value.clear();
+                 s_value.push_str(&new_value);
+             }
+         }
+         Value::Array(values) => {
+             for value in values {
+                 inject_variables_into_value(value, scope)?;
+             }

@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/macos.rs
++++ delete ! in register
+@@ -42,17 +42,17 @@
+         bail!("macOS activated app-translocation on Espanso");
+     }
+ 
+     let home_dir = dirs::home_dir().expect("could not get user home directory");
+     let library_dir = home_dir.join("Library");
+     let agents_dir = library_dir.join("LaunchAgents");
+ 
+     // Make sure agents directory exists
+-    if !agents_dir.exists() {
++    if  /* ~ changed by cargo-mutants ~ */agents_dir.exists() {
+         create_dir_all(agents_dir.clone())?;
+     }
+ 
+     let plist_file = agents_dir.join(SERVICE_PLIST_FILE_NAME);
+     if !plist_file.exists() {
+         info!(
+             "creating LaunchAgents entry: {}",
+             plist_file.to_str().unwrap_or_default()

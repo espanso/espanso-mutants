@@ -1,0 +1,50 @@
+--- espanso/src/gui/modulo/search.rs
++++ replace <impl SearchUI for ModuloSearchUI<'_>>::show -> anyhow::Result<Option<String>> with Ok(None)
+@@ -43,46 +43,17 @@
+             manager,
+             option_provider,
+         }
+     }
+ }
+ 
+ impl SearchUI for ModuloSearchUI<'_> {
+     fn show(&self, items: &[SearchItem], hint: Option<&str>) -> anyhow::Result<Option<String>> {
+-        let modulo_config = ModuloSearchConfig {
+-            title: "espanso",
+-            hint,
+-            items: convert_items(items),
+-        };
+-
+-        let json_config = serde_json::to_string(&modulo_config)?;
+-        let output = self
+-            .manager
+-            .invoke(&["search", "-j", "-i", "-"], &json_config)?;
+-        let json: Result<HashMap<String, Value>, _> = serde_json::from_str(&output);
+-        let result = match json {
+-            Ok(json) => {
+-                if let Some(Value::String(selected_id)) = json.get("selected") {
+-                    Ok(Some(selected_id.clone()))
+-                } else {
+-                    Ok(None)
+-                }
+-            }
+-            Err(error) => Err(error.into()),
+-        };
+-
+-        let post_search_delay = self.option_provider.get_post_search_delay();
+-        if post_search_delay > 0 {
+-            std::thread::sleep(std::time::Duration::from_millis(
+-                post_search_delay.try_into().unwrap(),
+-            ));
+-        }
+-
+-        result
++        Ok(None) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Debug, Serialize)]
+ struct ModuloSearchConfig<'a> {
+     title: &'a str,
+     hint: Option<&'a str>,
+     items: Vec<ModuloSearchItemConfig<'a>>,

@@ -1,0 +1,20 @@
+--- espanso/src/cli/worker/builtin/debug.rs
++++ replace create_match_show_logs -> BuiltInMatch with Default::default()
+@@ -103,16 +103,10 @@
+                 title: "Active application information (detect)".to_string(),
+             })
+         },
+         ..Default::default()
+     }
+ }
+ 
+ pub fn create_match_show_logs() -> BuiltInMatch {
+-    BuiltInMatch {
+-        id: generate_next_builtin_id(),
+-        label: "Show Espanso's logs",
+-        triggers: vec!["#log#".to_string()],
+-        action: |_| EventType::ShowLogs,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

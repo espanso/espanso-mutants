@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -270,17 +270,17 @@
+         131 => Some(0x00E2), // Latin small letter a with circumflex
+         132 => Some(0x00E4), // Latin small letter a with diaeresis
+         133 => Some(0x00E0), // Latin small letter a with grave
+         134 => Some(0x00E5), // Latin small letter a with ring above
+         135 => Some(0x00E7), // Latin small letter c with cedilla
+         136 => Some(0x00EA), // Latin small letter e with circumflex
+         137 => Some(0x00EB), // Latin small letter e with diaeresis
+         138 => Some(0x00E8), // Latin small letter e with grave
+-        139 => Some(0x00EF), // Latin small letter i with diaeresis
++         /* ~ changed by cargo-mutants ~ */ // Latin small letter i with diaeresis
+         140 => Some(0x00EE), // Latin small letter i with circumflex
+         141 => Some(0x00EC), // Latin small letter i with grave
+         142 => Some(0x00C4), // Latin capital letter A with diaeresis
+         143 => Some(0x00C5), // Latin capital letter A with ring above
+         144 => Some(0x00C9), // Latin capital letter E with acute
+         145 => Some(0x00E6), // Latin small letter ae, ash (from Old English æsc)
+         146 => Some(0x00C6), // Latin capital letter AE
+         147 => Some(0x00F4), // Latin small letter o with circumflex

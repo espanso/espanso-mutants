@@ -1,0 +1,49 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ replace convert_buffer_into_char -> Option<String> with Some(String::new())
+@@ -97,45 +97,17 @@
+             _ => {}
+         }
+ 
+         event
+     }
+ }
+ 
+ fn convert_buffer_into_char(buffer: &str) -> Option<String> {
+-    if buffer.is_empty() {
+-        debug!("unable to generate ALT code as the buffer is empty");
+-        return None;
+-    }
+-
+-    if !buffer.chars().all(char::is_numeric) {
+-        debug!("unable to generate ALT code as some of the buffer chars are not numeric");
+-        return None;
+-    }
+-
+-    // According to: https://en.wikipedia.org/wiki/Alt_code
+-    // The conversion works as follow:
+-    // * If the number is smaller than 256 and does not start with 0, then we use a patched version of the CP437 encoding
+-    // * If the number is smaller than 256 and starts with 0 we use the CP1252 encoding
+-    // * If the number is greater or equal than 256 we use the unicode encoding
+-
+-    let code = buffer.parse::<u32>().ok()?;
+-    let unicode_code = if code >= 256 {
+-        // Unicode
+-        code
+-    } else if buffer.starts_with('0') {
+-        // CP1252
+-        convert_cp1252_code_to_unicode(code)?
+-    } else {
+-        // CP437
+-        convert_cp437_code_to_unicode(code)?
+-    };
+-
+-    char::from_u32(unicode_code).map(|c| c.to_string())
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ // Taken from: https://altcodeunicode.com/
+ fn convert_cp437_code_to_unicode(code: u32) -> Option<u32> {
+     match code {
+         0 => Some(0x0000),   // Control character - null (NUL)
+         1 => Some(0x263A),   // White smiling face, smiley face
+         2 => Some(0x263B),   // Black smiling face

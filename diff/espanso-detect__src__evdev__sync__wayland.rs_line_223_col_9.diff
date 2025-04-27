@@ -1,0 +1,31 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl WindowHandler for SimpleWindow>::configure with ()
+@@ -215,27 +215,17 @@
+     fn configure(
+         &mut self,
+         conn: &Connection,
+         qh: &QueueHandle<Self>,
+         _window: &Window,
+         configure: WindowConfigure,
+         _serial: u32,
+     ) {
+-        debug!("Window configured to: {:?}", configure);
+-
+-        self.buffer = None;
+-        self.width = configure.new_size.0.map_or(256, std::num::NonZeroU32::get);
+-        self.height = configure.new_size.1.map_or(256, std::num::NonZeroU32::get);
+-
+-        // Initiate the first draw.
+-        if self.first_configure {
+-            self.first_configure = false;
+-            self.draw(conn, qh);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ActivationHandler for SimpleWindow {
+     type RequestData = RequestData;
+ 
+     fn new_token(&mut self, token: String, _data: &Self::RequestData) {
+         self.xdg_activation

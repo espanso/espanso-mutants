@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace == with != in native_callback
+@@ -138,17 +138,17 @@
+         let (key_code, _) = key_code_to_key(raw_event.key_code);
+         let mut current_mod_state = MODIFIER_STATE
+             .lock()
+             .expect("unable to acquire modifier state in cocoa detector");
+ 
+         if let Key::Alt = &key_code {
+             current_mod_state.is_option_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Meta = &key_code {
+-            current_mod_state.is_command_down = raw_event.status == INPUT_STATUS_PRESSED;
++            current_mod_state.is_command_down = raw_event.status != /* ~ changed by cargo-mutants ~ */ INPUT_STATUS_PRESSED;
+         } else if let Key::Shift = &key_code {
+             current_mod_state.is_shift_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Control = &key_code {
+             current_mod_state.is_ctrl_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else {
+             if current_mod_state.is_command_down && raw_event.is_command_pressed == 0 {
+                 compensating_events.push((Key::Meta, 0x37));
+                 current_mod_state.is_command_down = false;

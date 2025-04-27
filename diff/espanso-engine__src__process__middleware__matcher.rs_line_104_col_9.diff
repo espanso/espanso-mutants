@@ -1,0 +1,96 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace <impl Middleware for MatcherMiddleware<'_, State>>::next -> Event with Default::default()
+@@ -96,92 +96,17 @@
+ }
+ 
+ impl<State> Middleware for MatcherMiddleware<'_, State> {
+     fn name(&self) -> &'static str {
+         "matcher"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        if is_event_of_interest(&event.etype) {
+-            let mut matcher_states = self.matcher_states.borrow_mut();
+-            let prev_states = if matcher_states.is_empty() {
+-                None
+-            } else {
+-                matcher_states.back()
+-            };
+-
+-            if let EventType::Keyboard(keyboard_event) = &event.etype {
+-                // Backspace handling
+-                if keyboard_event.key == Key::Backspace {
+-                    trace!("popping the last matcher state");
+-                    matcher_states.pop_back();
+-                    return event;
+-                }
+-
+-                // We need to filter out some keyboard events if they are generated
+-                // while some modifier keys are pressed, otherwise we could have
+-                // wrong matches being detected.
+-                // See: https://github.com/espanso/espanso/issues/725
+-                if should_skip_key_event_due_to_modifier_press(
+-                    &self.modifier_status_provider.get_modifier_state(),
+-                ) {
+-                    trace!("skipping keyboard event because incompatible modifiers are pressed");
+-                    return event;
+-                }
+-            }
+-
+-            // Some keys (such as the arrow keys) and mouse clicks prevent espanso from building
+-            // an accurate key buffer, so we need to invalidate it.
+-            if is_invalidating_event(&event.etype) {
+-                trace!("invalidating event detected, clearing matching state");
+-                matcher_states.clear();
+-                return event;
+-            }
+-
+-            let mut all_results = Vec::new();
+-
+-            if let Some(matcher_event) = convert_to_matcher_event(&event.etype) {
+-                let mut new_states = Vec::new();
+-                for (i, matcher) in self.matchers.iter().enumerate() {
+-                    let prev_state = prev_states.and_then(|states| states.get(i));
+-
+-                    let (state, results) = matcher.process(prev_state, &matcher_event);
+-                    all_results.extend(results);
+-
+-                    new_states.push(state);
+-                }
+-
+-                matcher_states.push_back(new_states);
+-                if matcher_states.len() > self.max_history_size {
+-                    matcher_states.pop_front();
+-                }
+-
+-                if !all_results.is_empty() {
+-                    return Event::caused_by(
+-                        event.source_id,
+-                        EventType::MatchesDetected(MatchesDetectedEvent {
+-                            matches: all_results
+-                                .into_iter()
+-                                .map(|result| DetectedMatch {
+-                                    id: result.id,
+-                                    trigger: Some(result.trigger),
+-                                    right_separator: result.right_separator,
+-                                    left_separator: result.left_separator,
+-                                    args: result.args,
+-                                })
+-                                .collect(),
+-                            is_search: false,
+-                        }),
+-                    );
+-                }
+-            }
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn is_event_of_interest(event_type: &EventType) -> bool {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => {
+             if keyboard_event.status == Status::Pressed {
+                 // Skip linux Keyboard (XKB) Extension function and modifier keys

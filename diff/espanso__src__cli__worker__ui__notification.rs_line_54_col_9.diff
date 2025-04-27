@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ replace NotificationManager<'a>::notify_keyboard_layout_reloaded with ()
+@@ -46,17 +46,17 @@
+         } else {
+             self.notify(
+         "Configuration reloaded! Espanso automatically loads new changes as soon as you save them.",
+       );
+         }
+     }
+ 
+     pub fn notify_keyboard_layout_reloaded(&self) {
+-        self.notify("Updated keyboard layout!");
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::NotificationManager for NotificationManager<'_> {
+     fn notify_status_change(&self, enabled: bool) {
+         // Don't notify the status change outside Linux for now
+         if !cfg!(target_os = "linux") {
+             return;

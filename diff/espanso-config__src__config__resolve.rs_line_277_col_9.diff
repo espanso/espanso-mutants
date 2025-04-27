@@ -1,0 +1,25 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::search_trigger -> Option<String> with Some(String::new())
+@@ -269,21 +269,17 @@
+                 model: layout.get("model").map(String::from),
+                 layout: layout.get("layout").map(String::from),
+                 variant: layout.get("variant").map(String::from),
+                 options: layout.get("options").map(String::from),
+             })
+     }
+ 
+     fn search_trigger(&self) -> Option<String> {
+-        match self.parsed.search_trigger.as_deref() {
+-            Some("OFF" | "off") => None,
+-            Some(x) => Some(x.to_string()),
+-            None => None,
+-        }
++        Some(String::new()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn search_shortcut(&self) -> Option<String> {
+         match self.parsed.search_shortcut.as_deref() {
+             Some("OFF" | "off") => None,
+             Some(x) => Some(x.to_string()),
+             None => Some("ALT+SPACE".to_string()),
+         }

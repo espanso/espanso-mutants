@@ -1,0 +1,25 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::search_shortcut -> Option<String> with Some(String::new())
+@@ -277,21 +277,17 @@
+         match self.parsed.search_trigger.as_deref() {
+             Some("OFF" | "off") => None,
+             Some(x) => Some(x.to_string()),
+             None => None,
+         }
+     }
+ 
+     fn search_shortcut(&self) -> Option<String> {
+-        match self.parsed.search_shortcut.as_deref() {
+-            Some("OFF" | "off") => None,
+-            Some(x) => Some(x.to_string()),
+-            None => Some("ALT+SPACE".to_string()),
+-        }
++        Some(String::new()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn undo_backspace(&self) -> bool {
+         self.parsed.undo_backspace.unwrap_or(true)
+     }
+ 
+     fn show_icon(&self) -> bool {
+         self.parsed.show_icon.unwrap_or(true)

@@ -1,0 +1,20 @@
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ delete match arm
+@@ -188,16 +188,13 @@
+             EventType::Enabled => {
+                 *is_enabled = true;
+                 event
+             }
+             EventType::SecureInputEnabled(_) => {
+                 *is_secure_input_enabled = true;
+                 event
+             }
+-            EventType::SecureInputDisabled => {
+-                *is_secure_input_enabled = false;
+-                event
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             _ => event,
+         }
+     }
+ }

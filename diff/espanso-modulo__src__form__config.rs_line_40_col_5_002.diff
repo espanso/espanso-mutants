@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_max_form_height -> i32 with -1
+@@ -32,17 +32,17 @@
+     HashMap::new()
+ }
+ 
+ fn default_max_form_width() -> i32 {
+     700
+ }
+ 
+ fn default_max_form_height() -> i32 {
+-    500
++    -1 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct FormConfig {
+     #[serde(default = "default_title")]
+     pub title: String,
+ 
+     #[serde(default = "default_icon")]

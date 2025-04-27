@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in start_service
+@@ -201,17 +201,17 @@
+         );
+         error_eprintln!(
+             "      to run, but as a result, you are in charge of starting/stopping espanso"
+         );
+         error_eprintln!("      when needed.");
+         return Err(StartError::SystemdNotFound.into());
+     }
+ 
+-    if !is_registered() {
++    if  /* ~ changed by cargo-mutants ~ */is_registered() {
+         error_eprintln!("Unable to start espanso as a service as it's not been registered.");
+         error_eprintln!("You can either register it first with `espanso service register` or");
+         error_eprintln!(
+             "you can run it in unmanaged mode with `espanso service start --unmanaged`"
+         );
+         error_eprintln!("");
+         error_eprintln!(
+             "NOTE: unmanaged mode means espanso does not rely on the system service manager"

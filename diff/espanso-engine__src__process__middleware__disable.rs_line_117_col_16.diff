@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ delete ! in <impl Middleware for DisableMiddleware>::next
+@@ -109,17 +109,17 @@
+                 } else {
+                     EventType::Disabled
+                 },
+             ));
+         }
+ 
+         // Block keyboard events when disabled
+         if let EventType::Keyboard(_) = &event.etype {
+-            if !*enabled {
++            if  /* ~ changed by cargo-mutants ~ */*enabled {
+                 return Event::caused_by(event.source_id, EventType::NOOP);
+             }
+         }
+         // TODO: also ignore hotkey and mouse events
+ 
+         event
+     }
+ }

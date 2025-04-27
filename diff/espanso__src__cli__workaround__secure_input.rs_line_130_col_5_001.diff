@@ -1,0 +1,20 @@
+--- espanso/src/cli/workaround/secure_input.rs
++++ replace get_running_apps -> Result<HashSet<String>> with Ok(HashSet::from_iter(["xyzzy".into()]))
+@@ -122,16 +122,10 @@
+     .arg(r#"tell application "System Events" to keystroke "q" using {command down,control down}"#)
+     .spawn()?;
+ 
+     child.wait()?;
+     Ok(())
+ }
+ 
+ fn get_running_apps() -> Result<HashSet<String>> {
+-    let apps_raw = run_apple_script(GET_RUNNING_APPS_SCRIPT)?;
+-    let mut apps = HashSet::new();
+-    for app in apps_raw.trim().split(", ") {
+-        apps.insert(app.to_string());
+-    }
+-
+-    Ok(apps)
++    Ok(HashSet::from_iter(["xyzzy".into()])) /* ~ changed by cargo-mutants ~ */
+ }

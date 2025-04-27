@@ -1,0 +1,24 @@
+--- espanso-engine/src/event/mod.rs
++++ replace Event::caused_by -> Event with Default::default()
+@@ -33,20 +33,17 @@
+     // For example, if a keyboard event with source_id = 5 generates
+     // a detected match event, this event will have source_id = 5
+     pub source_id: SourceId,
+     pub etype: EventType,
+ }
+ 
+ impl Event {
+     pub fn caused_by(cause_id: SourceId, event_type: EventType) -> Event {
+-        Event {
+-            source_id: cause_id,
+-            etype: event_type,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Debug, Clone)]
+ #[allow(clippy::upper_case_acronyms)]
+ pub enum EventType {
+     NOOP,
+     ExitRequested(ExitMode),

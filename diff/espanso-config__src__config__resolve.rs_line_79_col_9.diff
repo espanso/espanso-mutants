@@ -1,0 +1,66 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::is_match -> bool with false
+@@ -71,62 +71,17 @@
+         "none"
+     }
+ 
+     fn match_paths(&self) -> &[String] {
+         &self.match_paths
+     }
+ 
+     fn is_match(&self, app: &AppProperties) -> bool {
+-        if self.parsed.filter_os.is_none()
+-            && self.parsed.filter_title.is_none()
+-            && self.parsed.filter_exec.is_none()
+-            && self.parsed.filter_class.is_none()
+-        {
+-            return false;
+-        }
+-
+-        let is_os_match = if let Some(filter_os) = self.parsed.filter_os.as_deref() {
+-            os_matches(filter_os)
+-        } else {
+-            true
+-        };
+-
+-        let is_title_match = if let Some(title_regex) = self.filter_title.as_ref() {
+-            if let Some(title) = app.title {
+-                title_regex.is_match(title)
+-            } else {
+-                false
+-            }
+-        } else {
+-            true
+-        };
+-
+-        let is_exec_match = if let Some(exec_regex) = self.filter_exec.as_ref() {
+-            if let Some(exec) = app.exec {
+-                exec_regex.is_match(exec)
+-            } else {
+-                false
+-            }
+-        } else {
+-            true
+-        };
+-
+-        let is_class_match = if let Some(class_regex) = self.filter_class.as_ref() {
+-            if let Some(class) = app.class {
+-                class_regex.is_match(class)
+-            } else {
+-                false
+-            }
+-        } else {
+-            true
+-        };
+-
+-        // All the filters that have been specified must be true to define a match
+-        is_os_match && is_exec_match && is_title_match && is_class_match
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn backend(&self) -> Backend {
+         match self
+             .parsed
+             .backend
+             .as_deref()
+             .map(str::to_lowercase)

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl crate::gui::modulo::search::ModuloSearchUIOptionProvider for ConfigManager<'_>>::get_post_search_delay -> usize with 1
+@@ -209,17 +209,17 @@
+ 
+     fn get_max_form_height(&self) -> usize {
+         self.active().max_form_height()
+     }
+ }
+ 
+ impl crate::gui::modulo::search::ModuloSearchUIOptionProvider for ConfigManager<'_> {
+     fn get_post_search_delay(&self) -> usize {
+-        self.active().post_search_delay()
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::AltCodeSynthEnabledProvider for ConfigManager<'_> {
+     fn is_alt_code_synthesizer_enabled(&self) -> bool {
+         self.active().emulate_alt_codes()
+     }
+ }

@@ -1,0 +1,26 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ replace <impl FormProvider for FormProviderAdapter<'_>>::show -> FormProviderResult with Default::default()
+@@ -34,22 +34,17 @@
+ impl<'a> FormProviderAdapter<'a> {
+     pub fn new(form_ui: &'a dyn FormUI) -> Self {
+         Self { form_ui }
+     }
+ }
+ 
+ impl FormProvider for FormProviderAdapter<'_> {
+     fn show(&self, layout: &str, fields: &Params, _: &Params) -> FormProviderResult {
+-        let fields = convert_fields(fields);
+-        match self.form_ui.show(layout, &fields) {
+-            Ok(Some(results)) => FormProviderResult::Success(results),
+-            Ok(None) => FormProviderResult::Aborted,
+-            Err(err) => FormProviderResult::Error(err),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_fields(fields: &Params) -> HashMap<String, FormField> {
+     let mut out = HashMap::new();
+     for (name, field) in fields {
+         let mut form_field = None;
+ 

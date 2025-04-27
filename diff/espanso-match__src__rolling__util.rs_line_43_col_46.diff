@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/util.rs
++++ replace - with / in extract_string_from_events
+@@ -35,17 +35,17 @@
+             chars: Some(chars),
+         } = event
+         {
+             string.push_str(chars);
+ 
+             if *is_word_separator {
+                 if i == 0 {
+                     left_separator = Some(chars.clone());
+-                } else if i == (events.len() - 1) {
++                } else if i == (events.len() / /* ~ changed by cargo-mutants ~ */ 1) {
+                     right_separator = Some(chars.clone());
+                 }
+             }
+         }
+     }
+ 
+     (string, left_separator, right_separator)
+ }

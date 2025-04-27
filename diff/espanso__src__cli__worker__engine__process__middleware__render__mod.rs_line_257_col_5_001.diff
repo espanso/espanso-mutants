@@ -1,0 +1,25 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace extract_uppercasing_style -> Option<UpperCasingStyle> with None
+@@ -249,21 +249,17 @@
+             }
+         } else {
+             Err(RendererError::NotFound.into())
+         }
+     }
+ }
+ 
+ fn extract_uppercasing_style(m: &Match) -> Option<UpperCasingStyle> {
+-    if let MatchCause::Trigger(cause) = &m.cause {
+-        Some(cause.uppercase_style.clone())
+-    } else {
+-        None
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn is_propagate_case(m: &Match) -> bool {
+     if let MatchCause::Trigger(cause) = &m.cause {
+         cause.propagate_case
+     } else {
+         false
+     }

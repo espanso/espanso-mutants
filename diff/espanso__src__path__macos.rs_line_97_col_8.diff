@@ -1,0 +1,21 @@
+--- espanso/src/path/macos.rs
++++ delete ! in create_dir_and_link_with_applescript
+@@ -89,17 +89,17 @@
+     );
+ 
+     let mut child = std::process::Command::new("osascript")
+         .args(["-e", &params])
+         .spawn()?;
+ 
+     let result = child.wait()?;
+ 
+-    if !result.success() {
++    if  /* ~ changed by cargo-mutants ~ */result.success() {
+         return Err(PathError::ElevationRequestFailure.into());
+     }
+ 
+     Ok(())
+ }
+ 
+ pub fn remove_espanso_from_path(prompt_when_necessary: bool) -> Result<()> {
+     let target_link_path = PathBuf::from("/usr/local/bin/espanso");

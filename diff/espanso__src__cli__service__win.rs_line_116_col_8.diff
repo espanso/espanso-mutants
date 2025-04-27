@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/win.rs
++++ delete ! in get_startup_dir
+@@ -108,17 +108,17 @@
+     let app_data = home_dir.join("AppData");
+     let roaming = app_data.join("Roaming");
+     let microsoft = roaming.join("Microsoft");
+     let windows = microsoft.join("Windows");
+     let start_menu = windows.join("Start Menu");
+     let programs = start_menu.join("Programs");
+     let startup = programs.join("Startup");
+ 
+-    if !startup.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */startup.is_dir() {
+         create_dir_all(&startup)?;
+     }
+ 
+     Ok(startup)
+ }
+ 
+ fn get_startup_shortcut_file() -> Result<PathBuf> {
+     let parent = get_startup_dir()?;

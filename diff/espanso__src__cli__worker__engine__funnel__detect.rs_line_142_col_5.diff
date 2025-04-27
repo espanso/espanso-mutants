@@ -1,0 +1,23 @@
+--- espanso/src/cli/worker/engine/funnel/detect.rs
++++ replace convert_to_engine_mouse_button -> MouseButton with Default::default()
+@@ -134,19 +134,10 @@
+ pub fn convert_to_engine_status(status: espanso_detect::event::Status) -> Status {
+     match status {
+         espanso_detect::event::Status::Pressed => Status::Pressed,
+         espanso_detect::event::Status::Released => Status::Released,
+     }
+ }
+ 
+ pub fn convert_to_engine_mouse_button(button: espanso_detect::event::MouseButton) -> MouseButton {
+-    match button {
+-        espanso_detect::event::MouseButton::Left => MouseButton::Left,
+-        espanso_detect::event::MouseButton::Right => MouseButton::Right,
+-        espanso_detect::event::MouseButton::Middle => MouseButton::Middle,
+-        espanso_detect::event::MouseButton::Button1 => MouseButton::Button1,
+-        espanso_detect::event::MouseButton::Button2 => MouseButton::Button2,
+-        espanso_detect::event::MouseButton::Button3 => MouseButton::Button3,
+-        espanso_detect::event::MouseButton::Button4 => MouseButton::Button4,
+-        espanso_detect::event::MouseButton::Button5 => MouseButton::Button5,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

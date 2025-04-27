@@ -1,0 +1,17 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ replace <impl espanso_engine::process::NotificationManager for NotificationManager<'_>>::notify_rendering_error with ()
+@@ -65,13 +65,11 @@
+         if enabled {
+             self.notify("Espanso enabled!");
+         } else {
+             self.notify("Espanso disabled!");
+         }
+     }
+ 
+     fn notify_rendering_error(&self) {
+-        self.notify(
+-            "An error occurred during rendering, please examine the logs for more information.",
+-        );
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }

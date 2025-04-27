@@ -1,0 +1,14 @@
+--- espanso/src/cli/launcher/mod.rs
++++ replace launcher_main -> i32 with -1
+@@ -197,10 +197,10 @@
+     }
+ 
+     LAUNCHER_SUCCESS
+ }
+ 
+ #[cfg(not(feature = "modulo"))]
+ fn launcher_main(_: CliModuleArgs) -> i32 {
+     // TODO: handle what happens here
+-    unimplemented!();
++    -1 /* ~ changed by cargo-mutants ~ */
+ }

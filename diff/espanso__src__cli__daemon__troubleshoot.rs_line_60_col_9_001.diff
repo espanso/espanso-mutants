@@ -1,0 +1,22 @@
+--- espanso/src/cli/daemon/troubleshoot.rs
++++ replace TroubleshootGuard::try_wait -> Result<bool> with Ok(true)
+@@ -52,18 +52,17 @@
+         Self { child }
+     }
+     #[allow(dead_code)]
+     pub fn wait(&mut self) -> Result<()> {
+         self.child.wait()?;
+         Ok(())
+     }
+     pub fn try_wait(&mut self) -> Result<bool> {
+-        let result = self.child.try_wait()?;
+-        Ok(result.is_some())
++        Ok(true) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for TroubleshootGuard {
+     fn drop(&mut self) {
+         let _ = self.child.kill();
+     }
+ }

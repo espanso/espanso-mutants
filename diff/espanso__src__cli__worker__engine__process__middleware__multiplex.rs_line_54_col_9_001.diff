@@ -1,0 +1,42 @@
+--- espanso/src/cli/worker/engine/process/middleware/multiplex.rs
++++ replace <impl Multiplexer for MultiplexAdapter<'_>>::convert -> Option<EventType> with Some(Default::default())
+@@ -46,38 +46,17 @@
+ impl<'a> MultiplexAdapter<'a> {
+     pub fn new(provider: &'a dyn MatchProvider<'a>, context: &'a dyn Context) -> Self {
+         Self { provider, context }
+     }
+ }
+ 
+ impl Multiplexer for MultiplexAdapter<'_> {
+     fn convert(&self, detected_match: DetectedMatch) -> Option<EventType> {
+-        match self.provider.get(detected_match.id)? {
+-            MatchResult::User(m) => match &m.effect {
+-                MatchEffect::Text(effect) => {
+-                    Some(EventType::RenderingRequested(RenderingRequestedEvent {
+-                        match_id: detected_match.id,
+-                        trigger: detected_match.trigger,
+-                        left_separator: detected_match.left_separator,
+-                        right_separator: detected_match.right_separator,
+-                        trigger_args: detected_match.args,
+-                        format: convert_format(&effect.format),
+-                    }))
+-                }
+-                MatchEffect::Image(effect) => {
+-                    Some(EventType::ImageRequested(ImageRequestedEvent {
+-                        match_id: detected_match.id,
+-                        image_path: effect.path.clone(),
+-                    }))
+-                }
+-                MatchEffect::None => None,
+-            },
+-            MatchResult::Builtin(m) => Some((m.action)(self.context)),
+-        }
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_format(format: &espanso_config::matches::TextFormat) -> TextFormat {
+     match format {
+         espanso_config::matches::TextFormat::Plain => TextFormat::Plain,
+         espanso_config::matches::TextFormat::Markdown => TextFormat::Markdown,
+         espanso_config::matches::TextFormat::Html => TextFormat::Html,

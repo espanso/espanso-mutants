@@ -1,0 +1,14 @@
+--- espanso/src/cli/launcher/accessibility.rs
++++ replace prompt_enable_accessibility -> bool with true
+@@ -29,10 +29,10 @@
+ 
+ #[cfg(target_os = "macos")]
+ pub fn is_accessibility_enabled() -> bool {
+     espanso_mac_utils::check_accessibility()
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn prompt_enable_accessibility() -> bool {
+-    espanso_mac_utils::prompt_accessibility()
++    true /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::backspace_limit -> usize with 1
+@@ -248,17 +248,17 @@
+                 "\t".to_string(),
+                 "\n".to_string(),
+                 "\x0c".to_string(), // Form Feed
+             ]
+         })
+     }
+ 
+     fn backspace_limit(&self) -> usize {
+-        self.parsed.backspace_limit.unwrap_or(5)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn apply_patch(&self) -> bool {
+         self.parsed.apply_patch.unwrap_or(true)
+     }
+ 
+     fn keyboard_layout(&self) -> Option<RMLVOConfig> {
+         self.parsed

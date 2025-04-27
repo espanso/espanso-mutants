@@ -1,0 +1,24 @@
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ delete match arm
+@@ -129,20 +129,17 @@
+                 )
+             }
+             EventType::ContextMenuClicked(context_click_event) => {
+                 match context_click_event.context_item_id {
+                     CONTEXT_ITEM_EXIT => Event::caused_by(
+                         event.source_id,
+                         EventType::ExitRequested(ExitMode::ExitAllProcesses),
+                     ),
+-                    CONTEXT_ITEM_RELOAD => Event::caused_by(
+-                        event.source_id,
+-                        EventType::ExitRequested(ExitMode::RestartWorker),
+-                    ),
++                     /* ~ changed by cargo-mutants ~ */
+                     CONTEXT_ITEM_ENABLE => {
+                         dispatch(Event::caused_by(event.source_id, EventType::EnableRequest));
+                         Event::caused_by(event.source_id, EventType::NOOP)
+                     }
+                     CONTEXT_ITEM_DISABLE => {
+                         dispatch(Event::caused_by(event.source_id, EventType::DisableRequest));
+                         Event::caused_by(event.source_id, EventType::NOOP)
+                     }

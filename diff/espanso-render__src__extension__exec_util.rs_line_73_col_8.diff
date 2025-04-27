@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/exec_util.rs
++++ delete ! in determine_default_macos_shell
+@@ -65,17 +65,17 @@
+         .args(["--login", "-c", "dscl . -read ~/ UserShell"])
+         .output()
+         .ok()?;
+ 
+     static EXTRACT_SHELL_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+         Regex::new(r"UserShell:\s(.*)$").expect("unable to generate regex to extract default shell")
+     });
+ 
+-    if !output.status.success() {
++    if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+         return None;
+     }
+ 
+     let output_str = String::from_utf8_lossy(&output.stdout);
+     let captures = EXTRACT_SHELL_REGEX.captures(output_str.trim())?;
+ 
+     let shell = captures.get(1)?.as_str().trim();
+ 

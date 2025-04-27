@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace < with == in EVDEVInjector::wait_until_key_is_released
+@@ -230,17 +230,17 @@
+ 
+             if !key_provider.is_key_pressed(key_provider_code) {
+                 return Ok(());
+             }
+ 
+             // Key is pressed, wait until timeout
+             let now = Instant::now();
+             while now.elapsed()
+-                < std::time::Duration::from_millis(DEFAULT_WAIT_KEY_RELEASE_TIMEOUT_MS)
++                == /* ~ changed by cargo-mutants ~ */ std::time::Duration::from_millis(DEFAULT_WAIT_KEY_RELEASE_TIMEOUT_MS)
+             {
+                 if !key_provider.is_key_pressed(key_provider_code) {
+                     return Ok(());
+                 }
+ 
+                 std::thread::sleep(std::time::Duration::from_millis(50));
+             }
+ 

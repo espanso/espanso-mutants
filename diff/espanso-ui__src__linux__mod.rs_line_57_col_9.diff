@@ -1,0 +1,21 @@
+--- espanso-ui/src/linux/mod.rs
++++ replace LinuxRemote::stop -> anyhow::Result<()> with Ok(())
+@@ -49,17 +49,17 @@
+     pub fn new(tx: Sender<()>, notification_icon_path: String) -> Self {
+         Self {
+             tx,
+             notification_icon_path,
+         }
+     }
+ 
+     pub fn stop(&self) -> anyhow::Result<()> {
+-        Ok(self.tx.send(())?)
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl UIRemote for LinuxRemote {
+     fn update_tray_icon(&self, _: crate::icons::TrayIcon) {
+         // NOOP on linux
+     }
+ 

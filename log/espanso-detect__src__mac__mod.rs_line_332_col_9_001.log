@@ -1,0 +1,396 @@
+
+*** espanso-detect/src/mac/mod.rs:332:9: replace <impl From<RawInputEvent> for Option<InputEvent>>::from -> Option<InputEvent> with None
+
+*** mutation diff:
+--- espanso-detect/src/mac/mod.rs
++++ replace <impl From<RawInputEvent> for Option<InputEvent>>::from -> Option<InputEvent> with None
+@@ -324,85 +324,17 @@
+ #[derive(Error, Debug)]
+ pub enum CocoaSourceError {
+     #[error("unknown error")]
+     Unknown(),
+ }
+ 
+ impl From<RawInputEvent> for Option<InputEvent> {
+     fn from(raw: RawInputEvent) -> Option<InputEvent> {
+-        let status = match raw.status {
+-            INPUT_STATUS_RELEASED => Released,
+-            INPUT_STATUS_PRESSED => Pressed,
+-            _ => Pressed,
+-        };
+-
+-        match raw.event_type {
+-            // Keyboard events
+-            INPUT_EVENT_TYPE_KEYBOARD => {
+-                let (key, variant) = key_code_to_key(raw.key_code);
+-
+-                // When a global keyboard shortcut is relased, the callback returns an event with keycode 0
+-                // and status 0.
+-                // We need to handle it for this reason: https://github.com/espanso/espanso/issues/791
+-                if raw.key_code == 0 && raw.status == 0 {
+-                    return Some(InputEvent::AllModifiersReleased);
+-                }
+-
+-                let value = if raw.buffer_len > 0 {
+-                    let raw_string_result =
+-                        CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
+-                    match raw_string_result {
+-                        Ok(c_string) => {
+-                            let string_result = c_string.to_str();
+-                            match string_result {
+-                                Ok(value) => Some(value.to_string()),
+-                                Err(err) => {
+-                                    warn!("CocoaSource event utf8 conversion error: {}", err);
+-                                    None
+-                                }
+-                            }
+-                        }
+-                        Err(err) => {
+-                            trace!("Received malformed event buffer: {}", err);
+-                            None
+-                        }
+-                    }
+-                } else {
+-                    None
+-                };
+-
+-                return Some(InputEvent::Keyboard(KeyboardEvent {
+-                    key,
+-                    value,
+-                    status,
+-                    variant,
+-                    code: raw
+-                        .key_code
+-                        .try_into()
+-                        .expect("unable to convert keycode to u32"),
+-                }));
+-            }
+-            // Mouse events
+-            INPUT_EVENT_TYPE_MOUSE => {
+-                let button = raw_to_mouse_button(raw.key_code);
+-
+-                if let Some(button) = button {
+-                    return Some(InputEvent::Mouse(MouseEvent { button, status }));
+-                }
+-            }
+-            // HOTKEYS
+-            INPUT_EVENT_TYPE_HOTKEY => {
+-                let id = raw.key_code;
+-                return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: id }));
+-            }
+-            _ => {}
+-        }
+-
+-        None
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ fn key_code_to_key(key_code: i32) -> (Key, Option<Variant>) {
+     match key_code {
+         // Modifiers
+         0x3A => (Alt, Some(Left)),
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-detect@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh autocfg v1.1.0
+       Fresh cfg_aliases v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh cfg-if v1.0.0
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh anyhow v1.0.38
+       Fresh log v0.4.14
+       Fresh libc v0.2.161
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh memoffset v0.9.1
+       Fresh bitflags v2.4.1
+       Fresh regex-syntax v0.6.27
+       Dirty espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info): the file `espanso-info/src/lib.rs` has changed (1745788843.131326135s, 1s after last build at 1745788842.472772753s)
+   Compiling espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh heck v0.4.1
+       Fresh thiserror-impl v1.0.56
+       Fresh nix v0.29.0
+       Fresh regex v1.5.5
+       Fresh lazycell v1.3.0
+       Fresh enum-as-inner v0.6.0
+warning: espanso-detect@0.1.0: src/mac/native.mm:143:51: warning: unused parameter '_next' [-Wunused-parameter]
+warning: espanso-detect@0.1.0:   143 | OSStatus hotkey_event_handler(EventHandlerCallRef _next, EventRef evt, void *userData)
+warning: espanso-detect@0.1.0:       |                                                   ^
+warning: espanso-detect@0.1.0: 1 warning generated.
+       Fresh thiserror v1.0.56
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_info --edition=2021 espanso-info/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("wayland"))' -C metadata=903a46b841957bc1 -C extra-filename=-40685fd8c5738e82 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out -l static=espansoinfo -l c++ -l dylib=c++ -l static=espansoinfo -l framework=Cocoa`
+       Dirty espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect): the dependency espanso_info was rebuilt
+   Compiling espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_detect --edition=2021 espanso-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("sctk", "wayland"))' -C metadata=c5914c908036df0d -C extra-filename=-f8683c2b0513ec07 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rmeta --extern lazycell=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblazycell-69a4db9f63905a25.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern nix=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnix-3e1336f5d2a0beb6.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-detect-a78a469d6111876a/out -l static=espansodetect -l c++ -l dylib=c++ -l static=espansodetect -l framework=Cocoa -l framework=Carbon -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_detect --edition=2021 espanso-detect/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("sctk", "wayland"))' -C metadata=d768265830cbedbf -C extra-filename=-dfabb6a7ab5029ea --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern espanso_info=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_info-40685fd8c5738e82.rlib --extern lazycell=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblazycell-69a4db9f63905a25.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern nix=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnix-3e1336f5d2a0beb6.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-detect-a78a469d6111876a/out -l static=espansodetect -l c++ -l dylib=c++ -l static=espansodetect -l framework=Cocoa -l framework=Carbon -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-info-d416ef5810561be1/out`
+warning: unused import: `ffi::CStr`
+  --> espanso-detect/src/mac/mod.rs:25:5
+   |
+25 |     ffi::CStr,
+   |     ^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `HotKeyEvent`
+  --> espanso-detect/src/mac/mod.rs:33:20
+   |
+33 | use crate::event::{HotKeyEvent, InputEvent, Key, KeyboardEvent, Status, Variant};
+   |                    ^^^^^^^^^^^
+
+warning: unused import: `MouseEvent`
+  --> espanso-detect/src/mac/mod.rs:41:18
+   |
+41 |     MouseButton, MouseEvent,
+   |                  ^^^^^^^^^^
+
+warning: unused imports: `Pressed` and `Released`
+  --> espanso-detect/src/mac/mod.rs:44:21
+   |
+44 |     event::Status::{Pressed, Released},
+   |                     ^^^^^^^  ^^^^^^^^
+
+warning: unused import: `Pressed`
+  --> espanso-detect/src/mac/mod.rs:44:21
+   |
+44 |     event::Status::{Pressed, Released},
+   |                     ^^^^^^^
+
+warning: unused variable: `raw`
+   --> espanso-detect/src/mac/mod.rs:331:13
+    |
+331 |     fn from(raw: RawInputEvent) -> Option<InputEvent> {
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_raw`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: constant `INPUT_EVENT_TYPE_MOUSE` is never used
+  --> espanso-detect/src/mac/mod.rs:53:7
+   |
+53 | const INPUT_EVENT_TYPE_MOUSE: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: constant `INPUT_EVENT_TYPE_HOTKEY` is never used
+  --> espanso-detect/src/mac/mod.rs:54:7
+   |
+54 | const INPUT_EVENT_TYPE_HOTKEY: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_STATUS_RELEASED` is never used
+  --> espanso-detect/src/mac/mod.rs:57:7
+   |
+57 | const INPUT_STATUS_RELEASED: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_LEFT_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:59:7
+   |
+59 | const INPUT_MOUSE_LEFT_BUTTON: i32 = 1;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_RIGHT_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:60:7
+   |
+60 | const INPUT_MOUSE_RIGHT_BUTTON: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_MIDDLE_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:61:7
+   |
+61 | const INPUT_MOUSE_MIDDLE_BUTTON: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `raw_to_mouse_button` is never used
+   --> espanso-detect/src/mac/mod.rs:410:4
+    |
+410 | fn raw_to_mouse_button(raw: i32) -> Option<MouseButton> {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_EVENT_TYPE_HOTKEY` is never used
+  --> espanso-detect/src/mac/mod.rs:54:7
+   |
+54 | const INPUT_EVENT_TYPE_HOTKEY: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `espanso-detect` (lib) generated 12 warnings (run `cargo fix --lib -p espanso-detect` to apply 4 suggestions)
+warning: `espanso-detect` (lib test) generated 8 warnings (6 duplicates) (run `cargo fix --lib -p espanso-detect --tests` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.47s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_detect-dfabb6a7ab5029ea`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-detect@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cc v1.0.73
+       Fresh autocfg v1.1.0
+       Fresh cfg_aliases v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh cfg-if v1.0.0
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh libc v0.2.161
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+warning: espanso-info@0.1.0: src/cocoa/native.mm:27:11: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+warning: espanso-info@0.1.0:    27 |   int32_t result = 0;
+warning: espanso-info@0.1.0:       |           ^
+warning: espanso-info@0.1.0: 1 warning generated.
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh memoffset v0.9.1
+       Fresh bitflags v2.4.1
+       Fresh regex-syntax v0.6.27
+       Fresh espanso-info v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-info)
+       Fresh heck v0.4.1
+       Fresh thiserror-impl v1.0.56
+       Fresh nix v0.29.0
+       Fresh regex v1.5.5
+       Fresh lazycell v1.3.0
+       Fresh enum-as-inner v0.6.0
+warning: espanso-detect@0.1.0: src/mac/native.mm:143:51: warning: unused parameter '_next' [-Wunused-parameter]
+warning: espanso-detect@0.1.0:   143 | OSStatus hotkey_event_handler(EventHandlerCallRef _next, EventRef evt, void *userData)
+warning: espanso-detect@0.1.0:       |                                                   ^
+warning: espanso-detect@0.1.0: 1 warning generated.
+       Fresh thiserror v1.0.56
+warning: unused import: `ffi::CStr`
+  --> espanso-detect/src/mac/mod.rs:25:5
+   |
+25 |     ffi::CStr,
+   |     ^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `HotKeyEvent`
+  --> espanso-detect/src/mac/mod.rs:33:20
+   |
+33 | use crate::event::{HotKeyEvent, InputEvent, Key, KeyboardEvent, Status, Variant};
+   |                    ^^^^^^^^^^^
+
+warning: unused import: `MouseEvent`
+  --> espanso-detect/src/mac/mod.rs:41:18
+   |
+41 |     MouseButton, MouseEvent,
+   |                  ^^^^^^^^^^
+
+warning: unused imports: `Pressed` and `Released`
+  --> espanso-detect/src/mac/mod.rs:44:21
+   |
+44 |     event::Status::{Pressed, Released},
+   |                     ^^^^^^^  ^^^^^^^^
+
+warning: unused variable: `raw`
+   --> espanso-detect/src/mac/mod.rs:331:13
+    |
+331 |     fn from(raw: RawInputEvent) -> Option<InputEvent> {
+    |             ^^^ help: if this is intentional, prefix it with an underscore: `_raw`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: constant `INPUT_EVENT_TYPE_MOUSE` is never used
+  --> espanso-detect/src/mac/mod.rs:53:7
+   |
+53 | const INPUT_EVENT_TYPE_MOUSE: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: constant `INPUT_EVENT_TYPE_HOTKEY` is never used
+  --> espanso-detect/src/mac/mod.rs:54:7
+   |
+54 | const INPUT_EVENT_TYPE_HOTKEY: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_STATUS_RELEASED` is never used
+  --> espanso-detect/src/mac/mod.rs:57:7
+   |
+57 | const INPUT_STATUS_RELEASED: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_LEFT_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:59:7
+   |
+59 | const INPUT_MOUSE_LEFT_BUTTON: i32 = 1;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_RIGHT_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:60:7
+   |
+60 | const INPUT_MOUSE_RIGHT_BUTTON: i32 = 2;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `INPUT_MOUSE_MIDDLE_BUTTON` is never used
+  --> espanso-detect/src/mac/mod.rs:61:7
+   |
+61 | const INPUT_MOUSE_MIDDLE_BUTTON: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `raw_to_mouse_button` is never used
+   --> espanso-detect/src/mac/mod.rs:410:4
+    |
+410 | fn raw_to_mouse_button(raw: i32) -> Option<MouseButton> {
+    |    ^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `Pressed`
+  --> espanso-detect/src/mac/mod.rs:44:21
+   |
+44 |     event::Status::{Pressed, Released},
+   |                     ^^^^^^^
+
+warning: constant `INPUT_EVENT_TYPE_HOTKEY` is never used
+  --> espanso-detect/src/mac/mod.rs:54:7
+   |
+54 | const INPUT_EVENT_TYPE_HOTKEY: i32 = 3;
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `espanso-detect` (lib) generated 12 warnings (run `cargo fix --lib -p espanso-detect` to apply 4 suggestions)
+warning: `espanso-detect` (lib test) generated 8 warnings (6 duplicates) (run `cargo fix --lib -p espanso-detect --tests` to apply 1 suggestion)
+       Fresh espanso-detect v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-detect)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_detect-dfabb6a7ab5029ea`
+
+running 7 tests
+test hotkey::tests::modifies_formatted_correctly ... ok
+test hotkey::tests::modifiers_detected_correcty ... ok
+test mac::tests::raw_to_input_event_mouse_works_correctly ... FAILED
+test mac::tests::raw_to_input_event_keyboard_works_correctly ... FAILED
+test hotkey::tests::parse_correctly ... ok
+test hotkey::keys::tests::parse_invalid_keys ... ok
+test hotkey::keys::tests::parse_works_correctly ... ok
+
+failures:
+
+---- mac::tests::raw_to_input_event_mouse_works_correctly stdout ----
+
+thread 'mac::tests::raw_to_input_event_mouse_works_correctly' panicked at espanso-detect/src/mac/mod.rs:474:20:
+called `Option::unwrap()` on a `None` value
+
+---- mac::tests::raw_to_input_event_keyboard_works_correctly stdout ----
+
+thread 'mac::tests::raw_to_input_event_keyboard_works_correctly' panicked at espanso-detect/src/mac/mod.rs:454:20:
+called `Option::unwrap()` on a `None` value
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    mac::tests::raw_to_input_event_keyboard_works_correctly
+    mac::tests::raw_to_input_event_mouse_works_correctly
+
+test result: FAILED. 5 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p espanso-detect --lib`
+
+*** result: Failure(101)

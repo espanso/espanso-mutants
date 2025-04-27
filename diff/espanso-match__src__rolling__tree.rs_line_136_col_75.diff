@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/tree.rs
++++ replace == with != in insert_items_recursively
+@@ -128,17 +128,17 @@
+                 None => {
+                     let mut next_node = Box::<MatcherTreeNode<Id>>::default();
+                     insert_items_recursively(id, next_node.as_mut(), &items[1..]);
+                     node.word_separators = Some(MatcherTreeRef::Node(next_node));
+                 }
+                 _ => {}
+             },
+             RollingItem::Key(key) => {
+-                if let Some(entry) = node.keys.iter_mut().find(|(k, _)| k == key) {
++                if let Some(entry) = node.keys.iter_mut().find(|(k, _)| k != /* ~ changed by cargo-mutants ~ */ key) {
+                     if let MatcherTreeRef::Node(next_node) = &mut entry.1 {
+                         insert_items_recursively(id, next_node, &items[1..]);
+                     }
+                 } else {
+                     let mut next_node = Box::<MatcherTreeNode<Id>>::default();
+                     insert_items_recursively(id, next_node.as_mut(), &items[1..]);
+                     node.keys
+                         .push((key.clone(), MatcherTreeRef::Node(next_node)));

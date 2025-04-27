@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/loader/yaml/mod.rs
++++ delete match arm
+@@ -141,17 +141,17 @@
+     };
+ 
+     let uppercase_style = match yaml_match
+         .uppercase_style
+         .map(|s| s.to_lowercase())
+         .as_deref()
+     {
+         Some("uppercase") => UpperCasingStyle::Uppercase,
+-        Some("capitalize") => UpperCasingStyle::Capitalize,
++         /* ~ changed by cargo-mutants ~ */
+         Some("capitalize_words") => UpperCasingStyle::CapitalizeWords,
+         Some(style) => {
+             warnings.push(anyhow!(
+                 "unrecognized uppercase_style: {:?}, falling back to the default",
+                 style
+             ));
+             TriggerCause::default().uppercase_style
+         }

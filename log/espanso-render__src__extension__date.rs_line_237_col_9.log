@@ -1,0 +1,170 @@
+
+*** espanso-render/src/extension/date.rs:237:9: delete match arm
+
+*** mutation diff:
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -229,17 +229,17 @@
+         "fr-CA" => Some(Locale::fr_CA),
+         "fr-CH" => Some(Locale::fr_CH),
+         "fr-FR" => Some(Locale::fr_FR),
+         "fr-LU" => Some(Locale::fr_LU),
+         "fur-IT" => Some(Locale::fur_IT),
+         "fy-DE" => Some(Locale::fy_DE),
+         "fy-NL" => Some(Locale::fy_NL),
+         "ga-IE" => Some(Locale::ga_IE),
+-        "gd-GB" => Some(Locale::gd_GB),
++         /* ~ changed by cargo-mutants ~ */
+         "gez-ER" => Some(Locale::gez_ER),
+         "gez-ET" => Some(Locale::gez_ET),
+         "gl-ES" => Some(Locale::gl_ES),
+         "gu-IN" => Some(Locale::gu_IN),
+         "gv-GB" => Some(Locale::gv_GB),
+         "ha-NG" => Some(Locale::ha_NG),
+         "hak-TW" => Some(Locale::hak_TW),
+         "he-IL" => Some(Locale::he_IL),
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-render@0.1.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh cc v1.0.73
+       Fresh ppv-lite86 v0.2.10
+       Fresh libc v0.2.161
+       Fresh cty v0.2.2
+       Fresh proc-macro2 v1.0.94
+       Fresh memchr v2.5.0
+       Fresh getrandom v0.2.2
+       Fresh quote v1.0.35
+       Fresh rand_core v0.6.2
+       Fresh num-traits v0.2.14
+       Fresh aho-corasick v0.7.19
+       Fresh cstr_core v0.2.5
+       Fresh time v0.1.44
+       Fresh pure-rust-locales v0.5.6
+       Fresh syn v2.0.100
+       Fresh num-integer v0.1.44
+       Fresh rand_chacha v0.3.0
+       Fresh heck v0.4.1
+       Fresh regex-syntax v0.6.27
+       Fresh sys-locale v0.1.0
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+       Fresh thiserror-impl v1.0.56
+       Fresh regex v1.5.5
+       Fresh enum-as-inner v0.6.0
+       Fresh rand v0.8.3
+       Fresh chrono v0.4.19
+       Fresh thiserror v1.0.56
+       Dirty espanso-render v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-render): the file `espanso-render/src/extension/date.rs` has changed (1745789104.670064222s, 15s after last build at 1745789089.892573704s)
+   Compiling espanso-render v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-render)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_render --edition=2021 espanso-render/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=c81c20bf0fdc43c8 -C extra-filename=-fccf84fc568d8c0e --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern chrono=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libchrono-6f9cf793b10dc916.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern rand=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/librand-42bce6490900a4d1.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern sys_locale=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsys_locale-293be0de6d288105.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/sys-locale-deee3c14228b6d58/out`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_render --edition=2021 espanso-render/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=8d5932f887fe267e -C extra-filename=-2109b9f3ff5e2e79 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern chrono=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libchrono-6f9cf793b10dc916.rmeta --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern rand=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/librand-42bce6490900a4d1.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern sys_locale=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsys_locale-293be0de6d288105.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/sys-locale-deee3c14228b6d58/out`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.70s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_render-fccf84fc568d8c0e`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-render@0.1.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh cc v1.0.73
+       Fresh libc v0.2.161
+       Fresh ppv-lite86 v0.2.10
+       Fresh proc-macro2 v1.0.94
+       Fresh memchr v2.5.0
+       Fresh getrandom v0.2.2
+       Fresh cty v0.2.2
+       Fresh time v0.1.44
+       Fresh quote v1.0.35
+       Fresh num-traits v0.2.14
+       Fresh rand_core v0.6.2
+       Fresh aho-corasick v0.7.19
+       Fresh cstr_core v0.2.5
+       Fresh heck v0.4.1
+       Fresh syn v2.0.100
+       Fresh num-integer v0.1.44
+       Fresh rand_chacha v0.3.0
+       Fresh regex-syntax v0.6.27
+       Fresh pure-rust-locales v0.5.6
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+       Fresh sys-locale v0.1.0
+       Fresh thiserror-impl v1.0.56
+       Fresh rand v0.8.3
+       Fresh regex v1.5.5
+       Fresh enum-as-inner v0.6.0
+       Fresh chrono v0.4.19
+       Fresh thiserror v1.0.56
+       Fresh espanso-render v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-render)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_render-fccf84fc568d8c0e`
+
+running 53 tests
+test extension::clipboard::tests::none_clipboard_produces_error ... ok
+test extension::clipboard::tests::clipboard_works_correctly ... ok
+test extension::echo::tests::alias ... ok
+test extension::echo::tests::missing_echo_parameter ... ok
+test extension::random::tests::missing_echo_parameter ... ok
+test extension::echo::tests::echo_works_correctly ... ok
+test extension::random::tests::random_works_correctly ... ok
+test extension::date::tests::default_locale_works_correctly ... ok
+test extension::date::tests::date_formatted_correctly ... ok
+test extension::date::tests::override_locale ... ok
+test extension::date::tests::invalid_locale_should_default_to_en_us ... ok
+test extension::date::tests::offset_works_correctly ... ok
+test extension::script::tests::invalid_command ... ok
+test extension::script::tests::basic ... ok
+test extension::script::tests::basic_no_trim ... ok
+test extension::script::tests::var_injection ... ok
+test extension::script::tests::ignore_error ... ok
+test extension::util::tests::test_convert_to_env_variables ... ok
+test extension::script::tests::exit_error ... ok
+test renderer::tests::basic_variable ... ok
+test renderer::tests::dict_variable_variable ... ok
+test renderer::tests::escaped_variable_injection ... ok
+test renderer::tests::extension_aborting_propagates ... ok
+test renderer::tests::extension_error_propagates ... ok
+test renderer::tests::disable_variable_injection ... ok
+test renderer::tests::global_dict_variable ... ok
+test renderer::tests::global_variable_depends_on ... ok
+test renderer::tests::global_variable ... ok
+test renderer::tests::local_variable_explicit_ordering ... ok
+test renderer::tests::global_variable_explicit_ordering ... ok
+test renderer::tests::missing_nested_match ... ok
+test renderer::tests::missing_variable ... ok
+test renderer::tests::nested_global_variable ... ok
+test renderer::tests::nested_global_variable_circular_dependency_should_fail ... ok
+test renderer::tests::no_variable_capitalize ... ok
+test renderer::tests::nested_match ... ok
+test renderer::tests::no_variable_no_styling ... ok
+test renderer::tests::no_variable_uppercase ... ok
+test renderer::tests::variable_escape ... ok
+test renderer::tests::variable_injection ... ok
+test renderer::tests::variable_injection_local_var_takes_precedence_over_global ... ok
+test renderer::tests::variable_injection_missing_var ... ok
+test renderer::tests::variable_injection_with_global_variable ... ok
+test renderer::util::tests::get_body_variable_names_multiple_vars ... ok
+test renderer::util::tests::get_body_variable_names_no_vars ... ok
+test renderer::util::tests::test_inject_variables_into_params ... ok
+test renderer::tests::no_variable_capitalize_words ... ok
+test extension::shell::tests::var_injection ... ok
+test extension::shell::tests::shell_not_trimmed ... ok
+test extension::shell::tests::exit_error ... ok
+test extension::shell::tests::shell_trimmed ... ok
+test extension::shell::tests::invalid_command ... ok
+test extension::shell::tests::pipes ... ok
+
+test result: ok. 53 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s
+
+   Doc-tests espanso_render
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name espanso_render --test espanso-render/src/lib.rs --test-run-directory /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-render -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/sys-locale-deee3c14228b6d58/out '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern chrono=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libchrono-6f9cf793b10dc916.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern espanso_render=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_render-2109b9f3ff5e2e79.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern rand=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/librand-42bce6490900a4d1.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern sys_locale=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsys_locale-293be0de6d288105.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' --error-format human`
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+*** result: Success

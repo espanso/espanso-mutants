@@ -1,0 +1,15 @@
+--- espanso-detect/src/layout/wayland.rs
++++ replace get_compositor_name -> String with "xyzzy".into()
+@@ -21,11 +21,10 @@
+ fn process_name_from_pid(pid: i32) -> String {
+     let path = format!("/proc/{pid}/comm");
+     let mut file = File::open(path).unwrap();
+     let mut buf = String::new();
+     file.read_to_string(&mut buf).unwrap();
+     buf
+ }
+ pub fn get_compositor_name() -> String {
+-    let pid = get_compositor_pid();
+-    process_name_from_pid(pid)
++    "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,115 @@
+
+*** espanso-kvs/src/persistent.rs:55:12: delete ! in <impl KVS for PersistentJsonKVS>::get
+
+*** mutation diff:
+--- espanso-kvs/src/persistent.rs
++++ delete ! in <impl KVS for PersistentJsonKVS>::get
+@@ -47,17 +47,17 @@
+             kvs_dir,
+             store: Arc::new(Mutex::new(HashMap::new())),
+         })
+     }
+ }
+ 
+ impl KVS for PersistentJsonKVS {
+     fn get<T: serde::de::DeserializeOwned>(&self, key: &str) -> Result<Option<T>> {
+-        if !is_valid_key_name(key) {
++        if  /* ~ changed by cargo-mutants ~ */is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS read lock");
+ 
+         if let Some(cached_value) = lock.get(key) {
+             let converted_value = serde_json::from_value(cached_value.clone())?;
+             return Ok(Some(converted_value));
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-kvs@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh libc v0.2.161
+       Fresh ryu v1.0.5
+       Fresh itoa v0.4.7
+       Fresh remove_dir_all v0.5.3
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh anyhow v1.0.38
+       Fresh rand v0.4.6
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh tempdir v0.3.7
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+       Dirty espanso-kvs v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-kvs): the file `espanso-kvs/src/persistent.rs` has changed (1745788924.990427573s, 11m 28s after last build at 1745788236.727228954s)
+   Compiling espanso-kvs v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-kvs)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_kvs --edition=2021 espanso-kvs/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=82cffc2d3d05219b -C extra-filename=-590910504e07baae --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_kvs --edition=2021 espanso-kvs/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=b71a704a69e5474b -C extra-filename=-d9920fd02b469c46 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_kvs-590910504e07baae`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-kvs@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh ryu v1.0.5
+       Fresh libc v0.2.161
+       Fresh itoa v0.4.7
+       Fresh remove_dir_all v0.5.3
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh rand v0.4.6
+       Fresh anyhow v1.0.38
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh tempdir v0.3.7
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+       Fresh espanso-kvs v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-kvs)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_kvs-590910504e07baae`
+
+running 6 tests
+test persistent::tests::test_invalid_key_names ... ok
+test persistent::tests::test_valid_key_names ... ok
+test tests::test_delete_non_existing_key ... ok
+test tests::test_type_mismatch ... FAILED
+test tests::test_invalid_key_name ... FAILED
+test tests::test_base_types ... FAILED
+
+failures:
+
+---- tests::test_type_mismatch stdout ----
+
+thread 'tests::test_type_mismatch' panicked at espanso-kvs/src/lib.rs:76:49:
+called `Result::unwrap()` on an `Err` value: The provided key `my_key` is is invalid. Keys must only be composed of ascii letters, numbers and underscores.
+
+---- tests::test_invalid_key_name stdout ----
+
+thread 'tests::test_invalid_key_name' panicked at espanso-kvs/src/lib.rs:99:13:
+assertion failed: kvs.get::<String>("invalid key name").is_err()
+
+---- tests::test_base_types stdout ----
+
+thread 'tests::test_base_types' panicked at espanso-kvs/src/lib.rs:55:49:
+called `Result::unwrap()` on an `Err` value: The provided key `my_key` is is invalid. Keys must only be composed of ascii letters, numbers and underscores.
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::test_base_types
+    tests::test_invalid_key_name
+    tests::test_type_mismatch
+
+test result: FAILED. 3 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p espanso-kvs --lib`
+
+*** result: Failure(101)

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/event_injector.rs
++++ replace <impl TextInjector for EventInjectorAdapter<'_>>::name -> &'static str with "xyzzy"
+@@ -36,17 +36,17 @@
+             injector,
+             params_provider,
+         }
+     }
+ }
+ 
+ impl TextInjector for EventInjectorAdapter<'_> {
+     fn name(&self) -> &'static str {
+-        "event"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn inject_text(&self, text: &str) -> anyhow::Result<()> {
+         let params = self.params_provider.get();
+ 
+         // Handle CRLF or LF line endings correctly
+         let split_sequence = if text.contains("\r\n") { "\r\n" } else { "\n" };
+ 

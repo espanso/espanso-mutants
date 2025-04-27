@@ -1,0 +1,55 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace EVDEVInjector::generate_maps -> Result<(CharMap, SymMap)> with Ok((Default::default(), Default::default()))
+@@ -148,51 +148,17 @@
+         })
+     }
+ 
+     fn generate_maps(
+         modifiers: &[u32],
+         max_modifier_sequence_len: i32,
+         keymap: &Keymap,
+     ) -> Result<(CharMap, SymMap)> {
+-        let mut char_map = HashMap::new();
+-        let mut sym_map = HashMap::new();
+-
+-        let modifier_combinations =
+-            Self::generate_combinations(modifiers, max_modifier_sequence_len);
+-
+-        // Cycle through all code/modifiers combinations to populate the reverse lookup tables
+-        for key_code in 8..256u32 {
+-            for modifier_combination in &modifier_combinations {
+-                let state = State::new(keymap)?;
+-
+-                // Apply the modifiers
+-                for modifier in modifier_combination {
+-                    // We need to add the EVDEV offset for xkbcommon to recognize it correctly
+-                    state.update_key(*modifier + EVDEV_OFFSET, true);
+-                }
+-
+-                let key_record = KeyRecord {
+-                    code: key_code - EVDEV_OFFSET,
+-                    modifiers: modifier_combination.clone(),
+-                };
+-
+-                // Keysym was found
+-                if let Some(sym) = state.get_sym(key_code) {
+-                    sym_map.entry(sym).or_insert_with(|| key_record.clone());
+-                }
+-
+-                // Char was found
+-                if let Some(string) = state.get_string(key_code) {
+-                    char_map.entry(string).or_insert(key_record);
+-                }
+-            }
+-        }
+-
+-        Ok((char_map, sym_map))
++        Ok((Default::default(), Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn generate_combinations(modifiers: &[u32], max_modifier_sequence_len: i32) -> Vec<Vec<u32>> {
+         let mut combinations = vec![vec![]]; // Initial empty combination
+ 
+         for sequence_len in 1..=max_modifier_sequence_len {
+             let current_combinations = modifiers
+                 .iter()

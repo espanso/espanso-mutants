@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_icon -> Option<String> with Some(String::new())
+@@ -20,17 +20,17 @@
+ use serde::{Deserialize, Deserializer, Serialize};
+ use std::collections::HashMap;
+ 
+ fn default_title() -> String {
+     "espanso".to_owned()
+ }
+ 
+ fn default_icon() -> Option<String> {
+-    None
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_fields() -> HashMap<String, FieldConfig> {
+     HashMap::new()
+ }
+ 
+ fn default_max_form_width() -> i32 {
+     700

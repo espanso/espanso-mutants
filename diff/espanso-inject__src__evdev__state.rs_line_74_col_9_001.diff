@@ -1,0 +1,26 @@
+--- espanso-inject/src/evdev/state.rs
++++ replace State::get_sym -> Option<u32> with Some(0)
+@@ -66,22 +66,17 @@
+                 Some(string)
+             }
+         } else {
+             None
+         }
+     }
+ 
+     pub fn get_sym(&self, code: u32) -> Option<u32> {
+-        let sym = unsafe { xkb_state_key_get_one_sym(self.state, code) };
+-        if sym == 0 {
+-            None
+-        } else {
+-            Some(sym)
+-        }
++        Some(0) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for State {
+     fn drop(&mut self) {
+         unsafe {
+             xkb_state_unref(self.state);
+         }

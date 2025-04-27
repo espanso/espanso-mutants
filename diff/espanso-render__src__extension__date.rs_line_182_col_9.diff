@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -174,17 +174,17 @@
+         "doi-IN" => Some(Locale::doi_IN),
+         "dsb-DE" => Some(Locale::dsb_DE),
+         "dv-MV" => Some(Locale::dv_MV),
+         "dz-BT" => Some(Locale::dz_BT),
+         "el-CY" => Some(Locale::el_CY),
+         "el-GR" => Some(Locale::el_GR),
+         "en-AG" => Some(Locale::en_AG),
+         "en-AU" => Some(Locale::en_AU),
+-        "en-BW" => Some(Locale::en_BW),
++         /* ~ changed by cargo-mutants ~ */
+         "en-CA" => Some(Locale::en_CA),
+         "en-DK" => Some(Locale::en_DK),
+         "en-GB" => Some(Locale::en_GB),
+         "en-HK" => Some(Locale::en_HK),
+         "en-IE" => Some(Locale::en_IE),
+         "en-IL" => Some(Locale::en_IL),
+         "en-IN" => Some(Locale::en_IN),
+         "en-NG" => Some(Locale::en_NG),

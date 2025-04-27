@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ replace == with != in main
+@@ -505,17 +505,17 @@
+             .find(|cli| matches.subcommand_matches(&cli.subcommand).is_some())
+     };
+ 
+     if handler.is_none() {
+         // When started from the macOS App Bundle, override the default
+         // handler with "launcher" if not present, otherwise the GUI could not be started.
+         if let Some(context) = std::env::var_os("MAC_LAUNCH_CONTEXT") {
+             if context == "bundle" {
+-                handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand == "launcher");
++                handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand != /* ~ changed by cargo-mutants ~ */ "launcher");
+             }
+         }
+ 
+         // When started from a Linux app image, override the default handler with the launcher
+         // to start espanso when launching it directly
+         if std::env::var_os("APPIMAGE").is_some() {
+             handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand == "launcher");
+         }

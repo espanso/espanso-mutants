@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/config.rs
++++ replace default_icon -> Option<String> with Some(String::new())
+@@ -19,17 +19,17 @@
+ 
+ use serde::{Deserialize, Serialize};
+ 
+ fn default_title() -> String {
+     "espanso".to_owned()
+ }
+ 
+ fn default_icon() -> Option<String> {
+-    None
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_items() -> Vec<SearchItem> {
+     Vec::new()
+ }
+ 
+ fn default_algorithm() -> String {
+     "ikey".to_owned()

@@ -1,0 +1,25 @@
+--- espanso-ui/src/win32/mod.rs
++++ delete match arm
+@@ -163,21 +163,17 @@
+                 std::ptr::from_ref::<Win32EventLoop>(self),
+                 options,
+                 &mut error_code,
+             )
+         };
+ 
+         if handle.is_null() {
+             return match error_code {
+-                -1 => Err(Win32UIError::EventLoopInitError(
+-                    "Unable to initialize Win32EventLoop, error registering window class"
+-                        .to_string(),
+-                )
+-                .into()),
++                 /* ~ changed by cargo-mutants ~ */
+                 -2 => Err(Win32UIError::EventLoopInitError(
+                     "Unable to initialize Win32EventLoop, error creating window".to_string(),
+                 )
+                 .into()),
+                 _ => Err(Win32UIError::EventLoopInitError(
+                     "Unable to initialize Win32EventLoop, unknown error".to_string(),
+                 )
+                 .into()),

@@ -1,0 +1,26 @@
+--- espanso-package/src/util/gitlab.rs
++++ replace check_repo_with_branch -> Result<bool> with Ok(true)
+@@ -80,22 +80,17 @@
+             }));
+         }
+     }
+ 
+     Ok(None)
+ }
+ 
+ pub fn check_repo_with_branch(parts: &GitLabParts, branch: &str) -> Result<bool> {
+-    let client = reqwest::blocking::Client::new();
+-
+-    let url = generate_gitlab_download_url(parts, branch);
+-    let response = client.head(url).send()?;
+-
+-    Ok(response.status() == StatusCode::OK)
++    Ok(true) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn generate_gitlab_download_url(parts: &GitLabParts, branch: &str) -> String {
+     format!(
+         "https://gitlab.com/{}/{}/-/archive/{}/{}-{}.zip",
+         parts.author, parts.name, branch, parts.name, branch
+     )
+ }

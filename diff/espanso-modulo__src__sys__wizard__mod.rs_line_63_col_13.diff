@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ delete - in show::auto_start
+@@ -55,17 +55,17 @@
+     extern "C" fn auto_start(auto_start: c_int) -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in auto_start method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.auto_start.as_ref() {
+             i32::from((*handler_ref)(auto_start != 0))
+         } else {
+-            -1
++             /* ~ changed by cargo-mutants ~ */1
+         }
+     }
+ 
+     extern "C" fn add_to_path() -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in add_to_path method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");

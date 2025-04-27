@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/clipboard.rs
++++ replace <impl Extension for ClipboardExtension<'_>>::name -> &'static str with "xyzzy"
+@@ -32,17 +32,17 @@
+ impl<'a> ClipboardExtension<'a> {
+     pub fn new(provider: &'a dyn ClipboardProvider) -> Self {
+         Self { provider }
+     }
+ }
+ 
+ impl Extension for ClipboardExtension<'_> {
+     fn name(&self) -> &'static str {
+-        "clipboard"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         _: &Params,
+     ) -> crate::ExtensionResult {

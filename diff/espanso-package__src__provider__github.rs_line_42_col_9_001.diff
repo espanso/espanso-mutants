@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/github.rs
++++ replace <impl PackageProvider for GitHubPackageProvider>::name -> String with String::new()
+@@ -34,17 +34,17 @@
+             name: repo_name,
+             branch: repo_branch,
+         }
+     }
+ }
+ 
+ impl PackageProvider for GitHubPackageProvider {
+     fn name(&self) -> String {
+-        "github".to_string()
++        String::new() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+         let download_url = format!(
+             "https://github.com/{}/{}/archive/refs/heads/{}.zip",
+             &self.author, &self.name, &self.branch
+         );
+ 

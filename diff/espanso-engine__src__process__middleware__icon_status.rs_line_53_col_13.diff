@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/icon_status.rs
++++ delete match arm
+@@ -45,17 +45,17 @@
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         let mut enabled = self.enabled.borrow_mut();
+         let mut secure_input_enabled = self.secure_input_enabled.borrow_mut();
+ 
+         let mut did_update = true;
+         match &event.etype {
+-            EventType::Enabled => *enabled = true,
++             /* ~ changed by cargo-mutants ~ */
+             EventType::Disabled => *enabled = false,
+             EventType::SecureInputEnabled(_) => *secure_input_enabled = true,
+             EventType::SecureInputDisabled => *secure_input_enabled = false,
+             _ => did_update = false,
+         }
+ 
+         if did_update {
+             let status = if *enabled {

@@ -1,0 +1,21 @@
+--- espanso/src/cli/path.rs
++++ replace || with && in path_main
+@@ -33,17 +33,17 @@
+     let paths = args.paths.expect("missing paths argument");
+     let cli_args = args.cli_args.expect("missing cli_args argument");
+ 
+     if cli_args.subcommand_matches("config").is_some() {
+         println!("{}", paths.config.to_string_lossy());
+     } else if cli_args.subcommand_matches("packages").is_some() {
+         println!("{}", paths.packages.to_string_lossy());
+     } else if cli_args.subcommand_matches("data").is_some()
+-        || cli_args.subcommand_matches("runtime").is_some()
++        && /* ~ changed by cargo-mutants ~ */ cli_args.subcommand_matches("runtime").is_some()
+     {
+         println!("{}", paths.runtime.to_string_lossy());
+     } else if cli_args.subcommand_matches("default").is_some() {
+         println!(
+             "{}",
+             paths
+                 .config
+                 .join("config")

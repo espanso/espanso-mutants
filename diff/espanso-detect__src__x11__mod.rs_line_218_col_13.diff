@@ -1,0 +1,33 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace <impl Source for X11Source>::eventloop::callback with ()
+@@ -210,29 +210,17 @@
+         }
+ 
+         if self.callback.fill(event_callback).is_err() {
+             error!("Unable to set X11Source event callback");
+             return Err(X11SourceError::Internal().into());
+         }
+ 
+         extern "C" fn callback(_self: *mut X11Source, event: RawInputEvent) {
+-            let source_self = unsafe { &*_self };
+-            let event: Option<InputEvent> = convert_raw_input_event_to_input_event(
+-                event,
+-                &source_self.raw_hotkey_mapping,
+-                source_self.valid_modifiers_mask,
+-            );
+-            if let Some(callback) = source_self.callback.borrow() {
+-                if let Some(event) = event {
+-                    callback(event);
+-                } else {
+-                    trace!("Unable to convert raw event to input event");
+-                }
+-            }
++            () /* ~ changed by cargo-mutants ~ */
+         }
+ 
+         let error_code = unsafe { detect_eventloop(self.handle, callback) };
+ 
+         if error_code <= 0 {
+             error!("X11Source eventloop returned a negative error code");
+             return Err(X11SourceError::Internal().into());
+         }

@@ -1,0 +1,37 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl From<types::RowMetadata> for OwnedRowMetadata>::from -> Self with Default::default()
+@@ -335,33 +335,17 @@
+     impl Interoperable for OwnedRowMetadata {
+         fn as_ptr(&self) -> *const c_void {
+             std::ptr::from_ref::<RowMetadata>(&(*self.interop)) as *const c_void
+         }
+     }
+ 
+     impl From<types::RowMetadata> for OwnedRowMetadata {
+         fn from(row_metadata: types::RowMetadata) -> Self {
+-            let fields: Vec<OwnedField> = row_metadata.fields.into_iter().map(Into::into).collect();
+-
+-            let metadata: Vec<FieldMetadata> = fields
+-                .iter()
+-                .map(sys::form::interop::OwnedField::metadata)
+-                .collect();
+-
+-            let interop = Box::new(RowMetadata {
+-                fields: metadata.as_ptr(),
+-                fieldSize: metadata.len() as c_int,
+-            });
+-
+-            Self {
+-                fields,
+-                metadata,
+-                interop,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ }
+ 
+ pub fn show(form: types::Form) -> HashMap<String, String> {
+     use super::interop::{interop_show_form, FormMetadata, Interoperable, ValuePair};
+     use std::os::raw::c_void;
+ 

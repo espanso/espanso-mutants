@@ -1,0 +1,19 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/clipboard.rs
++++ replace <impl ClipboardProvider for ClipboardAdapter<'_>>::get_text -> Option<String> with Some("xyzzy".into())
+@@ -38,15 +38,11 @@
+             clipboard,
+             clipboard_operation_options_provider,
+         }
+     }
+ }
+ 
+ impl ClipboardProvider for ClipboardAdapter<'_> {
+     fn get_text(&self) -> Option<String> {
+-        self.clipboard.get_text(
+-            &self
+-                .clipboard_operation_options_provider
+-                .get_operation_options(),
+-        )
++        Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

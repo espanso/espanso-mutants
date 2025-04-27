@@ -1,0 +1,57 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace Device::read -> Result<Vec<RawInputEvent>> with Ok(vec![Default::default()])
+@@ -93,53 +93,17 @@
+         self.file.as_raw_fd()
+     }
+ 
+     pub fn get_path(&self) -> String {
+         self.path.to_string()
+     }
+ 
+     pub fn read(&self) -> Result<Vec<RawInputEvent>> {
+-        let errno_ptr = unsafe { libc::__errno_location() };
+-        let mut len: ssize_t;
+-        let mut evs: [input_event; 16] = unsafe { std::mem::zeroed() };
+-        let mut events = Vec::new();
+-
+-        loop {
+-            len = unsafe {
+-                libc::read(
+-                    self.file.as_raw_fd(),
+-                    evs.as_mut_ptr() as *mut c_void,
+-                    std::mem::size_of_val(&evs),
+-                )
+-            };
+-            if len <= 0 {
+-                break;
+-            }
+-
+-            let nevs: size_t = len as usize / std::mem::size_of::<input_event>();
+-
+-            #[allow(clippy::needless_range_loop)]
+-            for i in 0..nevs {
+-                let event = self.process_event(evs[i].type_, evs[i].code, evs[i].value);
+-                if let Some(event) = event {
+-                    events.push(event);
+-                }
+-            }
+-        }
+-
+-        if len < 0 && unsafe { *errno_ptr } != EWOULDBLOCK {
+-            if unsafe { *errno_ptr } == ENODEV {
+-                return Err(DeviceError::FailedReadNoSuchDevice.into());
+-            }
+-
+-            return Err(DeviceError::FailedRead(unsafe { *errno_ptr }).into());
+-        }
+-
+-        Ok(events)
++        Ok(vec![Default::default()]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn process_event(&self, _type: u16, code: u16, value: i32) -> Option<RawInputEvent> {
+         if _type != EV_KEY {
+             return None;
+         }
+ 
+         let is_down = value == KEY_STATE_PRESS;

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::show_icon -> bool with false
+@@ -289,17 +289,17 @@
+         }
+     }
+ 
+     fn undo_backspace(&self) -> bool {
+         self.parsed.undo_backspace.unwrap_or(true)
+     }
+ 
+     fn show_icon(&self) -> bool {
+-        self.parsed.show_icon.unwrap_or(true)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_notifications(&self) -> bool {
+         self.parsed.show_notifications.unwrap_or(true)
+     }
+ 
+     fn secure_input_notification(&self) -> bool {
+         self.parsed.secure_input_notification.unwrap_or(true)

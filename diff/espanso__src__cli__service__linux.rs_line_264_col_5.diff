@@ -1,0 +1,29 @@
+--- espanso/src/cli/service/linux.rs
++++ replace get_service_file_dir -> Result<PathBuf> with Ok(Default::default())
+@@ -256,25 +256,17 @@
+ 
+     #[error("failed to launch espanso service through systemctl")]
+     SystemctlStartFailed,
+ }
+ 
+ fn get_service_file_dir() -> Result<PathBuf> {
+     // User level systemd services should be placed in this directory:
+     // $XDG_CONFIG_HOME/systemd/user/, usually: ~/.config/systemd/user/
+-    let config_dir = dirs::config_dir().expect("Could not get configuration directory");
+-    let systemd_dir = config_dir.join("systemd");
+-    let user_dir = systemd_dir.join("user");
+-
+-    if !user_dir.is_dir() {
+-        create_dir_all(&user_dir)?;
+-    }
+-
+-    Ok(user_dir)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_service_file_path() -> Result<PathBuf> {
+     Ok(get_service_file_dir()?.join(LINUX_SERVICE_FILENAME))
+ }
+ 
+ fn get_binary_path() -> Result<PathBuf> {
+     // If executed as part of an AppImage, get the app image path instead of

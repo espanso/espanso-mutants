@@ -1,0 +1,39 @@
+--- espanso-match/src/rolling/mod.rs
++++ replace RollingMatch<Id>::from_string -> Self with Default::default()
+@@ -38,35 +38,17 @@
+ }
+ 
+ impl<Id> RollingMatch<Id> {
+     pub fn new(id: Id, items: Vec<RollingItem>) -> Self {
+         Self { id, items }
+     }
+ 
+     pub fn from_string(id: Id, string: &str, opt: &StringMatchOptions) -> Self {
+-        let mut items = Vec::new();
+-
+-        if opt.left_word {
+-            items.push(RollingItem::WordSeparator);
+-        }
+-
+-        for c in string.chars() {
+-            if opt.case_insensitive {
+-                items.push(RollingItem::CharInsensitive(c.to_string()));
+-            } else {
+-                items.push(RollingItem::Char(c.to_string()));
+-            }
+-        }
+-
+-        if opt.right_word {
+-            items.push(RollingItem::WordSeparator);
+-        }
+-
+-        Self { id, items }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn from_items(id: Id, items: &[RollingItem]) -> Self {
+         Self {
+             id,
+             items: items.to_vec(),
+         }
+     }

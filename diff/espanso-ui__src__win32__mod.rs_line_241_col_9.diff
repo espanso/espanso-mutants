@@ -1,0 +1,31 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl Drop for Win32EventLoop>::drop with ()
+@@ -233,27 +233,17 @@
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Drop for Win32EventLoop {
+     fn drop(&mut self) {
+-        let handle = self.handle.swap(std::ptr::null_mut(), Ordering::Acquire);
+-        if handle.is_null() {
+-            error!("Win32EventLoop destruction cannot be performed, handle is null");
+-            return;
+-        }
+-
+-        let result = unsafe { ui_destroy(handle) };
+-
+-        if result != 0 {
+-            error!("Win32EventLoop destruction returned non-zero code");
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct Win32Remote {
+     handle: Arc<AtomicPtr<c_void>>,
+ 
+     // Maps icon name to their index
+     icon_indexes: HashMap<TrayIcon, usize>,

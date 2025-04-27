@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace > with < in <impl Middleware for MatcherMiddleware<'_, State>>::next
+@@ -146,17 +146,17 @@
+ 
+                     let (state, results) = matcher.process(prev_state, &matcher_event);
+                     all_results.extend(results);
+ 
+                     new_states.push(state);
+                 }
+ 
+                 matcher_states.push_back(new_states);
+-                if matcher_states.len() > self.max_history_size {
++                if matcher_states.len() < /* ~ changed by cargo-mutants ~ */ self.max_history_size {
+                     matcher_states.pop_front();
+                 }
+ 
+                 if !all_results.is_empty() {
+                     return Event::caused_by(
+                         event.source_id,
+                         EventType::MatchesDetected(MatchesDetectedEvent {
+                             matches: all_results

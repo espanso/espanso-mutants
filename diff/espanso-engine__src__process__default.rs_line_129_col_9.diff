@@ -1,0 +1,59 @@
+--- espanso-engine/src/process/default.rs
++++ replace DefaultProcessor<'a>::process_one -> Option<Event> with None
+@@ -121,55 +121,17 @@
+                 Box::new(DelayForModifierReleaseMiddleware::new(
+                     modifier_status_provider,
+                 )),
+             ],
+         }
+     }
+ 
+     fn process_one(&mut self) -> Option<Event> {
+-        if let Some(event) = self.event_queue.pop_back() {
+-            let mut current_event = event;
+-
+-            let mut current_queue = VecDeque::new();
+-            let mut dispatch = |event: Event| {
+-                trace!("dispatched event: {:?}", event);
+-                current_queue.push_front(event);
+-            };
+-
+-            trace!("--------------- new event -----------------");
+-            for middleware in &self.middleware {
+-                trace!(
+-                    "middleware '{}' received event: {:?}",
+-                    middleware.name(),
+-                    current_event
+-                );
+-
+-                current_event = middleware.next(current_event, &mut dispatch);
+-
+-                trace!(
+-                    "middleware '{}' produced event: {:?}",
+-                    middleware.name(),
+-                    current_event
+-                );
+-
+-                if let EventType::NOOP = current_event.etype {
+-                    trace!("interrupting chain as the event is NOOP");
+-                    break;
+-                }
+-            }
+-
+-            while let Some(event) = current_queue.pop_back() {
+-                self.event_queue.push_front(event);
+-            }
+-
+-            Some(current_event)
+-        } else {
+-            None
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Processor for DefaultProcessor<'_> {
+     fn process(&mut self, event: Event) -> Vec<Event> {
+         self.event_queue.push_front(event);
+ 
+         let mut processed_events = Vec::new();

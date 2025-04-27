@@ -1,0 +1,18 @@
+--- espanso/src/cli/service/linux.rs
++++ replace get_binary_path -> Result<PathBuf> with Ok(Default::default())
+@@ -274,14 +274,10 @@
+ 
+ fn get_service_file_path() -> Result<PathBuf> {
+     Ok(get_service_file_dir()?.join(LINUX_SERVICE_FILENAME))
+ }
+ 
+ fn get_binary_path() -> Result<PathBuf> {
+     // If executed as part of an AppImage, get the app image path instead of
+     // the binary itself (which was extracted in a temp directory).
+-    if let Some(app_image_path) = std::env::var_os("APPIMAGE") {
+-        return Ok(PathBuf::from(app_image_path));
+-    }
+-
+-    Ok(std::env::current_exe()?)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }

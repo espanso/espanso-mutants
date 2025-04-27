@@ -1,0 +1,23 @@
+--- espanso/src/preferences/default.rs
++++ replace DefaultPreferences<KVSType>::get -> Option<T> with None
+@@ -36,19 +36,17 @@
+ }
+ 
+ impl<KVSType: KVS> DefaultPreferences<KVSType> {
+     pub fn new(kvs: KVSType) -> Result<Self> {
+         Ok(Self { kvs })
+     }
+ 
+     fn get<T: DeserializeOwned>(&self, key: &str) -> Option<T> {
+-        self.kvs
+-            .get(key)
+-            .unwrap_or_else(|_| panic!("unable to read preference for key {key}"))
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set<T: Serialize>(&self, key: &str, value: T) {
+         self.kvs
+             .set(key, value)
+             .unwrap_or_else(|_| panic!("unable to write preference for key {key}"));
+     }
+ }

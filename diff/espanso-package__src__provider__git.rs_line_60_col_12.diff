@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/git.rs
++++ delete ! in GitPackageProvider::clone_repo
+@@ -52,17 +52,17 @@
+         let dest_dir_str = dest_dir.to_string_lossy().to_string();
+         args.push(&dest_dir_str);
+ 
+         let output = Command::new("git")
+             .args(&args)
+             .output()
+             .context("git command reported error")?;
+ 
+-        if !output.status.success() {
++        if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+             let stderr = String::from_utf8_lossy(&output.stderr);
+             bail!("git command exited with non-zero status: {}", stderr);
+         }
+         Ok(())
+     }
+ }
+ 
+ impl PackageProvider for GitPackageProvider {

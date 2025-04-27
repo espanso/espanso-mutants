@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace ModifierStateStore::update_state with ()
+@@ -74,27 +74,17 @@
+             if status.is_pressed() && CONFLICTING_MODIFIERS.contains(modifier) {
+                 is_any_modifier_pressed = true;
+             }
+         }
+         is_any_modifier_pressed
+     }
+ 
+     pub fn update_state(&self, modifier: Modifier, is_pressed: bool) {
+-        let mut state = self.state.lock().expect("unable to obtain modifier state");
+-        for (curr_modifier, status) in &mut state.modifiers {
+-            if curr_modifier == &modifier {
+-                if is_pressed {
+-                    status.press();
+-                } else {
+-                    status.release();
+-                }
+-                break;
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn clear_state(&self) {
+         let mut state = self.state.lock().expect("unable to obtain modifier state");
+         for (_, status) in &mut state.modifiers {
+             status.release();
+         }
+     }

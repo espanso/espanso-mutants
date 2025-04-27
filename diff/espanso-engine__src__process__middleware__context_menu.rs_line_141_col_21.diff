@@ -1,0 +1,24 @@
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ delete match arm
+@@ -133,20 +133,17 @@
+                     CONTEXT_ITEM_EXIT => Event::caused_by(
+                         event.source_id,
+                         EventType::ExitRequested(ExitMode::ExitAllProcesses),
+                     ),
+                     CONTEXT_ITEM_RELOAD => Event::caused_by(
+                         event.source_id,
+                         EventType::ExitRequested(ExitMode::RestartWorker),
+                     ),
+-                    CONTEXT_ITEM_ENABLE => {
+-                        dispatch(Event::caused_by(event.source_id, EventType::EnableRequest));
+-                        Event::caused_by(event.source_id, EventType::NOOP)
+-                    }
++                     /* ~ changed by cargo-mutants ~ */
+                     CONTEXT_ITEM_DISABLE => {
+                         dispatch(Event::caused_by(event.source_id, EventType::DisableRequest));
+                         Event::caused_by(event.source_id, EventType::NOOP)
+                     }
+                     CONTEXT_ITEM_SECURE_INPUT_EXPLAIN => {
+                         dispatch(Event::caused_by(
+                             event.source_id,
+                             EventType::DisplaySecureInputTroubleshoot,

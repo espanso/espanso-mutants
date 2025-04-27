@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -464,17 +464,17 @@
+         0x2A => Some(0x002A), // #ASTERISK
+         0x2B => Some(0x002B), // #PLUS SIGN
+         0x2C => Some(0x002C), // #COMMA
+         0x2D => Some(0x002D), // #HYPHEN-MINUS
+         0x2E => Some(0x002E), // #FULL STOP
+         0x2F => Some(0x002F), // #SOLIDUS
+         0x30 => Some(0x0030), // #DIGIT ZERO
+         0x31 => Some(0x0031), // #DIGIT ONE
+-        0x32 => Some(0x0032), // #DIGIT TWO
++         /* ~ changed by cargo-mutants ~ */ // #DIGIT TWO
+         0x33 => Some(0x0033), // #DIGIT THREE
+         0x34 => Some(0x0034), // #DIGIT FOUR
+         0x35 => Some(0x0035), // #DIGIT FIVE
+         0x36 => Some(0x0036), // #DIGIT SIX
+         0x37 => Some(0x0037), // #DIGIT SEVEN
+         0x38 => Some(0x0038), // #DIGIT EIGHT
+         0x39 => Some(0x0039), // #DIGIT NINE
+         0x3A => Some(0x003A), // #COLON

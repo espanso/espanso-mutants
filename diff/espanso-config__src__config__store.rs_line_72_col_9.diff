@@ -1,0 +1,75 @@
+--- espanso-config/src/config/store.rs
++++ replace DefaultConfigStore::load -> Result<(Self, Vec<NonFatalErrorSet>)> with Ok((Default::default(), vec![]))
+@@ -64,71 +64,17 @@
+         }
+ 
+         paths
+     }
+ }
+ 
+ impl DefaultConfigStore {
+     pub fn load(config_dir: &Path) -> Result<(Self, Vec<NonFatalErrorSet>)> {
+-        if !config_dir.is_dir() {
+-            return Err(ConfigStoreError::InvalidConfigDir().into());
+-        }
+-
+-        // First get the default.yml file
+-        let default_file = config_dir.join("default.yml");
+-        if !default_file.exists() || !default_file.is_file() {
+-            return Err(ConfigStoreError::MissingDefault().into());
+-        }
+-
+-        let mut non_fatal_errors = Vec::new();
+-
+-        let default = ResolvedConfig::load(&default_file, None)
+-            .context("failed to load default.yml configuration")?;
+-        debug!("loaded default config at path: {:?}", default_file);
+-
+-        // Then the others
+-        let mut customs: Vec<Arc<dyn Config>> = Vec::new();
+-        for entry in std::fs::read_dir(config_dir).map_err(ConfigStoreError::IOError)? {
+-            let entry = entry?;
+-            let config_file = entry.path();
+-            let extension = config_file
+-                .extension()
+-                .unwrap_or_default()
+-                .to_string_lossy()
+-                .to_lowercase();
+-
+-            // Additional config files are loaded best-effort
+-            if config_file.is_file()
+-                && config_file != default_file
+-                && (extension == "yml" || extension == "yaml")
+-            {
+-                match ResolvedConfig::load(&config_file, Some(&default)) {
+-                    Ok(config) => {
+-                        customs.push(Arc::new(config));
+-                        debug!("loaded config at path: {:?}", config_file);
+-                    }
+-                    Err(err) => {
+-                        error!(
+-                            "unable to load config at path: {:?}, with error: {}",
+-                            config_file, err
+-                        );
+-                        non_fatal_errors.push(NonFatalErrorSet::single_error(&config_file, err));
+-                    }
+-                }
+-            }
+-        }
+-
+-        Ok((
+-            Self {
+-                default: Arc::new(default),
+-                customs,
+-            },
+-            non_fatal_errors,
+-        ))
++        Ok((Default::default(), vec![])) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+     use crate::config::MockConfig;
+ 

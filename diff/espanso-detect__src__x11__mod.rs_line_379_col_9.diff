@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -371,17 +371,17 @@
+         0xFFE7 | 0xFFEB => (Meta, Some(Left)),
+         0xFFE8 | 0xFFEC => (Meta, Some(Right)),
+         0xFF7F => (NumLock, None),
+         0xFFE1 => (Shift, Some(Left)),
+         0xFFE2 => (Shift, Some(Right)),
+ 
+         // Whitespace
+         0xFF0D => (Enter, None),
+-        0xFF09 => (Tab, None),
++         /* ~ changed by cargo-mutants ~ */
+         0x20 => (Space, None),
+ 
+         // Navigation
+         0xFF54 => (ArrowDown, None),
+         0xFF51 => (ArrowLeft, None),
+         0xFF53 => (ArrowRight, None),
+         0xFF52 => (ArrowUp, None),
+         0xFF57 => (End, None),

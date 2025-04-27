@@ -1,0 +1,28 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl UIEventLoop for Win32EventLoop>::run::callback with ()
+@@ -210,24 +210,17 @@
+         }
+ 
+         if self.event_callback.fill(event_callback).is_err() {
+             error!("Unable to set Win32EventLoop callback");
+             return Err(Win32UIError::InternalError().into());
+         }
+ 
+         extern "C" fn callback(_self: *mut Win32EventLoop, event: RawUIEvent) {
+-            if let Some(callback) = unsafe { (*_self).event_callback.borrow() } {
+-                let event: Option<UIEvent> = event.into();
+-                if let Some(event) = event {
+-                    callback(event);
+-                } else {
+-                    trace!("Unable to convert raw event to input event");
+-                }
+-            }
++            () /* ~ changed by cargo-mutants ~ */
+         }
+ 
+         let error_code = unsafe { ui_eventloop(window_handle, callback) };
+ 
+         if error_code <= 0 {
+             error!("Win32EventLoop exited with <= 0 code");
+             return Err(Win32UIError::InternalError().into());
+         }

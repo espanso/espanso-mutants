@@ -1,0 +1,23 @@
+--- espanso-match/src/rolling/tree.rs
++++ delete match arm
+@@ -117,19 +117,17 @@
+                     node.chars_insensitive
+                         .push((uni_char, MatcherTreeRef::Matches(vec![id])));
+                 }
+             }
+         }
+     } else {
+         match item {
+             RollingItem::WordSeparator => match node.word_separators.as_mut() {
+-                Some(MatcherTreeRef::Node(next_node)) => {
+-                    insert_items_recursively(id, next_node.as_mut(), &items[1..]);
+-                }
++                 /* ~ changed by cargo-mutants ~ */
+                 None => {
+                     let mut next_node = Box::<MatcherTreeNode<Id>>::default();
+                     insert_items_recursively(id, next_node.as_mut(), &items[1..]);
+                     node.word_separators = Some(MatcherTreeRef::Node(next_node));
+                 }
+                 _ => {}
+             },
+             RollingItem::Key(key) => {

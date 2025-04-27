@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ delete match arm
+@@ -215,17 +215,17 @@
+ 
+ fn convert_to_matcher_event(event_type: &EventType) -> Option<MatcherEvent> {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => Some(MatcherEvent::Key {
+             key: keyboard_event.key.clone(),
+             chars: keyboard_event.value.clone(),
+         }),
+         EventType::Mouse(_) => Some(MatcherEvent::VirtualSeparator),
+-        EventType::MatchInjected => Some(MatcherEvent::VirtualSeparator),
++         /* ~ changed by cargo-mutants ~ */
+         _ => None,
+     }
+ }
+ 
+ fn is_invalidating_event(event_type: &EventType) -> bool {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => matches!(
+             keyboard_event.key,

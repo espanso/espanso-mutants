@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ replace <impl Extension for DateExtension<'_>>::name -> &'static str with ""
+@@ -37,17 +37,17 @@
+             fixed_date: None,
+             locale_provider,
+         }
+     }
+ }
+ 
+ impl Extension for DateExtension<'_> {
+     fn name(&self) -> &'static str {
+-        "date"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {

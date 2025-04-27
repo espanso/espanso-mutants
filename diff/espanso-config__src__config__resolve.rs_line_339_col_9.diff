@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::evdev_modifier_delay -> Option<usize> with Some(0)
+@@ -331,17 +331,17 @@
+             .unwrap_or(DEFAULT_POST_SEARCH_DELAY)
+     }
+ 
+     fn win32_exclude_orphan_events(&self) -> bool {
+         self.parsed.win32_exclude_orphan_events.unwrap_or(true)
+     }
+ 
+     fn evdev_modifier_delay(&self) -> Option<usize> {
+-        self.parsed.evdev_modifier_delay
++        Some(0) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn win32_keyboard_layout_cache_interval(&self) -> i64 {
+         self.parsed
+             .win32_keyboard_layout_cache_interval
+             .unwrap_or(2000)
+     }
+ 

@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/troubleshoot.rs
++++ replace <impl Drop for TroubleshootGuard>::drop with ()
+@@ -59,17 +59,17 @@
+     pub fn try_wait(&mut self) -> Result<bool> {
+         let result = self.child.try_wait()?;
+         Ok(result.is_some())
+     }
+ }
+ 
+ impl Drop for TroubleshootGuard {
+     fn drop(&mut self) {
+-        let _ = self.child.kill();
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub enum LoadResult {
+     Correct(ConfigLoadResult),
+     Warning(ConfigLoadResult, Option<TroubleshootGuard>),
+     Fatal(TroubleshootGuard),
+ }

@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/matcher.rs
++++ replace == with != in RollingMatcher<Id>::find_refs
+@@ -152,17 +152,17 @@
+         if let Event::Key { key, chars } = event {
+             // Key matching
+             if let Some((_, node_ref)) = node.keys.iter().find(|(k, _)| k == key) {
+                 refs.push((node_ref, false));
+             }
+ 
+             if let Some(char) = chars {
+                 // Char matching
+-                if let Some((_, node_ref)) = node.chars.iter().find(|(c, _)| c == char) {
++                if let Some((_, node_ref)) = node.chars.iter().find(|(c, _)| c != /* ~ changed by cargo-mutants ~ */ char) {
+                     refs.push((node_ref, false));
+                 }
+ 
+                 // Char case-insensitive
+                 let insensitive_char = UniCase::new(char);
+                 if let Some((_, node_ref)) = node
+                     .chars_insensitive
+                     .iter()

@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace X11Source::is_compatible -> bool with true
+@@ -141,17 +141,17 @@
+             callback: LazyCell::new(),
+             hotkeys: hotkeys.to_vec(),
+             raw_hotkey_mapping: HashMap::new(),
+             valid_modifiers_mask: 0,
+         }
+     }
+ 
+     pub fn is_compatible() -> bool {
+-        unsafe { detect_check_x11() != 0 }
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Source for X11Source {
+     fn initialize(&mut self) -> Result<()> {
+         let mut error_code = 0;
+         let handle =
+             unsafe { detect_initialize(std::ptr::from_ref::<X11Source>(self), &mut error_code) };

@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace + with * in X11DefaultInjector::find_deadkeys
+@@ -244,17 +244,17 @@
+ 
+     fn find_deadkeys(display: *mut Display, input_context: &XIC) -> Result<Vec<Option<KeyPair>>> {
+         let mut deadkeys = vec![None];
+         let mut seen_keysyms: HashSet<KeySym> = HashSet::new();
+ 
+         // Cycle through all state/code combinations to populate the reverse lookup tables
+         for key_code in 0..256u32 {
+             for modifier_state in 0..256u32 {
+-                let code_with_offset = key_code + EVDEV_OFFSET;
++                let code_with_offset = key_code * /* ~ changed by cargo-mutants ~ */ EVDEV_OFFSET;
+                 let mut event = XKeyEvent {
+                     display,
+                     keycode: code_with_offset,
+                     state: modifier_state,
+ 
+                     // These might not even need to be filled
+                     window: 0,
+                     root: 0,

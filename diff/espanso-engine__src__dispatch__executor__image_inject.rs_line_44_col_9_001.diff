@@ -1,0 +1,23 @@
+--- espanso-engine/src/dispatch/executor/image_inject.rs
++++ replace <impl Executor for ImageInjectExecutor<'_>>::execute -> bool with false
+@@ -36,19 +36,11 @@
+ impl<'a> ImageInjectExecutor<'a> {
+     pub fn new(injector: &'a dyn ImageInjector) -> Self {
+         Self { injector }
+     }
+ }
+ 
+ impl Executor for ImageInjectExecutor<'_> {
+     fn execute(&self, event: &Event) -> bool {
+-        if let EventType::ImageInject(inject_event) = &event.etype {
+-            if let Err(error) = self.injector.inject_image(&inject_event.image_path) {
+-                error!("image injector reported an error: {:?}", error);
+-            }
+-
+-            return true;
+-        }
+-
+-        false
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ }

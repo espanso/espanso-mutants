@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ replace NotificationManager<'a>::notify_config_reloaded with ()
+@@ -36,23 +36,17 @@
+         }
+     }
+ 
+     pub fn notify_start(&self) {
+         self.notify("Espanso is running!");
+     }
+ 
+     pub fn notify_config_reloaded(&self, is_manual_restart: bool) {
+-        if is_manual_restart {
+-            self.notify("Configuration reloaded!");
+-        } else {
+-            self.notify(
+-        "Configuration reloaded! Espanso automatically loads new changes as soon as you save them.",
+-      );
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn notify_keyboard_layout_reloaded(&self) {
+         self.notify("Updated keyboard layout!");
+     }
+ }
+ 
+ impl espanso_engine::process::NotificationManager for NotificationManager<'_> {

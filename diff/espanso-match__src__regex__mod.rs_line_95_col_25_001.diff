@@ -1,0 +1,21 @@
+--- espanso-match/src/regex/mod.rs
++++ replace > with == in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+@@ -87,17 +87,17 @@
+             key: _,
+             chars: Some(chars),
+         } = event
+         {
+             buffer.push_str(&chars);
+         }
+ 
+         // Keep the buffer length in check
+-        if buffer.len() > self.max_buffer_size {
++        if buffer.len() == /* ~ changed by cargo-mutants ~ */ self.max_buffer_size {
+             buffer.remove(0);
+         }
+ 
+         // Find matches
+         if self.regex_set.is_match(&buffer) {
+             let mut matches = Vec::new();
+ 
+             for index in self.regex_set.matches(&buffer) {

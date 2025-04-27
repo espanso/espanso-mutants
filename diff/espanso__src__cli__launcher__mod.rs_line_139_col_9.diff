@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ replace || with && in launcher_main
+@@ -131,17 +131,17 @@
+     });
+ 
+     let on_completed_handler = Box::new(move || {
+         preferences.set_completed_wizard(true);
+     });
+ 
+     // Only show the wizard if a panel should be displayed
+     let should_launch_daemon = if is_welcome_page_enabled
+-        || is_move_bundle_page_enabled
++        && /* ~ changed by cargo-mutants ~ */ is_move_bundle_page_enabled
+         || is_auto_start_page_enabled
+         || is_add_path_page_enabled
+         || is_accessibility_page_enabled
+         || is_wrong_edition_page_enabled
+     {
+         espanso_modulo::wizard::show(WizardOptions {
+             version: crate::VERSION.to_string(),
+             is_welcome_page_enabled,

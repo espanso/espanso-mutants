@@ -1,0 +1,42 @@
+--- espanso-render/src/extension/date.rs
++++ replace <impl Extension for DateExtension<'_>>::calculate -> crate::ExtensionResult with Default::default()
+@@ -46,38 +46,17 @@
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {
+-        let mut now = self.get_date();
+-
+-        // Compute the given offset
+-        let offset = params.get("offset");
+-        if let Some(Value::Number(Number::Integer(offset))) = offset {
+-            let offset = Duration::seconds(*offset);
+-            now = now + offset;
+-        }
+-
+-        let format = params.get("format");
+-        let locale = params
+-            .get("locale")
+-            .and_then(|val| val.as_string())
+-            .map_or_else(|| self.locale_provider.get_system_locale(), String::from);
+-
+-        let date = if let Some(Value::String(format)) = format {
+-            DateExtension::format_date_with_locale_string(now, format, &locale)
+-        } else {
+-            now.to_rfc2822()
+-        };
+-
+-        ExtensionResult::Success(ExtensionOutput::Single(date))
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl DateExtension<'_> {
+     fn get_date(&self) -> DateTime<Local> {
+         if let Some(fixed_date) = self.fixed_date {
+             fixed_date
+         } else {

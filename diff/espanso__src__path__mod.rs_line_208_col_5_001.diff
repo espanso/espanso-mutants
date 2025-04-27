@@ -1,0 +1,32 @@
+--- espanso/src/path/mod.rs
++++ replace get_runtime_dir -> Option<PathBuf> with Some(Default::default())
+@@ -200,28 +200,17 @@
+                 return Some(espanso_dir);
+             }
+         }
+     }
+     None
+ }
+ 
+ fn get_runtime_dir() -> Option<PathBuf> {
+-    if let Some(runtime_dir) = get_portable_runtime_dir() {
+-        debug!("detected portable runtime dir: {:?}", runtime_dir);
+-        Some(runtime_dir)
+-    } else if let Some(legacy_dir) = get_legacy_runtime_dir() {
+-        debug!("detected legacy runtime dir: {:?}", legacy_dir);
+-        Some(legacy_dir)
+-    } else if let Some(default_dir) = get_default_runtime_dir() {
+-        debug!("detected default runtime dir: {:?}", default_dir);
+-        Some(default_dir)
+-    } else {
+-        None
+-    }
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_portable_runtime_dir() -> Option<PathBuf> {
+     if let Some(runtime_dir) = get_portable_runtime_path() {
+         if runtime_dir.is_dir() {
+             return Some(runtime_dir);
+         }
+     }

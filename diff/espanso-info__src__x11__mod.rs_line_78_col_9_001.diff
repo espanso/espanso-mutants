@@ -1,0 +1,26 @@
+--- espanso-info/src/x11/mod.rs
++++ replace X11AppInfoProvider::get_title -> Option<String> with None
+@@ -70,22 +70,11 @@
+                 Some(string.to_string())
+             }
+         } else {
+             None
+         }
+     }
+ 
+     fn get_title(&self) -> Option<String> {
+-        let mut buffer: [c_char; 2048] = [0; 2048];
+-        if unsafe { info_get_title(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
+-            let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+-            let string = string.to_string_lossy();
+-            if string.is_empty() {
+-                None
+-            } else {
+-                Some(string.to_string())
+-            }
+-        } else {
+-            None
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }

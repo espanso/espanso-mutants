@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ delete match arm
+@@ -299,17 +299,17 @@
+                         _ => CasingStyle::Capitalize,
+                     }
+                 }
+             } else {
+                 CasingStyle::None
+             }
+         } else if first.is_uppercase() {
+             match uppercasing_style {
+-                Some(UpperCasingStyle::Capitalize) => CasingStyle::Capitalize,
++                 /* ~ changed by cargo-mutants ~ */
+                 Some(UpperCasingStyle::CapitalizeWords) => CasingStyle::CapitalizeWords,
+                 _ => CasingStyle::Uppercase,
+             }
+         } else {
+             CasingStyle::None
+         }
+     } else {
+         CasingStyle::None

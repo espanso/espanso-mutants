@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -241,17 +241,17 @@
+         "gu-IN" => Some(Locale::gu_IN),
+         "gv-GB" => Some(Locale::gv_GB),
+         "ha-NG" => Some(Locale::ha_NG),
+         "hak-TW" => Some(Locale::hak_TW),
+         "he-IL" => Some(Locale::he_IL),
+         "hi-IN" => Some(Locale::hi_IN),
+         "hif-FJ" => Some(Locale::hif_FJ),
+         "hne-IN" => Some(Locale::hne_IN),
+-        "hr-HR" => Some(Locale::hr_HR),
++         /* ~ changed by cargo-mutants ~ */
+         "hsb-DE" => Some(Locale::hsb_DE),
+         "ht-HT" => Some(Locale::ht_HT),
+         "hu-HU" => Some(Locale::hu_HU),
+         "hy-AM" => Some(Locale::hy_AM),
+         "ia-FR" => Some(Locale::ia_FR),
+         "id-ID" => Some(Locale::id_ID),
+         "ig-NG" => Some(Locale::ig_NG),
+         "ik-CA" => Some(Locale::ik_CA),

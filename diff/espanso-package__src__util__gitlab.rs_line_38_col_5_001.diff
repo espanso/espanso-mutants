@@ -1,0 +1,28 @@
+--- espanso-package/src/util/gitlab.rs
++++ replace extract_gitlab_url_parts -> Option<GitLabParts> with None
+@@ -30,24 +30,17 @@
+ 
+ #[derive(Debug, PartialEq, Eq)]
+ pub struct GitLabParts {
+     author: String,
+     name: String,
+ }
+ 
+ pub fn extract_gitlab_url_parts(url: &str) -> Option<GitLabParts> {
+-    let captures = GITLAB_REGEX.captures(url)?;
+-    let author = captures.name("author")?;
+-    let name = captures.name("name")?;
+-
+-    Some(GitLabParts {
+-        author: author.as_str().to_string(),
+-        name: name.as_str().to_string(),
+-    })
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub struct ResolvedRepoScheme {
+     pub author: String,
+     pub name: String,
+     pub branch: String,
+ }
+ 

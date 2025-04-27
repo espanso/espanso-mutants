@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -325,17 +325,17 @@
+ pub enum CocoaSourceError {
+     #[error("unknown error")]
+     Unknown(),
+ }
+ 
+ impl From<RawInputEvent> for Option<InputEvent> {
+     fn from(raw: RawInputEvent) -> Option<InputEvent> {
+         let status = match raw.status {
+-            INPUT_STATUS_RELEASED => Released,
++             /* ~ changed by cargo-mutants ~ */
+             INPUT_STATUS_PRESSED => Pressed,
+             _ => Pressed,
+         };
+ 
+         match raw.event_type {
+             // Keyboard events
+             INPUT_EVENT_TYPE_KEYBOARD => {
+                 let (key, variant) = key_code_to_key(raw.key_code);

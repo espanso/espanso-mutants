@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/mod.rs
++++ replace match guard with false
+@@ -282,17 +282,17 @@
+             // Disable previously granted linux capabilities if not needed anymore
+             if has_granted_capabilities {
+                 if let Err(err) = crate::capabilities::clear_capabilities() {
+                     error!("unable to revoke linux capabilities: {}", err);
+                 }
+             }
+ 
+             match start_reason.as_deref() {
+-                Some(flag) if flag == WORKER_START_REASON_CONFIG_CHANGED => {
++                Some(flag) if false /* ~ changed by cargo-mutants ~ */ => {
+                     notification_manager.notify_config_reloaded(false);
+                 }
+                 Some(flag) if flag == WORKER_START_REASON_MANUAL => {
+                     notification_manager.notify_config_reloaded(true);
+                 }
+                 Some(flag) if flag == WORKER_START_REASON_KEYBOARD_LAYOUT_CHANGED => {
+                     notification_manager.notify_keyboard_layout_reloaded();
+                 }

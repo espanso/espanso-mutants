@@ -1,0 +1,66 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace <impl Source for EVDEVSource>::initialize -> Result<()> with Ok(())
+@@ -118,62 +118,17 @@
+             _hotkey_filter: RefCell::new(HotKeyFilter::new()),
+             _modifiers_map: modifiers_map,
+         }
+     }
+ }
+ 
+ impl Source for EVDEVSource {
+     fn initialize(&mut self) -> Result<()> {
+-        let context = Context::new().expect("unable to obtain xkb context");
+-        let keymap = Keymap::new(&context, self._keyboard_rmlvo.clone())
+-            .expect("unable to create xkb keymap");
+-
+-        match get_devices(&keymap) {
+-            Ok(devices) => self.devices = devices,
+-            Err(error) => {
+-                if let Some(device_error) = error.downcast_ref::<DeviceError>() {
+-                    if matches!(device_error, DeviceError::NoDevicesFound()) {
+-                        error!("Unable to open EVDEV devices, this usually has to do with permissions.");
+-                        error!(
+-              "You can either add the current user to the 'input' group or run espanso as root"
+-            );
+-                        return Err(EVDEVSourceError::PermissionDenied().into());
+-                    }
+-                }
+-                return Err(error);
+-            }
+-        }
+-
+-        let state = State::new(&keymap)?;
+-
+-        info!("Querying modifier status...");
+-        if let Some(modifiers_state) =
+-            sync::get_modifiers_state().context("EVDEV modifier context state synchronization")?
+-        {
+-            debug!("Updating device modifier state: {:?}", modifiers_state);
+-
+-            for device in &mut self.devices {
+-                device.update_modifier_state(modifiers_state, &self._modifiers_map);
+-            }
+-        }
+-
+-        // Initialize the hotkeys
+-        self._hotkey_filter
+-            .borrow_mut()
+-            .initialize(&state, &self.hotkeys);
+-
+-        if self._context.fill(context).is_err() {
+-            return Err(EVDEVSourceError::InitFailure().into());
+-        }
+-        if self._keymap.fill(keymap).is_err() {
+-            return Err(EVDEVSourceError::InitFailure().into());
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+         if self.devices.is_empty() {
+             error!("can't start eventloop without evdev devices");
+             return Err(EVDEVSourceError::NoDevices().into());
+         }
+ 

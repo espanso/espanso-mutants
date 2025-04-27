@@ -1,0 +1,25 @@
+--- espanso-clipboard/src/x11/mod.rs
++++ replace <impl Clipboard for X11Clipboard>::set_text -> anyhow::Result<()> with Ok(())
+@@ -43,21 +43,17 @@
+         if options.use_xclip_backend {
+             self.xclip_backend.get_text(options)
+         } else {
+             self.native_backend.get_text(options)
+         }
+     }
+ 
+     fn set_text(&self, text: &str, options: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        if options.use_xclip_backend {
+-            self.xclip_backend.set_text(text, options)
+-        } else {
+-            self.native_backend.set_text(text, options)
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         options: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if options.use_xclip_backend {

@@ -1,0 +1,23 @@
+--- espanso-mac-utils/src/lib.rs
++++ replace start_headless_eventloop with ()
+@@ -107,19 +107,17 @@
+ pub fn convert_to_background_app() {
+     unsafe {
+         ffi::mac_utils_transition_to_background_app();
+     }
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn start_headless_eventloop() {
+-    unsafe {
+-        ffi::mac_utils_start_headless_eventloop();
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn exit_headless_eventloop() {
+     unsafe {
+         ffi::mac_utils_exit_headless_eventloop();
+     }
+ }

@@ -1,0 +1,52 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace <impl Injector for X11XDOToolInjector>::send_key_combination -> anyhow::Result<()> with Ok(())
+@@ -213,48 +213,17 @@
+         Ok(())
+     }
+ 
+     fn send_key_combination(
+         &self,
+         keys: &[crate::keys::Key],
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+-        let key_syms: Vec<String> = keys
+-            .iter()
+-            .filter_map(|key| unsafe { convert_key_to_keysym((*self.xdo).xdpy, key) })
+-            .collect();
+-        let key_combination = key_syms.join("+");
+-
+-        let delay = options.delay * 1000;
+-
+-        let c_key_combination =
+-            CString::new(key_combination).context("unable to generate CString")?;
+-
+-        if options.disable_fast_inject {
+-            unsafe {
+-                xdo_send_keysequence_window(
+-                    self.xdo,
+-                    CURRENTWINDOW,
+-                    c_key_combination.as_ptr(),
+-                    delay.try_into().unwrap(),
+-                );
+-            }
+-        } else {
+-            unsafe {
+-                fast_send_keysequence_window(
+-                    self.xdo,
+-                    self.get_focused_window(),
+-                    c_key_combination.as_ptr(),
+-                    delay.try_into().unwrap(),
+-                );
+-            }
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for X11XDOToolInjector {
+     fn drop(&mut self) {
+         unsafe { ffi::xdo_free(self.xdo) }
+     }
+ }

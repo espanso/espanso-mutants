@@ -1,0 +1,14 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ replace == with != in show
+@@ -144,10 +144,10 @@
+         add_to_path,
+         enable_accessibility,
+         is_accessibility_enabled,
+         on_completed,
+     };
+ 
+     let successful = unsafe { super::interop::interop_show_wizard(&wizard_metadata) };
+ 
+-    successful == 1
++    successful != /* ~ changed by cargo-mutants ~ */ 1
+ }

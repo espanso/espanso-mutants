@@ -1,0 +1,25 @@
+--- espanso/src/cli/worker/config.rs
++++ replace to_app_properties -> AppProperties with Default::default()
+@@ -62,21 +62,17 @@
+     }
+ 
+     pub fn default(&self) -> Arc<dyn Config> {
+         self.config_store.default()
+     }
+ }
+ 
+ fn to_app_properties(info: &AppInfo) -> AppProperties {
+-    AppProperties {
+-        title: info.title.as_deref(),
+-        class: info.class.as_deref(),
+-        exec: info.exec.as_deref(),
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ impl espanso_engine::process::MatchFilter for ConfigManager<'_> {
+     fn filter_active(&self, matches_ids: &[i32]) -> Vec<i32> {
+         let ids_set: HashSet<i32> = matches_ids.iter().copied().collect::<HashSet<_>>();
+         let (_, match_set) = self.active_context();
+ 
+         let active_user_defined_matches: Vec<i32> = match_set

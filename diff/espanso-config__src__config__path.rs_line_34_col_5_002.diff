@@ -1,0 +1,65 @@
+--- espanso-config/src/config/path.rs
++++ replace calculate_paths -> HashSet<String> with HashSet::new()
+@@ -26,61 +26,17 @@
+ 
+ static ABSOLUTE_PATH: LazyLock<Regex> =
+     LazyLock::new(|| Regex::new(r"(?m)^([a-zA-Z]:\\|/).*$").unwrap());
+ 
+ pub fn calculate_paths<'a>(
+     base_dir: &Path,
+     glob_patterns: impl Iterator<Item = &'a String>,
+ ) -> HashSet<String> {
+-    let mut path_set = HashSet::new();
+-    for glob_pattern in glob_patterns {
+-        // Handle relative and absolute paths appropriately
+-        let pattern = if ABSOLUTE_PATH.is_match(glob_pattern) {
+-            glob_pattern.clone()
+-        } else {
+-            format!("{}/{}", base_dir.to_string_lossy(), glob_pattern)
+-        };
+-
+-        let entries = glob(&pattern);
+-        match entries {
+-            Ok(paths) => {
+-                for path in paths {
+-                    match path {
+-                        Ok(path) => {
+-                            // Canonicalize the path
+-                            match dunce::canonicalize(&path) {
+-                                Ok(canonical_path) => {
+-                                    path_set.insert(canonical_path.to_string_lossy().to_string());
+-                                }
+-                                Err(err) => {
+-                                    error!(
+-                    "unable to canonicalize path from glob: {:?}, with error: {}",
+-                    path, err
+-                  );
+-                                }
+-                            }
+-                        }
+-                        Err(err) => error!(
+-                            "glob error when processing pattern: {}, with error: {}",
+-                            glob_pattern, err
+-                        ),
+-                    }
+-                }
+-            }
+-            Err(err) => {
+-                error!(
+-                    "unable to calculate glob from pattern: {}, with error: {}",
+-                    glob_pattern, err
+-                );
+-            }
+-        }
+-    }
+-
+-    path_set
++    HashSet::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ pub mod tests {
+     use super::*;
+     use crate::util::tests::use_test_directory;
+     use std::fs::create_dir_all;
+ 

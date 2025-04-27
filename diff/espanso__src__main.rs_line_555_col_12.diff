@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ delete ! in main
+@@ -547,17 +547,17 @@
+ 
+             CombinedLogger::init(outputs).expect("unable to initialize logs");
+ 
+             // Activate logging for panics
+             log_panics::init();
+         }
+ 
+         // If the process doesn't require linux capabilities, disable them
+-        if !handler.requires_linux_capabilities {
++        if  /* ~ changed by cargo-mutants ~ */handler.requires_linux_capabilities {
+             if let Err(err) = crate::capabilities::clear_capabilities() {
+                 error!("unable to clear linux capabilities: {}", err);
+             }
+         }
+ 
+         // If explicitly requested, we show the Dock icon on macOS
+         // We need to enable this selectively, otherwise we would end up with multiple
+         // dock icons due to the multi-process nature of espanso.

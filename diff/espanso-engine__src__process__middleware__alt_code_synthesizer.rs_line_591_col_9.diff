@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -583,17 +583,17 @@
+         0xA6 => Some(0x00A6), // #BROKEN BAR
+         0xA7 => Some(0x00A7), // #SECTION SIGN
+         0xA8 => Some(0x00A8), // #DIAERESIS
+         0xA9 => Some(0x00A9), // #COPYRIGHT SIGN
+         0xAA => Some(0x00AA), // #FEMININE ORDINAL INDICATOR
+         0xAB => Some(0x00AB), // #LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+         0xAC => Some(0x00AC), // #NOT SIGN
+         0xAD => Some(0x00AD), // #SOFT HYPHEN
+-        0xAE => Some(0x00AE), // #REGISTERED SIGN
++         /* ~ changed by cargo-mutants ~ */ // #REGISTERED SIGN
+         0xAF => Some(0x00AF), // #MACRON
+         0xB0 => Some(0x00B0), // #DEGREE SIGN
+         0xB1 => Some(0x00B1), // #PLUS-MINUS SIGN
+         0xB2 => Some(0x00B2), // #SUPERSCRIPT TWO
+         0xB3 => Some(0x00B3), // #SUPERSCRIPT THREE
+         0xB4 => Some(0x00B4), // #ACUTE ACCENT
+         0xB5 => Some(0x00B5), // #MICRO SIGN
+         0xB6 => Some(0x00B6), // #PILCROW SIGN

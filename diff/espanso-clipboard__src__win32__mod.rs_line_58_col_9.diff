@@ -1,0 +1,27 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ replace <impl Clipboard for Win32Clipboard>::set_text -> Result<()> with Ok(())
+@@ -50,23 +50,17 @@
+             let string = unsafe { U16CStr::from_ptr_str(buffer.as_ptr()) };
+             Some(string.to_string_lossy())
+         } else {
+             None
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> Result<()> {
+-        let string = U16CString::from_str(text)?;
+-        let native_result = unsafe { ffi::clipboard_set_text(string.as_ptr()) };
+-        if native_result > 0 {
+-            Ok(())
+-        } else {
+-            Err(Win32ClipboardError::SetOperationFailed().into())
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if !image_path.exists() || !image_path.is_file() {

@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace + with - in X11DefaultInjector::get_modifier_codes
+@@ -328,17 +328,17 @@
+             for mod_key in 0..modifiers.max_keypermod {
+                 let modifier_map = unsafe {
+                     slice::from_raw_parts(
+                         modifiers.modifiermap,
+                         (8 * modifiers.max_keypermod) as usize,
+                     )
+                 };
+                 let keycode =
+-                    modifier_map[(mod_index * modifiers.max_keypermod + mod_key) as usize];
++                    modifier_map[(mod_index * modifiers.max_keypermod - /* ~ changed by cargo-mutants ~ */ mod_key) as usize];
+                 if keycode != 0 {
+                     modifier_codes.push(keycode);
+                 }
+             }
+             modifiers_codes.push(modifier_codes);
+         }
+ 
+         unsafe { XFreeModifiermap(modifiers_ptr) };

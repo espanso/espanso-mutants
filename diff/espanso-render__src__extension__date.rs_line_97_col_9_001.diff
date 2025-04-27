@@ -1,0 +1,22 @@
+--- espanso-render/src/extension/date.rs
++++ replace DateExtension<'_>::format_date_with_locale_string -> String with "xyzzy".into()
+@@ -89,18 +89,17 @@
+         date.format_localized(format, locale).to_string()
+     }
+ 
+     fn format_date_with_locale_string(
+         date: DateTime<Local>,
+         format: &str,
+         locale_str: &str,
+     ) -> String {
+-        let locale = convert_locale_string_to_locale(locale_str).unwrap_or(Locale::en_US);
+-        Self::format_date_with_locale(date, format, locale)
++        "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_locale_string_to_locale(locale_str: &str) -> Option<Locale> {
+     match locale_str {
+         "aa-DJ" => Some(Locale::aa_DJ),
+         "aa-ER" => Some(Locale::aa_ER),
+         "aa-ET" => Some(Locale::aa_ET),

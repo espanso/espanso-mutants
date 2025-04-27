@@ -1,0 +1,19 @@
+--- espanso/src/preferences/default.rs
++++ replace <impl Preferences for DefaultPreferences<KVSType>>::has_selected_auto_start_option -> bool with true
+@@ -75,15 +75,15 @@
+             .unwrap_or(true)
+     }
+ 
+     fn set_should_display_troubleshoot_for_non_fatal_errors(&self, value: bool) {
+         self.set(SHOULD_DISPLAY_TROUBLESHOOT_FOR_NON_FATAL_ERRORS, value);
+     }
+ 
+     fn has_selected_auto_start_option(&self) -> bool {
+-        self.get(HAS_SELECTED_AUTO_START_OPTION).unwrap_or(false)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_has_selected_auto_start_option(&self, value: bool) {
+         self.set(HAS_SELECTED_AUTO_START_OPTION, value);
+     }
+ }

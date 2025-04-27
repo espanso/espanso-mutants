@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/key_state.rs
++++ replace KeyStatus::is_pressed -> bool with true
+@@ -92,17 +92,17 @@
+                 Some(Instant::now())
+             } else {
+                 None
+             },
+         }
+     }
+ 
+     fn is_pressed(&self) -> bool {
+-        self.pressed_at.is_some()
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn is_outdated(&self) -> bool {
+         let now = Instant::now();
+         if let Some(pressed_at) = self.pressed_at {
+             now.duration_since(pressed_at) > KEY_PRESS_EVENT_INVALIDATION_TIMEOUT
+         } else {
+             false

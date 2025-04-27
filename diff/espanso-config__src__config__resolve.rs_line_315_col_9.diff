@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::post_form_delay -> usize with 1
+@@ -307,19 +307,17 @@
+ 
+     fn emulate_alt_codes(&self) -> bool {
+         self.parsed
+             .emulate_alt_codes
+             .unwrap_or(cfg!(target_os = "windows"))
+     }
+ 
+     fn post_form_delay(&self) -> usize {
+-        self.parsed
+-            .post_form_delay
+-            .unwrap_or(DEFAULT_POST_FORM_DELAY)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn max_form_width(&self) -> usize {
+         self.parsed.max_form_width.unwrap_or(700)
+     }
+ 
+     fn max_form_height(&self) -> usize {
+         self.parsed.max_form_height.unwrap_or(500)

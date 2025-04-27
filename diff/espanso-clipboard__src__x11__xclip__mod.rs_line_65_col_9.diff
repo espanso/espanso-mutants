@@ -1,0 +1,36 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ replace <impl Clipboard for XClipClipboard>::set_text -> anyhow::Result<()> with Ok(())
+@@ -57,32 +57,17 @@
+                 error!("xclip reported an error: {}", error);
+             }
+         }
+ 
+         None
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        if !self.is_xclip_available {
+-            bail!("attempted to use XClipClipboard, but `xclip` command can't be called");
+-        }
+-
+-        let mut child = Command::new("xclip")
+-            .args(["-sel", "clip"])
+-            .stdin(Stdio::piped())
+-            .spawn()?;
+-
+-        let stdin = child.stdin.as_mut();
+-        if let Some(input) = stdin {
+-            input.write_all(text.as_bytes())?;
+-            child.wait()?;
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if !self.is_xclip_available {

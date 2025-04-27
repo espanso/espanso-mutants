@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/render.rs
++++ replace <impl Middleware for RenderMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -54,17 +54,17 @@
+ impl<'a> RenderMiddleware<'a> {
+     pub fn new(renderer: &'a dyn Renderer<'a>) -> Self {
+         Self { renderer }
+     }
+ }
+ 
+ impl Middleware for RenderMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "render"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::RenderingRequested(m_event) = event.etype {
+             match self.renderer.render(
+                 m_event.match_id,
+                 m_event.trigger.as_deref(),
+                 m_event.trigger_args,

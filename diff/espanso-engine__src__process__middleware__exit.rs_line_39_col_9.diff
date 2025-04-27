@@ -1,0 +1,23 @@
+--- espanso-engine/src/process/middleware/exit.rs
++++ replace <impl Middleware for ExitMiddleware>::next -> Event with Default::default()
+@@ -31,19 +31,11 @@
+ }
+ 
+ impl Middleware for ExitMiddleware {
+     fn name(&self) -> &'static str {
+         "exit"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::ExitRequested(mode) = &event.etype {
+-            debug!(
+-                "received ExitRequested event with mode: {:?}, dispatching exit",
+-                mode
+-            );
+-            return Event::caused_by(event.source_id, EventType::Exit(mode.clone()));
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

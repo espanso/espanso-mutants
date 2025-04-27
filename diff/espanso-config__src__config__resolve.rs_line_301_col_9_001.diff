@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::show_notifications -> bool with true
+@@ -293,17 +293,17 @@
+         self.parsed.undo_backspace.unwrap_or(true)
+     }
+ 
+     fn show_icon(&self) -> bool {
+         self.parsed.show_icon.unwrap_or(true)
+     }
+ 
+     fn show_notifications(&self) -> bool {
+-        self.parsed.show_notifications.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn secure_input_notification(&self) -> bool {
+         self.parsed.secure_input_notification.unwrap_or(true)
+     }
+ 
+     fn emulate_alt_codes(&self) -> bool {
+         self.parsed

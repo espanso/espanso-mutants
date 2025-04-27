@@ -1,0 +1,21 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <= with > in <impl UIEventLoop for Win32EventLoop>::run
+@@ -222,17 +222,17 @@
+                 } else {
+                     trace!("Unable to convert raw event to input event");
+                 }
+             }
+         }
+ 
+         let error_code = unsafe { ui_eventloop(window_handle, callback) };
+ 
+-        if error_code <= 0 {
++        if error_code > /* ~ changed by cargo-mutants ~ */ 0 {
+             error!("Win32EventLoop exited with <= 0 code");
+             return Err(Win32UIError::InternalError().into());
+         }
+ 
+         Ok(())
+     }
+ }
+ 

@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+@@ -56,17 +56,17 @@
+         &self,
+         template: &Template,
+         context: &Context,
+         options: &RenderOptions,
+     ) -> RenderResult {
+         let body = if VAR_REGEX.is_match(&template.body) {
+             // Convert "global" variable type aliases when needed
+             let local_variables: Vec<&Variable> =
+-                if template.vars.iter().any(|var| var.var_type == "global") {
++                if template.vars.iter().any(|var| var.var_type != /* ~ changed by cargo-mutants ~ */ "global") {
+                     let global_vars: HashMap<&str, &Variable> = context
+                         .global_vars
+                         .iter()
+                         .map(|var| (&*var.name, *var))
+                         .collect();
+                     template
+                         .vars
+                         .iter()

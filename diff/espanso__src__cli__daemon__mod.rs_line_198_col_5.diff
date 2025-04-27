@@ -1,0 +1,54 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace terminate_worker_if_already_running with ()
+@@ -190,50 +190,17 @@
+           },
+         }
+     }
+ 
+     DAEMON_SUCCESS
+ }
+ 
+ fn terminate_worker_if_already_running(runtime_dir: &Path) {
+-    let lock_file = acquire_worker_lock(runtime_dir);
+-    if lock_file.is_some() {
+-        return;
+-    }
+-
+-    warn!("a worker process is already running, sending termination signal...");
+-
+-    match create_ipc_client_to_worker(runtime_dir) {
+-        Ok(mut worker_ipc) => {
+-            if let Err(err) = worker_ipc.send_async(IPCEvent::Exit) {
+-                error!(
+-                    "unable to send termination signal to worker process: {}",
+-                    err
+-                );
+-            }
+-        }
+-        Err(err) => {
+-            error!("could not establish IPC connection with worker: {}", err);
+-        }
+-    }
+-
+-    let now = Instant::now();
+-    while now.elapsed() < std::time::Duration::from_secs(3) {
+-        let lock_file = acquire_worker_lock(runtime_dir);
+-        if lock_file.is_some() {
+-            return;
+-        }
+-
+-        std::thread::sleep(std::time::Duration::from_millis(200));
+-    }
+-
+-    panic!(
+-    "could not terminate worker process, please kill it manually, otherwise espanso won't start"
+-  )
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn spawn_worker(
+     paths_overrides: &PathsOverrides,
+     exit_notify: Sender<i32>,
+     start_reason: Option<String>,
+ ) {
+     info!("spawning the worker process...");

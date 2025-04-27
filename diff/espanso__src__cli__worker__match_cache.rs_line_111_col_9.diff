@@ -1,0 +1,29 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace CombinedMatchCache<'a>::get -> Option<MatchVariant<'a>> with Some(Default::default())
+@@ -103,25 +103,17 @@
+ 
+         Self {
+             user_match_cache,
+             builtin_match_cache,
+         }
+     }
+ 
+     pub fn get(&self, match_id: i32) -> Option<MatchVariant<'a>> {
+-        if let Some(user_match) = self.user_match_cache.cache.get(&match_id).copied() {
+-            return Some(MatchVariant::User(user_match));
+-        }
+-
+-        if let Some(builtin_match) = self.builtin_match_cache.get(&match_id).copied() {
+-            return Some(MatchVariant::Builtin(builtin_match));
+-        }
+-
+-        None
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::match_select::MatchProvider<'a>
+     for CombinedMatchCache<'a>
+ {
+     fn get_matches(&self, ids: &[i32]) -> Vec<MatchSummary<'a>> {
+         ids.iter()

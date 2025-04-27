@@ -1,0 +1,21 @@
+--- espanso/src/gui/modulo/form.rs
++++ replace > with == in <impl FormUI for ModuloFormUI<'_>>::show
+@@ -75,17 +75,17 @@
+                 } else {
+                     Ok(Some(json))
+                 }
+             }
+             Err(error) => Err(error.into()),
+         };
+ 
+         let post_form_delay = self.option_provider.get_post_form_delay();
+-        if post_form_delay > 0 {
++        if post_form_delay == /* ~ changed by cargo-mutants ~ */ 0 {
+             std::thread::sleep(std::time::Duration::from_millis(
+                 post_form_delay.try_into().unwrap(),
+             ));
+         }
+ 
+         result
+     }
+ }

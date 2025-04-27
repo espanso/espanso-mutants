@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/loader/yaml/mod.rs
++++ replace && with || in try_convert_into_match
+@@ -123,17 +123,17 @@
+ }
+ 
+ pub fn try_convert_into_match(
+     yaml_match: YAMLMatch,
+     use_compatibility_mode: bool, // TODO: unused variable. Remove from the codebase
+ ) -> Result<(Match, Vec<Warning>)> {
+     let mut warnings = Vec::new();
+ 
+-    if yaml_match.uppercase_style.is_some() && yaml_match.propagate_case.is_none() {
++    if yaml_match.uppercase_style.is_some() || /* ~ changed by cargo-mutants ~ */ yaml_match.propagate_case.is_none() {
+         warnings.push(anyhow!(
+             "specifying the 'uppercase_style' option without 'propagate_case' has no effect"
+         ));
+     }
+ 
+     let triggers = if let Some(trigger) = yaml_match.trigger {
+         Some(vec![trigger])
+     } else {

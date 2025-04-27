@@ -1,0 +1,46 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace X11XDOToolInjector::fast_release_all_keys with ()
+@@ -104,42 +104,17 @@
+                 delay.try_into().unwrap(),
+             );
+         }
+ 
+         Ok(())
+     }
+ 
+     fn fast_release_all_keys(&self) {
+-        let mut keys: [u8; 32] = [0; 32];
+-        unsafe {
+-            XQueryKeymap((*self.xdo).xdpy, keys.as_mut_ptr());
+-        }
+-
+-        let focused_window = self.get_focused_window();
+-
+-        #[allow(clippy::needless_range_loop)]
+-        for i in 0..32 {
+-            // Only those that are pressed should be changed
+-            if keys[i] != 0 {
+-                for k in 0..8 {
+-                    if (keys[i] & (1 << k)) != 0 {
+-                        let key_code = i * 8 + k;
+-                        unsafe {
+-                            ffi::fast_send_event(
+-                                self.xdo,
+-                                focused_window,
+-                                key_code.try_into().unwrap(),
+-                                0,
+-                            );
+-                        }
+-                    }
+-                }
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn fast_send_string(
+         &self,
+         string: &str,
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+         // It may happen that when an expansion is triggered, some keys are still pressed.

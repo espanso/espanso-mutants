@@ -1,0 +1,41 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace create -> Result<(Win32Remote, Win32EventLoop)> with Ok((Default::default(), Default::default()))
+@@ -83,37 +83,17 @@
+ 
+ pub struct Win32UIOptions<'a> {
+     pub show_icon: bool,
+     pub icon_paths: &'a Vec<(TrayIcon, String)>,
+     pub notification_icon_path: String,
+ }
+ 
+ pub fn create(options: Win32UIOptions) -> Result<(Win32Remote, Win32EventLoop)> {
+-    let handle: Arc<AtomicPtr<c_void>> = Arc::new(AtomicPtr::new(std::ptr::null_mut()));
+-
+-    // Validate icons
+-    assert!(options.icon_paths.len() <= MAX_ICON_COUNT, "Win32 UI received too many icon paths, please increase the MAX_ICON_COUNT constant to support more");
+-
+-    // Convert the icon paths to the internal representation
+-    let mut icon_indexes: HashMap<TrayIcon, usize> = HashMap::new();
+-    let mut icons = Vec::new();
+-    for (index, (tray_icon, path)) in options.icon_paths.iter().enumerate() {
+-        icon_indexes.insert(tray_icon.clone(), index);
+-        icons.push(path.clone());
+-    }
+-
+-    let eventloop = Win32EventLoop::new(handle.clone(), icons, options.show_icon);
+-    let remote = Win32Remote::new(
+-        handle,
+-        icon_indexes,
+-        PathBuf::from(options.notification_icon_path),
+-    );
+-
+-    Ok((remote, eventloop))
++    Ok((Default::default(), Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub struct Win32EventLoop {
+     handle: Arc<AtomicPtr<c_void>>,
+ 
+     show_icon: bool,
+     icons: Vec<String>,
+ 

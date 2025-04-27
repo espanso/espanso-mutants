@@ -1,0 +1,23 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ replace NotificationManager<'a>::notify with ()
+@@ -26,19 +26,17 @@
+ }
+ 
+ impl<'a> NotificationManager<'a> {
+     pub fn new(ui_remote: &'a dyn UIRemote, config: &'a dyn Config) -> Self {
+         NotificationManager { ui_remote, config }
+     }
+ 
+     fn notify(&self, text: &str) {
+-        if self.config.show_notifications() {
+-            self.ui_remote.show_notification(text);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn notify_start(&self) {
+         self.notify("Espanso is running!");
+     }
+ 
+     pub fn notify_config_reloaded(&self, is_manual_restart: bool) {
+         if is_manual_restart {

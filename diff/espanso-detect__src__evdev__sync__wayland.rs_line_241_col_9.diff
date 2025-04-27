@@ -1,0 +1,24 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl ActivationHandler for SimpleWindow>::new_token with ()
+@@ -233,20 +233,17 @@
+         }
+     }
+ }
+ 
+ impl ActivationHandler for SimpleWindow {
+     type RequestData = RequestData;
+ 
+     fn new_token(&mut self, token: String, _data: &Self::RequestData) {
+-        self.xdg_activation
+-            .as_ref()
+-            .unwrap()
+-            .activate::<SimpleWindow>(self.window.wl_surface(), token);
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl SeatHandler for SimpleWindow {
+     fn seat_state(&mut self) -> &mut SeatState {
+         &mut self.seat_state
+     }
+ 

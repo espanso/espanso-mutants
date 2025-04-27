@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/open_config.rs
++++ replace == with != in <impl Middleware for ConfigMiddleware<'_>>::next
+@@ -51,17 +51,17 @@
+                     "unable to canonicalize the config path into the image resolver: {}",
+                     err
+                 );
+                 self.provider.get_config_path().to_owned()
+             }
+         };
+         if let EventType::ShowConfigFolder = event.etype {
+             let program: &str;
+-            if env::consts::OS == "macos" {
++            if env::consts::OS != /* ~ changed by cargo-mutants ~ */ "macos" {
+                 program = "open";
+             } else if env::consts::OS == "windows" {
+                 program = "explorer";
+             } else if env::consts::OS == "linux" {
+                 program = "xdg-open";
+             } else {
+                 panic!("Unsupported OS")
+             }

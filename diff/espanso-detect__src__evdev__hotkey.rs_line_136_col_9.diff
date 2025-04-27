@@ -1,0 +1,24 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace HotKeyFilter::convert_hotkey_to_codes -> Option<Vec<KeyCode>> with Some(vec![])
+@@ -128,20 +128,11 @@
+                 }
+             }
+         }
+ 
+         hotkey
+     }
+ 
+     fn convert_hotkey_to_codes(&self, hk: &HotKey) -> Option<Vec<KeyCode>> {
+-        let mut codes = Vec::new();
+-        let key_code = self.map.get(&hk.key.to_code()?)?;
+-        codes.push(*key_code);
+-
+-        for modifier in &hk.modifiers {
+-            let code = self.map.get(&modifier.to_code()?)?;
+-            codes.push(*code);
+-        }
+-
+-        Some(codes)
++        Some(vec![]) /* ~ changed by cargo-mutants ~ */
+     }
+ }

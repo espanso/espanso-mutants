@@ -1,0 +1,23 @@
+--- espanso-mac-utils/src/lib.rs
++++ replace convert_to_foreground_app with ()
+@@ -93,19 +93,17 @@
+ 
+ #[cfg(target_os = "macos")]
+ pub fn prompt_accessibility() -> bool {
+     unsafe { ffi::mac_utils_prompt_accessibility() > 0 }
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn convert_to_foreground_app() {
+-    unsafe {
+-        ffi::mac_utils_transition_to_foreground_app();
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn convert_to_background_app() {
+     unsafe {
+         ffi::mac_utils_transition_to_background_app();
+     }
+ }

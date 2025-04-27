@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -373,17 +373,17 @@
+         234 => Some(0x03A9), // Greek capital letter omega
+         235 => Some(0x03B4), // Greek small letter delta
+         236 => Some(0x221E), // Infinity
+         237 => Some(0x03C6), // Greek small letter phi
+         238 => Some(0x03B5), // Greek small letter epsilon
+         239 => Some(0x2229), // Intersection
+         240 => Some(0x2261), // Identical to
+         241 => Some(0x00B1), // Plus-minus sign
+-        242 => Some(0x2265), // Greater-than or equal to
++         /* ~ changed by cargo-mutants ~ */ // Greater-than or equal to
+         243 => Some(0x2264), // Less-than or equal to
+         244 => Some(0x2320), // Top half integral
+         245 => Some(0x2321), // Bottom half integral
+         246 => Some(0x00F7), // Division sign, obelus
+         247 => Some(0x2248), // Almost equal to, asymptotic to
+         248 => Some(0x00B0), // Degree sign
+         249 => Some(0x2219), // Bullet operator
+         250 => Some(0x00B7), // Middle dot, midpoint (in typography), interpunct, Georgian comma, Greek ano teleia

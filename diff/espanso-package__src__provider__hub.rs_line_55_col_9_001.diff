@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/hub.rs
++++ replace <impl PackageProvider for EspansoHubPackageProvider>::name -> String with "xyzzy".into()
+@@ -47,17 +47,17 @@
+             runtime_dir: runtime_dir.to_path_buf(),
+             force_index_update,
+         }
+     }
+ }
+ 
+ impl PackageProvider for EspansoHubPackageProvider {
+     fn name(&self) -> String {
+-        "espanso-hub".to_string()
++        "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+         let index = self
+             .get_index(self.force_index_update)
+             .context("unable to get package index from espanso hub")?;
+ 
+         let package_info = index

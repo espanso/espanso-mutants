@@ -1,0 +1,50 @@
+--- espanso-mac-utils/src/lib.rs
++++ replace get_secure_input_application -> Option<(String, String)> with Some((String::new(), "xyzzy".into()))
+@@ -37,46 +37,17 @@
+         }
+     }
+ }
+ 
+ /// Check whether an application is currently holding the Secure Input.
+ /// Return None if no application has claimed `SecureInput`, `Some((AppName, AppPath))` otherwise.
+ #[cfg(target_os = "macos")]
+ pub fn get_secure_input_application() -> Option<(String, String)> {
+-    unsafe {
+-        let pid = get_secure_input_pid();
+-
+-        if let Some(pid) = pid {
+-            // Size of the buffer is ruled by the PROC_PIDPATHINFO_MAXSIZE constant.
+-            // the underlying proc_pidpath REQUIRES a buffer of that dimension, otherwise it fail silently.
+-            let mut buffer: [c_char; 4096] = [0; 4096];
+-            let res =
+-                ffi::mac_utils_get_path_from_pid(pid, buffer.as_mut_ptr(), buffer.len() as i32);
+-
+-            if res > 0 {
+-                let c_string = CStr::from_ptr(buffer.as_ptr());
+-                let string = c_string.to_str();
+-                if let Ok(path) = string {
+-                    if !path.trim().is_empty() {
+-                        let process = path.trim().to_string();
+-                        let app_name = if let Some(name) = get_app_name_from_path(&process) {
+-                            name
+-                        } else {
+-                            process.clone()
+-                        };
+-
+-                        return Some((app_name, process));
+-                    }
+-                }
+-            }
+-        }
+-
+-        None
+-    }
++    Some((String::new(), "xyzzy".into())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "macos")]
+ fn get_app_name_from_path(path: &str) -> Option<String> {
+     use regex::Regex;
+     use std::sync::LazyLock;
+ 
+     static APP_REGEX: LazyLock<Regex> =

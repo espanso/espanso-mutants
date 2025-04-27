@@ -1,0 +1,21 @@
+--- espanso-package/src/archive/default.rs
++++ delete ! in <impl Archiver for DefaultArchiver>::list
+@@ -119,17 +119,17 @@
+         Ok(StoredPackage::Modern(ArchivedPackage { manifest, source }))
+     }
+ 
+     fn list(&self) -> Result<Vec<StoredPackage>> {
+         let mut output = Vec::new();
+ 
+         for path in std::fs::read_dir(&self.package_dir)? {
+             let path = path?.path();
+-            if !path.is_dir() {
++            if  /* ~ changed by cargo-mutants ~ */path.is_dir() {
+                 continue;
+             }
+ 
+             if let Some(package_name) = path.file_name() {
+                 let package_name = package_name.to_string_lossy().to_string();
+ 
+                 output.push(self.get(&package_name)?);
+             }

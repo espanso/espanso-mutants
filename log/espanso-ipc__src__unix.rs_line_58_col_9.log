@@ -1,0 +1,220 @@
+
+*** espanso-ipc/src/unix.rs:58:9: replace <impl IPCServer<Event> for UnixIPCServer>::run -> Result<()> with Ok(())
+
+*** mutation diff:
+--- espanso-ipc/src/unix.rs
++++ replace <impl IPCServer<Event> for UnixIPCServer>::run -> Result<()> with Ok(())
+@@ -50,59 +50,17 @@
+         );
+ 
+         Ok(Self { listener })
+     }
+ }
+ 
+ impl<Event: Send + Sync + DeserializeOwned + Serialize> IPCServer<Event> for UnixIPCServer {
+     fn run(self, handler: EventHandler<Event>) -> Result<()> {
+-        loop {
+-            let (mut stream, _) = self.listener.accept()?;
+-
+-            // Read multiple commands from the client
+-            loop {
+-                match read_line(&mut stream) {
+-                    Ok(Some(line)) => {
+-                        let event: Result<Event, serde_json::Error> = serde_json::from_str(&line);
+-                        match event {
+-                            Ok(event) => match handler(event) {
+-                                EventHandlerResponse::Response(response) => {
+-                                    let mut json_event = serde_json::to_string(&response)?;
+-                                    json_event.push('\n');
+-                                    stream.write_all(json_event.as_bytes())?;
+-                                    stream.flush()?;
+-                                }
+-                                EventHandlerResponse::NoResponse => {
+-                                    // Async event, no need to reply
+-                                }
+-                                EventHandlerResponse::Error(err) => {
+-                                    error!("ipc handler reported an error: {}", err);
+-                                }
+-                                EventHandlerResponse::Exit => {
+-                                    return Ok(());
+-                                }
+-                            },
+-                            Err(error) => {
+-                                error!("received malformed event from ipc stream: {}", error);
+-                                break;
+-                            }
+-                        }
+-                    }
+-                    Ok(None) => {
+-                        // EOF reached
+-                        break;
+-                    }
+-                    Err(error) => {
+-                        error!("error reading ipc stream: {}", error);
+-                        break;
+-                    }
+-                }
+-            }
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct UnixIPCClient {
+     stream: UnixStream,
+ }
+ 
+ impl UnixIPCClient {
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-ipc@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh ryu v1.0.5
+       Fresh itoa v0.4.7
+       Fresh cfg-if v1.0.0
+       Fresh anyhow v1.0.38
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh log v0.4.14
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+       Dirty espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc): the file `espanso-ipc/src/unix.rs` has changed (1745791221.687492239s, 27m after last build at 1745789601.984070939s)
+   Compiling espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_ipc --edition=2021 espanso-ipc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=c976c6ad51fbf0eb -C extra-filename=-6a167a5d7ffe551b --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_ipc --edition=2021 espanso-ipc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3f955c42b134ce39 -C extra-filename=-e16ce03876d319b1 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta`
+warning: unused import: `EventHandlerResponse`
+  --> espanso-ipc/src/unix.rs:20:30
+   |
+20 | use crate::{util::read_line, EventHandlerResponse, IPCClientError};
+   |                              ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `error`
+  --> espanso-ipc/src/unix.rs:22:11
+   |
+22 | use log::{error, info};
+   |           ^^^^^
+
+warning: unused variable: `handler`
+  --> espanso-ipc/src/unix.rs:57:18
+   |
+57 |     fn run(self, handler: EventHandler<Event>) -> Result<()> {
+   |                  ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_handler`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: field `listener` is never read
+  --> espanso-ipc/src/unix.rs:33:5
+   |
+32 | pub struct UnixIPCServer {
+   |            ------------- field in this struct
+33 |     listener: UnixListener,
+   |     ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `espanso-ipc` (lib) generated 4 warnings (run `cargo fix --lib -p espanso-ipc` to apply 2 suggestions)
+warning: `espanso-ipc` (lib test) generated 4 warnings (4 duplicates)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_ipc-6a167a5d7ffe551b`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-ipc@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh ryu v1.0.5
+       Fresh itoa v0.4.7
+       Fresh cfg-if v1.0.0
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+warning: unused import: `EventHandlerResponse`
+  --> espanso-ipc/src/unix.rs:20:30
+   |
+20 | use crate::{util::read_line, EventHandlerResponse, IPCClientError};
+   |                              ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `error`
+  --> espanso-ipc/src/unix.rs:22:11
+   |
+22 | use log::{error, info};
+   |           ^^^^^
+
+warning: unused variable: `handler`
+  --> espanso-ipc/src/unix.rs:57:18
+   |
+57 |     fn run(self, handler: EventHandler<Event>) -> Result<()> {
+   |                  ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_handler`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: field `listener` is never read
+  --> espanso-ipc/src/unix.rs:33:5
+   |
+32 | pub struct UnixIPCServer {
+   |            ------------- field in this struct
+33 |     listener: UnixListener,
+   |     ^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: `espanso-ipc` (lib) generated 4 warnings (run `cargo fix --lib -p espanso-ipc` to apply 2 suggestions)
+warning: `espanso-ipc` (lib test) generated 4 warnings (4 duplicates)
+       Fresh espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_ipc-6a167a5d7ffe551b`
+
+running 5 tests
+test tests::ipc_async_message ... ignored, flaky test
+test tests::ipc_multiple_clients ... ignored, takes too loong to test this (way over 60 seconds)
+test tests::ipc_sync_message ... ignored, flaky test
+test tests::ipc_multiple_sync_with_delay_message ... FAILED
+test tests::ipc_sync_big_payload_message ... FAILED
+
+failures:
+
+---- tests::ipc_multiple_sync_with_delay_message stdout ----
+
+thread '<unnamed>' panicked at espanso-ipc/src/lib.rs:179:86:
+called `Result::unwrap()` on an `Err` value: Connection refused (os error 61)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tests::ipc_multiple_sync_with_delay_message' panicked at espanso-ipc/src/lib.rs:200:30:
+called `Result::unwrap()` on an `Err` value: Any { .. }
+
+---- tests::ipc_sync_big_payload_message stdout ----
+
+thread '<unnamed>' panicked at espanso-ipc/src/lib.rs:253:81:
+called `Result::unwrap()` on an `Err` value: Connection refused (os error 61)
+
+thread 'tests::ipc_sync_big_payload_message' panicked at espanso-ipc/src/lib.rs:273:30:
+called `Result::unwrap()` on an `Err` value: Any { .. }
+
+
+failures:
+    tests::ipc_multiple_sync_with_delay_message
+    tests::ipc_sync_big_payload_message
+
+test result: FAILED. 0 passed; 2 failed; 3 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p espanso-ipc --lib`
+
+*** result: Failure(101)

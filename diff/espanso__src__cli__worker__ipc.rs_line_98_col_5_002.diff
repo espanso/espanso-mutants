@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/ipc.rs
++++ replace send_event -> EventHandlerResponse<IPCEvent> with EventHandlerResponse::new()
+@@ -90,17 +90,10 @@
+ 
+     Ok(())
+ }
+ 
+ fn send_event(
+     event_notify: &Sender<EventType>,
+     event: EventType,
+ ) -> EventHandlerResponse<IPCEvent> {
+-    if let Err(err) = event_notify.send(event) {
+-        error!(
+-            "experienced error while sending event signal from worker ipc handler: {}",
+-            err
+-        );
+-    }
+-
+-    EventHandlerResponse::NoResponse
++    EventHandlerResponse::new() /* ~ changed by cargo-mutants ~ */
+ }

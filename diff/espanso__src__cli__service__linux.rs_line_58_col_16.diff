@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in register
+@@ -50,17 +50,17 @@
+ 
+     info_println!("enabling systemd service");
+ 
+     match Command::new("systemctl")
+         .args(["--user", "enable", LINUX_SERVICE_NAME])
+         .status()
+     {
+         Ok(status) => {
+-            if !status.success() {
++            if  /* ~ changed by cargo-mutants ~ */status.success() {
+                 return Err(RegisterError::SystemdEnableFailed.into());
+             }
+         }
+         Err(err) => {
+             error_eprintln!("unable to call systemctl: {}", err);
+             return Err(RegisterError::SystemdCallFailed(err.into()).into());
+         }
+     }

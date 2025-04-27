@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -198,17 +198,17 @@
+         59 => Some(0x003B),  // Semicolon
+         60 => Some(0x003C),  // Less-than sign
+         61 => Some(0x003D),  // Equals sign
+         62 => Some(0x003E),  // Greater-than sign
+         63 => Some(0x003F),  // Question mark
+         64 => Some(0x0040),  // Commercial at, at sign
+         65 => Some(0x0041),  // Latin capital letter A
+         66 => Some(0x0042),  // Latin capital letter B
+-        67 => Some(0x0043),  // Latin capital letter C
++         /* ~ changed by cargo-mutants ~ */  // Latin capital letter C
+         68 => Some(0x0044),  // Latin capital letter D
+         69 => Some(0x0045),  // Latin capital letter E
+         70 => Some(0x0046),  // Latin capital letter F
+         71 => Some(0x0047),  // Latin capital letter G
+         72 => Some(0x0048),  // Latin capital letter H
+         73 => Some(0x0049),  // Latin capital letter I
+         74 => Some(0x004A),  // Latin capital letter J
+         75 => Some(0x004B),  // Latin capital letter K

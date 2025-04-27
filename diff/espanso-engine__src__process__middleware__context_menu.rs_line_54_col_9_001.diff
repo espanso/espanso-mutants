@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/context_menu.rs
++++ replace <impl Middleware for ContextMenuMiddleware>::name -> &'static str with "xyzzy"
+@@ -46,17 +46,17 @@
+             is_enabled: RefCell::new(true),
+             is_secure_input_enabled: RefCell::new(false),
+         }
+     }
+ }
+ 
+ impl Middleware for ContextMenuMiddleware {
+     fn name(&self) -> &'static str {
+-        "context_menu"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         let mut is_enabled = self.is_enabled.borrow_mut();
+         let mut is_secure_input_enabled = self.is_secure_input_enabled.borrow_mut();
+ 
+         match &event.etype {
+             EventType::TrayIconClicked => {

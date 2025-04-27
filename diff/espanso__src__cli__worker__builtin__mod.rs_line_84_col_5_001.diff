@@ -1,0 +1,18 @@
+--- espanso/src/cli/worker/builtin/mod.rs
++++ replace generate_next_builtin_id -> i32 with -1
+@@ -76,14 +76,10 @@
+     id >= MIN_BUILTIN_MATCH_ID
+ }
+ 
+ thread_local! {
+   static CURRENT_BUILTIN_MATCH_ID: Cell<i32> = const { Cell::new(MIN_BUILTIN_MATCH_ID) };
+ }
+ 
+ fn generate_next_builtin_id() -> i32 {
+-    CURRENT_BUILTIN_MATCH_ID.with(|value| {
+-        let current = value.get();
+-        value.set(current + 1);
+-        current
+-    })
++    -1 /* ~ changed by cargo-mutants ~ */
+ }

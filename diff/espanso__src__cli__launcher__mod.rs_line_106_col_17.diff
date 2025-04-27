@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ delete ! in launcher_main
+@@ -98,17 +98,17 @@
+         } else {
+             true
+         }
+     });
+ 
+     let is_add_path_page_enabled =
+         if cfg!(not(target_os = "linux")) && !preferences.has_completed_wizard() {
+             if cfg!(target_os = "macos") {
+-                !crate::path::is_espanso_in_path()
++                 /* ~ changed by cargo-mutants ~ */crate::path::is_espanso_in_path()
+             } else if paths.is_portable_mode {
+                 false
+             } else {
+                 !crate::path::is_espanso_in_path()
+             }
+         } else {
+             false
+         };

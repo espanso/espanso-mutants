@@ -1,0 +1,29 @@
+--- espanso-kvs/src/persistent.rs
++++ replace is_valid_key_name -> bool with false
+@@ -110,25 +110,17 @@
+             std::fs::remove_file(target_file)?;
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ fn is_valid_key_name(key: &str) -> bool {
+-    if key.is_empty() || key.len() > 200 {
+-        return false;
+-    }
+-
+-    if !key.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
+-        return false;
+-    }
+-
+-    true
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum PersistentJsonKVSError {
+     #[error("The provided key `{0}` is is invalid. Keys must only be composed of ascii letters, numbers and underscores.")]
+     InvalidKey(String),
+ }
+ 

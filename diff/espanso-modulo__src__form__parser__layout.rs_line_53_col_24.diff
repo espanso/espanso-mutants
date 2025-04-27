@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/parser/layout.rs
++++ delete ! in parse_layout
+@@ -45,17 +45,17 @@
+         let mut row: Vec<Token> = Vec::new();
+ 
+         let splitter = SplitCaptures::new(&FIELD_REGEX, line);
+ 
+         // Get the individual tokens
+         for state in splitter {
+             match state {
+                 SplitState::Unmatched(text) => {
+-                    if !text.is_empty() {
++                    if  /* ~ changed by cargo-mutants ~ */text.is_empty() {
+                         row.push(Token::Text(text.to_owned()));
+                     }
+                 }
+                 SplitState::Captured(caps) => {
+                     if let Some(name) = caps.get(1) {
+                         let name = name.as_str().to_owned();
+                         row.push(Token::Field(name));
+                     } else if let Some(name) = caps.get(2) {

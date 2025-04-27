@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/detect.rs
++++ replace <impl funnel::Source<'a> for DetectSource>::register -> usize with 1
+@@ -29,17 +29,17 @@
+ };
+ 
+ pub struct DetectSource {
+     pub receiver: Receiver<(InputEvent, SourceId)>,
+ }
+ 
+ impl<'a> funnel::Source<'a> for DetectSource {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+-        select.recv(&self.receiver)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+         let (input_event, source_id) = op
+             .recv(&self.receiver)
+             .expect("unable to select data from DetectSource receiver");
+         match input_event {
+             InputEvent::Keyboard(keyboard_event) => Some(Event {

@@ -1,0 +1,21 @@
+--- espanso/src/patch/patches/linux/yakuake_terminal_x11.rs
++++ delete ! in patch
+@@ -20,17 +20,17 @@
+ use std::sync::Arc;
+ 
+ use crate::patch::patches::{PatchedConfig, Patches};
+ use crate::patch::PatchDefinition;
+ 
+ pub fn patch() -> PatchDefinition {
+     PatchDefinition {
+         name: module_path!().split(':').next_back().unwrap_or("unknown"),
+-        is_enabled: || cfg!(target_os = "linux") && !super::util::is_wayland(),
++        is_enabled: || cfg!(target_os = "linux") &&  /* ~ changed by cargo-mutants ~ */super::util::is_wayland(),
+         should_patch: |app| app.class.unwrap_or_default().contains("yakuake"),
+         apply: |base, name| {
+             Arc::new(PatchedConfig::patch(
+                 base,
+                 name,
+                 Patches {
+                     paste_shortcut: Some(Some("CTRL+SHIFT+V".to_string())),
+                     ..Default::default()

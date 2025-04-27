@@ -1,0 +1,27 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ replace show::on_completed with ()
+@@ -97,23 +97,17 @@
+         if let Some(handler_ref) = handlers_ref.is_accessibility_enabled.as_ref() {
+             i32::from((*handler_ref)())
+         } else {
+             -1
+         }
+     }
+ 
+     extern "C" fn on_completed() {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in on_completed method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.on_completed.as_ref() {
+-            (*handler_ref)();
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     {
+         let mut lock = HANDLERS.lock().expect("unable to acquire handlers lock");
+         *lock = Some(options.handlers);
+     }
+ 
+     let wizard_metadata = WizardMetadata {

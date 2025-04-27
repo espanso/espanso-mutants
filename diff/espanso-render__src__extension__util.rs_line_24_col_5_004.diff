@@ -1,0 +1,38 @@
+--- espanso-render/src/extension/util.rs
++++ replace convert_to_env_variables -> HashMap<String, String> with HashMap::from_iter([(String::new(), String::new())])
+@@ -16,34 +16,17 @@
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use crate::{ExtensionOutput, Scope};
+ use std::{collections::HashMap, process::Command};
+ 
+ pub fn convert_to_env_variables(scope: &Scope) -> HashMap<String, String> {
+-    let mut output = HashMap::new();
+-
+-    for (key, result) in scope {
+-        match result {
+-            ExtensionOutput::Single(value) => {
+-                let name = format!("ESPANSO_{}", key.to_uppercase());
+-                output.insert(name, value.clone());
+-            }
+-            ExtensionOutput::Multiple(values) => {
+-                for (sub_key, sub_value) in values {
+-                    let name = format!("ESPANSO_{}_{}", key.to_uppercase(), sub_key.to_uppercase());
+-                    output.insert(name, sub_value.clone());
+-                }
+-            }
+-        }
+-    }
+-
+-    output
++    HashMap::from_iter([(String::new(), String::new())]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "windows")]
+ pub fn set_command_flags(command: &mut Command) {
+     use std::os::windows::process::CommandExt;
+     // Avoid showing the shell window
+     // See: https://github.com/espanso/espanso/issues/249
+     command.creation_flags(0x0800_0000);

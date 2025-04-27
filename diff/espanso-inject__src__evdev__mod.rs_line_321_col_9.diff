@@ -1,0 +1,42 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace <impl Injector for EVDEVInjector>::send_keys -> Result<()> with Ok(())
+@@ -313,38 +313,17 @@
+             self.send_key(expired_modifier, false, delay_us);
+         }
+ 
+         Ok(())
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         // Compute all the key record sequence first to make sure a mapping is available
+-        let syms = convert_to_sym_array(keys)?;
+-        let records = self.convert_to_record_array(&syms)?;
+-
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
+-
+-        for record in records {
+-            // Press the modifiers
+-            for modifier in &record.modifiers {
+-                self.send_key(*modifier, true, delay_us);
+-            }
+-
+-            // Send the key
+-            self.send_key(record.code, true, delay_us);
+-            self.send_key(record.code, false, delay_us);
+-
+-            // Release the modifiers
+-            for modifier in &record.modifiers {
+-                self.send_key(*modifier, false, delay_us);
+-            }
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key_combination(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         // Compute all the key record sequence first to make sure a mapping is available
+         let syms = convert_to_sym_array(keys)?;
+         let records = self.convert_to_record_array(&syms)?;
+ 
+         let delay_us = options.delay as u32 * 1000; // Convert to micro seconds

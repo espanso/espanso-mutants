@@ -1,0 +1,167 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace <impl Renderer for DefaultRenderer<'_>>::render -> RenderResult with Default::default()
+@@ -53,163 +53,17 @@
+ 
+ impl Renderer for DefaultRenderer<'_> {
+     fn render(
+         &self,
+         template: &Template,
+         context: &Context,
+         options: &RenderOptions,
+     ) -> RenderResult {
+-        let body = if VAR_REGEX.is_match(&template.body) {
+-            // Convert "global" variable type aliases when needed
+-            let local_variables: Vec<&Variable> =
+-                if template.vars.iter().any(|var| var.var_type == "global") {
+-                    let global_vars: HashMap<&str, &Variable> = context
+-                        .global_vars
+-                        .iter()
+-                        .map(|var| (&*var.name, *var))
+-                        .collect();
+-                    template
+-                        .vars
+-                        .iter()
+-                        .filter_map(|var| {
+-                            if var.var_type == "global" {
+-                                global_vars.get(&*var.name).copied()
+-                            } else {
+-                                Some(var)
+-                            }
+-                        })
+-                        .collect()
+-                } else {
+-                    template.vars.iter().collect()
+-                };
+-
+-            // Here we execute a graph dependency resolution algorithm to determine a valid
+-            // evaluation order for variables.
+-            let variables = match resolve::resolve_evaluation_order(
+-                &template.body,
+-                &local_variables,
+-                &context.global_vars,
+-            ) {
+-                Ok(variables) => variables,
+-                Err(err) => return RenderResult::Error(err),
+-            };
+-
+-            // Compute the variable outputs
+-            let mut scope = Scope::new();
+-            for variable in variables {
+-                if variable.var_type == "match" {
+-                    // Recursive call
+-                    // Call render recursively
+-                    if let Some(sub_template) =
+-                        get_matching_template(variable, context.templates.as_slice())
+-                    {
+-                        match self.render(sub_template, context, options) {
+-                            RenderResult::Success(output) => {
+-                                scope.insert(&variable.name, ExtensionOutput::Single(output));
+-                            }
+-                            result => return result,
+-                        }
+-                    } else {
+-                        error!("unable to find sub-match: {}", variable.name);
+-                        return RenderResult::Error(RendererError::MissingSubMatch.into());
+-                    }
+-                } else if let Some(extension) = self.extensions.get(&variable.var_type) {
+-                    let variable_params = if variable.inject_vars {
+-                        match inject_variables_into_params(&variable.params, &scope) {
+-                            Ok(augmented_params) => Cow::Owned(augmented_params),
+-                            Err(err) => {
+-                                error!(
+-                                    "unable to inject variables into params of variable '{}': {}",
+-                                    variable.name, err
+-                                );
+-
+-                                if variable.var_type == "form" {
+-                                    if let Some(RendererError::MissingVariable(_)) =
+-                                        err.downcast_ref::<RendererError>()
+-                                    {
+-                                        log_new_form_syntax_tip();
+-                                    }
+-                                }
+-
+-                                return RenderResult::Error(err);
+-                            }
+-                        }
+-                    } else {
+-                        Cow::Borrowed(&variable.params)
+-                    };
+-
+-                    match extension.calculate(context, &scope, &variable_params) {
+-                        ExtensionResult::Success(output) => {
+-                            scope.insert(&variable.name, output);
+-                        }
+-                        ExtensionResult::Aborted => {
+-                            warn!(
+-                                "rendering was aborted by extension: {}, on var: {}",
+-                                variable.var_type, variable.name
+-                            );
+-                            return RenderResult::Aborted;
+-                        }
+-                        ExtensionResult::Error(err) => {
+-                            warn!(
+-                                "extension '{}' on var: '{}' reported an error: {}",
+-                                variable.var_type, variable.name, err
+-                            );
+-                            return RenderResult::Error(err);
+-                        }
+-                    }
+-                } else {
+-                    error!(
+-                        "no extension found for variable type: {}",
+-                        variable.var_type
+-                    );
+-                }
+-            }
+-
+-            // Replace the variables
+-            match render_variables(&template.body, &scope) {
+-                Ok(output) => output,
+-                Err(error) => {
+-                    return RenderResult::Error(error);
+-                }
+-            }
+-        } else {
+-            template.body.clone()
+-        };
+-
+-        let body = util::unescape_variable_inections(&body);
+-
+-        // Process the casing style
+-        let body_with_casing = match options.casing_style {
+-            CasingStyle::None => body,
+-            CasingStyle::Uppercase => body.to_uppercase(),
+-            CasingStyle::Capitalize => {
+-                // Capitalize the first letter
+-                let mut v: Vec<char> = body.chars().collect();
+-                v[0] = v[0].to_uppercase().next().unwrap();
+-                v.into_iter().collect()
+-            }
+-            CasingStyle::CapitalizeWords => {
+-                // Capitalize the first letter of each word
+-                WORD_REGEX
+-                    .replace_all(&body, |caps: &Captures| {
+-                        if let Some(word_match) = caps.get(0) {
+-                            let mut v: Vec<char> = word_match.as_str().chars().collect();
+-                            v[0] = v[0].to_uppercase().next().unwrap();
+-                            let capitalized_word: String = v.into_iter().collect();
+-                            capitalized_word
+-                        } else {
+-                            String::new()
+-                        }
+-                    })
+-                    .to_string()
+-            }
+-        };
+-
+-        RenderResult::Success(body_with_casing)
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn get_matching_template<'a>(
+     variable: &Variable,
+     templates: &'a [&Template],
+ ) -> Option<&'a Template> {
+     // Find matching template

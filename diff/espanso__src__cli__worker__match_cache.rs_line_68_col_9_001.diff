@@ -1,0 +1,35 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl espanso_engine::process::MatchInfoProvider for MatchCache<'_>>::get_force_mode -> Option<espanso_engine::event::effect::TextInjectMode> with None
+@@ -60,31 +60,17 @@
+     }
+ }
+ 
+ impl espanso_engine::process::MatchInfoProvider for MatchCache<'_> {
+     fn get_force_mode(
+         &self,
+         match_id: i32,
+     ) -> Option<espanso_engine::event::effect::TextInjectMode> {
+-        let m = self.cache.get(&match_id)?;
+-        if let MatchEffect::Text(text_effect) = &m.effect {
+-            if let Some(force_mode) = &text_effect.force_mode {
+-                match force_mode {
+-                    espanso_config::matches::TextInjectMode::Keys => {
+-                        return Some(espanso_engine::event::effect::TextInjectMode::Keys)
+-                    }
+-                    espanso_config::matches::TextInjectMode::Clipboard => {
+-                        return Some(espanso_engine::event::effect::TextInjectMode::Clipboard)
+-                    }
+-                }
+-            }
+-        }
+-
+-        None
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct CombinedMatchCache<'a> {
+     user_match_cache: &'a MatchCache<'a>,
+     builtin_match_cache: HashMap<i32, &'a BuiltInMatch>,
+ }
+ 

@@ -1,0 +1,24 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace interop::OwnedErrorMetadata::to_error_metadata -> ErrorMetadata with Default::default()
+@@ -89,20 +89,17 @@
+ 
+     pub(crate) struct OwnedErrorMetadata {
+         level: c_int,
+         message: CString,
+     }
+ 
+     impl OwnedErrorMetadata {
+         fn to_error_metadata(&self) -> ErrorMetadata {
+-            ErrorMetadata {
+-                level: self.level,
+-                message: self.message.as_ptr(),
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<&ErrorRecord> for OwnedErrorMetadata {
+         fn from(item: &ErrorRecord) -> Self {
+             let message = CString::new(item.message.clone())
+                 .expect("unable to convert item message to CString");
+ 

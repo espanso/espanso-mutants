@@ -1,0 +1,46 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::toggle_key -> Option<ToggleKey> with Some(Default::default())
+@@ -159,42 +159,17 @@
+ 
+     fn pre_paste_delay(&self) -> usize {
+         self.parsed
+             .pre_paste_delay
+             .unwrap_or(DEFAULT_PRE_PASTE_DELAY)
+     }
+ 
+     fn toggle_key(&self) -> Option<ToggleKey> {
+-        match self
+-            .parsed
+-            .toggle_key
+-            .as_deref()
+-            .map(str::to_lowercase)
+-            .as_deref()
+-        {
+-            Some("ctrl") => Some(ToggleKey::Ctrl),
+-            Some("alt") => Some(ToggleKey::Alt),
+-            Some("shift") => Some(ToggleKey::Shift),
+-            Some("meta" | "cmd") => Some(ToggleKey::Meta),
+-            Some("right_ctrl") => Some(ToggleKey::RightCtrl),
+-            Some("right_alt") => Some(ToggleKey::RightAlt),
+-            Some("right_shift") => Some(ToggleKey::RightShift),
+-            Some("right_meta" | "right_cmd") => Some(ToggleKey::RightMeta),
+-            Some("left_ctrl") => Some(ToggleKey::LeftCtrl),
+-            Some("left_alt") => Some(ToggleKey::LeftAlt),
+-            Some("left_shift") => Some(ToggleKey::LeftShift),
+-            Some("left_meta" | "left_cmd") => Some(ToggleKey::LeftMeta),
+-            Some("off") => None,
+-            None => None,
+-            err => {
+-                error!("invalid toggle_key specified {:?}", err);
+-                None
+-            }
+-        }
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn preserve_clipboard(&self) -> bool {
+         self.parsed.preserve_clipboard.unwrap_or(true)
+     }
+ 
+     fn restore_clipboard_delay(&self) -> usize {
+         self.parsed

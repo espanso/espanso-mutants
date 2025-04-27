@@ -1,0 +1,34 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl From<RawUIEvent> for Option<UIEvent>>::from -> Option<UIEvent> with Some(Default::default())
+@@ -219,30 +219,17 @@
+ 
+     fn exit(&self) {
+         unsafe { ui_exit() };
+     }
+ }
+ 
+ impl From<RawUIEvent> for Option<UIEvent> {
+     fn from(raw: RawUIEvent) -> Option<UIEvent> {
+-        match raw.event_type {
+-            UI_EVENT_TYPE_ICON_CLICK => {
+-                return Some(UIEvent::TrayIconClick);
+-            }
+-            UI_EVENT_TYPE_CONTEXT_MENU_CLICK => {
+-                return Some(UIEvent::ContextMenuClick(raw.context_menu_id));
+-            }
+-            UI_EVENT_TYPE_HEARTBEAT => {
+-                return Some(UIEvent::Heartbeat);
+-            }
+-            _ => {}
+-        }
+-
+-        None
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum MacUIError {
+     #[error("internal error")]
+     InternalError(),
+ }

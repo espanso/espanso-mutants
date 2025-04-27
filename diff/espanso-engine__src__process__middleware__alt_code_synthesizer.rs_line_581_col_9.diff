@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -573,17 +573,17 @@
+         0x9B => Some(0x203A), // #SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+         0x9C => Some(0x0153), // #LATIN SMALL LIGATURE OE
+         0x9E => Some(0x017E), // #LATIN SMALL LETTER Z WITH CARON
+         0x9F => Some(0x0178), // #LATIN CAPITAL LETTER Y WITH DIAERESIS
+         0xA0 => Some(0x00A0), // #NO-BREAK SPACE
+         0xA1 => Some(0x00A1), // #INVERTED EXCLAMATION MARK
+         0xA2 => Some(0x00A2), // #CENT SIGN
+         0xA3 => Some(0x00A3), // #POUND SIGN
+-        0xA4 => Some(0x00A4), // #CURRENCY SIGN
++         /* ~ changed by cargo-mutants ~ */ // #CURRENCY SIGN
+         0xA5 => Some(0x00A5), // #YEN SIGN
+         0xA6 => Some(0x00A6), // #BROKEN BAR
+         0xA7 => Some(0x00A7), // #SECTION SIGN
+         0xA8 => Some(0x00A8), // #DIAERESIS
+         0xA9 => Some(0x00A9), // #COPYRIGHT SIGN
+         0xAA => Some(0x00AA), // #FEMININE ORDINAL INDICATOR
+         0xAB => Some(0x00AB), // #LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+         0xAC => Some(0x00AC), // #NOT SIGN

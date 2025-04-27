@@ -1,0 +1,28 @@
+--- espanso/src/cli/workaround/secure_input.rs
++++ replace run_secure_input_workaround -> Result<()> with Ok(())
+@@ -33,24 +33,17 @@
+ 
+ const SECURE_INPUT_ASK_LOCK_SCREEN_SCRIPT: &str =
+     include_str!("../../res/macos/scripts/secure_input_ask_lock_screen.scpt");
+ 
+ const SUCCESS_DIALOG_SCRIPT: &str =
+     include_str!("../../res/macos/scripts/secure_input_disabled_dialog.scpt");
+ 
+ pub fn run_secure_input_workaround() -> Result<()> {
+-    if espanso_mac_utils::get_secure_input_pid().is_none() {
+-        println!("secure input is not active, no workaround needed");
+-        return Ok(());
+-    }
+-
+-    execute_secure_input_workaround()?;
+-    let _ = run_apple_script(SUCCESS_DIALOG_SCRIPT);
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn execute_secure_input_workaround() -> Result<()> {
+     println!(
+         "Secure input is enabled. Our guess is that it was activated by '{}',",
+         espanso_mac_utils::get_secure_input_application()
+             .map(|entry| entry.0)
+             .unwrap_or_default()

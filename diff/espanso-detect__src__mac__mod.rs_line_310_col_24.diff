@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace << with >> in convert_hotkey_to_raw
+@@ -302,17 +302,17 @@
+         }
+         if hk.has_alt() {
+             flags |= 1 << 11;
+         }
+         if hk.has_meta() {
+             flags |= 1 << 8;
+         }
+         if hk.has_shift() {
+-            flags |= 1 << 9;
++            flags |= 1 >> /* ~ changed by cargo-mutants ~ */ 9;
+         }
+ 
+         Some(RawHotKey {
+             id: hk.id,
+             code,
+             flags,
+         })
+     } else {

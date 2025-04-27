@@ -1,0 +1,47 @@
+--- espanso/src/cli/service/linux.rs
++++ replace unregister -> Result<()> with Ok(())
+@@ -73,43 +73,17 @@
+     #[error("systemctl command failed `{0}`")]
+     SystemdCallFailed(anyhow::Error),
+ 
+     #[error("systemctl enable failed")]
+     SystemdEnableFailed,
+ }
+ 
+ pub fn unregister() -> Result<()> {
+-    let service_file = get_service_file_path()?;
+-
+-    if !service_file.exists() {
+-        return Err(UnregisterError::ServiceFileNotFound.into());
+-    }
+-
+-    info_println!("disabling espanso systemd service");
+-
+-    match Command::new("systemctl")
+-        .args(["--user", "disable", LINUX_SERVICE_NAME])
+-        .status()
+-    {
+-        Ok(status) => {
+-            if !status.success() {
+-                return Err(UnregisterError::SystemdDisableFailed.into());
+-            }
+-        }
+-        Err(err) => {
+-            error_eprintln!("unable to call systemctl: {}", err);
+-            return Err(UnregisterError::SystemdCallFailed(err.into()).into());
+-        }
+-    }
+-
+-    info_println!("deleting espanso systemd entry");
+-    std::fs::remove_file(service_file)?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum UnregisterError {
+     #[error("service file not found")]
+     ServiceFileNotFound,
+ 
+     #[error("failed to disable systemd service")]

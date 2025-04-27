@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace != with == in spawn_worker
+@@ -256,17 +256,17 @@
+     // Create a monitor thread that will exit with the same non-zero code if
+     // the worker thread exits
+     std::thread::Builder::new()
+         .name("worker-status-monitor".to_string())
+         .spawn(move || {
+             let result = child.wait();
+             if let Ok(status) = result {
+                 if let Some(code) = status.code() {
+-                    if code != WORKER_SUCCESS {
++                    if code == /* ~ changed by cargo-mutants ~ */ WORKER_SUCCESS {
+                         exit_notify
+                             .send(code)
+                             .expect("unable to forward worker exit code");
+                     }
+                 } else {
+                     exit_notify
+                         .send(WORKER_ERROR_EXIT_NO_CODE)
+                         .expect("unable to forward worker exit code");

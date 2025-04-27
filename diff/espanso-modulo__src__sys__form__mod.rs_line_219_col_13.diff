@@ -1,0 +1,31 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::OwnedField::metadata -> FieldMetadata with Default::default()
+@@ -211,27 +211,17 @@
+                 field_type,
+                 specific,
+             }
+         }
+     }
+ 
+     impl OwnedField {
+         pub fn metadata(&self) -> FieldMetadata {
+-            let id_ptr = if let Some(id) = self.id.as_ref() {
+-                id.as_ptr()
+-            } else {
+-                null()
+-            };
+-
+-            FieldMetadata {
+-                id: id_ptr,
+-                fieldType: self.field_type,
+-                specific: self.specific.as_ptr(),
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     struct OwnedLabelMetadata {
+         text: CString,
+         interop: Box<LabelMetadata>,
+     }
+ 

@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -430,17 +430,17 @@
+ }
+ 
+ fn raw_to_mouse_button(raw: i32) -> Option<MouseButton> {
+     match raw {
+         INPUT_MOUSE_LEFT_BUTTON => Some(MouseButton::Left),
+         INPUT_MOUSE_RIGHT_BUTTON => Some(MouseButton::Right),
+         INPUT_MOUSE_MIDDLE_BUTTON => Some(MouseButton::Middle),
+         INPUT_MOUSE_BUTTON_1 => Some(MouseButton::Button1),
+-        INPUT_MOUSE_BUTTON_2 => Some(MouseButton::Button2),
++         /* ~ changed by cargo-mutants ~ */
+         INPUT_MOUSE_BUTTON_3 => Some(MouseButton::Button3),
+         INPUT_MOUSE_BUTTON_4 => Some(MouseButton::Button4),
+         INPUT_MOUSE_BUTTON_5 => Some(MouseButton::Button5),
+         _ => None,
+     }
+ }
+ 
+ #[cfg(test)]

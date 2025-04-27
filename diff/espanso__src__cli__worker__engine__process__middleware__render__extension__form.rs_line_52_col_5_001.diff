@@ -1,0 +1,70 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ replace convert_fields -> HashMap<String, FormField> with HashMap::from_iter([("xyzzy".into(), Default::default())])
+@@ -44,66 +44,17 @@
+             Ok(Some(results)) => FormProviderResult::Success(results),
+             Ok(None) => FormProviderResult::Aborted,
+             Err(err) => FormProviderResult::Error(err),
+         }
+     }
+ }
+ 
+ fn convert_fields(fields: &Params) -> HashMap<String, FormField> {
+-    let mut out = HashMap::new();
+-    for (name, field) in fields {
+-        let mut form_field = None;
+-
+-        if let Value::Object(params) = field {
+-            form_field = match params.get("type") {
+-                Some(Value::String(field_type)) if field_type == "choice" => {
+-                    Some(FormField::Choice {
+-                        default: params
+-                            .get("default")
+-                            .and_then(|val| val.as_string())
+-                            .cloned(),
+-                        values: params
+-                            .get("values")
+-                            .and_then(|v| extract_values(v, params.get("trim_string_values")))
+-                            .unwrap_or_default(),
+-                    })
+-                }
+-                Some(Value::String(field_type)) if field_type == "list" => Some(FormField::List {
+-                    default: params
+-                        .get("default")
+-                        .and_then(|val| val.as_string())
+-                        .cloned(),
+-                    values: params
+-                        .get("values")
+-                        .and_then(|v| extract_values(v, params.get("trim_string_values")))
+-                        .unwrap_or_default(),
+-                }),
+-                // By default, it's considered type 'text'
+-                _ => Some(FormField::Text {
+-                    default: params
+-                        .get("default")
+-                        .and_then(|val| val.as_string())
+-                        .cloned(),
+-                    multiline: params
+-                        .get("multiline")
+-                        .and_then(|val| val.as_bool())
+-                        .copied()
+-                        .unwrap_or(false),
+-                }),
+-            }
+-        }
+-
+-        if let Some(form_field) = form_field {
+-            out.insert(name.clone(), form_field);
+-        } else {
+-            error!("malformed form field format for '{}'", name);
+-        }
+-    }
+-    out
++    HashMap::from_iter([("xyzzy".into(), Default::default())]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn extract_values(value: &Value, trim_string_values: Option<&Value>) -> Option<Vec<String>> {
+     let trim_string_values = *trim_string_values
+         .and_then(|v| v.as_bool())
+         .unwrap_or(&true);
+ 
+     match value {

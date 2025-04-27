@@ -1,0 +1,112 @@
+
+*** espanso-ipc/src/util.rs:25:5: replace read_line -> Result<Option<String>> with Ok(Some(String::new()))
+
+*** mutation diff:
+--- espanso-ipc/src/util.rs
++++ replace read_line -> Result<Option<String>> with Ok(Some(String::new()))
+@@ -17,29 +17,10 @@
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use anyhow::Result;
+ 
+ // Unbuffered version, necessary to concurrently write
+ // to the buffer if necessary (when receiving sync messages)
+ pub fn read_line<R: std::io::Read>(stream: R) -> Result<Option<String>> {
+-    let mut buffer = Vec::new();
+-
+-    let mut is_eof = true;
+-
+-    for byte_res in stream.bytes() {
+-        let byte = byte_res?;
+-
+-        if byte == 10 {
+-            // Newline
+-            break;
+-        }
+-        buffer.push(byte);
+-        is_eof = false;
+-    }
+-
+-    if is_eof {
+-        Ok(None)
+-    } else {
+-        Ok(Some(String::from_utf8(buffer)?))
+-    }
++    Ok(Some(String::new())) /* ~ changed by cargo-mutants ~ */
+ }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-ipc@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh ryu v1.0.5
+       Fresh cfg-if v1.0.0
+       Fresh itoa v0.4.7
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh anyhow v1.0.38
+       Fresh log v0.4.14
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+       Dirty espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc): the file `espanso-ipc/src/util.rs` has changed (1745794470.609052820s, 8m 59s after last build at 1745793931.845180753s)
+   Compiling espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_ipc --edition=2021 espanso-ipc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=c976c6ad51fbf0eb -C extra-filename=-6a167a5d7ffe551b --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_ipc --edition=2021 espanso-ipc/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=3f955c42b134ce39 -C extra-filename=-e16ce03876d319b1 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-25014a83c80e446c.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta`
+warning: unused variable: `stream`
+  --> espanso-ipc/src/util.rs:24:36
+   |
+24 | pub fn read_line<R: std::io::Read>(stream: R) -> Result<Option<String>> {
+   |                                    ^^^^^^ help: if this is intentional, prefix it with an underscore: `_stream`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-ipc` (lib) generated 1 warning
+warning: `espanso-ipc` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_ipc-6a167a5d7ffe551b`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-ipc@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh quote v1.0.35
+       Fresh ryu v1.0.5
+       Fresh itoa v0.4.7
+       Fresh cfg-if v1.0.0
+       Fresh anyhow v1.0.38
+       Fresh syn v1.0.67
+       Fresh syn v2.0.100
+       Fresh log v0.4.14
+       Fresh serde_derive v1.0.123
+       Fresh thiserror-impl v1.0.56
+       Fresh serde v1.0.123
+       Fresh thiserror v1.0.56
+       Fresh serde_json v1.0.62
+warning: unused variable: `stream`
+  --> espanso-ipc/src/util.rs:24:36
+   |
+24 | pub fn read_line<R: std::io::Read>(stream: R) -> Result<Option<String>> {
+   |                                    ^^^^^^ help: if this is intentional, prefix it with an underscore: `_stream`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-ipc` (lib) generated 1 warning
+warning: `espanso-ipc` (lib test) generated 1 warning (1 duplicate)
+       Fresh espanso-ipc v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-ipc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_ipc-6a167a5d7ffe551b`
+
+running 5 tests
+test tests::ipc_async_message ... ignored, flaky test
+test tests::ipc_multiple_clients ... ignored, takes too loong to test this (way over 60 seconds)
+test tests::ipc_sync_message ... ignored, flaky test
+
+*** result: Timeout

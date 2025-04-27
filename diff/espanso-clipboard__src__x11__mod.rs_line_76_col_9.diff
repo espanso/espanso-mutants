@@ -1,0 +1,19 @@
+--- espanso-clipboard/src/x11/mod.rs
++++ replace <impl Clipboard for X11Clipboard>::set_html -> anyhow::Result<()> with Ok(())
+@@ -68,15 +68,11 @@
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         fallback_text: Option<&str>,
+         options: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if options.use_xclip_backend {
+-            self.xclip_backend.set_html(html, fallback_text, options)
+-        } else {
+-            self.native_backend.set_html(html, fallback_text, options)
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

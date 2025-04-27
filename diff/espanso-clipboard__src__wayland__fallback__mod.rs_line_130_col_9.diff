@@ -1,0 +1,36 @@
+--- espanso-clipboard/src/wayland/fallback/mod.rs
++++ replace <impl Clipboard for WaylandFallbackClipboard>::set_image -> anyhow::Result<()> with Ok(())
+@@ -122,32 +122,17 @@
+         self.invoke_command_with_timeout(&mut Command::new("wl-copy"), text.as_bytes(), "wl-copy")
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !image_path.exists() || !image_path.is_file() {
+-            return Err(
+-                WaylandFallbackClipboardError::ImageNotFound(image_path.to_path_buf()).into(),
+-            );
+-        }
+-
+-        // Load the image data
+-        let mut file = std::fs::File::open(image_path)?;
+-        let mut data = Vec::new();
+-        file.read_to_end(&mut data)?;
+-
+-        self.invoke_command_with_timeout(
+-            Command::new("wl-copy").arg("--type").arg("image/png"),
+-            &data,
+-            "wl-copy",
+-        )
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         _fallback_text: Option<&str>,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {

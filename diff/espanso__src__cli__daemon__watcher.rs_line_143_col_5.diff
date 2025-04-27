@@ -1,0 +1,26 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ replace has_hidden_attribute -> bool with false
+@@ -135,22 +135,15 @@
+         .to_string_lossy()
+         .starts_with('.');
+ 
+     starts_with_dot || has_hidden_attribute(path)
+ }
+ 
+ #[cfg(windows)]
+ fn has_hidden_attribute(path: &Path) -> bool {
+-    use std::os::windows::prelude::*;
+-    let metadata = std::fs::metadata(path);
+-    if metadata.is_err() {
+-        return false;
+-    }
+-    let attributes = metadata.unwrap().file_attributes();
+-
+-    (attributes & 0x2) > 0
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(not(windows))]
+ fn has_hidden_attribute(_: &Path) -> bool {
+     false
+ }

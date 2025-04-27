@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ replace && with || in launcher_main
+@@ -96,17 +96,17 @@
+                 }
+             }
+         } else {
+             true
+         }
+     });
+ 
+     let is_add_path_page_enabled =
+-        if cfg!(not(target_os = "linux")) && !preferences.has_completed_wizard() {
++        if cfg!(not(target_os = "linux")) || /* ~ changed by cargo-mutants ~ */ !preferences.has_completed_wizard() {
+             if cfg!(target_os = "macos") {
+                 !crate::path::is_espanso_in_path()
+             } else if paths.is_portable_mode {
+                 false
+             } else {
+                 !crate::path::is_espanso_in_path()
+             }
+         } else {

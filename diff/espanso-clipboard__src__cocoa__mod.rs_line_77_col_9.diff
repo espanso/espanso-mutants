@@ -1,0 +1,32 @@
+--- espanso-clipboard/src/cocoa/mod.rs
++++ replace <impl Clipboard for CocoaClipboard>::set_image -> anyhow::Result<()> with Ok(())
+@@ -69,28 +69,17 @@
+         }
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !image_path.exists() || !image_path.is_file() {
+-            return Err(CocoaClipboardError::ImageNotFound(image_path.to_path_buf()).into());
+-        }
+-
+-        let path = CString::new(image_path.to_string_lossy().to_string())?;
+-        let native_result = unsafe { ffi::clipboard_set_image(path.as_ptr()) };
+-
+-        if native_result > 0 {
+-            Ok(())
+-        } else {
+-            Err(CocoaClipboardError::SetOperationFailed().into())
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         fallback_text: Option<&str>,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {

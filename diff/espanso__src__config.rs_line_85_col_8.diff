@@ -1,0 +1,21 @@
+--- espanso/src/config.rs
++++ delete ! in load_config
+@@ -77,17 +77,17 @@
+     pub non_fatal_errors: Vec<NonFatalErrorSet>,
+ }
+ 
+ pub fn load_config(config_path: &Path) -> Result<ConfigLoadResult> {
+     let (config_store, match_store, non_fatal_errors) =
+         espanso_config::load(config_path).context("unable to load config")?;
+ 
+     // TODO: add an option to avoid dumping the errors in the logs
+-    if !non_fatal_errors.is_empty() {
++    if  /* ~ changed by cargo-mutants ~ */non_fatal_errors.is_empty() {
+         warn!("------- detected some errors in the configuration: -------");
+         for non_fatal_error_set in &non_fatal_errors {
+             warn!(
+                 ">>> {}",
+                 non_fatal_error_set.file.to_string_lossy().to_string()
+             );
+             for record in &non_fatal_error_set.errors {
+                 if record.level == ErrorLevel::Error {

@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/store/default.rs
++++ delete ! in load_match_groups_recursively
+@@ -77,17 +77,17 @@
+ }
+ 
+ fn load_match_groups_recursively(
+     groups: &mut HashMap<String, MatchGroup>,
+     paths: &[String],
+     non_fatal_error_sets: &mut Vec<NonFatalErrorSet>,
+ ) {
+     for path in paths {
+-        if !groups.contains_key(path) {
++        if  /* ~ changed by cargo-mutants ~ */groups.contains_key(path) {
+             let group_path = PathBuf::from(path);
+             match MatchGroup::load(&group_path)
+                 .with_context(|| format!("unable to load match group {group_path:?}"))
+             {
+                 Ok((group, non_fatal_error_set)) => {
+                     let imports = group.imports.clone();
+                     groups.insert(path.clone(), group);
+ 

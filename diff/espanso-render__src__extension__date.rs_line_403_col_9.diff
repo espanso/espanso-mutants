@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -395,17 +395,17 @@
+         "wo-SN" => Some(Locale::wo_SN),
+         "xh-ZA" => Some(Locale::xh_ZA),
+         "yi-US" => Some(Locale::yi_US),
+         "yo-NG" => Some(Locale::yo_NG),
+         "yue-HK" => Some(Locale::yue_HK),
+         "yuw-PG" => Some(Locale::yuw_PG),
+         "zh-CN" => Some(Locale::zh_CN),
+         "zh-HK" => Some(Locale::zh_HK),
+-        "zh-SG" => Some(Locale::zh_SG),
++         /* ~ changed by cargo-mutants ~ */
+         "zh-TW" => Some(Locale::zh_TW),
+         "zu-ZA" => Some(Locale::zu_ZA),
+         _ => None,
+     }
+ }
+ 
+ pub struct DefaultLocaleProvider {}
+ impl LocaleProvider for DefaultLocaleProvider {

@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl OutputHandler for SimpleWindow>::output_state -> &mut OutputState with Box::leak(Box::new(Default::default()))
+@@ -174,17 +174,17 @@
+         _time: u32,
+     ) {
+         self.draw(conn, qh);
+     }
+ }
+ 
+ impl OutputHandler for SimpleWindow {
+     fn output_state(&mut self) -> &mut OutputState {
+-        &mut self.output_state
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn new_output(
+         &mut self,
+         _conn: &Connection,
+         _qh: &QueueHandle<Self>,
+         _output: wl_output::WlOutput,
+     ) {

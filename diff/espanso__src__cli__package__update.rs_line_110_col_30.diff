@@ -1,0 +1,21 @@
+--- espanso/src/cli/package/update.rs
++++ replace == with != in perform_package_update
+@@ -102,17 +102,17 @@
+         &ProviderOptions::default(),
+     )
+     .context("unable to obtain compatible package provider")?;
+ 
+     info_println!("using package provider: {}", package_provider.name());
+ 
+     let new_package = package_provider.download(&package_specifier)?;
+ 
+-    if new_package.version() == old_version.unwrap_or_default() {
++    if new_package.version() != /* ~ changed by cargo-mutants ~ */ old_version.unwrap_or_default() {
+         info_println!("already up to date!");
+         return Ok(());
+     }
+ 
+     archiver
+         .save(
+             &*new_package,
+             &package_specifier,

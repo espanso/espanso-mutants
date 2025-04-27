@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/mod.rs
++++ delete ! in initialize_and_spawn
+@@ -294,17 +294,17 @@
+                     notification_manager.notify_config_reloaded(true);
+                 }
+                 Some(flag) if flag == WORKER_START_REASON_KEYBOARD_LAYOUT_CHANGED => {
+                     notification_manager.notify_keyboard_layout_reloaded();
+                 }
+                 _ => {
+                     notification_manager.notify_start();
+ 
+-                    if !preferences.has_displayed_welcome() {
++                    if  /* ~ changed by cargo-mutants ~ */preferences.has_displayed_welcome() {
+                         super::ui::welcome::show_welcome_screen();
+                         preferences.set_has_displayed_welcome(true);
+                     }
+                 }
+             }
+ 
+             let mut engine = espanso_engine::Engine::new(&funnel, &mut processor, &dispatcher);
+             let exit_mode = engine.run();

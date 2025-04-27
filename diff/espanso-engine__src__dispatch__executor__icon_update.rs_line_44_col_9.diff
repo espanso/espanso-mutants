@@ -1,0 +1,23 @@
+--- espanso-engine/src/dispatch/executor/icon_update.rs
++++ replace <impl Executor for IconUpdateExecutor<'_>>::execute -> bool with false
+@@ -36,19 +36,11 @@
+ impl<'a> IconUpdateExecutor<'a> {
+     pub fn new(handler: &'a dyn IconHandler) -> Self {
+         Self { handler }
+     }
+ }
+ 
+ impl Executor for IconUpdateExecutor<'_> {
+     fn execute(&self, event: &Event) -> bool {
+-        if let EventType::IconStatusChange(m_event) = &event.etype {
+-            if let Err(error) = self.handler.update_icon(&m_event.status) {
+-                error!("icon handler reported an error: {:?}", error);
+-            }
+-
+-            return true;
+-        }
+-
+-        false
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ }

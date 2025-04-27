@@ -1,0 +1,69 @@
+--- espanso-config/src/config/resolve.rs
++++ replace ResolvedConfig::merge_parsed with ()
+@@ -398,65 +398,17 @@
+             filter_title,
+             filter_class,
+             filter_exec,
+         })
+     }
+ 
+     fn merge_parsed(child: &mut ParsedConfig, parent: &ParsedConfig) {
+         // Override the None fields with the parent's value
+-        merge!(
+-            ParsedConfig,
+-            child,
+-            parent,
+-            // Fields
+-            label,
+-            backend,
+-            enable,
+-            clipboard_threshold,
+-            auto_restart,
+-            pre_paste_delay,
+-            preserve_clipboard,
+-            restore_clipboard_delay,
+-            paste_shortcut,
+-            apply_patch,
+-            paste_shortcut_event_delay,
+-            disable_x11_fast_inject,
+-            toggle_key,
+-            inject_delay,
+-            key_delay,
+-            evdev_modifier_delay,
+-            word_separators,
+-            backspace_limit,
+-            keyboard_layout,
+-            search_trigger,
+-            search_shortcut,
+-            undo_backspace,
+-            show_icon,
+-            show_notifications,
+-            secure_input_notification,
+-            emulate_alt_codes,
+-            post_form_delay,
+-            max_form_width,
+-            max_form_height,
+-            post_search_delay,
+-            win32_exclude_orphan_events,
+-            win32_keyboard_layout_cache_interval,
+-            x11_use_xclip_backend,
+-            x11_use_xdotool_backend,
+-            includes,
+-            excludes,
+-            extra_includes,
+-            extra_excludes,
+-            use_standard_includes,
+-            filter_title,
+-            filter_class,
+-            filter_exec,
+-            filter_os
+-        );
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn aggregate_includes(config: &ParsedConfig) -> HashSet<String> {
+         let mut includes = HashSet::new();
+ 
+         if config.use_standard_includes.is_none() || config.use_standard_includes.unwrap() {
+             for include in STANDARD_INCLUDES {
+                 includes.insert((*include).to_string());

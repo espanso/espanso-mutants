@@ -1,0 +1,45 @@
+--- espanso-modulo/src/form/generator.rs
++++ replace build_form -> Form with Default::default()
+@@ -63,41 +63,10 @@
+                 id: Some(name.clone()),
+                 field_type,
+             }
+         }
+     }
+ }
+ 
+ fn build_form(form: FormConfig, structure: Vec<Vec<Token>>) -> Form {
+-    let field_map = form.fields;
+-    let mut fields = Vec::new();
+-
+-    for row in &structure {
+-        let current_field = if row.len() == 1 {
+-            // Single field
+-            create_field(&row[0], &field_map)
+-        } else {
+-            // Row field
+-            let inner_fields = row
+-                .iter()
+-                .map(|token| create_field(token, &field_map))
+-                .collect();
+-
+-            Field {
+-                field_type: FieldType::Row(RowMetadata {
+-                    fields: inner_fields,
+-                }),
+-                ..Default::default()
+-            }
+-        };
+-
+-        fields.push(current_field);
+-    }
+-
+-    Form {
+-        title: form.title,
+-        icon: form.icon,
+-        fields,
+-        max_form_width: form.max_form_width,
+-        max_form_height: form.max_form_height,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

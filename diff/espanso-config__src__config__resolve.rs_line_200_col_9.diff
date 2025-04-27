@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::restore_clipboard_delay -> usize with 0
+@@ -192,19 +192,17 @@
+         }
+     }
+ 
+     fn preserve_clipboard(&self) -> bool {
+         self.parsed.preserve_clipboard.unwrap_or(true)
+     }
+ 
+     fn restore_clipboard_delay(&self) -> usize {
+-        self.parsed
+-            .restore_clipboard_delay
+-            .unwrap_or(DEFAULT_RESTORE_CLIPBOARD_DELAY)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn paste_shortcut_event_delay(&self) -> usize {
+         self.parsed
+             .paste_shortcut_event_delay
+             .unwrap_or(DEFAULT_SHORTCUT_EVENT_DELAY)
+     }
+ 

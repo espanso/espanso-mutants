@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -504,17 +504,17 @@
+         0x52 => Some(0x0052), // #LATIN CAPITAL LETTER R
+         0x53 => Some(0x0053), // #LATIN CAPITAL LETTER S
+         0x54 => Some(0x0054), // #LATIN CAPITAL LETTER T
+         0x55 => Some(0x0055), // #LATIN CAPITAL LETTER U
+         0x56 => Some(0x0056), // #LATIN CAPITAL LETTER V
+         0x57 => Some(0x0057), // #LATIN CAPITAL LETTER W
+         0x58 => Some(0x0058), // #LATIN CAPITAL LETTER X
+         0x59 => Some(0x0059), // #LATIN CAPITAL LETTER Y
+-        0x5A => Some(0x005A), // #LATIN CAPITAL LETTER Z
++         /* ~ changed by cargo-mutants ~ */ // #LATIN CAPITAL LETTER Z
+         0x5B => Some(0x005B), // #LEFT SQUARE BRACKET
+         0x5C => Some(0x005C), // #REVERSE SOLIDUS
+         0x5D => Some(0x005D), // #RIGHT SQUARE BRACKET
+         0x5E => Some(0x005E), // #CIRCUMFLEX ACCENT
+         0x5F => Some(0x005F), // #LOW LINE
+         0x60 => Some(0x0060), // #GRAVE ACCENT
+         0x61 => Some(0x0061), // #LATIN SMALL LETTER A
+         0x62 => Some(0x0062), // #LATIN SMALL LETTER B

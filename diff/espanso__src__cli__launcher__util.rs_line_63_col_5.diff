@@ -1,0 +1,33 @@
+--- espanso/src/cli/launcher/util.rs
++++ replace configure_auto_start -> Result<()> with Ok(())
+@@ -55,29 +55,10 @@
+     command.args(["modulo", "welcome", "--already-running"]);
+ 
+     let mut child = command.spawn()?;
+     child.wait()?;
+     Ok(())
+ }
+ 
+ pub fn configure_auto_start(auto_start: bool) -> Result<()> {
+-    let espanso_exe_path = std::env::current_exe()?;
+-    let mut command = Command::new(espanso_exe_path.to_string_lossy().to_string());
+-    let mut args = vec!["service"];
+-    if auto_start {
+-        args.push("register");
+-    } else {
+-        args.push("unregister");
+-    }
+-
+-    command.args(&args);
+-    set_command_flags(&mut command);
+-
+-    let mut child = command.spawn()?;
+-    let result = child.wait()?;
+-
+-    if result.success() {
+-        Ok(())
+-    } else {
+-        bail!("service registration returned non-zero exit code");
+-    }
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

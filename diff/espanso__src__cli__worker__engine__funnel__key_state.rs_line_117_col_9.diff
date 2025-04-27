@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/key_state.rs
++++ replace KeyStatus::press with ()
+@@ -109,17 +109,17 @@
+         }
+     }
+ 
+     fn release(&mut self) {
+         self.pressed_at = None;
+     }
+ 
+     fn press(&mut self) {
+-        self.pressed_at = Some(Instant::now());
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl KeyboardStateProvider for KeyStateStore {
+     fn is_key_pressed(&self, code: u32) -> bool {
+         self.is_key_pressed(code)
+     }
+ }

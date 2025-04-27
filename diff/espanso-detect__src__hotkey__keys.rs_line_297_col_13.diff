@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ delete match arm
+@@ -289,17 +289,17 @@
+             "8" => Some(ShortcutKey::N8),
+             "9" => Some(ShortcutKey::N9),
+             "NUMPAD0" => Some(ShortcutKey::Numpad0),
+             "NUMPAD1" => Some(ShortcutKey::Numpad1),
+             "NUMPAD2" => Some(ShortcutKey::Numpad2),
+             "NUMPAD3" => Some(ShortcutKey::Numpad3),
+             "NUMPAD4" => Some(ShortcutKey::Numpad4),
+             "NUMPAD5" => Some(ShortcutKey::Numpad5),
+-            "NUMPAD6" => Some(ShortcutKey::Numpad6),
++             /* ~ changed by cargo-mutants ~ */
+             "NUMPAD7" => Some(ShortcutKey::Numpad7),
+             "NUMPAD8" => Some(ShortcutKey::Numpad8),
+             "NUMPAD9" => Some(ShortcutKey::Numpad9),
+             _ => None,
+         };
+ 
+         if parsed.is_none() {
+             // Attempt to parse raw ShortcutKeys

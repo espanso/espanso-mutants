@@ -1,0 +1,24 @@
+--- espanso/src/path/win.rs
++++ replace read_user_path_value -> Result<String> with Ok("xyzzy".into())
+@@ -52,20 +52,17 @@
+         .into_iter()
+         .filter(|path| !path.contains("espanso"))
+         .collect();
+     let path = paths_without_espanso.join(";");
+     write_user_path_value(path)
+ }
+ 
+ fn read_user_path_value() -> Result<String> {
+-    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+-    let env = hkcu.open_subkey("Environment")?;
+-    let path: String = env.get_value("Path")?;
+-    Ok(path)
++    Ok("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn read_paths() -> Vec<String> {
+     let path_value = read_user_path_value().unwrap_or_default();
+     let paths = path_value.split(';');
+     paths.map(String::from).collect()
+ }
+ 

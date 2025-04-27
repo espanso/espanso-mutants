@@ -1,0 +1,43 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace <impl Injector for X11DefaultInjector>::send_keys -> Result<()> with Ok(())
+@@ -514,39 +514,17 @@
+                 self.send_key(focused_window, &record.main, false, delay_us);
+             }
+         }
+ 
+         Ok(())
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+-        let focused_window = self.get_focused_window();
+-
+-        // Compute all the key record sequence first to make sure a mapping is available
+-        let syms = convert_to_sym_array(keys)?;
+-        let records = self.convert_to_record_array(&syms)?;
+-
+-        if options.disable_fast_inject {
+-            self.xtest_release_all_keys();
+-        }
+-
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
+-
+-        for record in records {
+-            if options.disable_fast_inject {
+-                self.xtest_send_key(&record.main, true, delay_us);
+-                self.xtest_send_key(&record.main, false, delay_us);
+-            } else {
+-                self.send_key(focused_window, &record.main, true, delay_us);
+-                self.send_key(focused_window, &record.main, false, delay_us);
+-            }
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key_combination(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         let focused_window = self.get_focused_window();
+ 
+         // Compute all the key record sequence first to make sure a mapping is available
+         let syms = convert_to_sym_array(keys)?;
+         let records = self.convert_to_record_array(&syms)?;

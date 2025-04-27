@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace == with != in native_callback
+@@ -129,17 +129,17 @@
+     // Luckily, most key events include the "modifiers flag" information, that tells us which
+     // modifier keys were currently pressed at that time.
+     // We use this modifier flag information to detect "inconsistent" states to send the corresponding
+     // modifier release events, keeping espanso's state in sync.
+     // For more info, see:
+     // https://github.com/espanso/espanso/issues/825
+     // https://github.com/espanso/espanso/issues/858
+     let mut compensating_events = Vec::new();
+-    if raw_event.event_type == INPUT_EVENT_TYPE_KEYBOARD {
++    if raw_event.event_type != /* ~ changed by cargo-mutants ~ */ INPUT_EVENT_TYPE_KEYBOARD {
+         let (key_code, _) = key_code_to_key(raw_event.key_code);
+         let mut current_mod_state = MODIFIER_STATE
+             .lock()
+             .expect("unable to acquire modifier state in cocoa detector");
+ 
+         if let Key::Alt = &key_code {
+             current_mod_state.is_option_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Meta = &key_code {

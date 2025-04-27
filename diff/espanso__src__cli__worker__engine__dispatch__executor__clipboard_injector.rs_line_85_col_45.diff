@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace && with || in ClipboardInjectorAdapter<'a>::send_paste_combination
+@@ -77,17 +77,17 @@
+                 error!("'{}' is not a valid paste shortcut", custom_shortcut);
+             }
+         }
+ 
+         let combination = if let Some(custom_combination) = custom_combination {
+             custom_combination
+         } else if cfg!(target_os = "macos") {
+             vec![Key::Meta, Key::V]
+-        } else if cfg!(target_os = "linux") && cfg!(feature = "wayland") {
++        } else if cfg!(target_os = "linux") || /* ~ changed by cargo-mutants ~ */ cfg!(feature = "wayland") {
+             // Because on Wayland we currently don't have app-specific configs (and therefore no patches)
+             // we switch to the more supported SHIFT+INSERT combination
+             // See: https://github.com/espanso/espanso/issues/899
+             vec![Key::Shift, Key::Insert]
+         } else {
+             vec![Key::Control, Key::V]
+         };
+ 

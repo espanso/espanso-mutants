@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -388,17 +388,17 @@
+         0xFF50 => (Home, None),
+         0xFF56 => (PageDown, None),
+         0xFF55 => (PageUp, None),
+ 
+         // UI keys
+         0xFF1B => (Escape, None),
+ 
+         // Editing keys
+-        0xFF08 => (Backspace, None),
++         /* ~ changed by cargo-mutants ~ */
+ 
+         // Function keys
+         0xFFBE => (F1, None),
+         0xFFBF => (F2, None),
+         0xFFC0 => (F3, None),
+         0xFFC1 => (F4, None),
+         0xFFC2 => (F5, None),
+         0xFFC3 => (F6, None),

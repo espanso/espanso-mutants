@@ -1,0 +1,24 @@
+--- espanso-inject/src/evdev/uinput.rs
++++ replace UInputDevice::emit with ()
+@@ -72,20 +72,17 @@
+         }
+ 
+         Ok(Self {
+             fd: ScopeGuard::into_inner(fd),
+         })
+     }
+ 
+     pub fn emit(&self, key_code: u32, pressed: bool) {
+-        let pressed = i32::from(pressed);
+-        unsafe {
+-            uinput_emit(self.fd, key_code, pressed);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for UInputDevice {
+     fn drop(&mut self) {
+         unsafe {
+             ioctl(self.fd, ui_dev_destroy());
+             close(self.fd);

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::match_paths -> &[String] with Vec::leak(vec![String::new()])
+@@ -67,17 +67,17 @@
+                 return source_path;
+             }
+         }
+ 
+         "none"
+     }
+ 
+     fn match_paths(&self) -> &[String] {
+-        &self.match_paths
++        Vec::leak(vec![String::new()]) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn is_match(&self, app: &AppProperties) -> bool {
+         if self.parsed.filter_os.is_none()
+             && self.parsed.filter_title.is_none()
+             && self.parsed.filter_exec.is_none()
+             && self.parsed.filter_class.is_none()
+         {

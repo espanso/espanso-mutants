@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace && with || in <impl Config for ResolvedConfig>::is_match
+@@ -72,17 +72,17 @@
+     }
+ 
+     fn match_paths(&self) -> &[String] {
+         &self.match_paths
+     }
+ 
+     fn is_match(&self, app: &AppProperties) -> bool {
+         if self.parsed.filter_os.is_none()
+-            && self.parsed.filter_title.is_none()
++            || /* ~ changed by cargo-mutants ~ */ self.parsed.filter_title.is_none()
+             && self.parsed.filter_exec.is_none()
+             && self.parsed.filter_class.is_none()
+         {
+             return false;
+         }
+ 
+         let is_os_match = if let Some(filter_os) = self.parsed.filter_os.as_deref() {
+             os_matches(filter_os)

@@ -1,0 +1,14 @@
+--- espanso/src/patch/patches/linux/util.rs
++++ replace is_wayland -> bool with true
+@@ -13,10 +13,10 @@
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ pub fn is_wayland() -> bool {
+-    cfg!(feature = "wayland")
++    true /* ~ changed by cargo-mutants ~ */
+ }

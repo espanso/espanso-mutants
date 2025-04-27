@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::secure_input_notification -> bool with true
+@@ -297,17 +297,17 @@
+         self.parsed.show_icon.unwrap_or(true)
+     }
+ 
+     fn show_notifications(&self) -> bool {
+         self.parsed.show_notifications.unwrap_or(true)
+     }
+ 
+     fn secure_input_notification(&self) -> bool {
+-        self.parsed.secure_input_notification.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn emulate_alt_codes(&self) -> bool {
+         self.parsed
+             .emulate_alt_codes
+             .unwrap_or(cfg!(target_os = "windows"))
+     }
+ 

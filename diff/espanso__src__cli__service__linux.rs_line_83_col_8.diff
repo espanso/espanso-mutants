@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in unregister
+@@ -75,17 +75,17 @@
+ 
+     #[error("systemctl enable failed")]
+     SystemdEnableFailed,
+ }
+ 
+ pub fn unregister() -> Result<()> {
+     let service_file = get_service_file_path()?;
+ 
+-    if !service_file.exists() {
++    if  /* ~ changed by cargo-mutants ~ */service_file.exists() {
+         return Err(UnregisterError::ServiceFileNotFound.into());
+     }
+ 
+     info_println!("disabling espanso systemd service");
+ 
+     match Command::new("systemctl")
+         .args(["--user", "disable", LINUX_SERVICE_NAME])
+         .status()

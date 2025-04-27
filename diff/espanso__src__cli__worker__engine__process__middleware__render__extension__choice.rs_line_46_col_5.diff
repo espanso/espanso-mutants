@@ -1,0 +1,23 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/choice.rs
++++ replace convert_items -> Vec<SearchItem> with vec![Default::default()]
+@@ -38,19 +38,10 @@
+             Ok(Some(choice)) => ChoiceSelectorResult::Success(choice),
+             Ok(None) => ChoiceSelectorResult::Aborted,
+             Err(err) => ChoiceSelectorResult::Error(err),
+         }
+     }
+ }
+ 
+ fn convert_items(choices: &[espanso_render::extension::choice::Choice]) -> Vec<SearchItem> {
+-    choices
+-        .iter()
+-        .map(|choice| SearchItem {
+-            id: choice.id.to_string(),
+-            label: choice.label.to_string(),
+-            tag: None,
+-            additional_search_terms: vec![],
+-            is_builtin: false,
+-        })
+-        .collect()
++    vec![Default::default()] /* ~ changed by cargo-mutants ~ */
+ }

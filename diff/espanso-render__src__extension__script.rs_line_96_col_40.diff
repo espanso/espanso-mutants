@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/script.rs
++++ replace > with == in <impl Extension for ScriptExtension>::calculate
+@@ -88,17 +88,17 @@
+             command.env("CONFIG", self.config_path.to_string_lossy().to_string());
+             for (key, value) in super::util::convert_to_env_variables(scope) {
+                 command.env(key, value);
+             }
+ 
+             // Set the OS-specific flags
+             super::util::set_command_flags(&mut command);
+ 
+-            let output = if args.len() > 1 {
++            let output = if args.len() == /* ~ changed by cargo-mutants ~ */ 1 {
+                 command.args(&args[1..]).output()
+             } else {
+                 command.output()
+             };
+ 
+             match output {
+                 Ok(output) => {
+                     let output_str = String::from_utf8_lossy(&output.stdout);

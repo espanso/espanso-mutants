@@ -1,0 +1,119 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace <impl Source for EVDEVSource>::eventloop -> Result<()> with Ok(())
+@@ -167,115 +167,17 @@
+         if self._keymap.fill(keymap).is_err() {
+             return Err(EVDEVSourceError::InitFailure().into());
+         }
+ 
+         Ok(())
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+-        if self.devices.is_empty() {
+-            error!("can't start eventloop without evdev devices");
+-            return Err(EVDEVSourceError::NoDevices().into());
+-        }
+-
+-        let raw_epfd = unsafe { libc::epoll_create1(0) };
+-        let epfd = scopeguard::guard(raw_epfd, |raw_epfd| unsafe {
+-            close(raw_epfd);
+-        });
+-
+-        if *epfd < 0 {
+-            error!("could not create epoll instance");
+-            return Err(EVDEVSourceError::Internal().into());
+-        }
+-
+-        // Setup epoll for all input devices
+-        let errno_ptr = unsafe { __errno_location() };
+-        for (i, device) in self.devices.iter().enumerate() {
+-            let mut ev: epoll_event = unsafe { std::mem::zeroed() };
+-            ev.events = EPOLLIN as u32;
+-            ev.u64 = i as u64;
+-            if unsafe { epoll_ctl(*epfd, EPOLL_CTL_ADD, device.get_raw_fd(), &mut ev) } != 0 {
+-                error!(
+-                    "Could not add {} to epoll, errno {}",
+-                    device.get_path(),
+-                    unsafe { *errno_ptr }
+-                );
+-                return Err(EVDEVSourceError::Internal().into());
+-            }
+-        }
+-
+-        let mut hotkey_filter = self._hotkey_filter.borrow_mut();
+-
+-        // Read events indefinitely
+-        let mut evs: [epoll_event; 16] = unsafe { std::mem::zeroed() };
+-        loop {
+-            let ret = unsafe { epoll_wait(*epfd, evs.as_mut_ptr(), 16, -1) };
+-            if ret < 0 {
+-                if unsafe { *errno_ptr } == EINTR {
+-                    continue;
+-                }
+-                error!("Could not poll for events, {}", unsafe { *errno_ptr });
+-                return Err(EVDEVSourceError::Internal().into());
+-            }
+-
+-            for ev in evs.iter().take(ret as usize) {
+-                let device = &self.devices[ev.u64 as usize];
+-                match device.read() {
+-                    Ok(events) if !events.is_empty() => {
+-                        // Convert raw events to the common format and invoke the callback
+-                        for raw_event in events {
+-                            let event: Option<InputEvent> = raw_event.into();
+-                            if let Some(event) = event {
+-                                // On Wayland we need to detect the global shortcuts manually
+-                                if let InputEvent::Keyboard(key_event) = &event {
+-                                    if let Some(hotkey) = (*hotkey_filter).process_event(key_event)
+-                                    {
+-                                        event_callback(InputEvent::HotKey(HotKeyEvent {
+-                                            hotkey_id: hotkey,
+-                                        }));
+-                                    }
+-                                }
+-
+-                                event_callback(event);
+-                            } else {
+-                                trace!("unable to convert raw event to input event");
+-                            }
+-                        }
+-                    }
+-                    Ok(_) => { /* SKIP EMPTY */ }
+-                    Err(err) => {
+-                        if let Some(DeviceError::FailedReadNoSuchDevice) =
+-                            err.downcast_ref::<DeviceError>()
+-                        {
+-                            warn!("Can't read from device {}, this error usually means the device has been disconnected, removing from epoll.", device.get_path());
+-
+-                            if unsafe {
+-                                epoll_ctl(
+-                                    *epfd,
+-                                    EPOLL_CTL_DEL,
+-                                    device.get_raw_fd(),
+-                                    std::ptr::null_mut(),
+-                                )
+-                            } != 0
+-                            {
+-                                error!(
+-                                    "Could not remove {} from epoll, errno {}",
+-                                    device.get_path(),
+-                                    unsafe { *errno_ptr }
+-                                );
+-                                return Err(EVDEVSourceError::Internal().into());
+-                            }
+-                        } else {
+-                            error!("Can't read from device {}: {}", device.get_path(), err);
+-                        }
+-                    }
+-                }
+-            }
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum EVDEVSourceError {
+     #[error("initialization failed")]
+     InitFailure(),
+ 

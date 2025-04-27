@@ -1,0 +1,74 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace <impl Injector for EVDEVInjector>::send_string -> Result<()> with Ok(())
+@@ -255,70 +255,17 @@
+             std::thread::sleep(std::time::Duration::from_millis(delay_ms as u64));
+         }
+     }
+ }
+ 
+ impl Injector for EVDEVInjector {
+     fn send_string(&self, string: &str, options: InjectionOptions) -> Result<()> {
+         // Compute all the key record sequence first to make sure a mapping is available
+-        let records: Result<Vec<KeyRecord>> = string
+-            .chars()
+-            .map(|c| c.to_string())
+-            .map(|char| {
+-                self.char_map
+-                    .get(&char)
+-                    .cloned()
+-                    .ok_or_else(|| EVDEVInjectorError::CharMappingFailure(char).into())
+-            })
+-            .collect();
+-
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
+-        let modifier_delay_ms = options.evdev_modifier_delay;
+-
+-        // We need to keep track of the modifiers currently pressed to
+-        // press or release them accordingly
+-        let mut current_modifiers: HashSet<u32> = HashSet::new();
+-
+-        for record in records? {
+-            let record_modifiers = record.modifiers.iter().copied().collect::<HashSet<_>>();
+-
+-            // Release all the modifiers that are not needed anymore
+-            for expired_modifier in current_modifiers.difference(&record_modifiers) {
+-                self.wait_delay(modifier_delay_ms);
+-
+-                self.send_key(*expired_modifier, false, delay_us);
+-
+-                self.wait_delay(modifier_delay_ms);
+-            }
+-
+-            // Press all the new modifiers that are now needed
+-            for new_modifier in record_modifiers.difference(&current_modifiers) {
+-                self.wait_delay(modifier_delay_ms);
+-
+-                self.wait_until_key_is_released(record.code)?;
+-                self.send_key(*new_modifier, true, delay_us);
+-
+-                self.wait_delay(modifier_delay_ms);
+-            }
+-
+-            // Send the char
+-            self.wait_until_key_is_released(record.code)?;
+-            self.send_key(record.code, true, delay_us);
+-            self.send_key(record.code, false, delay_us);
+-
+-            current_modifiers = record_modifiers;
+-        }
+-
+-        // Release all the remaining modifiers
+-        for expired_modifier in current_modifiers {
+-            self.send_key(expired_modifier, false, delay_us);
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         // Compute all the key record sequence first to make sure a mapping is available
+         let syms = convert_to_sym_array(keys)?;
+         let records = self.convert_to_record_array(&syms)?;
+ 
+         let delay_us = options.delay as u32 * 1000; // Convert to micro seconds

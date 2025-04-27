@@ -1,0 +1,59 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace ClipboardInjectorAdapter<'a>::send_paste_combination -> anyhow::Result<()> with Ok(())
+@@ -58,55 +58,17 @@
+         Self {
+             injector,
+             clipboard,
+             params_provider,
+         }
+     }
+ 
+     fn send_paste_combination(&self) -> anyhow::Result<()> {
+-        let params = self.params_provider.get();
+-
+-        std::thread::sleep(std::time::Duration::from_millis(
+-            params.pre_paste_delay.try_into().unwrap(),
+-        ));
+-
+-        let mut custom_combination = None;
+-        if let Some(custom_shortcut) = params.paste_shortcut {
+-            if let Some(combination) = parse_combination(&custom_shortcut) {
+-                custom_combination = Some(combination);
+-            } else {
+-                error!("'{}' is not a valid paste shortcut", custom_shortcut);
+-            }
+-        }
+-
+-        let combination = if let Some(custom_combination) = custom_combination {
+-            custom_combination
+-        } else if cfg!(target_os = "macos") {
+-            vec![Key::Meta, Key::V]
+-        } else if cfg!(target_os = "linux") && cfg!(feature = "wayland") {
+-            // Because on Wayland we currently don't have app-specific configs (and therefore no patches)
+-            // we switch to the more supported SHIFT+INSERT combination
+-            // See: https://github.com/espanso/espanso/issues/899
+-            vec![Key::Shift, Key::Insert]
+-        } else {
+-            vec![Key::Control, Key::V]
+-        };
+-
+-        self.injector.send_key_combination(
+-            &combination,
+-            InjectionOptions {
+-                delay: params.paste_shortcut_event_delay as i32,
+-                disable_fast_inject: params.disable_x11_fast_inject,
+-                x11_use_xdotool_fallback: params.x11_use_xdotool_backend,
+-                ..Default::default()
+-            },
+-        )?;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn restore_clipboard_guard(&self) -> Option<ClipboardRestoreGuard<'a>> {
+         let params = self.params_provider.get();
+ 
+         if params.restore_clipboard {
+             Some(ClipboardRestoreGuard::lock(
+                 self.clipboard,

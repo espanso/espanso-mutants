@@ -1,0 +1,39 @@
+--- espanso-render/src/renderer/resolve.rs
++++ replace create_node_from_var -> Node with Default::default()
+@@ -119,35 +119,17 @@
+     for node in local_vars_nodes {
+         node_map.insert(node.name, node);
+     }
+ 
+     node_map
+ }
+ 
+ fn create_node_from_var(var: &Variable) -> Node {
+-    let dependencies = if var.inject_vars || !var.depends_on.is_empty() {
+-        let mut vars = HashSet::new();
+-
+-        if var.inject_vars {
+-            vars.extend(super::util::get_params_variable_names(&var.params));
+-        }
+-
+-        vars.extend(var.depends_on.iter().map(String::as_str));
+-
+-        Some(vars)
+-    } else {
+-        None
+-    };
+-
+-    Node {
+-        name: &var.name,
+-        variable: Some(var),
+-        dependencies,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn resolve_dependencies<'a>(
+     node: &'a Node,
+     node_map: &'a HashMap<&'a str, Node<'a>>,
+     eval_order: &'a RefCell<Vec<&'a str>>,
+     resolved: &'a RefCell<HashSet<&'a str>>,
+     seen: &'a RefCell<HashSet<&'a str>>,

@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ delete match arm
+@@ -283,17 +283,17 @@
+             "2" => Some(ShortcutKey::N2),
+             "3" => Some(ShortcutKey::N3),
+             "4" => Some(ShortcutKey::N4),
+             "5" => Some(ShortcutKey::N5),
+             "6" => Some(ShortcutKey::N6),
+             "7" => Some(ShortcutKey::N7),
+             "8" => Some(ShortcutKey::N8),
+             "9" => Some(ShortcutKey::N9),
+-            "NUMPAD0" => Some(ShortcutKey::Numpad0),
++             /* ~ changed by cargo-mutants ~ */
+             "NUMPAD1" => Some(ShortcutKey::Numpad1),
+             "NUMPAD2" => Some(ShortcutKey::Numpad2),
+             "NUMPAD3" => Some(ShortcutKey::Numpad3),
+             "NUMPAD4" => Some(ShortcutKey::Numpad4),
+             "NUMPAD5" => Some(ShortcutKey::Numpad5),
+             "NUMPAD6" => Some(ShortcutKey::Numpad6),
+             "NUMPAD7" => Some(ShortcutKey::Numpad7),
+             "NUMPAD8" => Some(ShortcutKey::Numpad8),

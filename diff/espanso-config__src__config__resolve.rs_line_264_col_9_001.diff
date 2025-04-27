@@ -1,0 +1,30 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::keyboard_layout -> Option<RMLVOConfig> with None
+@@ -256,26 +256,17 @@
+         self.parsed.backspace_limit.unwrap_or(5)
+     }
+ 
+     fn apply_patch(&self) -> bool {
+         self.parsed.apply_patch.unwrap_or(true)
+     }
+ 
+     fn keyboard_layout(&self) -> Option<RMLVOConfig> {
+-        self.parsed
+-            .keyboard_layout
+-            .as_ref()
+-            .map(|layout| RMLVOConfig {
+-                rules: layout.get("rules").map(String::from),
+-                model: layout.get("model").map(String::from),
+-                layout: layout.get("layout").map(String::from),
+-                variant: layout.get("variant").map(String::from),
+-                options: layout.get("options").map(String::from),
+-            })
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn search_trigger(&self) -> Option<String> {
+         match self.parsed.search_trigger.as_deref() {
+             Some("OFF" | "off") => None,
+             Some(x) => Some(x.to_string()),
+             None => None,
+         }

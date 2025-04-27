@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/edition_check.rs
++++ delete ! in is_wrong_edition
+@@ -22,17 +22,17 @@
+ 
+ pub fn is_wrong_edition() -> (bool, DetectedOS) {
+     if !cfg!(target_os = "linux") {
+         return (false, DetectedOS::Unknown);
+     }
+ 
+     match get_session_type().as_deref() {
+         Some("x11") if cfg!(feature = "wayland") => return (true, DetectedOS::X11),
+-        Some("wayland") if !cfg!(feature = "wayland") => return (true, DetectedOS::Wayland),
++        Some("wayland") if  /* ~ changed by cargo-mutants ~ */cfg!(feature = "wayland") => return (true, DetectedOS::Wayland),
+         None => {
+             warn_eprintln!("could not automatically determine the session type (X11/Wayland), so make sure you have the correct espanso version!");
+         }
+         _ => {}
+     }
+ 
+     (false, DetectedOS::Unknown)
+ }

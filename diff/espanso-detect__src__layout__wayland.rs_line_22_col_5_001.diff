@@ -1,0 +1,22 @@
+--- espanso-detect/src/layout/wayland.rs
++++ replace process_name_from_pid -> String with String::new()
+@@ -14,18 +14,14 @@
+     let wl_conn = Connection::connect_to_env().unwrap();
+     let wl_display = wl_conn.display();
+     let wl_display_backend = wl_display.backend().upgrade().unwrap();
+ 
+     pid_from_wayland_display_fd(wl_display_backend.poll_fd())
+ }
+ 
+ fn process_name_from_pid(pid: i32) -> String {
+-    let path = format!("/proc/{pid}/comm");
+-    let mut file = File::open(path).unwrap();
+-    let mut buf = String::new();
+-    file.read_to_string(&mut buf).unwrap();
+-    buf
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ pub fn get_compositor_name() -> String {
+     let pid = get_compositor_pid();
+     process_name_from_pid(pid)
+ }

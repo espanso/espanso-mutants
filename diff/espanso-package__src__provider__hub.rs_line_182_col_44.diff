@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/hub.rs
++++ replace == with != in PackageIndex::get_package
+@@ -174,17 +174,17 @@
+     archive_sha256_url: String,
+ }
+ 
+ impl PackageIndex {
+     fn get_package(&self, name: &str, version: Option<&str>) -> Option<PackageInfo> {
+         let mut matching_packages: Vec<PackageInfo> = self
+             .packages
+             .iter()
+-            .filter(|package| package.name == name)
++            .filter(|package| package.name != /* ~ changed by cargo-mutants ~ */ name)
+             .cloned()
+             .collect();
+ 
+         matching_packages.sort_by(|a, b| natord::compare(&a.version, &b.version));
+ 
+         if let Some(explicit_version) = version {
+             matching_packages
+                 .into_iter()

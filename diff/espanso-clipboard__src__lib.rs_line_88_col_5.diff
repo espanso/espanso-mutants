@@ -1,0 +1,22 @@
+--- espanso-clipboard/src/lib.rs
++++ replace get_clipboard -> Result<Box<dyn Clipboard>> with Ok(Box::new(Default::default()))
+@@ -80,18 +80,17 @@
+ pub fn get_clipboard(_: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+     info!("using CocoaClipboard");
+     Ok(Box::new(cocoa::CocoaClipboard::new()?))
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(not(feature = "wayland"))]
+ pub fn get_clipboard(_: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+-    info!("using X11Clipboard");
+-    Ok(Box::new(x11::X11Clipboard::new()?))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(feature = "wayland")]
+ pub fn get_clipboard(options: ClipboardOptions) -> Result<Box<dyn Clipboard>> {
+     // TODO: On some Wayland compositors (currently sway), the "wlr-data-control" protocol
+     // could enable the use of a much more efficient implementation relying on the "wl-clipboard-rs" crate.
+     // Useful links: https://github.com/YaLTeR/wl-clipboard-rs/issues/8

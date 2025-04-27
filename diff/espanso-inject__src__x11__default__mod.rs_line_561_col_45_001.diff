@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace * with / in <impl Injector for X11DefaultInjector>::send_key_combination
+@@ -553,17 +553,17 @@
+ 
+         // Render the correct modifier mask for the given sequence
+         let records = self.render_key_combination(&records);
+ 
+         if options.disable_fast_inject {
+             self.xtest_release_all_keys();
+         }
+ 
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
++        let delay_us = options.delay as u32 / /* ~ changed by cargo-mutants ~ */ 1000; // Convert to micro seconds
+ 
+         // First press the keys
+         for record in &records {
+             if options.disable_fast_inject {
+                 self.xtest_send_key(&record.main, true, delay_us);
+             } else {
+                 self.send_key(focused_window, &record.main, true, delay_us);
+             }

@@ -1,0 +1,21 @@
+--- espanso-ipc/src/util.rs
++++ replace == with != in read_line
+@@ -24,17 +24,17 @@
+ pub fn read_line<R: std::io::Read>(stream: R) -> Result<Option<String>> {
+     let mut buffer = Vec::new();
+ 
+     let mut is_eof = true;
+ 
+     for byte_res in stream.bytes() {
+         let byte = byte_res?;
+ 
+-        if byte == 10 {
++        if byte != /* ~ changed by cargo-mutants ~ */ 10 {
+             // Newline
+             break;
+         }
+         buffer.push(byte);
+         is_eof = false;
+     }
+ 
+     if is_eof {

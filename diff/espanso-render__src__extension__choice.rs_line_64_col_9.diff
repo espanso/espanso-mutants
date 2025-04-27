@@ -1,0 +1,75 @@
+--- espanso-render/src/extension/choice.rs
++++ replace <impl Extension for ChoiceExtension<'_>>::calculate -> crate::ExtensionResult with Default::default()
+@@ -56,71 +56,17 @@
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {
+-        let choices: Vec<Choice> = if let Some(Value::String(values)) = params.get("values") {
+-            values
+-                .lines()
+-                .filter_map(|line| {
+-                    let trimmed_line = line.trim();
+-                    if trimmed_line.is_empty() {
+-                        None
+-                    } else {
+-                        Some(trimmed_line)
+-                    }
+-                })
+-                .map(|line| Choice {
+-                    label: line,
+-                    id: line,
+-                })
+-                .collect()
+-        } else if let Some(Value::Array(values)) = params.get("values") {
+-            let choices: Result<Vec<Choice>> = values
+-                .iter()
+-                .map(|value| match value {
+-                    Value::String(string) => Ok(Choice {
+-                        id: string,
+-                        label: string,
+-                    }),
+-                    Value::Object(fields) => Ok(Choice {
+-                        id: fields
+-                            .get("id")
+-                            .and_then(|val| val.as_string())
+-                            .ok_or(ChoiceError::InvalidObjectValue)?,
+-                        label: fields
+-                            .get("label")
+-                            .and_then(|val| val.as_string())
+-                            .ok_or(ChoiceError::InvalidObjectValue)?,
+-                    }),
+-                    _ => Err(ChoiceError::InvalidValueType.into()),
+-                })
+-                .collect();
+-
+-            match choices {
+-                Ok(choices) => choices,
+-                Err(err) => {
+-                    return crate::ExtensionResult::Error(err);
+-                }
+-            }
+-        } else {
+-            return crate::ExtensionResult::Error(ChoiceError::MissingValues.into());
+-        };
+-
+-        match self.selector.show(&choices) {
+-            ChoiceSelectorResult::Success(choice_id) => {
+-                ExtensionResult::Success(ExtensionOutput::Single(choice_id))
+-            }
+-            ChoiceSelectorResult::Aborted => ExtensionResult::Aborted,
+-            ChoiceSelectorResult::Error(error) => ExtensionResult::Error(error),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ChoiceError {
+     #[error("missing values parameter")]
+     MissingValues,
+ 

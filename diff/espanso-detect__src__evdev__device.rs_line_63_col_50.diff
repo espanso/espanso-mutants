@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace | with & in Device::from
+@@ -55,17 +55,17 @@
+     file: File,
+     state: *mut xkb_state,
+ }
+ 
+ impl Device {
+     pub fn from(path: &str, keymap: &Keymap) -> Result<Device> {
+         let file = OpenOptions::new()
+             .read(true)
+-            .custom_flags(O_NONBLOCK | O_CLOEXEC | O_RDONLY)
++            .custom_flags(O_NONBLOCK | O_CLOEXEC & /* ~ changed by cargo-mutants ~ */ O_RDONLY)
+             .open(path)?;
+ 
+         if unsafe { is_keyboard_or_mouse(file.as_raw_fd()) == 0 } {
+             return Err(DeviceError::InvalidDevice(path.to_string()).into());
+         }
+ 
+         let raw_state = unsafe { xkb_state_new(keymap.get_handle()) };
+         // Automatically close the state if the function does not return correctly

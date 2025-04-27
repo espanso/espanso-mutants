@@ -1,0 +1,29 @@
+--- espanso/src/cli/service/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -50,25 +50,17 @@
+ #[cfg(target_os = "linux")]
+ mod linux;
+ #[cfg(target_os = "linux")]
+ use linux::*;
+ 
+ mod stop;
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        enable_logs: true,
+-        disable_logs_terminal_output: true,
+-        requires_paths: true,
+-        subcommand: "service".to_string(),
+-        log_mode: super::LogMode::AppendOnly,
+-        entry: service_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn service_main(args: CliModuleArgs) -> i32 {
+     let paths = args.paths.expect("missing paths argument");
+     let cli_args = args.cli_args.expect("missing cli_args");
+     #[allow(unused_variables)]
+     let paths_overrides = args.paths_overrides.expect("missing paths_overrides");
+ 

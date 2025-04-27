@@ -1,0 +1,22 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/text_ui.rs
++++ replace <impl TextUIHandler for TextUIHandlerAdapter<'_>>::show_text -> anyhow::Result<()> with Ok(())
+@@ -30,18 +30,17 @@
+ impl<'a> TextUIHandlerAdapter<'a> {
+     pub fn new(text_ui: &'a dyn TextUI, paths: &'a Paths) -> Self {
+         Self { text_ui, paths }
+     }
+ }
+ 
+ impl TextUIHandler for TextUIHandlerAdapter<'_> {
+     fn show_text(&self, title: &str, text: &str) -> anyhow::Result<()> {
+-        self.text_ui.show_text(title, text)?;
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_logs(&self) -> anyhow::Result<()> {
+         self.text_ui
+             .show_file("Espanso Logs", &self.paths.runtime.join("espanso.log"))?;
+         Ok(())
+     }
+ }

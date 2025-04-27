@@ -1,0 +1,22 @@
+--- espanso/src/path/mod.rs
++++ replace get_default_config_path -> PathBuf with Default::default()
+@@ -179,18 +179,17 @@
+     let config_path = get_default_config_path();
+     if config_path.is_dir() {
+         return Some(config_path);
+     }
+     None
+ }
+ 
+ fn get_default_config_path() -> PathBuf {
+-    let config_dir = dirs::config_dir().expect("unable to obtain dirs::config_dir()");
+-    config_dir.join("espanso")
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ // Due to the original behavior of the dirs crate, espanso placed the config
+ // directory in the Preferences folder on macOS, but this is not an optimal
+ // approach.
+ // For more context, see: https://github.com/espanso/espanso/issues/611
+ fn get_legacy_mac_dir() -> Option<PathBuf> {
+     if cfg!(target_os = "macos") {

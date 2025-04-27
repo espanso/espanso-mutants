@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace | with ^ in X11DefaultInjector::generate_maps
+@@ -118,17 +118,17 @@
+         let _im_guard = scopeguard::guard((), |()| {
+             unsafe { XCloseIM(input_method) };
+         });
+ 
+         let input_context = unsafe {
+             XCreateIC(
+                 input_method,
+                 XNInputStyle_0.as_ptr(),
+-                XIMPreeditNothing | XIMStatusNothing,
++                XIMPreeditNothing ^ /* ~ changed by cargo-mutants ~ */ XIMStatusNothing,
+                 XNClientWindow_0.as_ptr(),
+                 0,
+                 std::ptr::null_mut(),
+             )
+         };
+         if input_context.is_null() {
+             bail!("could not open input context");
+         }

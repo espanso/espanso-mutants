@@ -1,0 +1,28 @@
+--- espanso-package/src/util/download.rs
++++ replace download -> Result<Vec<u8>> with Ok(vec![])
+@@ -46,24 +46,17 @@
+     let client = client.build()?;
+ 
+     let response = client.get(url).send()?;
+ 
+     Ok(response.text()?)
+ }
+ 
+ fn download(url: &str) -> Result<Vec<u8>> {
+-    let client = reqwest::blocking::Client::builder();
+-    let client = client.build()?;
+-
+-    let mut response = client.get(url).send()?;
+-
+-    let mut buffer = Vec::new();
+-    copy(&mut response, &mut buffer)?;
+-    Ok(buffer)
++    Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn verify_sha256(data: &[u8], sha256: &str) -> bool {
+     let mut hasher = Sha256::new();
+     hasher.update(data);
+     let result = hasher.finalize();
+     let hash = hex::encode(result);
+     hash == sha256

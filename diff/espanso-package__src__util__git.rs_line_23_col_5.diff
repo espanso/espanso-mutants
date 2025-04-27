@@ -1,0 +1,20 @@
+--- espanso-package/src/util/git.rs
++++ replace is_private_repo -> bool with false
+@@ -15,16 +15,10 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use std::process::Command;
+ 
+ pub fn is_private_repo(url: &str) -> bool {
+-    if let Ok(output) = Command::new("git").arg("ls-remote").arg(url).output() {
+-        if output.status.success() {
+-            return true;
+-        }
+-    }
+-
+-    false
++    false /* ~ changed by cargo-mutants ~ */
+ }

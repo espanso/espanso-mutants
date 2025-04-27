@@ -1,0 +1,153 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace daemon_main -> i32 with -1
+@@ -54,149 +54,17 @@
+         log_mode: super::LogMode::CleanAndAppend,
+         subcommand: "daemon".to_string(),
+         entry: daemon_main,
+         ..Default::default()
+     }
+ }
+ 
+ fn daemon_main(args: CliModuleArgs) -> i32 {
+-    prevent_running_as_root_on_macos();
+-
+-    let paths = args.paths.expect("missing paths in daemon main");
+-    let paths_overrides = args
+-        .paths_overrides
+-        .expect("missing paths_overrides in daemon main");
+-
+-    // Make sure only one instance of the daemon is running
+-    let lock_file = acquire_daemon_lock(&paths.runtime);
+-    if lock_file.is_none() {
+-        error!("daemon is already running!");
+-        return DAEMON_ALREADY_RUNNING;
+-    }
+-
+-    // TODO: we might need to check preconditions: accessibility on macOS, presence of binaries on Linux, etc
+-
+-    // This variable holds the current troubleshooter guard.
+-    // When a guard is dropped, the troubleshooting GUI is killed
+-    // so this ensures that there is only one troubleshooter running
+-    // at a given time.
+-    //
+-    // it is currently unused
+-    // #[allow(unused_variables)]
+-    let mut _current_troubleshoot_guard = None;
+-
+-    let (watcher_notify, watcher_signal) = unbounded::<()>();
+-
+-    watcher::initialize_and_spawn(&paths.config, watcher_notify)
+-        .expect("unable to initialize config watcher thread");
+-
+-    let (keyboard_layout_watcher_notify, keyboard_layout_watcher_signal) = unbounded::<()>();
+-
+-    #[allow(clippy::redundant_clone)]
+-    // IMPORTANT: Here we clone the channel instead of simply passing it to avoid
+-    // dropping the channel immediately on those platforms that don't support the
+-    // layout watcher (currently Windows and macOS).
+-    // Otherwise, the select below would always return an error because the channel is closed.
+-    keyboard_layout_watcher::initialize_and_spawn(keyboard_layout_watcher_notify.clone()) // DON'T REMOVE THE CLONE!
+-        .expect("unable to initialize keyboard layout watcher thread");
+-
+-    let config_store =
+-        match troubleshoot::load_config_or_troubleshoot_until_config_is_correct_or_abort(
+-            &paths,
+-            &paths_overrides,
+-            watcher_signal.clone(),
+-        ) {
+-            Ok((result, guard)) => {
+-                _current_troubleshoot_guard = guard;
+-                result.config_store
+-            }
+-            Err(err) => {
+-                error!("critical error while loading config: {}", err);
+-                return DAEMON_FATAL_CONFIG_ERROR;
+-            }
+-        };
+-
+-    info!("espanso version: {}", VERSION);
+-    // TODO: print os system and version? (with os_info crate)
+-
+-    terminate_worker_if_already_running(&paths.runtime);
+-
+-    let (exit_notify, exit_signal) = unbounded::<i32>();
+-
+-    // TODO: register signals to terminate the worker if the daemon terminates
+-
+-    spawn_worker(&paths_overrides, exit_notify.clone(), None);
+-
+-    ipc::initialize_and_spawn(&paths.runtime, exit_notify.clone())
+-        .expect("unable to initialize ipc server for daemon");
+-
+-    loop {
+-        select! {
+-          recv(watcher_signal) -> _ => {
+-            if !config_store.default().auto_restart() {
+-              continue;
+-            }
+-
+-            info!("configuration change detected, restarting worker process...");
+-
+-            // Before killing the previous worker, we make sure there is no fatal error
+-            // in the configs.
+-            let should_restart_worker = match troubleshoot::load_config_or_troubleshoot(&paths, &paths_overrides) {
+-              troubleshoot::LoadResult::Correct(_) => {
+-                _current_troubleshoot_guard = None;
+-                true
+-              },
+-              troubleshoot::LoadResult::Warning(_, guard) => {
+-                _current_troubleshoot_guard = guard;
+-                true
+-              }
+-              troubleshoot::LoadResult::Fatal(guard) => {
+-                _current_troubleshoot_guard = Some(guard);
+-                error!("critical error while loading config, could not restart worker");
+-                false
+-              }
+-            };
+-
+-            if should_restart_worker {
+-              restart_worker(&paths, &paths_overrides, exit_notify.clone(), Some(WORKER_START_REASON_CONFIG_CHANGED.to_string()));
+-            }
+-          }
+-          recv(keyboard_layout_watcher_signal) -> _ => {
+-            info!("keyboard layout change detected, restarting worker...");
+-            restart_worker(&paths, &paths_overrides, exit_notify.clone(), Some(WORKER_START_REASON_KEYBOARD_LAYOUT_CHANGED.to_string()));
+-          }
+-          recv(exit_signal) -> code => {
+-            match code {
+-              Ok(code) => {
+-                match code {
+-                  WORKER_EXIT_ALL_PROCESSES => {
+-                    info!("worker requested a general exit, quitting the daemon");
+-                    break;
+-                  }
+-                  WORKER_RESTART => {
+-                    info!("worker requested a restart, spawning a new one...");
+-                    spawn_worker(&paths_overrides, exit_notify.clone(), Some(WORKER_START_REASON_MANUAL.to_string()));
+-                  }
+-                  _ => {
+-                    error!("received unexpected exit code from worker {}, exiting", code);
+-                    return code;
+-                  }
+-                }
+-              },
+-              Err(err) => {
+-                error!("received error when unwrapping exit_code: {}", err);
+-                return DAEMON_GENERAL_ERROR;
+-              },
+-            }
+-          },
+-        }
+-    }
+-
+-    DAEMON_SUCCESS
++    -1 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn terminate_worker_if_already_running(runtime_dir: &Path) {
+     let lock_file = acquire_worker_lock(runtime_dir);
+     if lock_file.is_some() {
+         return;
+     }
+ 

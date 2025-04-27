@@ -1,0 +1,26 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace show::result_callback with ()
+@@ -192,22 +192,17 @@
+         unsafe {
+             update_items(app, items.as_ptr(), items.len() as c_int);
+         }
+     }
+ 
+     let mut result: Option<String> = None;
+ 
+     extern "C" fn result_callback(id: *const c_char, result: *mut c_void) {
+-        let id = unsafe { CStr::from_ptr(id) };
+-        let id = id.to_string_lossy().to_string();
+-        let result: *mut Option<String> = result as *mut Option<String>;
+-        unsafe {
+-            *result = Some(id);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     unsafe {
+         interop_show_search(
+             metadata,
+             search_callback,
+             std::ptr::from_ref::<SearchData>(&search_data) as *const c_void,
+             result_callback,

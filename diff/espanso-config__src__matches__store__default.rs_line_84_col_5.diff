@@ -1,0 +1,42 @@
+--- espanso-config/src/matches/store/default.rs
++++ replace load_match_groups_recursively with ()
+@@ -76,38 +76,17 @@
+     }
+ }
+ 
+ fn load_match_groups_recursively(
+     groups: &mut HashMap<String, MatchGroup>,
+     paths: &[String],
+     non_fatal_error_sets: &mut Vec<NonFatalErrorSet>,
+ ) {
+-    for path in paths {
+-        if !groups.contains_key(path) {
+-            let group_path = PathBuf::from(path);
+-            match MatchGroup::load(&group_path)
+-                .with_context(|| format!("unable to load match group {group_path:?}"))
+-            {
+-                Ok((group, non_fatal_error_set)) => {
+-                    let imports = group.imports.clone();
+-                    groups.insert(path.clone(), group);
+-
+-                    if let Some(non_fatal_error_set) = non_fatal_error_set {
+-                        non_fatal_error_sets.push(non_fatal_error_set);
+-                    }
+-
+-                    load_match_groups_recursively(groups, &imports, non_fatal_error_sets);
+-                }
+-                Err(err) => {
+-                    non_fatal_error_sets.push(NonFatalErrorSet::single_error(&group_path, err));
+-                }
+-            }
+-        }
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn query_matches_for_paths<'a>(
+     groups: &'a HashMap<String, MatchGroup>,
+     visited_paths: &mut HashSet<String>,
+     visited_matches: &mut HashSet<StructId>,
+     visited_global_vars: &mut HashSet<StructId>,
+     matches: &mut Vec<&'a Match>,

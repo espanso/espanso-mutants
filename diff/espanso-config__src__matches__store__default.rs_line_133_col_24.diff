@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/store/default.rs
++++ delete ! in query_matches_for_paths
+@@ -125,17 +125,17 @@
+                     visited_matches,
+                     visited_global_vars,
+                     matches,
+                     global_vars,
+                     &group.imports,
+                 );
+ 
+                 for m in &group.matches {
+-                    if !visited_matches.contains(&m.id) {
++                    if  /* ~ changed by cargo-mutants ~ */visited_matches.contains(&m.id) {
+                         matches.push(m);
+                         visited_matches.insert(m.id);
+                     }
+                 }
+ 
+                 for var in &group.global_vars {
+                     if !visited_global_vars.contains(&var.id) {
+                         global_vars.push(var);

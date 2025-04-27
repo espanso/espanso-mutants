@@ -1,0 +1,77 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace HotKeyFilter::process_event -> Option<i32> with None
+@@ -68,73 +68,17 @@
+                     error!("unable to register hotkey {:?}", hk);
+                 }
+                 Some((hk.id, codes?))
+             })
+             .collect();
+     }
+ 
+     pub fn process_event(&mut self, event: &KeyboardEvent) -> Option<i32> {
+-        let mut hotkey = None;
+-        let mut key_code = None;
+-
+-        let mut to_be_removed = Vec::new();
+-
+-        if event.status == Status::Released {
+-            // Remove from the memory all the key occurrences
+-            to_be_removed.extend(self.memory.iter().enumerate().filter_map(|(i, (code, _))| {
+-                if *code == event.code {
+-                    Some(i)
+-                } else {
+-                    None
+-                }
+-            }));
+-        } else {
+-            key_code = Some(event.code);
+-        }
+-
+-        // Remove the old entries
+-        to_be_removed.extend(
+-            self.memory
+-                .iter()
+-                .enumerate()
+-                .filter_map(|(i, (_, instant))| {
+-                    if instant.elapsed().as_millis() > HOTKEY_WINDOW_TIMEOUT {
+-                        Some(i)
+-                    } else {
+-                        None
+-                    }
+-                }),
+-        );
+-
+-        // Remove duplicates and revert
+-        if !to_be_removed.is_empty() {
+-            to_be_removed.sort_unstable();
+-            to_be_removed.dedup();
+-            to_be_removed.reverse();
+-            for index in to_be_removed {
+-                self.memory.remove(index);
+-            }
+-        }
+-
+-        if let Some(code) = key_code {
+-            self.memory.push((code, Instant::now()));
+-
+-            for (id, codes) in &self.hotkey_raw_map {
+-                if codes
+-                    .iter()
+-                    .all(|hk_code| self.memory.iter().any(|(m_code, _)| m_code == hk_code))
+-                {
+-                    hotkey = Some(*id);
+-                    break;
+-                }
+-            }
+-        }
+-
+-        hotkey
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn convert_hotkey_to_codes(&self, hk: &HotKey) -> Option<Vec<KeyCode>> {
+         let mut codes = Vec::new();
+         let key_code = self.map.get(&hk.key.to_code()?)?;
+         codes.push(*key_code);
+ 
+         for modifier in &hk.modifiers {

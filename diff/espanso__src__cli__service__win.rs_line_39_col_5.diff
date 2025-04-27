@@ -1,0 +1,29 @@
+--- espanso/src/cli/service/win.rs
++++ replace unregister -> Result<()> with Ok(())
+@@ -31,25 +31,17 @@
+     let current_path = std::env::current_exe().expect("unable to get exec path");
+ 
+     let shortcut_path = get_startup_shortcut_file()?;
+ 
+     create_shortcut_target_file(&shortcut_path, &current_path, "launcher")
+ }
+ 
+ pub fn unregister() -> Result<()> {
+-    let shortcut_path = get_startup_shortcut_file()?;
+-    if !shortcut_path.is_file() {
+-        error_eprintln!("could not unregister espanso, as it's not registered");
+-        return Err(UnregisterError::EntryNotFound.into());
+-    }
+-
+-    std::fs::remove_file(shortcut_path)?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum UnregisterError {
+     #[error("entry not found")]
+     EntryNotFound,
+ }
+ 

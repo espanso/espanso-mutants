@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -601,17 +601,17 @@
+         0xB8 => Some(0x00B8), // #CEDILLA
+         0xB9 => Some(0x00B9), // #SUPERSCRIPT ONE
+         0xBA => Some(0x00BA), // #MASCULINE ORDINAL INDICATOR
+         0xBB => Some(0x00BB), // #RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
+         0xBC => Some(0x00BC), // #VULGAR FRACTION ONE QUARTER
+         0xBD => Some(0x00BD), // #VULGAR FRACTION ONE HALF
+         0xBE => Some(0x00BE), // #VULGAR FRACTION THREE QUARTERS
+         0xBF => Some(0x00BF), // #INVERTED QUESTION MARK
+-        0xC0 => Some(0x00C0), // #LATIN CAPITAL LETTER A WITH GRAVE
++         /* ~ changed by cargo-mutants ~ */ // #LATIN CAPITAL LETTER A WITH GRAVE
+         0xC1 => Some(0x00C1), // #LATIN CAPITAL LETTER A WITH ACUTE
+         0xC2 => Some(0x00C2), // #LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+         0xC3 => Some(0x00C3), // #LATIN CAPITAL LETTER A WITH TILDE
+         0xC4 => Some(0x00C4), // #LATIN CAPITAL LETTER A WITH DIAERESIS
+         0xC5 => Some(0x00C5), // #LATIN CAPITAL LETTER A WITH RING ABOVE
+         0xC6 => Some(0x00C6), // #LATIN CAPITAL LETTER AE
+         0xC7 => Some(0x00C7), // #LATIN CAPITAL LETTER C WITH CEDILLA
+         0xC8 => Some(0x00C8), // #LATIN CAPITAL LETTER E WITH GRAVE

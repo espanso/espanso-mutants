@@ -1,0 +1,56 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl espanso_engine::process::MatchResolver for CombinedMatchCache<'_>>::find_matches_from_trigger -> Vec<DetectedMatch> with vec![Default::default()]
+@@ -169,52 +169,11 @@
+         let mut ids: Vec<i32> = self.builtin_match_cache.keys().copied().collect();
+         ids.extend(self.user_match_cache.ids());
+         ids
+     }
+ }
+ 
+ impl espanso_engine::process::MatchResolver for CombinedMatchCache<'_> {
+     fn find_matches_from_trigger(&self, trigger: &str) -> Vec<DetectedMatch> {
+-        let user_matches: Vec<DetectedMatch> = self
+-            .user_match_cache
+-            .cache
+-            .values()
+-            .filter_map(|m| {
+-                if let MatchCause::Trigger(trigger_cause) = &m.cause {
+-                    if trigger_cause.triggers.iter().any(|t| t == trigger) {
+-                        Some(DetectedMatch {
+-                            id: m.id,
+-                            trigger: Some(trigger.to_string()),
+-                            ..Default::default()
+-                        })
+-                    } else {
+-                        None
+-                    }
+-                } else {
+-                    None
+-                }
+-            })
+-            .collect();
+-
+-        let builtin_matches: Vec<DetectedMatch> = self
+-            .builtin_match_cache
+-            .values()
+-            .filter_map(|m| {
+-                if m.triggers.iter().any(|t| t == trigger) {
+-                    Some(DetectedMatch {
+-                        id: m.id,
+-                        trigger: Some(trigger.to_string()),
+-                        ..Default::default()
+-                    })
+-                } else {
+-                    None
+-                }
+-            })
+-            .collect();
+-
+-        let mut matches = Vec::with_capacity(user_matches.len() + builtin_matches.len());
+-        matches.extend(user_matches);
+-        matches.extend(builtin_matches);
+-
+-        matches
++        vec![Default::default()] /* ~ changed by cargo-mutants ~ */
+     }
+ }

@@ -1,0 +1,22 @@
+--- espanso/src/lock.rs
++++ replace Lock::release -> Result<()> with Ok(())
+@@ -26,18 +26,17 @@
+ 
+ pub struct Lock {
+     lock_file: File,
+ }
+ 
+ impl Lock {
+     #[allow(dead_code)]
+     pub fn release(self) -> Result<()> {
+-        fs2::FileExt::unlock(&self.lock_file)?;
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn acquire(runtime_dir: &Path, name: &str) -> Option<Lock> {
+         let lock_file_path = runtime_dir.join(format!("{name}.lock"));
+         let lock_file = OpenOptions::new()
+             .read(true)
+             .write(true)
+             .create(true)

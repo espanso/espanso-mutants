@@ -1,0 +1,15 @@
+--- espanso-detect/src/layout/gnome.rs
++++ replace is_gnome -> bool with true
+@@ -45,11 +45,10 @@
+                 err
+             );
+             None
+         }
+     }
+ }
+ 
+ pub fn is_gnome() -> bool {
+-    let target_session_file = PathBuf::from("/usr/bin/gnome-session");
+-    target_session_file.exists()
++    true /* ~ changed by cargo-mutants ~ */
+ }

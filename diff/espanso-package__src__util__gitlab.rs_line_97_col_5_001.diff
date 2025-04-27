@@ -1,0 +1,24 @@
+--- espanso-package/src/util/gitlab.rs
++++ replace generate_gitlab_download_url -> String with "xyzzy".into()
+@@ -89,20 +89,17 @@
+ 
+     let url = generate_gitlab_download_url(parts, branch);
+     let response = client.head(url).send()?;
+ 
+     Ok(response.status() == StatusCode::OK)
+ }
+ 
+ fn generate_gitlab_download_url(parts: &GitLabParts, branch: &str) -> String {
+-    format!(
+-        "https://gitlab.com/{}/{}/-/archive/{}/{}-{}.zip",
+-        parts.author, parts.name, branch, parts.name, branch
+-    )
++    "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 
+     #[test]
+     fn test_extract_gitlab_url_parts() {

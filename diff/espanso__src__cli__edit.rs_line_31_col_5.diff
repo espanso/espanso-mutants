@@ -1,0 +1,21 @@
+--- espanso/src/cli/edit.rs
++++ replace default_editor -> String with String::new()
+@@ -23,17 +23,17 @@
+ use super::{CliModule, CliModuleArgs};
+ 
+ #[cfg(target_os = "linux")]
+ fn default_editor() -> String {
+     "/bin/nano".to_owned()
+ }
+ #[cfg(target_os = "macos")]
+ fn default_editor() -> String {
+-    "/usr/bin/nano".to_owned()
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ #[cfg(target_os = "windows")]
+ fn default_editor() -> String {
+     "C:\\Windows\\System32\\notepad.exe".to_owned()
+ }
+ 
+ pub fn new() -> CliModule {
+     CliModule {

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::apply_patch -> bool with false
+@@ -252,17 +252,17 @@
+         })
+     }
+ 
+     fn backspace_limit(&self) -> usize {
+         self.parsed.backspace_limit.unwrap_or(5)
+     }
+ 
+     fn apply_patch(&self) -> bool {
+-        self.parsed.apply_patch.unwrap_or(true)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn keyboard_layout(&self) -> Option<RMLVOConfig> {
+         self.parsed
+             .keyboard_layout
+             .as_ref()
+             .map(|layout| RMLVOConfig {
+                 rules: layout.get("rules").map(String::from),

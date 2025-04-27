@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace && with || in <impl espanso_engine::process::UndoEnabledProvider for ConfigManager<'_>>::is_undo_enabled
+@@ -179,17 +179,17 @@
+         // Disable undo_backspace on Wayland for now as it's not stable
+         if cfg!(feature = "wayland") {
+             return false;
+         }
+ 
+         // Because we cannot filter out espanso-generated events when using the X11 record injection
+         // method, we need to disable undo_backspace to avoid looping (espanso picks up its own
+         // injections, causing the program to misbehave)
+-        if cfg!(target_os = "linux") && self.active().disable_x11_fast_inject() {
++        if cfg!(target_os = "linux") || /* ~ changed by cargo-mutants ~ */ self.active().disable_x11_fast_inject() {
+             return false;
+         }
+ 
+         self.active().undo_backspace()
+     }
+ }
+ 
+ impl espanso_engine::process::EnabledStatusProvider for ConfigManager<'_> {

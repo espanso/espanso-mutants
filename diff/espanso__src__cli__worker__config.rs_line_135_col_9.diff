@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl super::engine::dispatch::executor::clipboard_injector::ClipboardParamsProvider for ConfigManager<'_>>::get -> super::engine::dispatch::executor::clipboard_injector::ClipboardParams with Default::default()
+@@ -127,27 +127,17 @@
+         }
+     }
+ }
+ 
+ impl super::engine::dispatch::executor::clipboard_injector::ClipboardParamsProvider
+     for ConfigManager<'_>
+ {
+     fn get(&self) -> super::engine::dispatch::executor::clipboard_injector::ClipboardParams {
+-        let active = self.active();
+-        super::engine::dispatch::executor::clipboard_injector::ClipboardParams {
+-            pre_paste_delay: active.pre_paste_delay(),
+-            paste_shortcut_event_delay: active.paste_shortcut_event_delay(),
+-            paste_shortcut: active.paste_shortcut(),
+-            disable_x11_fast_inject: active.disable_x11_fast_inject(),
+-            restore_clipboard: active.preserve_clipboard(),
+-            restore_clipboard_delay: active.restore_clipboard_delay(),
+-            x11_use_xclip_backend: active.x11_use_xclip_backend(),
+-            x11_use_xdotool_backend: active.x11_use_xdotool_backend(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ClipboardOperationOptionsProvider for ConfigManager<'_> {
+     fn get_operation_options(&self) -> espanso_clipboard::ClipboardOperationOptions {
+         let active = self.active();
+         espanso_clipboard::ClipboardOperationOptions {
+             use_xclip_backend: active.x11_use_xclip_backend(),

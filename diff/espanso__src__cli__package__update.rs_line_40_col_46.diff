@@ -1,0 +1,21 @@
+--- espanso/src/cli/package/update.rs
++++ replace == with != in update_package
+@@ -32,17 +32,17 @@
+ pub fn update_package(paths: &Paths, matches: &ArgMatches) -> Result<UpdateResults> {
+     let package_name = matches
+         .value_of("package_name")
+         .ok_or_else(|| anyhow!("missing package name"))?;
+ 
+     let archiver =
+         espanso_package::get_archiver(&paths.packages).context("unable to get package archiver")?;
+ 
+-    let packages_to_update = if package_name == "all" {
++    let packages_to_update = if package_name != /* ~ changed by cargo-mutants ~ */ "all" {
+         let packages = archiver.list()?;
+         info_println!("updating {} packages", packages.len());
+ 
+         packages
+             .into_iter()
+             .map(|package| match package {
+                 StoredPackage::Legacy(legacy) => legacy.name,
+                 StoredPackage::Modern(modern) => modern.manifest.name,

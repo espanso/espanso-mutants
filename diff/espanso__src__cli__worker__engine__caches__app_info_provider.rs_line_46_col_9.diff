@@ -1,0 +1,26 @@
+--- espanso/src/cli/worker/engine/caches/app_info_provider.rs
++++ replace <impl AppInfoProvider for CachedAppInfoProvider<'_>>::get_info -> espanso_info::AppInfo with Default::default()
+@@ -38,22 +38,11 @@
+             caching_interval,
+             cached_info: RefCell::new(None),
+         }
+     }
+ }
+ 
+ impl AppInfoProvider for CachedAppInfoProvider<'_> {
+     fn get_info(&self) -> espanso_info::AppInfo {
+-        let mut cached_info = self.cached_info.borrow_mut();
+-        if let Some((instant, cached_value)) = &*cached_info {
+-            if instant.elapsed() < self.caching_interval {
+-                // Return cached config
+-                return cached_value.clone();
+-            }
+-        }
+-
+-        let info = self.app_info_provider.get_info();
+-        *cached_info = Some((Instant::now(), info.clone()));
+-
+-        info
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

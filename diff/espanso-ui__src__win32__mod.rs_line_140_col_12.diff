@@ -1,0 +1,21 @@
+--- espanso-ui/src/win32/mod.rs
++++ delete ! in <impl UIEventLoop for Win32EventLoop>::initialize
+@@ -132,17 +132,17 @@
+             init_thread_id: LazyCell::new(),
+         }
+     }
+ }
+ 
+ impl UIEventLoop for Win32EventLoop {
+     fn initialize(&mut self) -> Result<()> {
+         let window_handle = self.handle.load(Ordering::Acquire);
+-        if !window_handle.is_null() {
++        if  /* ~ changed by cargo-mutants ~ */window_handle.is_null() {
+             error!("Attempt to initialize Win32EventLoop on non-null window handle");
+             return Err(Win32UIError::InvalidHandle().into());
+         }
+ 
+         // Convert the icon paths to the raw representation
+         let mut icon_paths: [[u16; MAX_FILE_PATH]; MAX_ICON_COUNT] =
+             [[0; MAX_FILE_PATH]; MAX_ICON_COUNT];
+         for (i, icon_path) in icon_paths.iter_mut().enumerate().take(self.icons.len()) {

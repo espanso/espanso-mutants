@@ -1,0 +1,51 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIEventLoop for MacEventLoop>::run -> Result<()> with Ok(())
+@@ -130,47 +130,17 @@
+             .fill(std::thread::current().id())
+             .expect("Unable to set initialization thread id");
+ 
+         Ok(())
+     }
+ 
+     fn run(&self, event_callback: MacUIEventCallback) -> Result<()> {
+         // Make sure the run() method is called in the same thread as initialize()
+-        if let Some(init_id) = self._init_thread_id.borrow() {
+-            assert!(
+-                !(init_id != &std::thread::current().id()),
+-                "MacEventLoop run() and initialize() methods should be called in the same thread"
+-            );
+-        }
+-
+-        if self._event_callback.fill(event_callback).is_err() {
+-            error!("Unable to set MacEventLoop callback");
+-            return Err(MacUIError::InternalError().into());
+-        }
+-
+-        extern "C" fn callback(_self: *mut MacEventLoop, event: RawUIEvent) {
+-            if let Some(callback) = unsafe { (*_self)._event_callback.borrow() } {
+-                let event: Option<UIEvent> = event.into();
+-                if let Some(event) = event {
+-                    callback(event);
+-                } else {
+-                    trace!("Unable to convert raw event to input event");
+-                }
+-            }
+-        }
+-
+-        let error_code = unsafe { ui_eventloop(callback) };
+-
+-        if error_code <= 0 {
+-            error!("MacEventLoop exited with <= 0 code");
+-            return Err(MacUIError::InternalError().into());
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct MacRemote {
+     // Maps icon name to their index
+     icon_indexes: HashMap<TrayIcon, usize>,
+ }
+ 

@@ -1,0 +1,19 @@
+--- espanso/src/cli/launcher/edition_check.rs
++++ delete ! in get_session_type
+@@ -45,15 +45,15 @@
+         .ok()?;
+ 
+     if !output.status.success() {
+         return None;
+     }
+ 
+     let raw_session_type = String::from_utf8_lossy(&output.stdout);
+     let raw_session_type = raw_session_type.trim();
+-    if !raw_session_type.contains("Type=") {
++    if  /* ~ changed by cargo-mutants ~ */raw_session_type.contains("Type=") {
+         return None;
+     }
+ 
+     let session_type: Option<&str> = raw_session_type.split('=').next_back();
+     session_type.map(String::from)
+ }

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -452,17 +452,17 @@
+         0x1E => Some(0x001E), // #RECORD SEPARATOR
+         0x1F => Some(0x001F), // #UNIT SEPARATOR
+         0x20 => Some(0x0020), // #SPACE
+         0x21 => Some(0x0021), // #EXCLAMATION MARK
+         0x22 => Some(0x0022), // #QUOTATION MARK
+         0x23 => Some(0x0023), // #NUMBER SIGN
+         0x24 => Some(0x0024), // #DOLLAR SIGN
+         0x25 => Some(0x0025), // #PERCENT SIGN
+-        0x26 => Some(0x0026), // #AMPERSAND
++         /* ~ changed by cargo-mutants ~ */ // #AMPERSAND
+         0x27 => Some(0x0027), // #APOSTROPHE
+         0x28 => Some(0x0028), // #LEFT PARENTHESIS
+         0x29 => Some(0x0029), // #RIGHT PARENTHESIS
+         0x2A => Some(0x002A), // #ASTERISK
+         0x2B => Some(0x002B), // #PLUS SIGN
+         0x2C => Some(0x002C), // #COMMA
+         0x2D => Some(0x002D), // #HYPHEN-MINUS
+         0x2E => Some(0x002E), // #FULL STOP

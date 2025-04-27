@@ -1,0 +1,30 @@
+--- espanso-ui/src/win32/notification.rs
++++ replace show_notification -> Result<()> with Ok(())
+@@ -71,26 +71,17 @@
+       }
+     }
+   })?;
+ 
+     Ok(())
+ }
+ 
+ pub fn show_notification(msg: &str) -> Result<()> {
+-    let mut lock = SEND_CHANNEL
+-        .lock()
+-        .map_err(|e| anyhow!("unable to acquire notification send channel: {}", e))?;
+-    match &mut *lock {
+-        Some(sender) => {
+-            sender.send(msg.to_string())?;
+-            Ok(())
+-        }
+-        None => bail!("notification sender not available"),
+-    }
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn is_espanso_app_user_model_id_set() -> bool {
+     match Command::new("powershell")
+         .args(["-c", "get-startapps"])
+         .creation_flags(0x0800_0000)
+         .output()
+     {

@@ -1,0 +1,21 @@
+--- espanso-inject/src/keys.rs
++++ delete match arm
+@@ -228,17 +228,17 @@
+             Key::Raw(code) => write!(f, "RAW({code})"),
+         }
+     }
+ }
+ 
+ impl Key {
+     pub fn parse(key: &str) -> Option<Key> {
+         let parsed = match key {
+-            "ALT" | "OPTION" => Some(Key::Alt),
++             /* ~ changed by cargo-mutants ~ */
+             "CAPSLOCK" => Some(Key::CapsLock),
+             "CTRL" => Some(Key::Control),
+             "META" | "CMD" => Some(Key::Meta),
+             "NUMLOCK" => Some(Key::NumLock),
+             "SHIFT" => Some(Key::Shift),
+             "ENTER" => Some(Key::Enter),
+             "TAB" => Some(Key::Tab),
+             "SPACE" => Some(Key::Space),

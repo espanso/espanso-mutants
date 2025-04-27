@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ delete ! in get_devices
+@@ -282,17 +282,17 @@
+ 
+ pub fn get_devices(keymap: &Keymap) -> Result<Vec<Device>> {
+     let mut keyboards = Vec::new();
+     let dirs = std::fs::read_dir("/dev/input/")?;
+     for entry in dirs {
+         match entry {
+             Ok(device) => {
+                 // Skip non-eventX devices
+-                if !device.file_name().to_string_lossy().starts_with("event") {
++                if  /* ~ changed by cargo-mutants ~ */device.file_name().to_string_lossy().starts_with("event") {
+                     continue;
+                 }
+ 
+                 let path = device.path().to_string_lossy().to_string();
+                 let keyboard = Device::from(&path, keymap);
+                 match keyboard {
+                     Ok(keyboard) => {
+                         keyboards.push(keyboard);

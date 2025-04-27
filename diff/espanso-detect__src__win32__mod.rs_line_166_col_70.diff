@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace == with != in <impl Source for Win32Source>::initialize
+@@ -158,17 +158,17 @@
+             };
+             return Err(error.into());
+         }
+ 
+         // Register the hotkeys
+         self.hotkeys.iter().for_each(|hk| {
+             let raw = convert_hotkey_to_raw(hk);
+             if let Some(raw_hk) = raw {
+-                if unsafe { detect_register_hotkey(handle, raw_hk) } == 0 {
++                if unsafe { detect_register_hotkey(handle, raw_hk) } != /* ~ changed by cargo-mutants ~ */ 0 {
+                     error!("unable to register hotkey: {}", hk);
+                 } else {
+                     debug!("registered hotkey: {}", hk);
+                 }
+             } else {
+                 error!("unable to generate raw hotkey mapping: {}", hk);
+             }
+         });

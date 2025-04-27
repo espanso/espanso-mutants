@@ -1,0 +1,58 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl From<types::Field> for OwnedField>::from -> Self with Default::default()
+@@ -168,54 +168,17 @@
+     struct OwnedField {
+         id: Option<CString>,
+         field_type: FieldType,
+         specific: Box<dyn Interoperable>,
+     }
+ 
+     impl From<types::Field> for OwnedField {
+         fn from(field: types::Field) -> Self {
+-            let id = field
+-                .id
+-                .map(|id| CString::new(id).expect("unable to create cstring for field id"));
+-
+-            let field_type = match field.field_type {
+-                types::FieldType::Row(_) => FieldType_ROW,
+-                types::FieldType::Label(_) => FieldType_LABEL,
+-                types::FieldType::Text(_) => FieldType_TEXT,
+-                types::FieldType::Choice(_) => FieldType_CHOICE,
+-                types::FieldType::Unknown => panic!("unknown field type"),
+-            };
+-
+-            // TODO: clean up this match
+-            let specific: Box<dyn Interoperable> = match field.field_type {
+-                types::FieldType::Row(metadata) => {
+-                    let owned_metadata: OwnedRowMetadata = metadata.into();
+-                    Box::new(owned_metadata)
+-                }
+-                types::FieldType::Label(metadata) => {
+-                    let owned_metadata: OwnedLabelMetadata = metadata.into();
+-                    Box::new(owned_metadata)
+-                }
+-                types::FieldType::Text(metadata) => {
+-                    let owned_metadata: OwnedTextMetadata = metadata.into();
+-                    Box::new(owned_metadata)
+-                }
+-                types::FieldType::Choice(metadata) => {
+-                    let owned_metadata: OwnedChoiceMetadata = metadata.into();
+-                    Box::new(owned_metadata)
+-                }
+-                types::FieldType::Unknown => panic!("unknown field type"),
+-            };
+-
+-            Self {
+-                id,
+-                field_type,
+-                specific,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl OwnedField {
+         pub fn metadata(&self) -> FieldMetadata {
+             let id_ptr = if let Some(id) = self.id.as_ref() {
+                 id.as_ptr()
+             } else {

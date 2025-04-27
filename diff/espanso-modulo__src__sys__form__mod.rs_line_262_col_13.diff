@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl Interoperable for OwnedTextMetadata>::as_ptr -> *const c_void with Default::default()
+@@ -254,17 +254,17 @@
+ 
+     struct OwnedTextMetadata {
+         default_text: CString,
+         interop: Box<TextMetadata>,
+     }
+ 
+     impl Interoperable for OwnedTextMetadata {
+         fn as_ptr(&self) -> *const c_void {
+-            std::ptr::from_ref::<TextMetadata>(&(*self.interop)) as *const c_void
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<types::TextMetadata> for OwnedTextMetadata {
+         fn from(text_metadata: types::TextMetadata) -> Self {
+             let default_text = CString::new(text_metadata.default_text)
+                 .expect("unable to convert default text to CString");
+             let interop = Box::new(TextMetadata {

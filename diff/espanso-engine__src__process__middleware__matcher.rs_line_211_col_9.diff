@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ delete match arm
+@@ -203,17 +203,17 @@
+                     Key::Alt | Key::Shift | Key::CapsLock | Key::Meta | Key::NumLock | Key::Control
+                 )
+             } else {
+                 // Skip non-press events
+                 false
+             }
+         }
+         EventType::Mouse(mouse_event) => mouse_event.status == Status::Pressed,
+-        EventType::MatchInjected => true,
++         /* ~ changed by cargo-mutants ~ */
+         _ => false,
+     }
+ }
+ 
+ fn convert_to_matcher_event(event_type: &EventType) -> Option<MatcherEvent> {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => Some(MatcherEvent::Key {
+             key: keyboard_event.key.clone(),

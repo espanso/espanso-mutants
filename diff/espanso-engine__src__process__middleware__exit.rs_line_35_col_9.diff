@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/exit.rs
++++ replace <impl Middleware for ExitMiddleware>::name -> &'static str with "xyzzy"
+@@ -27,17 +27,17 @@
+ impl ExitMiddleware {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Middleware for ExitMiddleware {
+     fn name(&self) -> &'static str {
+-        "exit"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::ExitRequested(mode) = &event.etype {
+             debug!(
+                 "received ExitRequested event with mode: {:?}, dispatching exit",
+                 mode
+             );

@@ -1,0 +1,73 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace interop::<impl From<&types::Search> for OwnedSearch>::from -> Self with Default::default()
+@@ -59,69 +59,17 @@
+     impl Interoperable for OwnedSearch {
+         fn as_ptr(&self) -> *const c_void {
+             std::ptr::from_ref::<SearchMetadata>(&(*self.interop)) as *const c_void
+         }
+     }
+ 
+     impl From<&types::Search> for OwnedSearch {
+         fn from(search: &types::Search) -> Self {
+-            let title = CString::new(search.title.clone())
+-                .expect("unable to convert search title to CString");
+-
+-            let items: Vec<OwnedSearchItem> = search.items.iter().map(Into::into).collect();
+-
+-            let interop_items: Vec<SearchItem> = items
+-                .iter()
+-                .map(sys::search::interop::OwnedSearchItem::to_search_item)
+-                .collect();
+-
+-            let icon_path = if let Some(icon_path) = search.icon.as_ref() {
+-                icon_path.clone()
+-            } else {
+-                String::new()
+-            };
+-
+-            let icon_path =
+-                CString::new(icon_path).expect("unable to convert search icon to CString");
+-
+-            let icon_path_ptr = if search.icon.is_some() {
+-                icon_path.as_ptr()
+-            } else {
+-                std::ptr::null()
+-            };
+-
+-            let hint = if let Some(hint) = search.hint.as_ref() {
+-                hint.clone()
+-            } else {
+-                String::new()
+-            };
+-
+-            let hint = CString::new(hint).expect("unable to convert search icon to CString");
+-
+-            let hint_ptr = if search.hint.is_some() {
+-                hint.as_ptr()
+-            } else {
+-                std::ptr::null()
+-            };
+-
+-            let interop = Box::new(SearchMetadata {
+-                iconPath: icon_path_ptr,
+-                windowTitle: title.as_ptr(),
+-                hintText: hint_ptr,
+-            });
+-
+-            Self {
+-                title,
+-                icon_path,
+-                hint,
+-                items,
+-                interop_items,
+-                interop,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     pub(crate) struct OwnedSearchItem {
+         id: CString,
+         label: CString,
+         trigger: CString,
+     }

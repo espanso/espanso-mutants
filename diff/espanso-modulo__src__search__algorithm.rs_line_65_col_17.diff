@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace || with && in case_insensitive_exact_match
+@@ -57,17 +57,17 @@
+         .iter()
+         .enumerate()
+         .filter(|(_, item)| {
+             item.label.to_lowercase().contains(&lowercase_query)
+                 || item
+                     .trigger
+                     .as_deref()
+                     .is_some_and(|t| t.to_lowercase().contains(query))
+-                || item
++                && /* ~ changed by cargo-mutants ~ */ item
+                     .search_terms
+                     .iter()
+                     .any(|term| term.to_lowercase().contains(&lowercase_query))
+         })
+         .map(|(i, _)| i)
+         .collect()
+ }
+ 

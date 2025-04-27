@@ -1,0 +1,95 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace SimpleWindow::draw with ()
+@@ -364,91 +364,17 @@
+         &mut self.shm
+     }
+ }
+ 
+ #[allow(clippy::many_single_char_names)]
+ #[allow(clippy::single_match_else)]
+ impl SimpleWindow {
+     pub fn draw(&mut self, _conn: &Connection, qh: &QueueHandle<Self>) {
+-        let width = self.width;
+-        let height = self.height;
+-        let stride = self.width as i32 * 4;
+-
+-        let buffer = self.buffer.get_or_insert_with(|| {
+-            self.pool
+-                .create_buffer(
+-                    width as i32,
+-                    height as i32,
+-                    stride,
+-                    wl_shm::Format::Argb8888,
+-                )
+-                .expect("create buffer")
+-                .0
+-        });
+-
+-        let canvas = match self.pool.canvas(buffer) {
+-            Some(canvas) => canvas,
+-            None => {
+-                // This should be rare, but if the compositor has not released the previous
+-                // buffer, we need double-buffering.
+-                let (second_buffer, canvas) = self
+-                    .pool
+-                    .create_buffer(
+-                        self.width as i32,
+-                        self.height as i32,
+-                        stride,
+-                        wl_shm::Format::Argb8888,
+-                    )
+-                    .expect("create buffer");
+-                *buffer = second_buffer;
+-                canvas
+-            }
+-        };
+-
+-        // Draw to the window:
+-        {
+-            let shift = self.shift.unwrap_or(0);
+-            canvas
+-                .chunks_exact_mut(4)
+-                .enumerate()
+-                .for_each(|(index, chunk)| {
+-                    let x = ((index + shift as usize) % width as usize) as u32;
+-                    let y = (index / width as usize) as u32;
+-
+-                    let a = 0xFF;
+-                    let r = u32::min(((width - x) * 0xFF) / width, ((height - y) * 0xFF) / height);
+-                    let g = u32::min((x * 0xFF) / width, ((height - y) * 0xFF) / height);
+-                    let b = u32::min(((width - x) * 0xFF) / width, (y * 0xFF) / height);
+-                    let color = (a << 24) + (r << 16) + (g << 8) + b;
+-
+-                    let array: &mut [u8; 4] = chunk.try_into().unwrap();
+-                    *array = color.to_le_bytes();
+-                });
+-
+-            if let Some(shift) = &mut self.shift {
+-                *shift = (*shift + 1) % width;
+-            }
+-        }
+-
+-        // Damage the entire window
+-        self.window
+-            .wl_surface()
+-            .damage_buffer(0, 0, self.width as i32, self.height as i32);
+-
+-        // Request our next frame
+-        self.window
+-            .wl_surface()
+-            .frame(qh, self.window.wl_surface().clone());
+-
+-        // Attach and commit to present.
+-        buffer
+-            .attach_to(self.window.wl_surface())
+-            .expect("buffer attach");
+-        self.window.commit();
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ delegate_compositor!(SimpleWindow);
+ delegate_output!(SimpleWindow);
+ delegate_shm!(SimpleWindow);
+ 
+ delegate_seat!(SimpleWindow);

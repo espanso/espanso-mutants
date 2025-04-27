@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/config.rs
++++ replace default_title -> String with "xyzzy".into()
+@@ -15,17 +15,17 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with modulo.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use serde::{Deserialize, Serialize};
+ 
+ fn default_title() -> String {
+-    "espanso".to_owned()
++    "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_icon() -> Option<String> {
+     None
+ }
+ 
+ fn default_items() -> Vec<SearchItem> {
+     Vec::new()

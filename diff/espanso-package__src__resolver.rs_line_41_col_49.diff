@@ -1,0 +1,21 @@
+--- espanso-package/src/resolver.rs
++++ replace == with != in resolve_package
+@@ -33,17 +33,17 @@
+     base_dir: &Path,
+     name: &str,
+     version: Option<&str>,
+ ) -> Result<ResolvedPackage> {
+     let packages = resolve_all_packages(base_dir)?;
+ 
+     let mut matching_packages: Vec<ResolvedPackage> = packages
+         .into_iter()
+-        .filter(|package| package.manifest.name == name)
++        .filter(|package| package.manifest.name != /* ~ changed by cargo-mutants ~ */ name)
+         .collect();
+ 
+     if matching_packages.is_empty() {
+         bail!("no package found with name: {}", name);
+     }
+ 
+     matching_packages.sort_by(|a, b| natord::compare(&a.manifest.version, &b.manifest.version));
+ 

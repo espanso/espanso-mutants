@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl SeatHandler for SimpleWindow>::seat_state -> &mut SeatState with Box::leak(Box::new(Default::default()))
+@@ -242,17 +242,17 @@
+             .as_ref()
+             .unwrap()
+             .activate::<SimpleWindow>(self.window.wl_surface(), token);
+     }
+ }
+ 
+ impl SeatHandler for SimpleWindow {
+     fn seat_state(&mut self) -> &mut SeatState {
+-        &mut self.seat_state
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn new_seat(&mut self, _: &Connection, _: &QueueHandle<Self>, _: wl_seat::WlSeat) {}
+ 
+     fn new_capability(
+         &mut self,
+         _conn: &Connection,
+         qh: &QueueHandle<Self>,

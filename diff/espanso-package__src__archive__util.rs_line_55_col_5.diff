@@ -1,0 +1,17 @@
+--- espanso-package/src/archive/util.rs
++++ replace create_package_source_file -> Result<()> with Ok(())
+@@ -47,13 +47,10 @@
+     }
+ 
+     fs_extra::remove_items(&to_be_removed)?;
+ 
+     Ok(())
+ }
+ 
+ pub fn create_package_source_file(specifier: &PackageSpecifier, target_dir: &Path) -> Result<()> {
+-    let source: PackageSource = specifier.into();
+-    let yaml = serde_yaml::to_string(&source)?;
+-    std::fs::write(target_dir.join(PACKAGE_SOURCE_FILE), yaml)?;
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/win.rs
++++ delete ! in unregister
+@@ -32,17 +32,17 @@
+ 
+     let shortcut_path = get_startup_shortcut_file()?;
+ 
+     create_shortcut_target_file(&shortcut_path, &current_path, "launcher")
+ }
+ 
+ pub fn unregister() -> Result<()> {
+     let shortcut_path = get_startup_shortcut_file()?;
+-    if !shortcut_path.is_file() {
++    if  /* ~ changed by cargo-mutants ~ */shortcut_path.is_file() {
+         error_eprintln!("could not unregister espanso, as it's not registered");
+         return Err(UnregisterError::EntryNotFound.into());
+     }
+ 
+     std::fs::remove_file(shortcut_path)?;
+ 
+     Ok(())
+ }

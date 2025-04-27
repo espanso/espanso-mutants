@@ -1,0 +1,34 @@
+--- espanso/src/cli/service/win.rs
++++ replace get_startup_dir -> Result<PathBuf> with Ok(Default::default())
+@@ -99,30 +99,17 @@
+         .args(["launcher"])
+         .creation_flags(0x0800_0008) // CREATE_NO_WINDOW + DETACHED_PROCESS
+         .spawn()?;
+ 
+     Ok(())
+ }
+ 
+ fn get_startup_dir() -> Result<PathBuf> {
+-    let home_dir = dirs::home_dir().expect("unable to obtain user's home folder");
+-    let app_data = home_dir.join("AppData");
+-    let roaming = app_data.join("Roaming");
+-    let microsoft = roaming.join("Microsoft");
+-    let windows = microsoft.join("Windows");
+-    let start_menu = windows.join("Start Menu");
+-    let programs = start_menu.join("Programs");
+-    let startup = programs.join("Startup");
+-
+-    if !startup.is_dir() {
+-        create_dir_all(&startup)?;
+-    }
+-
+-    Ok(startup)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_startup_shortcut_file() -> Result<PathBuf> {
+     let parent = get_startup_dir()?;
+     Ok(parent.join("espanso.lnk"))
+ }
+ 
+ fn get_shortcut_target_file(shortcut_path: &Path) -> Result<PathBuf> {

@@ -1,0 +1,267 @@
+
+*** espanso-package/src/provider/hub.rs:102:16: delete ! in EspansoHubPackageProvider::get_index
+
+*** mutation diff:
+--- espanso-package/src/provider/hub.rs
++++ delete ! in EspansoHubPackageProvider::get_index
+@@ -94,17 +94,17 @@
+     }
+ }
+ 
+ impl EspansoHubPackageProvider {
+     fn get_index(&self, force_update: bool) -> Result<PackageIndex> {
+         let old_index = self.get_index_from_cache()?;
+ 
+         if let Some(old_index) = old_index {
+-            if !force_update {
++            if  /* ~ changed by cargo-mutants ~ */force_update {
+                 let current_time = std::time::SystemTime::now().duration_since(UNIX_EPOCH)?;
+                 let current_unix = current_time.as_secs();
+                 if old_index.cached_at >= (current_unix - PACKAGE_INDEX_CACHE_INVALIDATION_SECONDS)
+                 {
+                     info_println!("using cached package index");
+                     return Ok(old_index.index);
+                 }
+             }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-package@0.1.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh pin-project-lite v0.2.14
+       Fresh libc v0.2.161
+       Fresh bytes v1.1.0
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh log v0.4.14
+       Fresh futures-core v0.3.17
+       Fresh once_cell v1.19.0
+       Fresh itoa v0.4.7
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh version_check v0.9.2
+       Fresh mio v0.8.6
+       Fresh syn v1.0.67
+       Fresh tracing-core v0.1.32
+       Fresh socket2 v0.4.9
+       Fresh num_cpus v1.13.0
+       Fresh serde_derive v1.0.123
+       Fresh cc v1.0.73
+       Fresh tinyvec_macros v0.1.0
+       Fresh fnv v1.0.7
+       Fresh pkg-config v0.3.19
+       Fresh matches v0.1.9
+       Fresh futures-task v0.3.17
+       Fresh http v0.2.4
+       Fresh serde v1.0.123
+       Fresh tinyvec v1.3.1
+       Fresh tracing v0.1.40
+       Fresh tokio v1.28.2
+       Fresh typenum v1.14.0
+       Fresh slab v0.4.9
+       Fresh futures-sink v0.3.17
+       Fresh percent-encoding v2.1.0
+       Fresh hashbrown v0.14.3
+       Fresh equivalent v1.0.1
+       Fresh futures-io v0.3.17
+       Fresh pin-utils v0.1.0
+       Fresh tokio-util v0.7.3
+       Fresh form_urlencoded v1.0.1
+       Fresh indexmap v2.2.2
+       Fresh futures-util v0.3.17
+       Fresh generic-array v0.14.4
+       Fresh unicode-normalization v0.1.19
+       Fresh ryu v1.0.5
+       Fresh syn v2.0.100
+       Fresh itoa v1.0.6
+       Fresh try-lock v0.2.3
+       Fresh adler v1.0.2
+       Fresh unicode-bidi v0.3.6
+       Fresh crc32fast v1.2.1
+       Fresh thiserror-impl v1.0.56
+       Fresh h2 v0.3.26
+       Fresh want v0.3.0
+       Fresh bzip2-sys v0.1.11+1.0.8
+       Fresh miniz_oxide v0.4.4
+       Fresh idna v0.2.3
+       Fresh futures-channel v0.3.17
+       Fresh httparse v1.8.0
+       Fresh http-body v0.4.3
+       Fresh httpdate v1.0.1
+       Fresh linked-hash-map v0.5.6
+       Fresh tower-service v0.3.1
+       Fresh url v2.2.2
+       Fresh thiserror v1.0.56
+       Fresh flate2 v1.0.20
+       Fresh bzip2 v0.4.4
+       Fresh encoding_rs v0.8.28
+       Fresh hyper v0.14.26
+       Fresh yaml-rust v0.4.5
+       Fresh serde_urlencoded v0.7.1
+       Fresh block-buffer v0.9.0
+       Fresh digest v0.9.0
+       Fresh aho-corasick v0.7.19
+       Fresh time v0.1.44
+       Fresh rand v0.4.6
+       Fresh cpufeatures v0.2.1
+       Fresh byteorder v1.4.3
+       Fresh ipnet v2.3.1
+       Fresh remove_dir_all v0.5.3
+       Fresh opaque-debug v0.3.0
+       Fresh mime v0.3.16
+       Fresh regex-syntax v0.6.27
+       Fresh dtoa v0.4.7
+       Fresh base64 v0.21.0
+       Fresh serde_json v1.0.62
+       Fresh regex v1.5.5
+       Fresh serde_yaml v0.8.17
+       Fresh sha2 v0.9.6
+       Fresh reqwest v0.11.17
+       Fresh tempdir v0.3.7
+       Fresh zip v0.5.13
+       Fresh anyhow v1.0.38
+       Fresh hex v0.4.3
+       Fresh glob v0.3.0
+       Fresh natord v1.0.9
+       Fresh fs_extra v1.3.0
+       Fresh scopeguard v1.1.0
+       Dirty espanso-package v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package): the file `espanso-package/src/util/download.rs` has changed (1745787598.170031950s, 1s after last build at 1745787597.110815360s)
+   Compiling espanso-package v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=4aeeb8831fdc8245 -C extra-filename=-beb94f098d1bf181 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rlib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rlib --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rlib --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rlib --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rlib --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=7f266be59c903aaa -C extra-filename=-e3d3ef9ba9184585 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rmeta --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rmeta --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rmeta --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rmeta --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rmeta --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rmeta --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.55s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_package-beb94f098d1bf181`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-package@0.1.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh pin-project-lite v0.2.14
+       Fresh libc v0.2.161
+       Fresh bytes v1.1.0
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh log v0.4.14
+       Fresh futures-core v0.3.17
+       Fresh quote v1.0.35
+       Fresh memchr v2.5.0
+       Fresh once_cell v1.19.0
+       Fresh version_check v0.9.2
+       Fresh itoa v0.4.7
+       Fresh mio v0.8.6
+       Fresh syn v1.0.67
+       Fresh tracing-core v0.1.32
+       Fresh num_cpus v1.13.0
+       Fresh socket2 v0.4.9
+       Fresh serde_derive v1.0.123
+       Fresh matches v0.1.9
+       Fresh fnv v1.0.7
+       Fresh tinyvec_macros v0.1.0
+       Fresh cc v1.0.73
+       Fresh pkg-config v0.3.19
+       Fresh tracing v0.1.40
+       Fresh serde v1.0.123
+       Fresh http v0.2.4
+       Fresh tinyvec v1.3.1
+       Fresh typenum v1.14.0
+       Fresh tokio v1.28.2
+       Fresh slab v0.4.9
+       Fresh futures-task v0.3.17
+       Fresh futures-io v0.3.17
+       Fresh pin-utils v0.1.0
+       Fresh equivalent v1.0.1
+       Fresh hashbrown v0.14.3
+       Fresh percent-encoding v2.1.0
+       Fresh futures-sink v0.3.17
+       Fresh indexmap v2.2.2
+       Fresh futures-util v0.3.17
+       Fresh tokio-util v0.7.3
+       Fresh form_urlencoded v1.0.1
+       Fresh generic-array v0.14.4
+       Fresh ryu v1.0.5
+       Fresh unicode-normalization v0.1.19
+       Fresh syn v2.0.100
+       Fresh itoa v1.0.6
+       Fresh try-lock v0.2.3
+       Fresh unicode-bidi v0.3.6
+       Fresh adler v1.0.2
+       Fresh h2 v0.3.26
+       Fresh want v0.3.0
+       Fresh thiserror-impl v1.0.56
+       Fresh bzip2-sys v0.1.11+1.0.8
+       Fresh crc32fast v1.2.1
+       Fresh idna v0.2.3
+       Fresh miniz_oxide v0.4.4
+       Fresh futures-channel v0.3.17
+       Fresh httparse v1.8.0
+       Fresh http-body v0.4.3
+       Fresh linked-hash-map v0.5.6
+       Fresh tower-service v0.3.1
+       Fresh httpdate v1.0.1
+       Fresh yaml-rust v0.4.5
+       Fresh url v2.2.2
+       Fresh flate2 v1.0.20
+       Fresh encoding_rs v0.8.28
+       Fresh bzip2 v0.4.4
+       Fresh thiserror v1.0.56
+       Fresh hyper v0.14.26
+       Fresh serde_urlencoded v0.7.1
+       Fresh block-buffer v0.9.0
+       Fresh digest v0.9.0
+       Fresh aho-corasick v0.7.19
+       Fresh time v0.1.44
+       Fresh rand v0.4.6
+       Fresh cpufeatures v0.2.1
+       Fresh regex-syntax v0.6.27
+       Fresh byteorder v1.4.3
+       Fresh remove_dir_all v0.5.3
+       Fresh base64 v0.21.0
+       Fresh opaque-debug v0.3.0
+       Fresh dtoa v0.4.7
+       Fresh mime v0.3.16
+       Fresh ipnet v2.3.1
+       Fresh serde_json v1.0.62
+       Fresh regex v1.5.5
+       Fresh tempdir v0.3.7
+       Fresh zip v0.5.13
+       Fresh serde_yaml v0.8.17
+       Fresh sha2 v0.9.6
+       Fresh reqwest v0.11.17
+       Fresh anyhow v1.0.38
+       Fresh glob v0.3.0
+       Fresh fs_extra v1.3.0
+       Fresh natord v1.0.9
+       Fresh hex v0.4.3
+       Fresh scopeguard v1.1.0
+       Fresh espanso-package v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_package-beb94f098d1bf181`
+
+running 12 tests
+test provider::github::tests::test_download_github_package ... ignored
+test resolver::tests::test_no_manifest_error ... ok
+test resolver::tests::test_malformed_manifest ... ok
+test resolver::tests::test_read_manifest_base_dir ... ok
+test resolver::tests::test_read_manifests_nested_dirs ... ok
+test archive::default::tests::test_delete_package ... ok
+test archive::default::tests::test_package_saved_correctly ... ok
+test util::github::tests::test_extract_github_url_parts ... ok
+test archive::default::tests::test_package_already_present ... ok
+test archive::default::tests::test_list_packages ... ok
+test resolver::tests::test_resolve_package ... ok
+test util::gitlab::tests::test_extract_gitlab_url_parts ... ok
+
+test result: ok. 11 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+   Doc-tests espanso_package
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustdoc --edition=2021 --crate-type lib --color auto --crate-name espanso_package --test espanso-package/src/lib.rs --test-run-directory /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern espanso_package=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libespanso_package-e3d3ef9ba9184585.rlib --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rlib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rlib --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rlib --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rlib --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rlib --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rlib -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' --error-format human`
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+*** result: Success

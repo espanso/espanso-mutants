@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace == with != in <impl KeyboardHandler for SimpleWindow>::leave
+@@ -306,17 +306,17 @@
+     fn leave(
+         &mut self,
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         surface: &wl_surface::WlSurface,
+         _: u32,
+     ) {
+-        if self.window.wl_surface() == surface {
++        if self.window.wl_surface() != /* ~ changed by cargo-mutants ~ */ surface {
+             debug!("Release keyboard focus on window");
+             self.keyboard_focus = false;
+         }
+     }
+ 
+     fn press_key(
+         &mut self,
+         _conn: &Connection,

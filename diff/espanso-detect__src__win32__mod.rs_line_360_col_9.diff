@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -352,17 +352,17 @@
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ fn key_code_to_key(key_code: i32) -> (Key, Option<Variant>) {
+     match key_code {
+         // Modifiers
+         0x12 => (Alt, None),
+         0xA4 => (Alt, Some(Left)),
+-        0xA5 => (Alt, Some(Right)),
++         /* ~ changed by cargo-mutants ~ */
+         0x14 => (CapsLock, None),
+         0x11 => (Control, None),
+         0xA2 => (Control, Some(Left)),
+         0xA3 => (Control, Some(Right)),
+         0x5B => (Meta, Some(Left)),
+         0x5C => (Meta, Some(Right)),
+         0x90 => (NumLock, None),
+         0x10 => (Shift, None),

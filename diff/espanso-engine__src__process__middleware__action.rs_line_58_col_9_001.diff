@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ replace <impl Middleware for ActionMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -50,17 +50,17 @@
+             match_info_provider,
+             event_sequence_provider,
+         }
+     }
+ }
+ 
+ impl Middleware for ActionMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "action"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         match &event.etype {
+             EventType::Rendered(_) | EventType::ImageResolved(_) => {
+                 dispatch(Event::caused_by(event.source_id, EventType::MatchInjected));
+                 dispatch(Event::caused_by(
+                     event.source_id,

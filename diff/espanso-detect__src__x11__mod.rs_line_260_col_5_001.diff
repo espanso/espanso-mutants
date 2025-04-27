@@ -1,0 +1,28 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace convert_hotkey_to_raw -> Option<RawHotKeyRequest> with Some(Default::default())
+@@ -252,24 +252,17 @@
+ 
+         if result != 0 {
+             error!("X11Source destruction returned non-zero code");
+         }
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKeyRequest> {
+-    let key_sym = hk.key.to_code()?;
+-    Some(RawHotKeyRequest {
+-        key_sym,
+-        ctrl: i32::from(hk.has_ctrl()),
+-        alt: i32::from(hk.has_alt()),
+-        shift: i32::from(hk.has_shift()),
+-        meta: i32::from(hk.has_meta()),
+-    })
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum X11SourceError {
+     #[error("cannot open displays")]
+     DisplayFailure(),
+ 
+     #[error("X Record Extension is not installed")]

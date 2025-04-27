@@ -1,0 +1,36 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::xtest_send_key with ()
+@@ -419,32 +419,17 @@
+                     }
+                 }
+             }
+         }
+     }
+ 
+     fn xtest_send_key(&self, record: &KeyPair, pressed: bool, delay_us: u32) {
+         // If the key requires any modifier, we need to send those events
+-        if record.state != 0 {
+-            self.xtest_send_modifiers(record.state, pressed);
+-        }
+-
+-        let is_press = i32::from(pressed);
+-        unsafe {
+-            XTestFakeKeyEvent(self.display, record.code, is_press, 0);
+-            XSync(self.display, 0);
+-            XFlush(self.display);
+-        }
+-
+-        if delay_us != 0 {
+-            unsafe {
+-                libc::usleep(delay_us);
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn xtest_release_all_keys(&self) {
+         let mut keys: [u8; 32] = [0; 32];
+         unsafe {
+             XQueryKeymap(self.display, keys.as_mut_ptr());
+         }
+ 

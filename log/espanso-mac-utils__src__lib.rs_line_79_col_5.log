@@ -1,0 +1,139 @@
+
+*** espanso-mac-utils/src/lib.rs:79:5: replace get_app_name_from_path -> Option<String> with Some("xyzzy".into())
+
+*** mutation diff:
+--- espanso-mac-utils/src/lib.rs
++++ replace get_app_name_from_path -> Option<String> with Some("xyzzy".into())
+@@ -71,24 +71,17 @@
+         }
+ 
+         None
+     }
+ }
+ 
+ #[cfg(target_os = "macos")]
+ fn get_app_name_from_path(path: &str) -> Option<String> {
+-    use regex::Regex;
+-    use std::sync::LazyLock;
+-
+-    static APP_REGEX: LazyLock<Regex> =
+-        LazyLock::new(|| Regex::new("/([^/]+).(app|bundle)/").unwrap());
+-
+-    let caps = APP_REGEX.captures(path);
+-    caps.map(|caps| caps.get(1).map_or("", |m| m.as_str()).to_owned())
++    Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn check_accessibility() -> bool {
+     unsafe { ffi::mac_utils_check_accessibility() > 0 }
+ }
+ 
+ #[cfg(target_os = "macos")]
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-mac-utils@0.1.0
+       Fresh cc v1.0.73
+       Fresh regex-syntax v0.6.27
+       Fresh memchr v2.5.0
+       Fresh aho-corasick v0.7.19
+warning: espanso-mac-utils@0.1.0: src/native.mm:32:45: warning: 'kIOMasterPortDefault' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+warning: espanso-mac-utils@0.1.0:    32 |   if ((rootService = IORegistryGetRootEntry(kIOMasterPortDefault)) != 0)
+warning: espanso-mac-utils@0.1.0:       |                                             ^~~~~~~~~~~~~~~~~~~~
+warning: espanso-mac-utils@0.1.0:       |                                             kIOMainPortDefault
+warning: espanso-mac-utils@0.1.0: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/IOKitLib.h:133:19: note: 'kIOMasterPortDefault' has been explicitly marked deprecated here
+warning: espanso-mac-utils@0.1.0:   133 | const mach_port_t kIOMasterPortDefault
+warning: espanso-mac-utils@0.1.0:       |                   ^
+warning: espanso-mac-utils@0.1.0: src/native.mm:94:19: warning: unused variable 'application' [-Wunused-variable]
+warning: espanso-mac-utils@0.1.0:    94 |   NSApplication * application = [NSApplication sharedApplication];
+warning: espanso-mac-utils@0.1.0:       |                   ^~~~~~~~~~~
+warning: espanso-mac-utils@0.1.0: 2 warnings generated.
+       Fresh regex v1.5.5
+       Dirty espanso-mac-utils v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-mac-utils): the file `espanso-mac-utils/src/lib.rs` has changed (1745787716.498172287s, 9m 10s after last build at 1745787166.008241818s)
+   Compiling espanso-mac-utils v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-mac-utils)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_mac_utils --edition=2021 espanso-mac-utils/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=18c5fbcf125eea96 -C extra-filename=-f9f2e4d3ae5aa954 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-mac-utils-e10ff33b7daeb4d4/out -l static=espansomacutils -l c++ -l dylib=c++ -l static=espansomacutils -l framework=Cocoa -l framework=Carbon`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_mac_utils --edition=2021 espanso-mac-utils/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=a10eaf1f8ef7a2cf -C extra-filename=-ec15374aef22eddb --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/espanso-mac-utils-e10ff33b7daeb4d4/out -l static=espansomacutils -l c++ -l dylib=c++ -l static=espansomacutils -l framework=Cocoa -l framework=Carbon`
+warning: unused variable: `path`
+  --> espanso-mac-utils/src/lib.rs:78:27
+   |
+78 | fn get_app_name_from_path(path: &str) -> Option<String> {
+   |                           ^^^^ help: if this is intentional, prefix it with an underscore: `_path`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-mac-utils` (lib) generated 1 warning
+warning: `espanso-mac-utils` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_mac_utils-f9f2e4d3ae5aa954`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-mac-utils@0.1.0
+       Fresh cc v1.0.73
+       Fresh regex-syntax v0.6.27
+       Fresh memchr v2.5.0
+       Fresh aho-corasick v0.7.19
+warning: espanso-mac-utils@0.1.0: src/native.mm:32:45: warning: 'kIOMasterPortDefault' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
+warning: espanso-mac-utils@0.1.0:    32 |   if ((rootService = IORegistryGetRootEntry(kIOMasterPortDefault)) != 0)
+warning: espanso-mac-utils@0.1.0:       |                                             ^~~~~~~~~~~~~~~~~~~~
+warning: espanso-mac-utils@0.1.0:       |                                             kIOMainPortDefault
+warning: espanso-mac-utils@0.1.0: /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/IOKit.framework/Headers/IOKitLib.h:133:19: note: 'kIOMasterPortDefault' has been explicitly marked deprecated here
+warning: espanso-mac-utils@0.1.0:   133 | const mach_port_t kIOMasterPortDefault
+warning: espanso-mac-utils@0.1.0:       |                   ^
+warning: espanso-mac-utils@0.1.0: src/native.mm:94:19: warning: unused variable 'application' [-Wunused-variable]
+warning: espanso-mac-utils@0.1.0:    94 |   NSApplication * application = [NSApplication sharedApplication];
+warning: espanso-mac-utils@0.1.0:       |                   ^~~~~~~~~~~
+warning: espanso-mac-utils@0.1.0: 2 warnings generated.
+       Fresh regex v1.5.5
+warning: unused variable: `path`
+  --> espanso-mac-utils/src/lib.rs:78:27
+   |
+78 | fn get_app_name_from_path(path: &str) -> Option<String> {
+   |                           ^^^^ help: if this is intentional, prefix it with an underscore: `_path`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-mac-utils` (lib) generated 1 warning
+warning: `espanso-mac-utils` (lib test) generated 1 warning (1 duplicate)
+       Fresh espanso-mac-utils v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-mac-utils)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_mac_utils-f9f2e4d3ae5aa954`
+
+running 3 tests
+test tests::test_get_app_name_from_path_no_app_name ... FAILED
+test tests::test_get_app_name_from_path ... FAILED
+test tests::test_get_app_name_from_path_security_bundle ... FAILED
+
+failures:
+
+---- tests::test_get_app_name_from_path_no_app_name stdout ----
+
+thread 'tests::test_get_app_name_from_path_no_app_name' panicked at espanso-mac-utils/src/lib.rs:134:9:
+assertion failed: app_name.is_none()
+
+---- tests::test_get_app_name_from_path stdout ----
+
+thread 'tests::test_get_app_name_from_path' panicked at espanso-mac-utils/src/lib.rs:128:9:
+assertion `left == right` failed
+  left: "xyzzy"
+ right: "iTerm"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::test_get_app_name_from_path_security_bundle stdout ----
+
+thread 'tests::test_get_app_name_from_path_security_bundle' panicked at espanso-mac-utils/src/lib.rs:140:9:
+assertion `left == right` failed
+  left: "xyzzy"
+ right: "SecurityAgent"
+
+
+failures:
+    tests::test_get_app_name_from_path
+    tests::test_get_app_name_from_path_no_app_name
+    tests::test_get_app_name_from_path_security_bundle
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p espanso-mac-utils --lib`
+
+*** result: Failure(101)

@@ -1,0 +1,26 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl From<types::LabelMetadata> for OwnedLabelMetadata>::from -> Self with Default::default()
+@@ -238,22 +238,17 @@
+     impl Interoperable for OwnedLabelMetadata {
+         fn as_ptr(&self) -> *const c_void {
+             std::ptr::from_ref::<LabelMetadata>(&(*self.interop)) as *const c_void
+         }
+     }
+ 
+     impl From<types::LabelMetadata> for OwnedLabelMetadata {
+         fn from(label_metadata: types::LabelMetadata) -> Self {
+-            let text =
+-                CString::new(label_metadata.text).expect("unable to convert label text to CString");
+-            let interop = Box::new(LabelMetadata {
+-                text: text.as_ptr(),
+-            });
+-            Self { text, interop }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     struct OwnedTextMetadata {
+         default_text: CString,
+         interop: Box<TextMetadata>,
+     }
+ 

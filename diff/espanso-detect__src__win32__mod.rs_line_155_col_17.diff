@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -147,17 +147,17 @@
+                 std::ptr::from_ref::<Win32Source>(self),
+                 &options,
+                 &mut error_code,
+             )
+         };
+ 
+         if handle.is_null() {
+             let error = match error_code {
+-                -1 => Win32SourceError::WindowFailed(),
++                 /* ~ changed by cargo-mutants ~ */
+                 -2 => Win32SourceError::RawInputFailed(),
+                 _ => Win32SourceError::Unknown(),
+             };
+             return Err(error.into());
+         }
+ 
+         // Register the hotkeys
+         self.hotkeys.iter().for_each(|hk| {

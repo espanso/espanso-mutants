@@ -1,0 +1,120 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ replace ShortcutKey::parse -> Option<ShortcutKey> with Some(Default::default())
+@@ -210,116 +210,17 @@
+             ShortcutKey::Numpad9 => write!(f, "NUMPAD9"),
+             ShortcutKey::Raw(code) => write!(f, "RAW({code})"),
+         }
+     }
+ }
+ 
+ impl ShortcutKey {
+     pub fn parse(key: &str) -> Option<ShortcutKey> {
+-        let parsed = match key {
+-            "ALT" | "OPTION" => Some(ShortcutKey::Alt),
+-            "CTRL" => Some(ShortcutKey::Control),
+-            "META" | "CMD" => Some(ShortcutKey::Meta),
+-            "SHIFT" => Some(ShortcutKey::Shift),
+-            "ENTER" => Some(ShortcutKey::Enter),
+-            "TAB" => Some(ShortcutKey::Tab),
+-            "SPACE" => Some(ShortcutKey::Space),
+-            "INSERT" => Some(ShortcutKey::Insert),
+-            "DOWN" => Some(ShortcutKey::ArrowDown),
+-            "LEFT" => Some(ShortcutKey::ArrowLeft),
+-            "RIGHT" => Some(ShortcutKey::ArrowRight),
+-            "UP" => Some(ShortcutKey::ArrowUp),
+-            "END" => Some(ShortcutKey::End),
+-            "HOME" => Some(ShortcutKey::Home),
+-            "PAGEDOWN" => Some(ShortcutKey::PageDown),
+-            "PAGEUP" => Some(ShortcutKey::PageUp),
+-            "F1" => Some(ShortcutKey::F1),
+-            "F2" => Some(ShortcutKey::F2),
+-            "F3" => Some(ShortcutKey::F3),
+-            "F4" => Some(ShortcutKey::F4),
+-            "F5" => Some(ShortcutKey::F5),
+-            "F6" => Some(ShortcutKey::F6),
+-            "F7" => Some(ShortcutKey::F7),
+-            "F8" => Some(ShortcutKey::F8),
+-            "F9" => Some(ShortcutKey::F9),
+-            "F10" => Some(ShortcutKey::F10),
+-            "F11" => Some(ShortcutKey::F11),
+-            "F12" => Some(ShortcutKey::F12),
+-            "F13" => Some(ShortcutKey::F13),
+-            "F14" => Some(ShortcutKey::F14),
+-            "F15" => Some(ShortcutKey::F15),
+-            "F16" => Some(ShortcutKey::F16),
+-            "F17" => Some(ShortcutKey::F17),
+-            "F18" => Some(ShortcutKey::F18),
+-            "F19" => Some(ShortcutKey::F19),
+-            "F20" => Some(ShortcutKey::F20),
+-            "A" => Some(ShortcutKey::A),
+-            "B" => Some(ShortcutKey::B),
+-            "C" => Some(ShortcutKey::C),
+-            "D" => Some(ShortcutKey::D),
+-            "E" => Some(ShortcutKey::E),
+-            "F" => Some(ShortcutKey::F),
+-            "G" => Some(ShortcutKey::G),
+-            "H" => Some(ShortcutKey::H),
+-            "I" => Some(ShortcutKey::I),
+-            "J" => Some(ShortcutKey::J),
+-            "K" => Some(ShortcutKey::K),
+-            "L" => Some(ShortcutKey::L),
+-            "M" => Some(ShortcutKey::M),
+-            "N" => Some(ShortcutKey::N),
+-            "O" => Some(ShortcutKey::O),
+-            "P" => Some(ShortcutKey::P),
+-            "Q" => Some(ShortcutKey::Q),
+-            "R" => Some(ShortcutKey::R),
+-            "S" => Some(ShortcutKey::S),
+-            "T" => Some(ShortcutKey::T),
+-            "U" => Some(ShortcutKey::U),
+-            "V" => Some(ShortcutKey::V),
+-            "W" => Some(ShortcutKey::W),
+-            "X" => Some(ShortcutKey::X),
+-            "Y" => Some(ShortcutKey::Y),
+-            "Z" => Some(ShortcutKey::Z),
+-            "0" => Some(ShortcutKey::N0),
+-            "1" => Some(ShortcutKey::N1),
+-            "2" => Some(ShortcutKey::N2),
+-            "3" => Some(ShortcutKey::N3),
+-            "4" => Some(ShortcutKey::N4),
+-            "5" => Some(ShortcutKey::N5),
+-            "6" => Some(ShortcutKey::N6),
+-            "7" => Some(ShortcutKey::N7),
+-            "8" => Some(ShortcutKey::N8),
+-            "9" => Some(ShortcutKey::N9),
+-            "NUMPAD0" => Some(ShortcutKey::Numpad0),
+-            "NUMPAD1" => Some(ShortcutKey::Numpad1),
+-            "NUMPAD2" => Some(ShortcutKey::Numpad2),
+-            "NUMPAD3" => Some(ShortcutKey::Numpad3),
+-            "NUMPAD4" => Some(ShortcutKey::Numpad4),
+-            "NUMPAD5" => Some(ShortcutKey::Numpad5),
+-            "NUMPAD6" => Some(ShortcutKey::Numpad6),
+-            "NUMPAD7" => Some(ShortcutKey::Numpad7),
+-            "NUMPAD8" => Some(ShortcutKey::Numpad8),
+-            "NUMPAD9" => Some(ShortcutKey::Numpad9),
+-            _ => None,
+-        };
+-
+-        if parsed.is_none() {
+-            // Attempt to parse raw ShortcutKeys
+-            if RAW_PARSER.is_match(key) {
+-                if let Some(caps) = RAW_PARSER.captures(key) {
+-                    let code_str = caps.get(1).map_or("", |m| m.as_str());
+-                    let code = code_str.parse::<u32>();
+-                    if let Ok(code) = code {
+-                        return Some(ShortcutKey::Raw(code));
+-                    }
+-                }
+-            }
+-        }
+-
+-        parsed
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     // macOS keycodes
+ 
+     #[cfg(target_os = "macos")]
+     pub fn to_code(&self) -> Option<u32> {
+         match self {
+             ShortcutKey::Alt => Some(0x3A),

@@ -1,0 +1,22 @@
+--- espanso-info/src/lib.rs
++++ replace get_provider -> Result<Box<dyn AppInfoProvider>> with Ok(Box::new(Default::default()))
+@@ -62,18 +62,17 @@
+ pub fn get_provider() -> Result<Box<dyn AppInfoProvider>> {
+     info!("using X11AppInfoProvider");
+     Ok(Box::new(x11::X11AppInfoProvider::new()))
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(feature = "wayland")]
+ pub fn get_provider() -> Result<Box<dyn AppInfoProvider>> {
+-    info!("using WaylandAppInfoProvider");
+-    Ok(Box::new(wayland::WaylandAppInfoProvider::new()))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "windows")]
+ use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
+ #[cfg(target_os = "windows")]
+ static EXPANSION_NUM_EVENTS_REMAINING: AtomicUsize = AtomicUsize::new(0);
+ #[cfg(target_os = "windows")]
+ pub fn add_expansion_events(ev_count: usize) {

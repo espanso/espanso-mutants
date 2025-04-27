@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -313,17 +313,17 @@
+         "nl-NL" => Some(Locale::nl_NL),
+         "nn-NO" => Some(Locale::nn_NO),
+         "nr-ZA" => Some(Locale::nr_ZA),
+         "nso-ZA" => Some(Locale::nso_ZA),
+         "oc-FR" => Some(Locale::oc_FR),
+         "om-ET" => Some(Locale::om_ET),
+         "om-KE" => Some(Locale::om_KE),
+         "or-IN" => Some(Locale::or_IN),
+-        "os-RU" => Some(Locale::os_RU),
++         /* ~ changed by cargo-mutants ~ */
+         "pa-IN" => Some(Locale::pa_IN),
+         "pa-PK" => Some(Locale::pa_PK),
+         "pap-AW" => Some(Locale::pap_AW),
+         "pap-CW" => Some(Locale::pap_CW),
+         "pl-PL" => Some(Locale::pl_PL),
+         "ps-AF" => Some(Locale::ps_AF),
+         "pt-BR" => Some(Locale::pt_BR),
+         "pt-PT" => Some(Locale::pt_PT),

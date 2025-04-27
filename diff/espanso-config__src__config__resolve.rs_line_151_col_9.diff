@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::clipboard_threshold -> usize with 0
+@@ -143,19 +143,17 @@
+         }
+     }
+ 
+     fn enable(&self) -> bool {
+         self.parsed.enable.unwrap_or(true)
+     }
+ 
+     fn clipboard_threshold(&self) -> usize {
+-        self.parsed
+-            .clipboard_threshold
+-            .unwrap_or(DEFAULT_CLIPBOARD_THRESHOLD)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn auto_restart(&self) -> bool {
+         self.parsed.auto_restart.unwrap_or(true)
+     }
+ 
+     fn pre_paste_delay(&self) -> usize {
+         self.parsed

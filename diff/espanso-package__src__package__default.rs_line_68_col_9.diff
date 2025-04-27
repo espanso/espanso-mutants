@@ -1,0 +1,15 @@
+--- espanso-package/src/package/default.rs
++++ replace <impl Package for DefaultPackage>::location -> &std::path::Path with &Default::default()
+@@ -60,11 +60,11 @@
+         self.manifest.version.as_str()
+     }
+ 
+     fn author(&self) -> &str {
+         self.manifest.author.as_str()
+     }
+ 
+     fn location(&self) -> &std::path::Path {
+-        self.location.as_path()
++        &Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

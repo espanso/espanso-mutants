@@ -1,0 +1,24 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ delete match arm
+@@ -84,20 +84,17 @@
+                         *last_toggle_press = None;
+                     }
+                 }
+             }
+             EventType::EnableRequest => {
+                 *enabled = true;
+                 has_status_changed = true;
+             }
+-            EventType::DisableRequest => {
+-                *enabled = false;
+-                has_status_changed = true;
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             EventType::ToggleRequest => {
+                 *enabled = !*enabled;
+                 has_status_changed = true;
+             }
+             _ => {}
+         }
+ 
+         if has_status_changed {

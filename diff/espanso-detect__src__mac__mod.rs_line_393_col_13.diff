@@ -1,0 +1,24 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -385,20 +385,17 @@
+             INPUT_EVENT_TYPE_MOUSE => {
+                 let button = raw_to_mouse_button(raw.key_code);
+ 
+                 if let Some(button) = button {
+                     return Some(InputEvent::Mouse(MouseEvent { button, status }));
+                 }
+             }
+             // HOTKEYS
+-            INPUT_EVENT_TYPE_HOTKEY => {
+-                let id = raw.key_code;
+-                return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: id }));
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             _ => {}
+         }
+ 
+         None
+     }
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values

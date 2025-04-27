@@ -1,0 +1,21 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace != with == in <impl Drop for Win32EventLoop>::drop
+@@ -241,17 +241,17 @@
+         let handle = self.handle.swap(std::ptr::null_mut(), Ordering::Acquire);
+         if handle.is_null() {
+             error!("Win32EventLoop destruction cannot be performed, handle is null");
+             return;
+         }
+ 
+         let result = unsafe { ui_destroy(handle) };
+ 
+-        if result != 0 {
++        if result == /* ~ changed by cargo-mutants ~ */ 0 {
+             error!("Win32EventLoop destruction returned non-zero code");
+         }
+     }
+ }
+ 
+ pub struct Win32Remote {
+     handle: Arc<AtomicPtr<c_void>>,
+ 

@@ -1,0 +1,21 @@
+--- espanso-inject/src/keys.rs
++++ delete match arm
+@@ -248,17 +248,17 @@
+             "UP" => Some(Key::ArrowUp),
+             "END" => Some(Key::End),
+             "HOME" => Some(Key::Home),
+             "PAGEDOWN" => Some(Key::PageDown),
+             "PAGEUP" => Some(Key::PageUp),
+             "ESC" => Some(Key::Escape),
+             "BACKSPACE" => Some(Key::Backspace),
+             "INSERT" => Some(Key::Insert),
+-            "DELETE" => Some(Key::Delete),
++             /* ~ changed by cargo-mutants ~ */
+             "F1" => Some(Key::F1),
+             "F2" => Some(Key::F2),
+             "F3" => Some(Key::F3),
+             "F4" => Some(Key::F4),
+             "F5" => Some(Key::F5),
+             "F6" => Some(Key::F6),
+             "F7" => Some(Key::F7),
+             "F8" => Some(Key::F8),

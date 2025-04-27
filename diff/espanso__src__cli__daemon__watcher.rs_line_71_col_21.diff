@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ delete match arm
+@@ -63,17 +63,17 @@
+ 
+     loop {
+         let should_reload = match rx.recv() {
+             Ok(event) => {
+                 let path = match event {
+                     DebouncedEvent::Create(path) => Some(path),
+                     DebouncedEvent::Write(path) => Some(path),
+                     DebouncedEvent::Remove(path) => Some(path),
+-                    DebouncedEvent::Rename(_, path) => Some(path),
++                     /* ~ changed by cargo-mutants ~ */
+                     _ => None,
+                 };
+ 
+                 if let Some(path) = path {
+                     let extension = path
+                         .extension()
+                         .unwrap_or_default()
+                         .to_string_lossy()

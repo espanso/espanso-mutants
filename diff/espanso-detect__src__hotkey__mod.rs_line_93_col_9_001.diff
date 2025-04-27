@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/mod.rs
++++ replace HotKey::has_shift -> bool with true
+@@ -85,17 +85,17 @@
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_alt(&self) -> bool {
+         self.modifiers.contains(&ShortcutKey::Alt)
+     }
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_shift(&self) -> bool {
+-        self.modifiers.contains(&ShortcutKey::Shift)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Display for HotKey {
+     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+         let str_modifiers: Vec<String> = self.modifiers.iter().map(ToString::to_string).collect();
+         let modifiers = str_modifiers.join("+");
+         write!(f, "{}+{}", &modifiers, &self.key)

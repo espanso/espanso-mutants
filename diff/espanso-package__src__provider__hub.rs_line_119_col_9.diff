@@ -1,0 +1,26 @@
+--- espanso-package/src/provider/hub.rs
++++ replace EspansoHubPackageProvider::download_index -> Result<PackageIndex> with Ok(Default::default())
+@@ -111,22 +111,17 @@
+         }
+ 
+         let new_index = EspansoHubPackageProvider::download_index()?;
+         self.save_index_to_cache(new_index.clone())?;
+         Ok(new_index)
+     }
+ 
+     fn download_index() -> Result<PackageIndex> {
+-        info_println!("fetching package index...");
+-        let json_body = read_string_from_url(ESPANSO_HUB_PACKAGE_INDEX_URL)?;
+-
+-        let index: PackageIndex = serde_json::from_str(&json_body)?;
+-
+-        Ok(index)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_index_from_cache(&self) -> Result<Option<CachedPackageIndex>> {
+         let target_file = self.runtime_dir.join(PACKAGE_INDEX_CACHE_FILE);
+         if !target_file.is_file() {
+             return Ok(None);
+         }
+ 

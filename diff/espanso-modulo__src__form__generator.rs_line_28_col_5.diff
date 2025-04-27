@@ -1,0 +1,22 @@
+--- espanso-modulo/src/form/generator.rs
++++ replace generate -> Form with Default::default()
+@@ -20,18 +20,17 @@
+ use super::config::{FieldConfig, FieldTypeConfig, FormConfig};
+ use super::parser::layout::Token;
+ use crate::sys::form::types::{
+     ChoiceMetadata, ChoiceType, Field, FieldType, Form, LabelMetadata, RowMetadata, TextMetadata,
+ };
+ use std::collections::HashMap;
+ 
+ pub fn generate(config: FormConfig) -> Form {
+-    let structure = super::parser::layout::parse_layout(&config.layout);
+-    build_form(config, structure)
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn create_field(token: &Token, field_map: &HashMap<String, FieldConfig>) -> Field {
+     match token {
+         Token::Text(text) => Field {
+             field_type: FieldType::Label(LabelMetadata { text: text.clone() }),
+             ..Default::default()
+         },

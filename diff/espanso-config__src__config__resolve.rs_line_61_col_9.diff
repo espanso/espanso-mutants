@@ -1,0 +1,31 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::label -> &str with "xyzzy"
+@@ -53,27 +53,17 @@
+ }
+ 
+ impl Config for ResolvedConfig {
+     fn id(&self) -> i32 {
+         self.id
+     }
+ 
+     fn label(&self) -> &str {
+-        if let Some(label) = self.parsed.label.as_deref() {
+-            return label;
+-        }
+-
+-        if let Some(source_path) = self.source_path.as_ref() {
+-            if let Some(source_path) = source_path.to_str() {
+-                return source_path;
+-            }
+-        }
+-
+-        "none"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn match_paths(&self) -> &[String] {
+         &self.match_paths
+     }
+ 
+     fn is_match(&self, app: &AppProperties) -> bool {
+         if self.parsed.filter_os.is_none()

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace == with != in is_event_of_interest
+@@ -178,17 +178,17 @@
+ 
+         event
+     }
+ }
+ 
+ fn is_event_of_interest(event_type: &EventType) -> bool {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => {
+-            if keyboard_event.status == Status::Pressed {
++            if keyboard_event.status != /* ~ changed by cargo-mutants ~ */ Status::Pressed {
+                 // Skip linux Keyboard (XKB) Extension function and modifier keys
+                 // In hex, they have the byte 3 = 0xfe
+                 // See list in "keysymdef.h" file
+                 if cfg!(target_os = "linux") {
+                     if let (Key::Other(raw_code), None) =
+                         (&keyboard_event.key, &keyboard_event.value)
+                     {
+                         if (65025..=65276).contains(raw_code) {

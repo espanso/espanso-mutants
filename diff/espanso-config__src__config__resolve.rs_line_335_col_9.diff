@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::win32_exclude_orphan_events -> bool with true
+@@ -327,17 +327,17 @@
+ 
+     fn post_search_delay(&self) -> usize {
+         self.parsed
+             .post_search_delay
+             .unwrap_or(DEFAULT_POST_SEARCH_DELAY)
+     }
+ 
+     fn win32_exclude_orphan_events(&self) -> bool {
+-        self.parsed.win32_exclude_orphan_events.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn evdev_modifier_delay(&self) -> Option<usize> {
+         self.parsed.evdev_modifier_delay
+     }
+ 
+     fn win32_keyboard_layout_cache_interval(&self) -> i64 {
+         self.parsed

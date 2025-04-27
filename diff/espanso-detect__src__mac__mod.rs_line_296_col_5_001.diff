@@ -1,0 +1,46 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace convert_hotkey_to_raw -> Option<RawHotKey> with None
+@@ -288,42 +288,17 @@
+                 .lock()
+                 .expect("unable to acquire CocoaSource sender lock during initialization");
+             *lock = None;
+         }
+     }
+ }
+ 
+ fn convert_hotkey_to_raw(hk: &HotKey) -> Option<RawHotKey> {
+-    let key_code = hk.key.to_code()?;
+-    let code: Result<u16, _> = key_code.try_into();
+-    if let Ok(code) = code {
+-        let mut flags = 0;
+-        if hk.has_ctrl() {
+-            flags |= 1 << 12;
+-        }
+-        if hk.has_alt() {
+-            flags |= 1 << 11;
+-        }
+-        if hk.has_meta() {
+-            flags |= 1 << 8;
+-        }
+-        if hk.has_shift() {
+-            flags |= 1 << 9;
+-        }
+-
+-        Some(RawHotKey {
+-            id: hk.id,
+-            code,
+-            flags,
+-        })
+-    } else {
+-        error!("unable to generate raw hotkey, the key_code is overflowing");
+-        None
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum CocoaSourceError {
+     #[error("unknown error")]
+     Unknown(),
+ }
+ 

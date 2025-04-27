@@ -1,0 +1,40 @@
+--- espanso-engine/src/process/middleware/cursor_hint.rs
++++ replace <impl Middleware for CursorHintMiddleware>::next -> Event with Default::default()
+@@ -32,36 +32,17 @@
+ }
+ 
+ impl Middleware for CursorHintMiddleware {
+     fn name(&self) -> &'static str {
+         "cursor_hint"
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::Rendered(m_event) = event.etype {
+-            let (body, cursor_hint_back_count) = process_cursor_hint(m_event.body);
+-
+-            if let Some(cursor_hint_back_count) = cursor_hint_back_count {
+-                dispatch(Event::caused_by(
+-                    event.source_id,
+-                    EventType::CursorHintCompensation(CursorHintCompensationEvent {
+-                        cursor_hint_back_count,
+-                    }),
+-                ));
+-            }
+-
+-            // Alter the rendered event to remove the cursor hint from the body
+-            return Event::caused_by(
+-                event.source_id,
+-                EventType::Rendered(RenderedEvent { body, ..m_event }),
+-            );
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn process_cursor_hint(body: String) -> (String, Option<usize>) {
+     if let Some(index) = body.find("$|$") {
+         // Convert the byte index to a char index
+         let char_str = &body[0..index];
+         let char_index = char_str.graphemes(true).count();

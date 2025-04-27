@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace != with == in <impl Source for EVDEVSource>::eventloop
+@@ -250,17 +250,17 @@
+ 
+                             if unsafe {
+                                 epoll_ctl(
+                                     *epfd,
+                                     EPOLL_CTL_DEL,
+                                     device.get_raw_fd(),
+                                     std::ptr::null_mut(),
+                                 )
+-                            } != 0
++                            } == /* ~ changed by cargo-mutants ~ */ 0
+                             {
+                                 error!(
+                                     "Could not remove {} from epoll, errno {}",
+                                     device.get_path(),
+                                     unsafe { *errno_ptr }
+                                 );
+                                 return Err(EVDEVSourceError::Internal().into());
+                             }

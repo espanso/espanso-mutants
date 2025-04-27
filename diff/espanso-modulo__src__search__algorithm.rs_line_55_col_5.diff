@@ -1,0 +1,37 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace case_insensitive_exact_match -> Vec<usize> with vec![1]
+@@ -47,33 +47,17 @@
+                 || item.trigger.as_deref().is_some_and(|t| t.contains(query))
+                 || item.search_terms.iter().any(|term| term.contains(query))
+         })
+         .map(|(i, _)| i)
+         .collect()
+ }
+ 
+ fn case_insensitive_exact_match(query: &str, items: &[SearchItem]) -> Vec<usize> {
+-    let lowercase_query = query.to_lowercase();
+-    items
+-        .iter()
+-        .enumerate()
+-        .filter(|(_, item)| {
+-            item.label.to_lowercase().contains(&lowercase_query)
+-                || item
+-                    .trigger
+-                    .as_deref()
+-                    .is_some_and(|t| t.to_lowercase().contains(query))
+-                || item
+-                    .search_terms
+-                    .iter()
+-                    .any(|term| term.to_lowercase().contains(&lowercase_query))
+-        })
+-        .map(|(i, _)| i)
+-        .collect()
++    vec![1] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn case_insensitive_keyword(query: &str, items: &[SearchItem]) -> Vec<usize> {
+     let lowercase_query = query.to_lowercase();
+     let keywords: Vec<&str> = lowercase_query.split_whitespace().collect();
+     items
+         .iter()
+         .enumerate()

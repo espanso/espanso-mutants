@@ -1,0 +1,25 @@
+--- espanso-config/src/config/parse/mod.rs
++++ replace ParsedConfig::load -> Result<Self> with Ok(Default::default())
+@@ -73,21 +73,17 @@
+     pub filter_title: Option<String>,
+     pub filter_class: Option<String>,
+     pub filter_exec: Option<String>,
+     pub filter_os: Option<String>,
+ }
+ 
+ impl ParsedConfig {
+     pub fn load(path: &Path) -> Result<Self> {
+-        let content = std::fs::read_to_string(path)?;
+-        match yaml::YAMLConfig::parse_from_str(&content) {
+-            Ok(config) => Ok(config.try_into()?),
+-            Err(err) => Err(ParsedConfigError::LoadFailed(err).into()),
+-        }
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ParsedConfigError {
+     #[error("can't load config `{0}`")]
+     LoadFailed(#[from] anyhow::Error),
+ }

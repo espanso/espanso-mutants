@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -295,17 +295,17 @@
+         156 => Some(0x00A3), // Pound sign, pound sterling, Irish punt, lira sign
+         157 => Some(0x00A5), // Yen sign, yuan sign
+         158 => Some(0x20A7), // Peseta sign
+         159 => Some(0x0192), // Latin small letter f with hook, florin currency symbol, function symbol
+         160 => Some(0x00E1), // Latin small letter a with acute
+         161 => Some(0x00ED), // Latin small letter i with acute
+         162 => Some(0x00F3), // Latin small letter o with acute
+         163 => Some(0x00FA), // Latin small letter u with acute
+-        164 => Some(0x00F1), // Latin small letter n with tilde, small letter enye
++         /* ~ changed by cargo-mutants ~ */ // Latin small letter n with tilde, small letter enye
+         165 => Some(0x00D1), // Latin capital letter N with tilde, capital letter enye
+         166 => Some(0x00AA), // Feminine ordinal indicator
+         167 => Some(0x00BA), // Masculine ordinal indicator
+         168 => Some(0x00BF), // Inverted question mark, turned question mark
+         169 => Some(0x2310), // Reversed not sign, beginning of line
+         170 => Some(0x00AC), // Not sign, angled dash
+         171 => Some(0x00BD), // Vulgar fraction one half
+         172 => Some(0x00BC), // Vulgar fraction one quarter

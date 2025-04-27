@@ -1,0 +1,38 @@
+--- espanso-package/src/resolver.rs
++++ replace resolve_all_packages -> Result<Vec<ResolvedPackage>> with Ok(vec![])
+@@ -62,34 +62,17 @@
+             "unable to find version: {} for package: {}",
+             version.unwrap_or_default(),
+             name
+         );
+     }
+ }
+ 
+ pub fn resolve_all_packages(base_dir: &Path) -> Result<Vec<ResolvedPackage>> {
+-    let manifest_files = find_all_manifests(base_dir)?;
+-
+-    if manifest_files.is_empty() {
+-        bail!("no manifests found in base_dir");
+-    }
+-
+-    let mut manifests = Vec::new();
+-
+-    for manifest_file in manifest_files {
+-        let base_dir = manifest_file
+-            .parent()
+-            .ok_or_else(|| anyhow!("unable to determine base_dir from manifest path"))?
+-            .to_owned();
+-        let manifest = Manifest::parse(&manifest_file).context("manifest YAML parsing error")?;
+-        manifests.push(ResolvedPackage { manifest, base_dir });
+-    }
+-
+-    Ok(manifests)
++    Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn find_all_manifests(base_dir: &Path) -> Result<Vec<PathBuf>> {
+     let pattern = format!("{}/{}", base_dir.to_string_lossy(), "**/_manifest.yml");
+ 
+     let mut manifests = Vec::new();
+ 
+     for entry in glob::glob(&pattern)? {

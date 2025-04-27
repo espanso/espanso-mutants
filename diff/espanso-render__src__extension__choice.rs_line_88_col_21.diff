@@ -1,0 +1,30 @@
+--- espanso-render/src/extension/choice.rs
++++ delete match arm
+@@ -80,26 +80,17 @@
+         } else if let Some(Value::Array(values)) = params.get("values") {
+             let choices: Result<Vec<Choice>> = values
+                 .iter()
+                 .map(|value| match value {
+                     Value::String(string) => Ok(Choice {
+                         id: string,
+                         label: string,
+                     }),
+-                    Value::Object(fields) => Ok(Choice {
+-                        id: fields
+-                            .get("id")
+-                            .and_then(|val| val.as_string())
+-                            .ok_or(ChoiceError::InvalidObjectValue)?,
+-                        label: fields
+-                            .get("label")
+-                            .and_then(|val| val.as_string())
+-                            .ok_or(ChoiceError::InvalidObjectValue)?,
+-                    }),
++                     /* ~ changed by cargo-mutants ~ */
+                     _ => Err(ChoiceError::InvalidValueType.into()),
+                 })
+                 .collect();
+ 
+             match choices {
+                 Ok(choices) => choices,
+                 Err(err) => {
+                     return crate::ExtensionResult::Error(err);

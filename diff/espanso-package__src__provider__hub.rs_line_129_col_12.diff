@@ -1,0 +1,21 @@
+--- espanso-package/src/provider/hub.rs
++++ delete ! in EspansoHubPackageProvider::get_index_from_cache
+@@ -121,17 +121,17 @@
+ 
+         let index: PackageIndex = serde_json::from_str(&json_body)?;
+ 
+         Ok(index)
+     }
+ 
+     fn get_index_from_cache(&self) -> Result<Option<CachedPackageIndex>> {
+         let target_file = self.runtime_dir.join(PACKAGE_INDEX_CACHE_FILE);
+-        if !target_file.is_file() {
++        if  /* ~ changed by cargo-mutants ~ */target_file.is_file() {
+             return Ok(None);
+         }
+ 
+         let content =
+             std::fs::read_to_string(&target_file).context("unable to read package index cache")?;
+         let index: CachedPackageIndex = serde_json::from_str(&content)?;
+         Ok(Some(index))
+     }

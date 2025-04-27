@@ -1,0 +1,25 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace interop::OwnedSearchItem::to_search_item -> SearchItem with Default::default()
+@@ -123,21 +123,17 @@
+     pub(crate) struct OwnedSearchItem {
+         id: CString,
+         label: CString,
+         trigger: CString,
+     }
+ 
+     impl OwnedSearchItem {
+         fn to_search_item(&self) -> SearchItem {
+-            SearchItem {
+-                id: self.id.as_ptr(),
+-                label: self.label.as_ptr(),
+-                trigger: self.trigger.as_ptr(),
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<&types::SearchItem> for OwnedSearchItem {
+         fn from(item: &types::SearchItem) -> Self {
+             let id = CString::new(item.id.clone()).expect("unable to convert item id to CString");
+             let label =
+                 CString::new(item.label.clone()).expect("unable to convert item label to CString");

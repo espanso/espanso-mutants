@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/path.rs
++++ replace && with || in resolve_imports
+@@ -54,17 +54,17 @@
+         } else {
+             import_path
+         };
+ 
+         match dunce::canonicalize(&full_path)
+             .with_context(|| format!("unable to canonicalize import path: {full_path:?}"))
+         {
+             Ok(canonical_path) => {
+-                if canonical_path.exists() && canonical_path.is_file() {
++                if canonical_path.exists() || /* ~ changed by cargo-mutants ~ */ canonical_path.is_file() {
+                     paths.push(canonical_path);
+                 } else {
+                     // Best effort imports
+                     non_fatal_errors.push(ErrorRecord::error(anyhow!(
+                         "unable to resolve import at path: {:?}",
+                         canonical_path
+                     )));
+                 }

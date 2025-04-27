@@ -1,0 +1,21 @@
+--- espanso/src/patch/config_store.rs
++++ replace PatchedConfigStore::from_store -> Self with Default::default()
+@@ -26,17 +26,17 @@
+ 
+ pub struct PatchedConfigStore {
+     config_store: Box<dyn ConfigStore>,
+     patches: Vec<PatchDefinition>,
+ }
+ 
+ impl PatchedConfigStore {
+     pub fn from_store(config_store: Box<dyn ConfigStore>) -> Self {
+-        Self::from_store_with_patches(config_store, super::get_builtin_patches())
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn from_store_with_patches(
+         config_store: Box<dyn ConfigStore>,
+         patches: Vec<PatchDefinition>,
+     ) -> Self {
+         // Only keep the patches that should be active in the current system
+         let active_patches = patches

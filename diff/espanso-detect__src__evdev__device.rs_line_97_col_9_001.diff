@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace Device::get_path -> String with String::new()
+@@ -89,17 +89,17 @@
+         self.state
+     }
+ 
+     pub fn get_raw_fd(&self) -> i32 {
+         self.file.as_raw_fd()
+     }
+ 
+     pub fn get_path(&self) -> String {
+-        self.path.to_string()
++        String::new() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn read(&self) -> Result<Vec<RawInputEvent>> {
+         let errno_ptr = unsafe { libc::__errno_location() };
+         let mut len: ssize_t;
+         let mut evs: [input_event; 16] = unsafe { std::mem::zeroed() };
+         let mut events = Vec::new();
+ 

@@ -1,0 +1,20 @@
+--- espanso/src/util.rs
++++ replace log_system_info with ()
+@@ -49,16 +49,10 @@
+ 
+ #[cfg(not(target_os = "windows"))]
+ pub fn attach_console() -> Result<()> {
+     // Not necessary on Linux and macOS
+     Ok(())
+ }
+ 
+ pub fn log_system_info() {
+-    let sys = System::new();
+-    info!(
+-        "system info: {} v{} - kernel: {}",
+-        sys.name().unwrap_or_default(),
+-        sys.os_version().unwrap_or_default(),
+-        sys.kernel_version().unwrap_or_default()
+-    );
++    () /* ~ changed by cargo-mutants ~ */
+ }

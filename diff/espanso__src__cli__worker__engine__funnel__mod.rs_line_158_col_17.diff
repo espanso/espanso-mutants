@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/mod.rs
++++ delete match arm
+@@ -150,17 +150,17 @@
+             status,
+             value: _,
+             variant: _,
+             code: _,
+         }) => {
+             let is_pressed = *status == Status::Pressed;
+             match key {
+                 espanso_detect::event::Key::Alt => Some((Modifier::Alt, is_pressed)),
+-                espanso_detect::event::Key::Control => Some((Modifier::Ctrl, is_pressed)),
++                 /* ~ changed by cargo-mutants ~ */
+                 espanso_detect::event::Key::Meta => Some((Modifier::Meta, is_pressed)),
+                 espanso_detect::event::Key::Shift => Some((Modifier::Shift, is_pressed)),
+                 _ => None,
+             }
+         }
+         _ => None,
+     }
+ }

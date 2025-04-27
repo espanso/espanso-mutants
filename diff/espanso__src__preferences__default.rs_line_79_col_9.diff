@@ -1,0 +1,21 @@
+--- espanso/src/preferences/default.rs
++++ replace <impl Preferences for DefaultPreferences<KVSType>>::set_should_display_troubleshoot_for_non_fatal_errors with ()
+@@ -71,17 +71,17 @@
+     }
+ 
+     fn should_display_troubleshoot_for_non_fatal_errors(&self) -> bool {
+         self.get(SHOULD_DISPLAY_TROUBLESHOOT_FOR_NON_FATAL_ERRORS)
+             .unwrap_or(true)
+     }
+ 
+     fn set_should_display_troubleshoot_for_non_fatal_errors(&self, value: bool) {
+-        self.set(SHOULD_DISPLAY_TROUBLESHOOT_FOR_NON_FATAL_ERRORS, value);
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn has_selected_auto_start_option(&self) -> bool {
+         self.get(HAS_SELECTED_AUTO_START_OPTION).unwrap_or(false)
+     }
+ 
+     fn set_has_selected_auto_start_option(&self, value: bool) {
+         self.set(HAS_SELECTED_AUTO_START_OPTION, value);

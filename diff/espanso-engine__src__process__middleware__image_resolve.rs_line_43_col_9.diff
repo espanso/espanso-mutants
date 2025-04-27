@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/image_resolve.rs
++++ replace <impl Middleware for ImageResolverMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -35,17 +35,17 @@
+ impl<'a> ImageResolverMiddleware<'a> {
+     pub fn new(provider: &'a dyn PathProvider) -> Self {
+         Self { provider }
+     }
+ }
+ 
+ impl Middleware for ImageResolverMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "image_resolve"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::ImageRequested(m_event) = &event.etype {
+             // On Windows, we have to replace the forward / with the backslash \ in the path
+             let path = if cfg!(target_os = "windows") {
+                 m_event.image_path.replace('/', "\\")
+             } else {

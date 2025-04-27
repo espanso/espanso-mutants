@@ -1,0 +1,21 @@
+--- espanso/src/path/win.rs
++++ replace is_espanso_in_path -> bool with false
+@@ -21,17 +21,17 @@
+ use windows::Win32::Foundation::{LPARAM, WPARAM};
+ use windows::Win32::UI::WindowsAndMessaging::{
+     SendMessageTimeoutW, HWND_BROADCAST, SMTO_ABORTIFHUNG, WM_SETTINGCHANGE,
+ };
+ use winreg::enums::*;
+ use winreg::RegKey;
+ 
+ pub fn is_espanso_in_path() -> bool {
+-    read_paths().iter().any(|path| path.contains("espanso"))
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn add_espanso_to_path(_: bool) -> Result<()> {
+     let mut paths = read_paths();
+     let exe_path = std::env::current_exe().expect("unable to obtain exec path");
+     let parent_path = exe_path.parent().expect("unable to obtain parent path");
+ 
+     // Add espanso to path list

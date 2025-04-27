@@ -1,0 +1,25 @@
+--- espanso-config/src/matches/mod.rs
++++ replace Match::search_terms -> Vec<&str> with vec!["xyzzy"]
+@@ -63,21 +63,17 @@
+         }
+     }
+ 
+     pub fn cause_description(&self) -> Option<&str> {
+         self.cause.description()
+     }
+ 
+     pub fn search_terms(&self) -> Vec<&str> {
+-        self.search_terms
+-            .iter()
+-            .map(String::as_str)
+-            .chain(self.cause.search_terms())
+-            .collect()
++        vec!["xyzzy"] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ // Causes
+ 
+ #[derive(Debug, Clone, Eq, Hash, PartialEq, EnumAsInner)]
+ pub enum MatchCause {
+     None,

@@ -1,0 +1,23 @@
+--- espanso/src/util.rs
++++ replace attach_console -> Result<()> with Ok(())
+@@ -37,19 +37,17 @@
+ pub fn set_command_flags(_: &mut Command) {
+     // NOOP on Linux and macOS
+ }
+ 
+ #[cfg(target_os = "windows")]
+ pub fn attach_console() -> Result<()> {
+     // When using the windows subsystem we loose the terminal output.
+     // Therefore we try to attach to the current console if available.
+-    use windows::Win32::System::Console::AttachConsole;
+-    unsafe { AttachConsole(0xFFFF_FFFF)? };
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(not(target_os = "windows"))]
+ pub fn attach_console() -> Result<()> {
+     // Not necessary on Linux and macOS
+     Ok(())
+ }
+ 

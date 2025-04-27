@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -537,17 +537,17 @@
+         0x73 => Some(0x0073), // #LATIN SMALL LETTER S
+         0x74 => Some(0x0074), // #LATIN SMALL LETTER T
+         0x75 => Some(0x0075), // #LATIN SMALL LETTER U
+         0x76 => Some(0x0076), // #LATIN SMALL LETTER V
+         0x77 => Some(0x0077), // #LATIN SMALL LETTER W
+         0x78 => Some(0x0078), // #LATIN SMALL LETTER X
+         0x79 => Some(0x0079), // #LATIN SMALL LETTER Y
+         0x7A => Some(0x007A), // #LATIN SMALL LETTER Z
+-        0x7B => Some(0x007B), // #LEFT CURLY BRACKET
++         /* ~ changed by cargo-mutants ~ */ // #LEFT CURLY BRACKET
+         0x7C => Some(0x007C), // #VERTICAL LINE
+         0x7D => Some(0x007D), // #RIGHT CURLY BRACKET
+         0x7E => Some(0x007E), // #TILDE
+         0x7F => Some(0x007F), // #DELETE
+         0x80 => Some(0x20AC), // #EURO SIGN
+         0x82 => Some(0x201A), // #SINGLE LOW-9 QUOTATION MARK
+         0x83 => Some(0x0192), // #LATIN SMALL LETTER F WITH HOOK
+         0x84 => Some(0x201E), // #DOUBLE LOW-9 QUOTATION MARK

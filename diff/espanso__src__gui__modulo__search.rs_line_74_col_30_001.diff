@@ -1,0 +1,21 @@
+--- espanso/src/gui/modulo/search.rs
++++ replace > with == in <impl SearchUI for ModuloSearchUI<'_>>::show
+@@ -66,17 +66,17 @@
+                 } else {
+                     Ok(None)
+                 }
+             }
+             Err(error) => Err(error.into()),
+         };
+ 
+         let post_search_delay = self.option_provider.get_post_search_delay();
+-        if post_search_delay > 0 {
++        if post_search_delay == /* ~ changed by cargo-mutants ~ */ 0 {
+             std::thread::sleep(std::time::Duration::from_millis(
+                 post_search_delay.try_into().unwrap(),
+             ));
+         }
+ 
+         result
+     }
+ }

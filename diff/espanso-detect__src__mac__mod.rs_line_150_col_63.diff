@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace == with != in native_callback
+@@ -142,17 +142,17 @@
+ 
+         if let Key::Alt = &key_code {
+             current_mod_state.is_option_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Meta = &key_code {
+             current_mod_state.is_command_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Shift = &key_code {
+             current_mod_state.is_shift_down = raw_event.status == INPUT_STATUS_PRESSED;
+         } else if let Key::Control = &key_code {
+-            current_mod_state.is_ctrl_down = raw_event.status == INPUT_STATUS_PRESSED;
++            current_mod_state.is_ctrl_down = raw_event.status != /* ~ changed by cargo-mutants ~ */ INPUT_STATUS_PRESSED;
+         } else {
+             if current_mod_state.is_command_down && raw_event.is_command_pressed == 0 {
+                 compensating_events.push((Key::Meta, 0x37));
+                 current_mod_state.is_command_down = false;
+             }
+             if current_mod_state.is_ctrl_down && raw_event.is_control_pressed == 0 {
+                 compensating_events.push((Key::Control, 0x3B));
+                 current_mod_state.is_ctrl_down = false;

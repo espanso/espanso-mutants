@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ delete ! in <impl Clipboard for XClipClipboard>::set_text
+@@ -57,17 +57,17 @@
+                 error!("xclip reported an error: {}", error);
+             }
+         }
+ 
+         None
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        if !self.is_xclip_available {
++        if  /* ~ changed by cargo-mutants ~ */self.is_xclip_available {
+             bail!("attempted to use XClipClipboard, but `xclip` command can't be called");
+         }
+ 
+         let mut child = Command::new("xclip")
+             .args(["-sel", "clip"])
+             .stdin(Stdio::piped())
+             .spawn()?;
+ 

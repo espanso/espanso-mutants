@@ -1,0 +1,27 @@
+--- espanso-inject/src/lib.rs
++++ replace get_injector -> Result<Box<dyn Injector>> with Ok(Box::new(Default::default()))
+@@ -142,23 +142,17 @@
+ pub fn get_injector(_options: InjectorCreationOptions) -> Result<Box<dyn Injector>> {
+     info!("using MacInjector");
+     Ok(Box::new(mac::MacInjector::new()))
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(not(feature = "wayland"))]
+ pub fn get_injector(options: InjectorCreationOptions) -> Result<Box<dyn Injector>> {
+-    if options.use_evdev {
+-        info!("using EVDEVInjector");
+-        Ok(Box::new(evdev::EVDEVInjector::new(options)?))
+-    } else {
+-        info!("using X11ProxyInjector");
+-        Ok(Box::new(x11::X11ProxyInjector::new()?))
+-    }
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(feature = "wayland")]
+ pub fn get_injector(options: InjectorCreationOptions) -> Result<Box<dyn Injector>> {
+     info!("using EVDEVInjector");
+     Ok(Box::new(evdev::EVDEVInjector::new(options)?))
+ }

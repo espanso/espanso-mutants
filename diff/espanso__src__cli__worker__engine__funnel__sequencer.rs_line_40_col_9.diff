@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/sequencer.rs
++++ replace Sequencer::next_id -> SourceId with Default::default()
+@@ -32,17 +32,17 @@
+ impl Sequencer {
+     pub fn new() -> Self {
+         Self {
+             current_id: Arc::new(AtomicU32::new(0)),
+         }
+     }
+ 
+     pub fn next_id(&self) -> SourceId {
+-        self.current_id.fetch_add(1, Ordering::SeqCst)
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl EventSequenceProvider for Sequencer {
+     fn get_next_id(&self) -> SourceId {
+         self.next_id()
+     }
+ }

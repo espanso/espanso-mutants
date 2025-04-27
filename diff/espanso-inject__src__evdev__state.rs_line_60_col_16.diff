@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/state.rs
++++ replace > with < in State::get_string
+@@ -52,17 +52,17 @@
+         let len = unsafe {
+             xkb_state_key_get_utf8(
+                 self.state,
+                 code,
+                 buffer.as_mut_ptr(),
+                 std::mem::size_of_val(&buffer),
+             )
+         };
+-        if len > 0 {
++        if len < /* ~ changed by cargo-mutants ~ */ 0 {
+             let content_raw = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             let string = content_raw.to_string_lossy().to_string();
+             if string.is_empty() {
+                 None
+             } else {
+                 Some(string)
+             }
+         } else {

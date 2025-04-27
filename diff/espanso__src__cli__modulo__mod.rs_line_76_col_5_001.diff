@@ -1,0 +1,14 @@
+--- espanso/src/cli/modulo/mod.rs
++++ replace modulo_main -> i32 with -1
+@@ -68,10 +68,10 @@
+         return troubleshoot::troubleshoot_main(&paths, &icon_paths);
+     }
+ 
+     0
+ }
+ 
+ #[cfg(not(feature = "modulo"))]
+ fn modulo_main(_: CliModuleArgs) -> i32 {
+-    panic!("this version of espanso was not compiled with 'modulo' support, please obtain a version that does or recompile it with the 'modulo' feature flag");
++    -1 /* ~ changed by cargo-mutants ~ */
+ }

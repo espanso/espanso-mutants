@@ -1,0 +1,33 @@
+--- espanso/src/cli/match_cli/list.rs
++++ replace print_matches_as_json -> Result<()> with Ok(())
+@@ -92,29 +92,10 @@
+ #[derive(Debug, Serialize)]
+ struct JsonMatchEntry {
+     triggers: Vec<String>,
+     replace: String,
+     label: Option<String>,
+ }
+ 
+ pub fn print_matches_as_json(match_list: &[&Match]) -> Result<()> {
+-    let mut entries = Vec::new();
+-    for m in match_list {
+-        let triggers = match &m.cause {
+-            MatchCause::None => vec!["(none)".to_string()],
+-            MatchCause::Trigger(trigger_cause) => trigger_cause.triggers.clone(),
+-            MatchCause::Regex(regex_cause) => vec![regex_cause.regex.clone()],
+-        };
+-
+-        entries.push(JsonMatchEntry {
+-            triggers,
+-            replace: m.description().to_string(),
+-            label: m.label.clone(),
+-        });
+-    }
+-
+-    let json = serde_json::to_string_pretty(&entries)?;
+-
+-    println!("{json}");
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

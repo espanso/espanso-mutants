@@ -1,0 +1,59 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace <impl Source for Win32Source>::initialize -> Result<()> with Ok(())
+@@ -132,55 +132,17 @@
+             exclude_orphan_events,
+             keyboard_layout_cache_interval,
+         }
+     }
+ }
+ 
+ impl Source for Win32Source {
+     fn initialize(&mut self) -> Result<()> {
+-        let options = InitOptions {
+-            keyboard_layout_cache_interval: self.keyboard_layout_cache_interval.try_into().unwrap(),
+-        };
+-
+-        let mut error_code = 0;
+-        let handle = unsafe {
+-            detect_initialize(
+-                std::ptr::from_ref::<Win32Source>(self),
+-                &options,
+-                &mut error_code,
+-            )
+-        };
+-
+-        if handle.is_null() {
+-            let error = match error_code {
+-                -1 => Win32SourceError::WindowFailed(),
+-                -2 => Win32SourceError::RawInputFailed(),
+-                _ => Win32SourceError::Unknown(),
+-            };
+-            return Err(error.into());
+-        }
+-
+-        // Register the hotkeys
+-        self.hotkeys.iter().for_each(|hk| {
+-            let raw = convert_hotkey_to_raw(hk);
+-            if let Some(raw_hk) = raw {
+-                if unsafe { detect_register_hotkey(handle, raw_hk) } == 0 {
+-                    error!("unable to register hotkey: {}", hk);
+-                } else {
+-                    debug!("registered hotkey: {}", hk);
+-                }
+-            } else {
+-                error!("unable to generate raw hotkey mapping: {}", hk);
+-            }
+-        });
+-
+-        self.handle = handle;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+         assert!(
+             !self.handle.is_null(),
+             "Attempt to start Win32Source eventloop without initialization"
+         );
+ 

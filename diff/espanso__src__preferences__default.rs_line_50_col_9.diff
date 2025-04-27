@@ -1,0 +1,23 @@
+--- espanso/src/preferences/default.rs
++++ replace DefaultPreferences<KVSType>::set with ()
+@@ -42,19 +42,17 @@
+ 
+     fn get<T: DeserializeOwned>(&self, key: &str) -> Option<T> {
+         self.kvs
+             .get(key)
+             .unwrap_or_else(|_| panic!("unable to read preference for key {key}"))
+     }
+ 
+     fn set<T: Serialize>(&self, key: &str, value: T) {
+-        self.kvs
+-            .set(key, value)
+-            .unwrap_or_else(|_| panic!("unable to write preference for key {key}"));
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<KVSType: KVS> Preferences for DefaultPreferences<KVSType> {
+     fn has_completed_wizard(&self) -> bool {
+         self.get(HAS_COMPLETED_WIZARD_KEY).unwrap_or(false)
+     }
+ 

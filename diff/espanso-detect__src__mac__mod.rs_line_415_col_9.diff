@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -407,17 +407,17 @@
+         // Modifiers
+         0x3A => (Alt, Some(Left)),
+         0x3D => (Alt, Some(Right)),
+         0x39 => (CapsLock, None), // TODO
+         0x3B => (Control, Some(Left)),
+         0x3E => (Control, Some(Right)),
+         0x37 => (Meta, Some(Left)),
+         0x36 => (Meta, Some(Right)),
+-        0x38 => (Shift, Some(Left)),
++         /* ~ changed by cargo-mutants ~ */
+         0x3C => (Shift, Some(Right)),
+ 
+         // Whitespace
+         0x24 => (Enter, None),
+         0x30 => (Tab, None),
+         0x31 => (Space, None),
+ 
+         // Navigation

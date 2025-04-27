@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::enable -> bool with true
+@@ -139,17 +139,17 @@
+             err => {
+                 error!("invalid backend specified {:?}, falling back to Auto", err);
+                 Backend::Auto
+             }
+         }
+     }
+ 
+     fn enable(&self) -> bool {
+-        self.parsed.enable.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn clipboard_threshold(&self) -> usize {
+         self.parsed
+             .clipboard_threshold
+             .unwrap_or(DEFAULT_CLIPBOARD_THRESHOLD)
+     }
+ 

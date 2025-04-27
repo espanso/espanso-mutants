@@ -1,0 +1,29 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace get_matching_template -> Option<&'a Template> with None
+@@ -208,25 +208,17 @@
+     }
+ }
+ 
+ fn get_matching_template<'a>(
+     variable: &Variable,
+     templates: &'a [&Template],
+ ) -> Option<&'a Template> {
+     // Find matching template
+-    let id = variable.params.get("trigger")?;
+-    if let Value::String(id) = id {
+-        templates
+-            .iter()
+-            .find(|template| template.ids.contains(id))
+-            .copied()
+-    } else {
+-        None
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn log_new_form_syntax_tip() {
+     error!("");
+     error!("TIP: This error might be happening because since version 2.1.0-alpha, Espanso changed");
+     error!("the syntax to define form controls. Instead of `{{{{control}}}}` you need to use");
+     error!("[[control]] (using square brackets instead of curly brackets).");
+     error!("");

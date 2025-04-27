@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ delete ! in <impl Middleware for DisableMiddleware>::next
+@@ -89,17 +89,17 @@
+                 *enabled = true;
+                 has_status_changed = true;
+             }
+             EventType::DisableRequest => {
+                 *enabled = false;
+                 has_status_changed = true;
+             }
+             EventType::ToggleRequest => {
+-                *enabled = !*enabled;
++                *enabled =  /* ~ changed by cargo-mutants ~ */*enabled;
+                 has_status_changed = true;
+             }
+             _ => {}
+         }
+ 
+         if has_status_changed {
+             info!("toggled enabled state, is_enabled = {}", *enabled);
+             dispatch(Event::caused_by(

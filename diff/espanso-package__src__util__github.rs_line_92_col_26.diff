@@ -1,0 +1,21 @@
+--- espanso-package/src/util/github.rs
++++ replace == with != in check_repo_with_branch
+@@ -84,17 +84,17 @@
+ }
+ 
+ pub fn check_repo_with_branch(parts: &GitHubParts, branch: &str) -> Result<bool> {
+     let client = reqwest::blocking::Client::new();
+ 
+     let url = generate_github_download_url(parts, branch);
+     let response = client.head(url).send()?;
+ 
+-    Ok(response.status() == StatusCode::FOUND || response.status() == StatusCode::OK)
++    Ok(response.status() != /* ~ changed by cargo-mutants ~ */ StatusCode::FOUND || response.status() == StatusCode::OK)
+ }
+ 
+ fn generate_github_download_url(parts: &GitHubParts, branch: &str) -> String {
+     format!(
+         "https://github.com/{}/{}/archive/refs/heads/{}.zip",
+         parts.author, parts.name, branch
+     )
+ }

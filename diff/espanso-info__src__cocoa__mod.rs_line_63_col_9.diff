@@ -1,0 +1,32 @@
+--- espanso-info/src/cocoa/mod.rs
++++ replace CocoaAppInfoProvider::get_class -> Option<String> with Some(String::new())
+@@ -55,28 +55,17 @@
+                 Some(string.to_string())
+             }
+         } else {
+             None
+         }
+     }
+ 
+     fn get_class(&self) -> Option<String> {
+-        let mut buffer: [c_char; 2048] = [0; 2048];
+-        if unsafe { info_get_class(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
+-            let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+-            let string = string.to_string_lossy();
+-            if string.is_empty() {
+-                None
+-            } else {
+-                Some(string.to_string())
+-            }
+-        } else {
+-            None
+-        }
++        Some(String::new()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_title(&self) -> Option<String> {
+         let mut buffer: [c_char; 2048] = [0; 2048];
+         if unsafe { info_get_title(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             let string = string.to_string_lossy();
+             if string.is_empty() {

@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace == with != in show::dont_show_again_changed
+@@ -128,17 +128,17 @@
+         .collect();
+ 
+     extern "C" fn dont_show_again_changed(dont_show: c_int) {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in dont_show_again_changed method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.dont_show_again_changed.as_ref() {
+-            let value = dont_show == 1;
++            let value = dont_show != /* ~ changed by cargo-mutants ~ */ 1;
+             (*handler_ref)(value);
+         }
+     }
+ 
+     extern "C" fn open_file(file_path: *const c_char) {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in open_file method");

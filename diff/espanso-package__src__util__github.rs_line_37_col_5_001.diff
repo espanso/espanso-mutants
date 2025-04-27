@@ -1,0 +1,28 @@
+--- espanso-package/src/util/github.rs
++++ replace extract_github_url_parts -> Option<GitHubParts> with None
+@@ -29,24 +29,17 @@
+ 
+ #[derive(Debug, PartialEq, Eq)]
+ pub struct GitHubParts {
+     author: String,
+     name: String,
+ }
+ 
+ pub fn extract_github_url_parts(url: &str) -> Option<GitHubParts> {
+-    let captures = GITHUB_REGEX.captures(url)?;
+-    let author = captures.name("author")?;
+-    let name = captures.name("name")?;
+-
+-    Some(GitHubParts {
+-        author: author.as_str().to_string(),
+-        name: name.as_str().to_string(),
+-    })
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub struct ResolvedRepoScheme {
+     pub author: String,
+     pub name: String,
+     pub branch: String,
+ }
+ 

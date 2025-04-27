@@ -1,0 +1,76 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ replace watcher_main with ()
+@@ -44,72 +44,17 @@
+         .spawn(move || {
+             debouncer_main(debounce_rx, &watcher_notify);
+         })?;
+ 
+     Ok(())
+ }
+ 
+ fn watcher_main(config_dir: &Path, debounce_tx: Sender<()>) {
+-    let (tx, rx) = std::sync::mpsc::channel();
+-
+-    let mut watcher: RecommendedWatcher =
+-        Watcher::new(tx, Duration::from_millis(WATCHER_NOTIFY_DELAY_MS))
+-            .expect("unable to create file watcher");
+-
+-    watcher
+-        .watch(config_dir, RecursiveMode::Recursive)
+-        .expect("unable to start file watcher");
+-
+-    info!("watching for changes in path: {:?}", config_dir);
+-
+-    loop {
+-        let should_reload = match rx.recv() {
+-            Ok(event) => {
+-                let path = match event {
+-                    DebouncedEvent::Create(path) => Some(path),
+-                    DebouncedEvent::Write(path) => Some(path),
+-                    DebouncedEvent::Remove(path) => Some(path),
+-                    DebouncedEvent::Rename(_, path) => Some(path),
+-                    _ => None,
+-                };
+-
+-                if let Some(path) = path {
+-                    let extension = path
+-                        .extension()
+-                        .unwrap_or_default()
+-                        .to_string_lossy()
+-                        .to_ascii_lowercase();
+-
+-                    if ["yml", "yaml"].iter().any(|ext| ext == &extension) {
+-                        // Only load non-hidden yml files
+-                        !is_file_hidden(&path)
+-                    } else {
+-                        // If there is no extension, it's probably a folder
+-                        extension.is_empty()
+-                    }
+-                } else {
+-                    false
+-                }
+-            }
+-            Err(e) => {
+-                warn!("error while watching files: {:?}", e);
+-                false
+-            }
+-        };
+-
+-        if should_reload {
+-            if let Err(error) = debounce_tx.send(()) {
+-                error!(
+-                    "unable to send watcher file changed event to debouncer: {}",
+-                    error
+-                );
+-            }
+-        }
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn debouncer_main(debounce_rx: crossbeam::channel::Receiver<()>, watcher_notify: &Sender<()>) {
+     let mut has_received_event = false;
+ 
+     loop {
+         select! {
+           recv(debounce_rx) -> _ => {

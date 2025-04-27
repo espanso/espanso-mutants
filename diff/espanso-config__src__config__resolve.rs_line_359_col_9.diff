@@ -1,0 +1,63 @@
+--- espanso-config/src/config/resolve.rs
++++ replace ResolvedConfig::load -> Result<Self> with Ok(Default::default())
+@@ -351,59 +351,17 @@
+ 
+     fn x11_use_xdotool_backend(&self) -> bool {
+         self.parsed.x11_use_xdotool_backend.unwrap_or(false)
+     }
+ }
+ 
+ impl ResolvedConfig {
+     pub fn load(path: &Path, parent: Option<&Self>) -> Result<Self> {
+-        let mut config = ParsedConfig::load(path)?;
+-
+-        // Merge with parent config if present
+-        if let Some(parent) = parent {
+-            Self::merge_parsed(&mut config, &parent.parsed);
+-        }
+-
+-        // Extract the base directory
+-        let base_dir = path
+-            .parent()
+-            .ok_or_else(ResolveError::ParentResolveFailed)?;
+-
+-        let match_paths = Self::generate_match_paths(&config, base_dir)
+-            .into_iter()
+-            .collect();
+-
+-        let filter_title = if let Some(filter_title) = config.filter_title.as_deref() {
+-            Some(Regex::new(filter_title)?)
+-        } else {
+-            None
+-        };
+-
+-        let filter_class = if let Some(filter_class) = config.filter_class.as_deref() {
+-            Some(Regex::new(filter_class)?)
+-        } else {
+-            None
+-        };
+-
+-        let filter_exec = if let Some(filter_exec) = config.filter_exec.as_deref() {
+-            Some(Regex::new(filter_exec)?)
+-        } else {
+-            None
+-        };
+-
+-        Ok(Self {
+-            parsed: config,
+-            source_path: Some(path.to_owned()),
+-            id: next_id(),
+-            match_paths,
+-            filter_title,
+-            filter_class,
+-            filter_exec,
+-        })
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn merge_parsed(child: &mut ParsedConfig, parent: &ParsedConfig) {
+         // Override the None fields with the parent's value
+         merge!(
+             ParsedConfig,
+             child,
+             parent,

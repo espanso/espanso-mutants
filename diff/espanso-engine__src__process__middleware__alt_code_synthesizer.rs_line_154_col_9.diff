@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -146,17 +146,17 @@
+         7 => Some(0x2022),   // Bullet
+         8 => Some(0x25D8),   // Inverse bullet
+         9 => Some(0x25CB),   // White circle
+         10 => Some(0x25D9),  // Inverse white circle
+         11 => Some(0x2642),  // Male sign, mars, alchemical symbol for iron
+         12 => Some(0x2640),  // Female sign, venus, alchemical symbol for copper
+         13 => Some(0x266A),  // Eighth note, quaver
+         14 => Some(0x266B),  // Beamed eighth notes, barred eighth notes, beamed quavers
+-        15 => Some(0x263C),  // White sun with rays
++         /* ~ changed by cargo-mutants ~ */  // White sun with rays
+         16 => Some(0x25BA),  // Black right-pointing pointer
+         17 => Some(0x25C4),  // Black left-pointing pointer
+         18 => Some(0x2195),  // Up down arrow
+         19 => Some(0x203C),  // Double exclamation mark
+         20 => Some(0x00B6),  // Pilcrow sign, paragraph sign
+         21 => Some(0x00A7),  // Section sign
+         22 => Some(0x25AC),  // Black rectangle
+         23 => Some(0x21A8),  // Up down arrow with base

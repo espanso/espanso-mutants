@@ -1,0 +1,29 @@
+--- espanso/src/cli/launcher/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -30,25 +30,17 @@
+ 
+ mod accessibility;
+ mod daemon;
+ #[cfg(feature = "modulo")]
+ mod edition_check;
+ mod util;
+ 
+ pub fn new() -> CliModule {
+-    #[allow(clippy::needless_update)]
+-    CliModule {
+-        requires_paths: true,
+-        enable_logs: false,
+-        subcommand: "launcher".to_string(),
+-        show_in_dock: true,
+-        entry: launcher_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(feature = "modulo")]
+ fn launcher_main(args: CliModuleArgs) -> i32 {
+     use espanso_modulo::wizard::{MigrationResult, WizardHandlers, WizardOptions};
+     let paths = args.paths.expect("missing paths in launcher main");
+ 
+     // If espanso is already running, show a warning

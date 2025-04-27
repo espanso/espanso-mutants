@@ -1,0 +1,39 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ delete match arm
+@@ -65,35 +65,17 @@
+                 dispatch(Event::caused_by(
+                     event.source_id,
+                     EventType::DiscardPrevious(DiscardPreviousEvent {
+                         minimum_source_id: self.event_sequence_provider.get_next_id(),
+                     }),
+                 ));
+ 
+                 match &event.etype {
+-                    EventType::Rendered(m_event) => Event::caused_by(
+-                        event.source_id,
+-                        match m_event.format {
+-                            TextFormat::Plain => EventType::TextInject(TextInjectRequest {
+-                                text: m_event.body.clone(),
+-                                force_mode: self
+-                                    .match_info_provider
+-                                    .get_force_mode(m_event.match_id),
+-                            }),
+-                            TextFormat::Html => EventType::HtmlInject(HtmlInjectRequest {
+-                                html: m_event.body.clone(),
+-                            }),
+-                            TextFormat::Markdown => {
+-                                EventType::MarkdownInject(MarkdownInjectRequest {
+-                                    markdown: m_event.body.clone(),
+-                                })
+-                            }
+-                        },
+-                    ),
++                     /* ~ changed by cargo-mutants ~ */
+                     EventType::ImageResolved(m_event) => Event::caused_by(
+                         event.source_id,
+                         EventType::ImageInject(ImageInjectRequest {
+                             image_path: m_event.image_path.clone(),
+                         }),
+                     ),
+                     _ => unreachable!(),
+                 }

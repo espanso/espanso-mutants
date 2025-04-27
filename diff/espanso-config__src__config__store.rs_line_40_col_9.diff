@@ -1,0 +1,26 @@
+--- espanso-config/src/config/store.rs
++++ replace <impl ConfigStore for DefaultConfigStore>::active -> Arc<dyn super::Config> with Arc::new(Default::default())
+@@ -32,22 +32,17 @@
+ 
+ impl ConfigStore for DefaultConfigStore {
+     fn default(&self) -> Arc<dyn super::Config> {
+         Arc::clone(&self.default)
+     }
+ 
+     fn active(&self, app: &super::AppProperties) -> Arc<dyn super::Config> {
+         // Find a custom config that matches or fallback to the default one
+-        for custom in &self.customs {
+-            if custom.is_match(app) {
+-                return Arc::clone(custom);
+-            }
+-        }
+-        Arc::clone(&self.default)
++        Arc::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn configs(&self) -> Vec<Arc<dyn Config>> {
+         let mut configs = vec![Arc::clone(&self.default)];
+ 
+         for custom in &self.customs {
+             configs.push(Arc::clone(custom));
+         }

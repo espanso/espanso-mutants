@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace <impl Drop for X11XDOToolInjector>::drop with ()
+@@ -250,17 +250,17 @@
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Drop for X11XDOToolInjector {
+     fn drop(&mut self) {
+-        unsafe { ffi::xdo_free(self.xdo) }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_key_to_keysym(display: *mut Display, key: &crate::keys::Key) -> Option<String> {
+     match key {
+         crate::keys::Key::Alt => Some("Alt_L".to_string()),
+         crate::keys::Key::CapsLock => Some("Caps_Lock".to_string()),
+         crate::keys::Key::Control => Some("Control_L".to_string()),

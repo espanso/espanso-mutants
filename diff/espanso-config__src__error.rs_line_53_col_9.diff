@@ -1,0 +1,24 @@
+--- espanso-config/src/error.rs
++++ replace ErrorRecord::error -> Self with Default::default()
+@@ -45,20 +45,17 @@
+ #[derive(Debug)]
+ pub struct ErrorRecord {
+     pub level: ErrorLevel,
+     pub error: Error,
+ }
+ 
+ impl ErrorRecord {
+     pub fn error(error: Error) -> Self {
+-        Self {
+-            level: ErrorLevel::Error,
+-            error,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn warn(error: Error) -> Self {
+         Self {
+             level: ErrorLevel::Warning,
+             error,
+         }
+     }

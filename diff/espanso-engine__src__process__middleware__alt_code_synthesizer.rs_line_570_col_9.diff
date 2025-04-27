@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -562,17 +562,17 @@
+         0x8E => Some(0x017D), // #LATIN CAPITAL LETTER Z WITH CARON
+         0x91 => Some(0x2018), // #LEFT SINGLE QUOTATION MARK
+         0x92 => Some(0x2019), // #RIGHT SINGLE QUOTATION MARK
+         0x93 => Some(0x201C), // #LEFT DOUBLE QUOTATION MARK
+         0x94 => Some(0x201D), // #RIGHT DOUBLE QUOTATION MARK
+         0x95 => Some(0x2022), // #BULLET
+         0x96 => Some(0x2013), // #EN DASH
+         0x97 => Some(0x2014), // #EM DASH
+-        0x98 => Some(0x02DC), // #SMALL TILDE
++         /* ~ changed by cargo-mutants ~ */ // #SMALL TILDE
+         0x99 => Some(0x2122), // #TRADE MARK SIGN
+         0x9A => Some(0x0161), // #LATIN SMALL LETTER S WITH CARON
+         0x9B => Some(0x203A), // #SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
+         0x9C => Some(0x0153), // #LATIN SMALL LIGATURE OE
+         0x9E => Some(0x017E), // #LATIN SMALL LETTER Z WITH CARON
+         0x9F => Some(0x0178), // #LATIN CAPITAL LETTER Y WITH DIAERESIS
+         0xA0 => Some(0x00A0), // #NO-BREAK SPACE
+         0xA1 => Some(0x00A1), // #INVERTED EXCLAMATION MARK

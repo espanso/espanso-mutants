@@ -1,0 +1,27 @@
+--- espanso/src/path/win.rs
++++ replace remove_espanso_from_path -> Result<()> with Ok(())
+@@ -42,23 +42,17 @@
+ 
+     // Send broadcast to let other applications know that the env variables have changed
+     send_change_broadcast();
+ 
+     Ok(())
+ }
+ 
+ pub fn remove_espanso_from_path(_: bool) -> Result<()> {
+-    let paths = read_paths();
+-    let paths_without_espanso: Vec<String> = paths
+-        .into_iter()
+-        .filter(|path| !path.contains("espanso"))
+-        .collect();
+-    let path = paths_without_espanso.join(";");
+-    write_user_path_value(path)
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn read_user_path_value() -> Result<String> {
+     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+     let env = hkcu.open_subkey("Environment")?;
+     let path: String = env.get_value("Path")?;
+     Ok(path)
+ }

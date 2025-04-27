@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -261,17 +261,17 @@
+         "iu-CA" => Some(Locale::iu_CA),
+         "ja-JP" => Some(Locale::ja_JP),
+         "ka-GE" => Some(Locale::ka_GE),
+         "kab-DZ" => Some(Locale::kab_DZ),
+         "kk-KZ" => Some(Locale::kk_KZ),
+         "kl-GL" => Some(Locale::kl_GL),
+         "km-KH" => Some(Locale::km_KH),
+         "kn-IN" => Some(Locale::kn_IN),
+-        "ko-KR" => Some(Locale::ko_KR),
++         /* ~ changed by cargo-mutants ~ */
+         "kok-IN" => Some(Locale::kok_IN),
+         "ks-IN" => Some(Locale::ks_IN),
+         "ku-TR" => Some(Locale::ku_TR),
+         "kw-GB" => Some(Locale::kw_GB),
+         "ky-KG" => Some(Locale::ky_KG),
+         "lb-LU" => Some(Locale::lb_LU),
+         "lg-UG" => Some(Locale::lg_UG),
+         "li-BE" => Some(Locale::li_BE),

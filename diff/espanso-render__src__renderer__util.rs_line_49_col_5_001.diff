@@ -1,0 +1,38 @@
+--- espanso-render/src/renderer/util.rs
++++ replace get_value_variable_names_recursively -> HashSet<&str> with HashSet::from_iter([""])
+@@ -41,34 +41,17 @@
+         let local_names = get_value_variable_names_recursively(value);
+         names.extend(local_names);
+     }
+ 
+     names
+ }
+ 
+ fn get_value_variable_names_recursively(value: &Value) -> HashSet<&str> {
+-    match value {
+-        Value::String(s_value) => get_body_variable_names(s_value),
+-        Value::Array(values) => {
+-            let mut local_names: HashSet<&str> = HashSet::new();
+-            for value in values {
+-                local_names.extend(get_value_variable_names_recursively(value));
+-            }
+-            local_names
+-        }
+-        Value::Object(fields) => {
+-            let mut local_names: HashSet<&str> = HashSet::new();
+-            for value in fields.values() {
+-                local_names.extend(get_value_variable_names_recursively(value));
+-            }
+-            local_names
+-        }
+-        _ => HashSet::new(),
+-    }
++    HashSet::from_iter([""]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub(crate) fn render_variables(body: &str, scope: &Scope) -> Result<String> {
+     let mut replacing_error = None;
+     let output = VAR_REGEX
+         .replace_all(body, |caps: &Captures| {
+             let var_name = caps.name("name").unwrap().as_str();
+             let var_subname = caps.name("subname");

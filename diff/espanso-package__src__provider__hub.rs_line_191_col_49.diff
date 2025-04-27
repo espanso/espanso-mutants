@@ -1,0 +1,18 @@
+--- espanso-package/src/provider/hub.rs
++++ replace == with != in PackageIndex::get_package
+@@ -183,14 +183,14 @@
+             .cloned()
+             .collect();
+ 
+         matching_packages.sort_by(|a, b| natord::compare(&a.version, &b.version));
+ 
+         if let Some(explicit_version) = version {
+             matching_packages
+                 .into_iter()
+-                .find(|package| package.version == explicit_version)
++                .find(|package| package.version != /* ~ changed by cargo-mutants ~ */ explicit_version)
+         } else {
+             matching_packages.into_iter().next_back()
+         }
+     }
+ }

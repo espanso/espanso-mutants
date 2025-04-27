@@ -1,0 +1,21 @@
+--- espanso/src/path/macos.rs
++++ replace match guard with true
+@@ -59,17 +59,17 @@
+                     return Err(PathError::SymlinkError(error).into());
+                 }
+             }
+         }
+     }
+ 
+     if let Err(error) = std::os::unix::fs::symlink(&exec_path, &target_link_path) {
+         match error.kind() {
+-            ErrorKind::PermissionDenied if prompt_when_necessary => {
++            ErrorKind::PermissionDenied if true /* ~ changed by cargo-mutants ~ */ => {
+                 warn!("target link file can't be accessed with current permissions, requesting elevated ones through AppleScript.");
+ 
+                 create_dir_and_link_with_applescript(&exec_path, &target_link_path)
+                     .context("unable to create link with AppleScript")?;
+ 
+                 return Ok(());
+             }
+             _other_error => {

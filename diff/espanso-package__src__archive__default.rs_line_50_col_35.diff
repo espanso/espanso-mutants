@@ -1,0 +1,21 @@
+--- espanso-package/src/archive/default.rs
++++ delete ! in <impl Archiver for DefaultArchiver>::save
+@@ -42,17 +42,17 @@
+     fn save(
+         &self,
+         package: &dyn Package,
+         specifier: &PackageSpecifier,
+         save_options: &SaveOptions,
+     ) -> Result<ArchivedPackage> {
+         let target_dir = self.package_dir.join(package.name());
+ 
+-        if target_dir.is_dir() && !save_options.overwrite_existing {
++        if target_dir.is_dir() &&  /* ~ changed by cargo-mutants ~ */save_options.overwrite_existing {
+             bail!("package {} is already installed", package.name());
+         }
+ 
+         // Backup the previous directory if present
+         let backup_dir = self.package_dir.join(format!("{}.old", package.name()));
+         let _backup_guard = if target_dir.is_dir() {
+             std::fs::rename(&target_dir, &backup_dir)
+                 .context("unable to backup old package directory")?;

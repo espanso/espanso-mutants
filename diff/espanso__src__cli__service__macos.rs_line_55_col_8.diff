@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/macos.rs
++++ delete ! in register
+@@ -47,17 +47,17 @@
+     let agents_dir = library_dir.join("LaunchAgents");
+ 
+     // Make sure agents directory exists
+     if !agents_dir.exists() {
+         create_dir_all(agents_dir.clone())?;
+     }
+ 
+     let plist_file = agents_dir.join(SERVICE_PLIST_FILE_NAME);
+-    if !plist_file.exists() {
++    if  /* ~ changed by cargo-mutants ~ */plist_file.exists() {
+         info!(
+             "creating LaunchAgents entry: {}",
+             plist_file.to_str().unwrap_or_default()
+         );
+ 
+         let espanso_path = std::env::current_exe()?;
+         info!(
+             "entry will point to: {}",

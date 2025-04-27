@@ -1,0 +1,21 @@
+--- espanso/src/path/mod.rs
++++ replace && with || in resolve_paths
+@@ -100,17 +100,17 @@
+         // Create the packages directory if not already present
+         let packages_dir = get_default_packages_path(&config_dir);
+         info!("creating packages directory in {:?}", packages_dir);
+         create_dir_all(&packages_dir).expect("unable to create packages directory");
+         packages_dir
+     };
+ 
+     let is_portable_mode =
+-        is_portable_mode() && force_config_dir.is_none() && force_runtime_dir.is_none();
++        is_portable_mode() && force_config_dir.is_none() || /* ~ changed by cargo-mutants ~ */ force_runtime_dir.is_none();
+ 
+     Paths {
+         config: config_dir,
+         runtime: runtime_dir,
+         packages: packages_dir,
+         is_portable_mode,
+     }
+ }

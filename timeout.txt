@@ -1,0 +1,5 @@
+espanso-ipc/src/unix.rs:139:9: replace <impl IPCClient<Event> for UnixIPCClient>::send_async -> Result<()> with Ok(())
+espanso-ipc/src/util.rs:32:17: replace == with != in read_line
+espanso-ipc/src/util.rs:25:5: replace read_line -> Result<Option<String>> with Ok(None)
+espanso-ipc/src/util.rs:25:5: replace read_line -> Result<Option<String>> with Ok(Some("xyzzy".into()))
+espanso-ipc/src/util.rs:25:5: replace read_line -> Result<Option<String>> with Ok(Some(String::new()))

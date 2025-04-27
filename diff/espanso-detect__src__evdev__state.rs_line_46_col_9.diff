@@ -1,0 +1,23 @@
+--- espanso-detect/src/evdev/state.rs
++++ replace <impl Drop for State>::drop with ()
+@@ -38,19 +38,17 @@
+         } else {
+             Some(sym)
+         }
+     }
+ }
+ 
+ impl Drop for State {
+     fn drop(&mut self) {
+-        unsafe {
+-            xkb_state_unref(self.state);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum StateError {
+     #[error("could not create xkb state")]
+     FailedCreation(),
+ }

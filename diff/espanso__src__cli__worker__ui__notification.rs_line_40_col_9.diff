@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ replace NotificationManager<'a>::notify_start with ()
+@@ -32,17 +32,17 @@
+ 
+     fn notify(&self, text: &str) {
+         if self.config.show_notifications() {
+             self.ui_remote.show_notification(text);
+         }
+     }
+ 
+     pub fn notify_start(&self) {
+-        self.notify("Espanso is running!");
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn notify_config_reloaded(&self, is_manual_restart: bool) {
+         if is_manual_restart {
+             self.notify("Configuration reloaded!");
+         } else {
+             self.notify(
+         "Configuration reloaded! Espanso automatically loads new changes as soon as you save them.",

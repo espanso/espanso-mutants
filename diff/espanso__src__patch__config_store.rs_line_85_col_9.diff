@@ -1,0 +1,19 @@
+--- espanso/src/patch/config_store.rs
++++ replace <impl ConfigStore for PatchedConfigStore>::configs -> Vec<Arc<dyn Config>> with vec![]
+@@ -77,15 +77,15 @@
+         if let Some(patch) = self.patches.iter().find(|patch| (patch.should_patch)(app)) {
+             (patch.apply)(active_config, patch.name)
+         } else {
+             active_config
+         }
+     }
+ 
+     fn configs(&self) -> Vec<Arc<dyn Config>> {
+-        self.config_store.configs()
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_all_match_paths(&self) -> std::collections::HashSet<String> {
+         self.config_store.get_all_match_paths()
+     }
+ }

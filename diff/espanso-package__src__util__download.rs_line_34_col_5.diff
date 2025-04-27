@@ -1,0 +1,28 @@
+--- espanso-package/src/util/download.rs
++++ replace download_and_extract_zip_verify_sha256 -> Result<()> with Ok(())
+@@ -26,24 +26,17 @@
+     download_and_extract_zip_verify_sha256(url, dest_dir, None)
+ }
+ 
+ pub fn download_and_extract_zip_verify_sha256(
+     url: &str,
+     dest_dir: &Path,
+     sha256: Option<&str>,
+ ) -> Result<()> {
+-    let data = download(url).context("error downloading archive")?;
+-    if let Some(sha256) = sha256 {
+-        info_println!("validating sha256 signature...");
+-        if !verify_sha256(&data, sha256) {
+-            bail!("signature mismatch");
+-        }
+-    }
+-    extract_zip(data, dest_dir).context("error extracting archive")
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn read_string_from_url(url: &str) -> Result<String> {
+     let client = reqwest::blocking::Client::builder();
+     let client = client.build()?;
+ 
+     let response = client.get(url).send()?;
+ 

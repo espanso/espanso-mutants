@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -98,17 +98,17 @@
+         Self::format_date_with_locale(date, format, locale)
+     }
+ }
+ 
+ fn convert_locale_string_to_locale(locale_str: &str) -> Option<Locale> {
+     match locale_str {
+         "aa-DJ" => Some(Locale::aa_DJ),
+         "aa-ER" => Some(Locale::aa_ER),
+-        "aa-ET" => Some(Locale::aa_ET),
++         /* ~ changed by cargo-mutants ~ */
+         "af-ZA" => Some(Locale::af_ZA),
+         "agr-PE" => Some(Locale::agr_PE),
+         "ak-GH" => Some(Locale::ak_GH),
+         "am-ET" => Some(Locale::am_ET),
+         "an-ES" => Some(Locale::an_ES),
+         "anp-IN" => Some(Locale::anp_IN),
+         "ar-AE" => Some(Locale::ar_AE),
+         "ar-BH" => Some(Locale::ar_BH),

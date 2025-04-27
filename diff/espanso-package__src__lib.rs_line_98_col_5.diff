@@ -1,0 +1,23 @@
+--- espanso-package/src/lib.rs
++++ replace get_archiver -> Result<Box<dyn Archiver>> with Ok(Box::new(Default::default()))
+@@ -90,19 +90,17 @@
+         Ok(Box::new(provider::hub::EspansoHubPackageProvider::new(
+             runtime_dir,
+             options.force_index_update,
+         )))
+     }
+ }
+ 
+ pub fn get_archiver(package_dir: &Path) -> Result<Box<dyn Archiver>> {
+-    Ok(Box::new(archive::default::DefaultArchiver::new(
+-        package_dir,
+-    )))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ pub(crate) mod tests {
+     use super::*;
+     use tempdir::TempDir;
+ 
+     pub(crate) fn run_with_temp_dir(action: impl FnOnce(&Path)) {

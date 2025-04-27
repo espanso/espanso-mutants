@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ replace > with == in <impl Clipboard for Win32Clipboard>::set_html
+@@ -94,17 +94,17 @@
+         let fallback_string = U16CString::from_str(fallback_text.unwrap_or_default())?;
+         let fallback_ptr = if fallback_text.is_some() {
+             fallback_string.as_ptr()
+         } else {
+             std::ptr::null()
+         };
+ 
+         let native_result = unsafe { ffi::clipboard_set_html(html_string.as_ptr(), fallback_ptr) };
+-        if native_result > 0 {
++        if native_result == /* ~ changed by cargo-mutants ~ */ 0 {
+             Ok(())
+         } else {
+             Err(Win32ClipboardError::SetOperationFailed().into())
+         }
+     }
+ }
+ 
+ fn generate_html_descriptor(html: &str) -> String {

@@ -1,0 +1,45 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::word_separators -> Vec<String> with vec![]
+@@ -220,41 +220,17 @@
+         self.parsed.inject_delay
+     }
+ 
+     fn key_delay(&self) -> Option<usize> {
+         self.parsed.key_delay
+     }
+ 
+     fn word_separators(&self) -> Vec<String> {
+-        self.parsed.word_separators.clone().unwrap_or_else(|| {
+-            vec![
+-                " ".to_string(),
+-                ",".to_string(),
+-                ";".to_string(),
+-                ":".to_string(),
+-                ".".to_string(),
+-                "?".to_string(),
+-                "!".to_string(),
+-                "(".to_string(),
+-                ")".to_string(),
+-                "{".to_string(),
+-                "}".to_string(),
+-                "[".to_string(),
+-                "]".to_string(),
+-                "<".to_string(),
+-                ">".to_string(),
+-                "\'".to_string(),
+-                "\"".to_string(),
+-                "\r".to_string(),
+-                "\t".to_string(),
+-                "\n".to_string(),
+-                "\x0c".to_string(), // Form Feed
+-            ]
+-        })
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn backspace_limit(&self) -> usize {
+         self.parsed.backspace_limit.unwrap_or(5)
+     }
+ 
+     fn apply_patch(&self) -> bool {
+         self.parsed.apply_patch.unwrap_or(true)

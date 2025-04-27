@@ -1,0 +1,40 @@
+--- espanso-config/src/lib.rs
++++ replace load -> Result<LoadableConfig> with Ok(Default::default())
+@@ -31,36 +31,17 @@
+ 
+ type LoadableConfig = (
+     Box<dyn ConfigStore>,
+     Box<dyn MatchStore>,
+     Vec<error::NonFatalErrorSet>,
+ );
+ 
+ pub fn load(base_path: &Path) -> Result<LoadableConfig> {
+-    let config_dir = base_path.join("config");
+-    if !config_dir.exists() || !config_dir.is_dir() {
+-        return Err(ConfigError::MissingConfigDir().into());
+-    }
+-
+-    let (config_store, non_fatal_config_errors) = config::load_store(&config_dir)?;
+-    let root_paths = config_store.get_all_match_paths();
+-
+-    let (match_store, non_fatal_match_errors) =
+-        matches::store::load(&root_paths.into_iter().collect::<Vec<String>>());
+-
+-    let mut non_fatal_errors = Vec::new();
+-    non_fatal_errors.extend(non_fatal_config_errors);
+-    non_fatal_errors.extend(non_fatal_match_errors);
+-
+-    Ok((
+-        Box::new(config_store),
+-        Box::new(match_store),
+-        non_fatal_errors,
+-    ))
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ConfigError {
+     #[error("missing config directory")]
+     MissingConfigDir(),
+ }
+ 

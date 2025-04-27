@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+@@ -117,17 +117,17 @@
+                         match inject_variables_into_params(&variable.params, &scope) {
+                             Ok(augmented_params) => Cow::Owned(augmented_params),
+                             Err(err) => {
+                                 error!(
+                                     "unable to inject variables into params of variable '{}': {}",
+                                     variable.name, err
+                                 );
+ 
+-                                if variable.var_type == "form" {
++                                if variable.var_type != /* ~ changed by cargo-mutants ~ */ "form" {
+                                     if let Some(RendererError::MissingVariable(_)) =
+                                         err.downcast_ref::<RendererError>()
+                                     {
+                                         log_new_form_syntax_tip();
+                                     }
+                                 }
+ 
+                                 return RenderResult::Error(err);

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl espanso_engine::process::EnabledStatusProvider for ConfigManager<'_>>::is_config_enabled -> bool with true
+@@ -189,17 +189,17 @@
+         }
+ 
+         self.active().undo_backspace()
+     }
+ }
+ 
+ impl espanso_engine::process::EnabledStatusProvider for ConfigManager<'_> {
+     fn is_config_enabled(&self) -> bool {
+-        self.active().enable()
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl crate::gui::modulo::form::ModuloFormUIOptionProvider for ConfigManager<'_> {
+     fn get_post_form_delay(&self) -> usize {
+         self.active().post_form_delay()
+     }
+ 

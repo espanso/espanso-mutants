@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/store/default.rs
++++ delete ! in query_matches_for_paths
+@@ -132,17 +132,17 @@
+                 for m in &group.matches {
+                     if !visited_matches.contains(&m.id) {
+                         matches.push(m);
+                         visited_matches.insert(m.id);
+                     }
+                 }
+ 
+                 for var in &group.global_vars {
+-                    if !visited_global_vars.contains(&var.id) {
++                    if  /* ~ changed by cargo-mutants ~ */visited_global_vars.contains(&var.id) {
+                         global_vars.push(var);
+                         visited_global_vars.insert(var.id);
+                     }
+                 }
+             }
+         }
+     }
+ }

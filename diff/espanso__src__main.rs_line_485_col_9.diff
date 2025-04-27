@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ delete match arm
+@@ -477,17 +477,17 @@
+     // when using the system daemon manager on macOS and Linux
+ 
+     // TODO: set the LSEnvironment variable as described here: https://stackoverflow.com/questions/12203377/combined-gui-and-command-line-os-x-app?rq=1
+     // to detect if the executable was launched inside an AppBundle, and if so, launch the "launcher" handler
+     // This should only apply when on macOS.
+ 
+     let matches = clap_instance.clone().get_matches();
+     let log_level = match matches.get_count("v") {
+-        0 | 1 => LevelFilter::Info,
++         /* ~ changed by cargo-mutants ~ */
+ 
+         // Trace mode is only available in debug mode for security reasons
+         #[cfg(debug_assertions)]
+         3 => LevelFilter::Trace,
+ 
+         _ => LevelFilter::Debug,
+     };
+ 

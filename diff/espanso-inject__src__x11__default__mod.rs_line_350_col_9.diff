@@ -1,0 +1,38 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::render_key_combination -> Vec<KeyRecord> with vec![]
+@@ -342,34 +342,17 @@
+         }
+ 
+         unsafe { XFreeModifiermap(modifiers_ptr) };
+ 
+         modifiers_codes
+     }
+ 
+     fn render_key_combination(&self, original_records: &[KeyRecord]) -> Vec<KeyRecord> {
+-        let modifiers_codes = self.get_modifier_codes();
+-        let mut records = Vec::new();
+-
+-        let mut current_state = 0u32;
+-        for record in original_records {
+-            let mut current_record = *record;
+-            current_record.main.state = current_state;
+-            records.push(current_record);
+-
+-            // Calculate the state for the next record by applying the modifiers
+-            for (mod_index, modifier) in modifiers_codes.iter().enumerate() {
+-                if modifier.contains(&(record.main.code as u8)) {
+-                    current_state |= 1 << mod_index;
+-                }
+-            }
+-        }
+-
+-        records
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_focused_window(&self) -> Window {
+         let mut focused_window: Window = 0;
+         let mut revert_to = 0;
+         unsafe {
+             XGetInputFocus(self.display, &mut focused_window, &mut revert_to);
+         }

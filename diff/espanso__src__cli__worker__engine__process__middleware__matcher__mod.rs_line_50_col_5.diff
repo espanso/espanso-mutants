@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/mod.rs
++++ replace convert_to_engine_result -> MatchResult with Default::default()
+@@ -42,23 +42,17 @@
+             key: convert_to_match_key(key.clone()),
+             chars: chars.to_owned(),
+         },
+         MatcherEvent::VirtualSeparator => espanso_match::event::Event::VirtualSeparator,
+     }
+ }
+ 
+ pub fn convert_to_engine_result(result: espanso_match::MatchResult<i32>) -> MatchResult {
+-    MatchResult {
+-        id: result.id,
+-        trigger: result.trigger,
+-        left_separator: result.left_separator,
+-        right_separator: result.right_separator,
+-        args: result.vars,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn convert_to_match_key(key: Key) -> espanso_match::event::Key {
+     match key {
+         Key::Alt => espanso_match::event::Key::Alt,
+         Key::CapsLock => espanso_match::event::Key::CapsLock,
+         Key::Control => espanso_match::event::Key::Control,
+         Key::Meta => espanso_match::event::Key::Meta,

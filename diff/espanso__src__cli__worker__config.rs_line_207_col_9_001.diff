@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl crate::gui::modulo::form::ModuloFormUIOptionProvider for ConfigManager<'_>>::get_max_form_width -> usize with 0
+@@ -199,17 +199,17 @@
+ }
+ 
+ impl crate::gui::modulo::form::ModuloFormUIOptionProvider for ConfigManager<'_> {
+     fn get_post_form_delay(&self) -> usize {
+         self.active().post_form_delay()
+     }
+ 
+     fn get_max_form_width(&self) -> usize {
+-        self.active().max_form_width()
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_max_form_height(&self) -> usize {
+         self.active().max_form_height()
+     }
+ }
+ 
+ impl crate::gui::modulo::search::ModuloSearchUIOptionProvider for ConfigManager<'_> {

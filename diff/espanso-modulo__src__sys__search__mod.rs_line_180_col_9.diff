@@ -1,0 +1,35 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace show::search_callback with ()
+@@ -172,31 +172,17 @@
+ 
+     let search_data = SearchData {
+         owned_search,
+         items: search.items,
+         algorithm,
+     };
+ 
+     extern "C" fn search_callback(query: *const c_char, app: *const c_void, data: *const c_void) {
+-        let query = unsafe { CStr::from_ptr(query) };
+-        let query = query.to_string_lossy().to_string();
+-
+-        let search_data = data as *const SearchData;
+-        let search_data = unsafe { &*search_data };
+-
+-        let indexes = (*search_data.algorithm)(&query, &search_data.items);
+-        let items: Vec<SearchItem> = indexes
+-            .into_iter()
+-            .map(|index| search_data.owned_search.interop_items[index])
+-            .collect();
+-
+-        unsafe {
+-            update_items(app, items.as_ptr(), items.len() as c_int);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     let mut result: Option<String> = None;
+ 
+     extern "C" fn result_callback(id: *const c_char, result: *mut c_void) {
+         let id = unsafe { CStr::from_ptr(id) };
+         let id = id.to_string_lossy().to_string();
+         let result: *mut Option<String> = result as *mut Option<String>;

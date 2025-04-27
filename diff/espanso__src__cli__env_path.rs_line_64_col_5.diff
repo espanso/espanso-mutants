@@ -1,0 +1,15 @@
+--- espanso/src/cli/env_path.rs
++++ replace error_print_and_log with ()
+@@ -56,11 +56,10 @@
+         eprintln!("Please specify a subcommand, either `espanso env-path register` to add the 'espanso' command or `espanso env-path unregister` to remove it");
+         return ADD_TO_PATH_FAILURE;
+     }
+ 
+     ADD_TO_PATH_SUCCESS
+ }
+ 
+ fn error_print_and_log(msg: &str) {
+-    error!("{msg}");
+-    eprintln!("{msg}");
++    () /* ~ changed by cargo-mutants ~ */
+ }

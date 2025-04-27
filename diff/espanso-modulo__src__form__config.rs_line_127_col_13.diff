@@ -1,0 +1,32 @@
+--- espanso-modulo/src/form/config.rs
++++ delete match arm
+@@ -119,28 +119,17 @@
+                 if let Some(default) = &other.default {
+                     config.default.clone_from(default);
+                 }
+ 
+                 config.multiline = other.multiline;
+ 
+                 FieldTypeConfig::Text(config)
+             }
+-            "choice" => {
+-                let mut config = ChoiceFieldConfig {
+-                    values: other.values.clone(),
+-                    ..Default::default()
+-                };
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                FieldTypeConfig::Choice(config)
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             "list" => {
+                 let mut config = ListFieldConfig {
+                     values: other.values.clone(),
+                     ..Default::default()
+                 };
+ 
+                 if let Some(default) = &other.default {
+                     config.default.clone_from(default);

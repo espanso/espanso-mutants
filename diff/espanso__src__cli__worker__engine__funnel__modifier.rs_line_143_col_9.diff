@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace ModifierStatus::press with ()
+@@ -135,17 +135,17 @@
+         }
+     }
+ 
+     fn release(&mut self) {
+         self.pressed_at = None;
+     }
+ 
+     fn press(&mut self) {
+-        self.pressed_at = Some(Instant::now());
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ModifierStatusProvider for ModifierStateStore {
+     fn is_any_conflicting_modifier_pressed(&self) -> bool {
+         self.is_any_conflicting_modifier_pressed()
+     }
+ }

@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ replace <impl Extension for ShellExtension>::name -> &'static str with "xyzzy"
+@@ -200,17 +200,17 @@
+         Self {
+             config_path: config_path.to_owned(),
+         }
+     }
+ }
+ 
+ impl Extension for ShellExtension {
+     fn name(&self) -> &'static str {
+-        "shell"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         scope: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {

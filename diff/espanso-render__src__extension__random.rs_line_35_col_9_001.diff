@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/random.rs
++++ replace <impl Extension for RandomExtension>::name -> &'static str with "xyzzy"
+@@ -27,17 +27,17 @@
+ impl RandomExtension {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Extension for RandomExtension {
+     fn name(&self) -> &'static str {
+-        "random"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {

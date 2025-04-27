@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -191,17 +191,17 @@
+         52 => Some(0x0034),  // Digit four
+         53 => Some(0x0035),  // Digit five
+         54 => Some(0x0036),  // Digit six
+         55 => Some(0x0037),  // Digit seven
+         56 => Some(0x0038),  // Digit eight
+         57 => Some(0x0039),  // Digit nine
+         58 => Some(0x003A),  // Colon
+         59 => Some(0x003B),  // Semicolon
+-        60 => Some(0x003C),  // Less-than sign
++         /* ~ changed by cargo-mutants ~ */  // Less-than sign
+         61 => Some(0x003D),  // Equals sign
+         62 => Some(0x003E),  // Greater-than sign
+         63 => Some(0x003F),  // Question mark
+         64 => Some(0x0040),  // Commercial at, at sign
+         65 => Some(0x0041),  // Latin capital letter A
+         66 => Some(0x0042),  // Latin capital letter B
+         67 => Some(0x0043),  // Latin capital letter C
+         68 => Some(0x0044),  // Latin capital letter D

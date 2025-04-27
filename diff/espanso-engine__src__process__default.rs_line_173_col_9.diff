@@ -1,0 +1,25 @@
+--- espanso-engine/src/process/default.rs
++++ replace <impl Processor for DefaultProcessor<'_>>::process -> Vec<Event> with vec![]
+@@ -165,21 +165,11 @@
+         } else {
+             None
+         }
+     }
+ }
+ 
+ impl Processor for DefaultProcessor<'_> {
+     fn process(&mut self, event: Event) -> Vec<Event> {
+-        self.event_queue.push_front(event);
+-
+-        let mut processed_events = Vec::new();
+-
+-        while !self.event_queue.is_empty() {
+-            if let Some(event) = self.process_one() {
+-                processed_events.push(event);
+-            }
+-        }
+-
+-        processed_events
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ }

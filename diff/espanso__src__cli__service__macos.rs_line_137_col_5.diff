@@ -1,0 +1,25 @@
+--- espanso/src/cli/service/macos.rs
++++ replace is_registered -> bool with true
+@@ -129,21 +129,17 @@
+ 
+ #[derive(Error, Debug)]
+ pub enum UnregisterError {
+     #[error("plist entry not found")]
+     PlistNotFound,
+ }
+ 
+ pub fn is_registered() -> bool {
+-    let home_dir = dirs::home_dir().expect("could not get user home directory");
+-    let library_dir = home_dir.join("Library");
+-    let agents_dir = library_dir.join("LaunchAgents");
+-    let plist_file = agents_dir.join(SERVICE_PLIST_FILE_NAME);
+-    plist_file.is_file()
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn start_service() -> Result<()> {
+     if !is_registered() {
+         eprintln!("Unable to start espanso as a service as it's not been registered.");
+         eprintln!("You can either register it first with `espanso service register` or");
+         eprintln!("you can run it in unmanaged mode with `espanso service start --unmanaged`");
+         eprintln!();

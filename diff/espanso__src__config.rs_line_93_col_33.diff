@@ -1,0 +1,21 @@
+--- espanso/src/config.rs
++++ replace == with != in load_config
+@@ -85,17 +85,17 @@
+     if !non_fatal_errors.is_empty() {
+         warn!("------- detected some errors in the configuration: -------");
+         for non_fatal_error_set in &non_fatal_errors {
+             warn!(
+                 ">>> {}",
+                 non_fatal_error_set.file.to_string_lossy().to_string()
+             );
+             for record in &non_fatal_error_set.errors {
+-                if record.level == ErrorLevel::Error {
++                if record.level != /* ~ changed by cargo-mutants ~ */ ErrorLevel::Error {
+                     error!("{:?}", record.error);
+                 } else {
+                     warn!("{:?}", record.error);
+                 }
+             }
+         }
+         warn!("-----------------------------------------------------------");
+     }

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl super::engine::process::middleware::render::MatchProvider<'a> for MatchCache<'a>>::matches -> Vec<&'a Match> with vec![&Default::default()]
+@@ -47,17 +47,17 @@
+ 
+     fn ids(&self) -> Vec<i32> {
+         self.cache.keys().copied().collect()
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::render::MatchProvider<'a> for MatchCache<'a> {
+     fn matches(&self) -> Vec<&'a Match> {
+-        self.cache.values().copied().collect()
++        vec![&Default::default()] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get(&self, id: i32) -> Option<&'a Match> {
+         self.cache.get(&id).copied()
+     }
+ }
+ 
+ impl espanso_engine::process::MatchInfoProvider for MatchCache<'_> {

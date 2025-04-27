@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace |= with ^= in convert_hotkey_to_raw
+@@ -247,17 +247,17 @@
+     let mut flags = 0x4000; // NOREPEAT flags
+     if hk.has_ctrl() {
+         flags |= 0x0002;
+     }
+     if hk.has_alt() {
+         flags |= 0x0001;
+     }
+     if hk.has_meta() {
+-        flags |= 0x0008;
++        flags ^= /* ~ changed by cargo-mutants ~ */ 0x0008;
+     }
+     if hk.has_shift() {
+         flags |= 0x0004;
+     }
+ 
+     Some(RawHotKey {
+         id: hk.id,
+         code: key_code,

@@ -1,0 +1,23 @@
+--- espanso-detect/src/evdev/keymap.rs
++++ replace <impl Drop for Keymap>::drop with ()
+@@ -86,19 +86,17 @@
+             variant: owned_config.variant.as_ptr(),
+             options: owned_config.options.as_ptr(),
+         }
+     }
+ }
+ 
+ impl Drop for Keymap {
+     fn drop(&mut self) {
+-        unsafe {
+-            xkb_keymap_unref(self.keymap);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum KeymapError {
+     #[error("could not create xkb keymap")]
+     FailedCreation(),
+ }

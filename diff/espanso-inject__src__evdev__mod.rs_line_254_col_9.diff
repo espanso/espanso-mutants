@@ -1,0 +1,23 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace EVDEVInjector::wait_delay with ()
+@@ -246,19 +246,17 @@
+ 
+             bail!("timed-out while waiting for key release: {}", code);
+         }
+         // else Keyboard provider not available,
+         Ok(())
+     }
+ 
+     fn wait_delay(&self, delay_ms: u32) {
+-        if delay_ms > 0 {
+-            std::thread::sleep(std::time::Duration::from_millis(delay_ms as u64));
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Injector for EVDEVInjector {
+     fn send_string(&self, string: &str, options: InjectionOptions) -> Result<()> {
+         // Compute all the key record sequence first to make sure a mapping is available
+         let records: Result<Vec<KeyRecord>> = string
+             .chars()

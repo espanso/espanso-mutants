@@ -1,0 +1,29 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/context_menu.rs
++++ replace <impl ContextMenuHandler for ContextMenuHandlerAdapter<'_>>::show_context_menu -> anyhow::Result<()> with Ok(())
+@@ -31,25 +31,17 @@
+     }
+ }
+ 
+ impl ContextMenuHandler for ContextMenuHandlerAdapter<'_> {
+     fn show_context_menu(
+         &self,
+         items: &[espanso_engine::event::ui::MenuItem],
+     ) -> anyhow::Result<()> {
+-        let ui_menu_items: Vec<espanso_ui::menu::MenuItem> =
+-            items.iter().map(convert_to_ui_menu_item).collect();
+-        let ui_menu = espanso_ui::menu::Menu {
+-            items: ui_menu_items,
+-        };
+-
+-        self.remote.show_context_menu(&ui_menu);
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn convert_to_ui_menu_item(
+     item: &espanso_engine::event::ui::MenuItem,
+ ) -> espanso_ui::menu::MenuItem {
+     match item {
+         espanso_engine::event::ui::MenuItem::Simple(simple) => {

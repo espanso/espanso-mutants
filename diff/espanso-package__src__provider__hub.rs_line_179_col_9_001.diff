@@ -1,0 +1,30 @@
+--- espanso-package/src/provider/hub.rs
++++ replace PackageIndex::get_package -> Option<PackageInfo> with None
+@@ -171,26 +171,11 @@
+     version: String,
+ 
+     archive_url: String,
+     archive_sha256_url: String,
+ }
+ 
+ impl PackageIndex {
+     fn get_package(&self, name: &str, version: Option<&str>) -> Option<PackageInfo> {
+-        let mut matching_packages: Vec<PackageInfo> = self
+-            .packages
+-            .iter()
+-            .filter(|package| package.name == name)
+-            .cloned()
+-            .collect();
+-
+-        matching_packages.sort_by(|a, b| natord::compare(&a.version, &b.version));
+-
+-        if let Some(explicit_version) = version {
+-            matching_packages
+-                .into_iter()
+-                .find(|package| package.version == explicit_version)
+-        } else {
+-            matching_packages.into_iter().next_back()
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }

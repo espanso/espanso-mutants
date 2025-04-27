@@ -1,0 +1,21 @@
+--- espanso/src/logging/mod.rs
++++ delete ! in FileProxy::set_output_file
+@@ -49,17 +49,17 @@
+     pub fn set_output_file(&self, path: &Path, read_only: bool, create_new: bool) -> Result<()> {
+         // Remove previous log, if present
+         if create_new && !read_only && path.is_file() {
+             std::fs::remove_file(path)?;
+         }
+ 
+         let mut log_file = OpenOptions::new()
+             .read(true)
+-            .write(!read_only)
++            .write( /* ~ changed by cargo-mutants ~ */read_only)
+             .create(true)
+             .append(true)
+             .open(path)?;
+         let mut lock = self.output.lock().expect("unable to obtain FileProxy lock");
+ 
+         // Transfer the log content that has been buffered into the file
+         if let Output::Memory(buffered) = &mut (*lock) {
+             log_file.write_all(buffered)?;

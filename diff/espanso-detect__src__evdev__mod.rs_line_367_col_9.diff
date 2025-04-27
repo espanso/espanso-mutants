@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ delete match arm
+@@ -359,17 +359,17 @@
+         // Navigation
+         0xFF54 => (ArrowDown, None),
+         0xFF51 => (ArrowLeft, None),
+         0xFF53 => (ArrowRight, None),
+         0xFF52 => (ArrowUp, None),
+         0xFF57 => (End, None),
+         0xFF50 => (Home, None),
+         0xFF56 => (PageDown, None),
+-        0xFF55 => (PageUp, None),
++         /* ~ changed by cargo-mutants ~ */
+ 
+         // UI
+         0xFF1B => (Escape, None),
+ 
+         // Editing keys
+         0xFF08 => (Backspace, None),
+ 
+         // Function keys

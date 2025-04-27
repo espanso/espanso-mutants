@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ delete ! in <impl Renderer<'a> for RendererAdapter<'a>>::render
+@@ -198,17 +198,17 @@
+                 generate_context(&match_set, &self.template_map, &self.global_vars_map)
+             });
+ 
+             let raw_match = self.match_provider.get(match_id);
+             let propagate_case = raw_match.is_some_and(is_propagate_case);
+             let preferred_uppercasing_style = raw_match.and_then(extract_uppercasing_style);
+ 
+             let options = RenderOptions {
+-                casing_style: if !propagate_case {
++                casing_style: if  /* ~ changed by cargo-mutants ~ */propagate_case {
+                     CasingStyle::None
+                 } else if let Some(trigger) = trigger {
+                     calculate_casing_style(trigger, preferred_uppercasing_style)
+                 } else {
+                     CasingStyle::None
+                 },
+             };
+ 

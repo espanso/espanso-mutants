@@ -1,0 +1,23 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace <impl espanso_engine::process::MatchProvider for CombinedMatchCache<'_>>::get_all_matches_ids -> Vec<i32> with vec![0]
+@@ -161,19 +161,17 @@
+                 super::engine::process::middleware::multiplex::MatchResult::Builtin(m)
+             }
+         })
+     }
+ }
+ 
+ impl espanso_engine::process::MatchProvider for CombinedMatchCache<'_> {
+     fn get_all_matches_ids(&self) -> Vec<i32> {
+-        let mut ids: Vec<i32> = self.builtin_match_cache.keys().copied().collect();
+-        ids.extend(self.user_match_cache.ids());
+-        ids
++        vec![0] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::MatchResolver for CombinedMatchCache<'_> {
+     fn find_matches_from_trigger(&self, trigger: &str) -> Vec<DetectedMatch> {
+         let user_matches: Vec<DetectedMatch> = self
+             .user_match_cache
+             .cache

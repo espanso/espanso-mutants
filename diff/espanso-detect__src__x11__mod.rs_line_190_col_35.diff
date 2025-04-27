@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace == with != in <impl Source for X11Source>::initialize
+@@ -182,17 +182,17 @@
+         self.valid_modifiers_mask |= 1 << mod_indexes.shift;
+ 
+         // Register the hotkeys
+         let raw_hotkey_mapping = &mut self.raw_hotkey_mapping;
+         self.hotkeys.iter().for_each(|hk| {
+             let raw = convert_hotkey_to_raw(hk);
+             if let Some(raw_hk) = raw {
+                 let result = unsafe { detect_register_hotkey(handle, raw_hk, mod_indexes) };
+-                if result.success == 0 {
++                if result.success != /* ~ changed by cargo-mutants ~ */ 0 {
+                     error!("unable to register hotkey: {}", hk);
+                 } else {
+                     raw_hotkey_mapping.insert((result.key_code, result.state), hk.id);
+                     debug!("registered hotkey: {}", hk);
+                 }
+             } else {
+                 error!("unable to generate raw hotkey mapping: {}", hk);
+             }

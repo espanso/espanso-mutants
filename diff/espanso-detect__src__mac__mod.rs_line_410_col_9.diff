@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -402,17 +402,17 @@
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ fn key_code_to_key(key_code: i32) -> (Key, Option<Variant>) {
+     match key_code {
+         // Modifiers
+         0x3A => (Alt, Some(Left)),
+         0x3D => (Alt, Some(Right)),
+-        0x39 => (CapsLock, None), // TODO
++         /* ~ changed by cargo-mutants ~ */ // TODO
+         0x3B => (Control, Some(Left)),
+         0x3E => (Control, Some(Right)),
+         0x37 => (Meta, Some(Left)),
+         0x36 => (Meta, Some(Right)),
+         0x38 => (Shift, Some(Left)),
+         0x3C => (Shift, Some(Right)),
+ 
+         // Whitespace

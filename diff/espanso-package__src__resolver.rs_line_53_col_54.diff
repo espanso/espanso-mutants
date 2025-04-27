@@ -1,0 +1,21 @@
+--- espanso-package/src/resolver.rs
++++ replace == with != in resolve_package
+@@ -45,17 +45,17 @@
+         bail!("no package found with name: {}", name);
+     }
+ 
+     matching_packages.sort_by(|a, b| natord::compare(&a.manifest.version, &b.manifest.version));
+ 
+     let matching_package = if let Some(explicit_version) = version {
+         matching_packages
+             .into_iter()
+-            .find(|package| package.manifest.version == explicit_version)
++            .find(|package| package.manifest.version != /* ~ changed by cargo-mutants ~ */ explicit_version)
+     } else {
+         matching_packages.into_iter().next_back()
+     };
+ 
+     if let Some(matching_package) = matching_package {
+         Ok(matching_package)
+     } else {
+         bail!(

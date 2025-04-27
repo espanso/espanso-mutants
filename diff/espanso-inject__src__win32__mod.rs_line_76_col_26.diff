@@ -1,0 +1,21 @@
+--- espanso-inject/src/win32/mod.rs
++++ replace == with != in <impl Injector for Win32Injector>::send_keys
+@@ -68,17 +68,17 @@
+         Ok(())
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         let virtual_keys = Self::convert_to_vk_array(keys)?;
+         // note: multiplying by 2 because there is a press and release event
+         espanso_info::add_expansion_events(keys.len() * 2);
+ 
+-        if options.delay == 0 {
++        if options.delay != /* ~ changed by cargo-mutants ~ */ 0 {
+             unsafe {
+                 inject_separate_vkeys(virtual_keys.as_ptr(), virtual_keys.len() as i32);
+             }
+         } else {
+             unsafe {
+                 inject_separate_vkeys_with_delay(
+                     virtual_keys.as_ptr(),
+                     virtual_keys.len() as i32,

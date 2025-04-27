@@ -1,0 +1,21 @@
+--- espanso-package/src/package/default.rs
++++ replace <impl Package for DefaultPackage>::description -> &str with "xyzzy"
+@@ -48,17 +48,17 @@
+         self.manifest.name.as_str()
+     }
+ 
+     fn title(&self) -> &str {
+         self.manifest.title.as_str()
+     }
+ 
+     fn description(&self) -> &str {
+-        self.manifest.description.as_str()
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn version(&self) -> &str {
+         self.manifest.version.as_str()
+     }
+ 
+     fn author(&self) -> &str {
+         self.manifest.author.as_str()

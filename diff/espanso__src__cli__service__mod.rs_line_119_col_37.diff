@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/mod.rs
++++ replace && with || in start_main
+@@ -111,17 +111,17 @@
+ fn start_main(paths: &Paths, _paths_overrides: &PathsOverrides, args: &ArgMatches) -> i32 {
+     let lock_file = acquire_worker_lock(&paths.runtime);
+     if lock_file.is_none() {
+         error_eprintln!("espanso is already running!");
+         return SERVICE_ALREADY_RUNNING;
+     }
+     drop(lock_file);
+ 
+-    if args.is_present("unmanaged") && !cfg!(target_os = "windows") {
++    if args.is_present("unmanaged") || /* ~ changed by cargo-mutants ~ */ !cfg!(target_os = "windows") {
+         // Unmanaged service
+         #[cfg(unix)]
+         {
+             if let Err(err) = fork_daemon(_paths_overrides) {
+                 error_eprintln!("unable to start service (unmanaged): {}", err);
+                 return SERVICE_FAILURE;
+             }
+         }

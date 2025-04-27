@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::disable_x11_fast_inject -> bool with false
+@@ -208,17 +208,17 @@
+             .unwrap_or(DEFAULT_SHORTCUT_EVENT_DELAY)
+     }
+ 
+     fn paste_shortcut(&self) -> Option<String> {
+         self.parsed.paste_shortcut.clone()
+     }
+ 
+     fn disable_x11_fast_inject(&self) -> bool {
+-        self.parsed.disable_x11_fast_inject.unwrap_or(false)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn inject_delay(&self) -> Option<usize> {
+         self.parsed.inject_delay
+     }
+ 
+     fn key_delay(&self) -> Option<usize> {
+         self.parsed.key_delay

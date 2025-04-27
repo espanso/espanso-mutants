@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ delete - in show::add_to_path
+@@ -67,17 +67,17 @@
+     extern "C" fn add_to_path() -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in add_to_path method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.add_to_path.as_ref() {
+             i32::from((*handler_ref)())
+         } else {
+-            -1
++             /* ~ changed by cargo-mutants ~ */1
+         }
+     }
+ 
+     extern "C" fn enable_accessibility() -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in enable_accessibility method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");

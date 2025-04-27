@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ delete match arm
+@@ -372,17 +372,17 @@
+         "ti-ER" => Some(Locale::ti_ER),
+         "ti-ET" => Some(Locale::ti_ET),
+         "tig-ER" => Some(Locale::tig_ER),
+         "tk-TM" => Some(Locale::tk_TM),
+         "tl-PH" => Some(Locale::tl_PH),
+         "tn-ZA" => Some(Locale::tn_ZA),
+         "to-TO" => Some(Locale::to_TO),
+         "tpi-PG" => Some(Locale::tpi_PG),
+-        "tr-CY" => Some(Locale::tr_CY),
++         /* ~ changed by cargo-mutants ~ */
+         "tr-TR" => Some(Locale::tr_TR),
+         "ts-ZA" => Some(Locale::ts_ZA),
+         "tt-RU" => Some(Locale::tt_RU),
+         "ug-CN" => Some(Locale::ug_CN),
+         "uk-UA" => Some(Locale::uk_UA),
+         "unm-US" => Some(Locale::unm_US),
+         "ur-IN" => Some(Locale::ur_IN),
+         "ur-PK" => Some(Locale::ur_PK),

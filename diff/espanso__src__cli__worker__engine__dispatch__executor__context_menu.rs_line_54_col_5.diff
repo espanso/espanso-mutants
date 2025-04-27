@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/context_menu.rs
++++ replace convert_to_ui_menu_item -> espanso_ui::menu::MenuItem with Default::default()
+@@ -46,24 +46,10 @@
+ 
+         Ok(())
+     }
+ }
+ 
+ fn convert_to_ui_menu_item(
+     item: &espanso_engine::event::ui::MenuItem,
+ ) -> espanso_ui::menu::MenuItem {
+-    match item {
+-        espanso_engine::event::ui::MenuItem::Simple(simple) => {
+-            espanso_ui::menu::MenuItem::Simple(espanso_ui::menu::SimpleMenuItem {
+-                id: simple.id,
+-                label: simple.label.clone(),
+-            })
+-        }
+-        espanso_engine::event::ui::MenuItem::Sub(sub) => {
+-            espanso_ui::menu::MenuItem::Sub(espanso_ui::menu::SubMenuItem {
+-                label: sub.label.clone(),
+-                items: sub.items.iter().map(convert_to_ui_menu_item).collect(),
+-            })
+-        }
+-        espanso_engine::event::ui::MenuItem::Separator => espanso_ui::menu::MenuItem::Separator,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

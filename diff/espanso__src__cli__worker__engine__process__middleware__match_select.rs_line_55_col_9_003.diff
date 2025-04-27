@@ -1,0 +1,61 @@
+--- espanso/src/cli/worker/engine/process/middleware/match_select.rs
++++ replace <impl MatchSelector for MatchSelectorAdapter<'_>>::select -> Option<i32> with Some(-1)
+@@ -47,57 +47,11 @@
+             search_ui,
+             match_provider,
+         }
+     }
+ }
+ 
+ impl MatchSelector for MatchSelectorAdapter<'_> {
+     fn select(&self, matches_ids: &[i32], is_search: bool) -> Option<i32> {
+-        let matches = self.match_provider.get_matches(matches_ids);
+-        let search_items: Vec<SearchItem> = matches
+-            .into_iter()
+-            .map(|m| {
+-                let clipped_label: String = m
+-                    .label
+-                    .chars()
+-                    .take(std::cmp::min(m.label.len(), MAX_LABEL_LEN))
+-                    .collect();
+-
+-                SearchItem {
+-                    id: m.id.to_string(),
+-                    label: clipped_label,
+-                    tag: m.tag.map(String::from),
+-                    additional_search_terms: m
+-                        .additional_search_terms
+-                        .into_iter()
+-                        .map(String::from)
+-                        .collect(),
+-                    is_builtin: m.is_builtin,
+-                }
+-            })
+-            .collect();
+-
+-        let hint = if is_search {
+-            Some("Search matches by content or trigger (or type > to see commands)")
+-        } else {
+-            None
+-        };
+-
+-        match self.search_ui.show(&search_items, hint) {
+-            Ok(Some(selected_id)) => match selected_id.parse::<i32>() {
+-                Ok(id) => Some(id),
+-                Err(err) => {
+-                    error!(
+-                        "match selector received an invalid id from SearchUI: {}",
+-                        err
+-                    );
+-                    None
+-                }
+-            },
+-            Ok(None) => None,
+-            Err(err) => {
+-                error!("SearchUI reported an error: {}", err);
+-                None
+-            }
+-        }
++        Some(-1) /* ~ changed by cargo-mutants ~ */
+     }
+ }

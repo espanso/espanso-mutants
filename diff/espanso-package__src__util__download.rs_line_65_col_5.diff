@@ -1,0 +1,25 @@
+--- espanso-package/src/util/download.rs
++++ replace verify_sha256 -> bool with true
+@@ -57,21 +57,17 @@
+     let mut response = client.get(url).send()?;
+ 
+     let mut buffer = Vec::new();
+     copy(&mut response, &mut buffer)?;
+     Ok(buffer)
+ }
+ 
+ fn verify_sha256(data: &[u8], sha256: &str) -> bool {
+-    let mut hasher = Sha256::new();
+-    hasher.update(data);
+-    let result = hasher.finalize();
+-    let hash = hex::encode(result);
+-    hash == sha256
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ // Adapted from zip-rs extract.rs example
+ fn extract_zip(data: Vec<u8>, dest_dir: &Path) -> Result<()> {
+     let reader = Cursor::new(data);
+ 
+     let mut archive = zip::ZipArchive::new(reader)?;
+ 

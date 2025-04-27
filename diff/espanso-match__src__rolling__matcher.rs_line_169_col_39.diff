@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/matcher.rs
++++ replace == with != in RollingMatcher<Id>::find_refs
+@@ -161,17 +161,17 @@
+                     refs.push((node_ref, false));
+                 }
+ 
+                 // Char case-insensitive
+                 let insensitive_char = UniCase::new(char);
+                 if let Some((_, node_ref)) = node
+                     .chars_insensitive
+                     .iter()
+-                    .find(|(c, _)| *c == insensitive_char)
++                    .find(|(c, _)| *c != /* ~ changed by cargo-mutants ~ */ insensitive_char)
+                 {
+                     refs.push((node_ref, false));
+                 }
+             }
+         }
+ 
+         if self.is_word_separator(event) {
+             if let Some(node_ref) = node.word_separators.as_ref() {

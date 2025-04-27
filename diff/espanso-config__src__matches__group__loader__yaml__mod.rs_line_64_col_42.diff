@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/loader/yaml/mod.rs
++++ replace == with != in <impl Importer for YAMLImporter>::is_supported
+@@ -56,17 +56,17 @@
+ impl YAMLImporter {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Importer for YAMLImporter {
+     fn is_supported(&self, extension: &str) -> bool {
+-        extension == "yaml" || extension == "yml"
++        extension == "yaml" || extension != /* ~ changed by cargo-mutants ~ */ "yml"
+     }
+ 
+     fn load_group(
+         &self,
+         path: &std::path::Path,
+     ) -> anyhow::Result<(crate::matches::group::MatchGroup, Option<NonFatalErrorSet>)> {
+         let yaml_group =
+             YAMLMatchGroup::parse_from_file(path).context("failed to parse YAML match group")?;

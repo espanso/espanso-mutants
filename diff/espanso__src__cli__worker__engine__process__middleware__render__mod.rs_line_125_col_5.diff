@@ -1,0 +1,35 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace convert_to_template -> Option<Template> with Some(Default::default())
+@@ -117,31 +117,17 @@
+         global_vars,
+         templates,
+     }
+ }
+ 
+ // TODO: move conversion methods to new file?
+ 
+ fn convert_to_template(m: &Match) -> Option<Template> {
+-    if let MatchEffect::Text(text_effect) = &m.effect {
+-        let ids = if let MatchCause::Trigger(cause) = &m.cause {
+-            cause.triggers.clone()
+-        } else {
+-            Vec::new()
+-        };
+-
+-        Some(Template {
+-            ids,
+-            body: text_effect.replace.clone(),
+-            vars: convert_vars(text_effect.vars.clone()),
+-        })
+-    } else {
+-        None
+-    }
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn convert_vars(vars: Vec<espanso_config::matches::Variable>) -> Vec<espanso_render::Variable> {
+     vars.into_iter().map(convert_var).collect()
+ }
+ 
+ fn convert_var(var: espanso_config::matches::Variable) -> espanso_render::Variable {
+     Variable {

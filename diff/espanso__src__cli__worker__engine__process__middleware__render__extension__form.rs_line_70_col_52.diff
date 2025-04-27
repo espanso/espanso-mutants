@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ replace match guard with false
+@@ -62,17 +62,17 @@
+                             .and_then(|val| val.as_string())
+                             .cloned(),
+                         values: params
+                             .get("values")
+                             .and_then(|v| extract_values(v, params.get("trim_string_values")))
+                             .unwrap_or_default(),
+                     })
+                 }
+-                Some(Value::String(field_type)) if field_type == "list" => Some(FormField::List {
++                Some(Value::String(field_type)) if false /* ~ changed by cargo-mutants ~ */ => Some(FormField::List {
+                     default: params
+                         .get("default")
+                         .and_then(|val| val.as_string())
+                         .cloned(),
+                     values: params
+                         .get("values")
+                         .and_then(|v| extract_values(v, params.get("trim_string_values")))
+                         .unwrap_or_default(),

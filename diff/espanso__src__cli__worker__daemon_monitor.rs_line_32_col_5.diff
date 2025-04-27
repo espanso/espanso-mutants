@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/daemon_monitor.rs
++++ replace initialize_and_spawn -> Result<()> with Ok(())
+@@ -24,24 +24,17 @@
+ use espanso_engine::event::ExitMode;
+ use log::{error, info, warn};
+ 
+ use crate::lock::acquire_daemon_lock;
+ 
+ const DAEMON_STATUS_CHECK_INTERVAL: u64 = 1000;
+ 
+ pub fn initialize_and_spawn(runtime_dir: &Path, exit_notify: Sender<ExitMode>) -> Result<()> {
+-    let runtime_dir_clone = runtime_dir.to_path_buf();
+-    std::thread::Builder::new()
+-        .name("daemon-monitor".to_string())
+-        .spawn(move || {
+-            daemon_monitor_main(&runtime_dir_clone, exit_notify.clone());
+-        })?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn daemon_monitor_main(runtime_dir: &Path, exit_notify: Sender<ExitMode>) {
+     info!("monitoring the status of the daemon process");
+ 
+     loop {
+         let is_daemon_lock_free = {
+             let lock = acquire_daemon_lock(runtime_dir);

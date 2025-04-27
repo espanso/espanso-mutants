@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/discard.rs
++++ replace <impl Middleware for EventsDiscardMiddleware>::name -> &'static str with ""
+@@ -39,17 +39,17 @@
+             min_id_threshold: RefCell::new(0),
+             max_id_threshold: RefCell::new(0),
+         }
+     }
+ }
+ 
+ impl Middleware for EventsDiscardMiddleware {
+     fn name(&self) -> &'static str {
+-        "discard"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         let mut min_id_threshold = self.min_id_threshold.borrow_mut();
+         let mut max_id_threshold = self.max_id_threshold.borrow_mut();
+ 
+         // Filter out previous events
+         if event.source_id < *max_id_threshold && event.source_id >= *min_id_threshold {

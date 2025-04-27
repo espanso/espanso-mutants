@@ -1,0 +1,23 @@
+--- espanso-detect/src/hotkey/mod.rs
++++ replace <impl Display for HotKey>::fmt -> std::fmt::Result with Ok(Default::default())
+@@ -91,19 +91,17 @@
+     #[allow(dead_code)]
+     pub(crate) fn has_shift(&self) -> bool {
+         self.modifiers.contains(&ShortcutKey::Shift)
+     }
+ }
+ 
+ impl Display for HotKey {
+     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+-        let str_modifiers: Vec<String> = self.modifiers.iter().map(ToString::to_string).collect();
+-        let modifiers = str_modifiers.join("+");
+-        write!(f, "{}+{}", &modifiers, &self.key)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum HotKeyError {
+     #[error("invalid hotkey shortcut, `{0}` is not a valid key")]
+     InvalidKey(String),
+ 

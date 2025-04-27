@@ -1,0 +1,27 @@
+--- espanso-config/src/config/store.rs
++++ replace <impl ConfigStore for DefaultConfigStore>::configs -> Vec<Arc<dyn Config>> with vec![Arc::new(Default::default())]
+@@ -41,23 +41,17 @@
+             if custom.is_match(app) {
+                 return Arc::clone(custom);
+             }
+         }
+         Arc::clone(&self.default)
+     }
+ 
+     fn configs(&self) -> Vec<Arc<dyn Config>> {
+-        let mut configs = vec![Arc::clone(&self.default)];
+-
+-        for custom in &self.customs {
+-            configs.push(Arc::clone(custom));
+-        }
+-
+-        configs
++        vec![Arc::new(Default::default())] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_all_match_paths(&self) -> HashSet<String> {
+         let mut paths = HashSet::new();
+ 
+         paths.extend(self.default().match_paths().iter().cloned());
+         for custom in &self.customs {
+             paths.extend(custom.match_paths().iter().cloned());

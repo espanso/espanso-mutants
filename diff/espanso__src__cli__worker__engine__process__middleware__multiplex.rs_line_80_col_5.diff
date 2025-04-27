@@ -1,0 +1,18 @@
+--- espanso/src/cli/worker/engine/process/middleware/multiplex.rs
++++ replace convert_format -> TextFormat with Default::default()
+@@ -72,14 +72,10 @@
+                 MatchEffect::None => None,
+             },
+             MatchResult::Builtin(m) => Some((m.action)(self.context)),
+         }
+     }
+ }
+ 
+ fn convert_format(format: &espanso_config::matches::TextFormat) -> TextFormat {
+-    match format {
+-        espanso_config::matches::TextFormat::Plain => TextFormat::Plain,
+-        espanso_config::matches::TextFormat::Markdown => TextFormat::Markdown,
+-        espanso_config::matches::TextFormat::Html => TextFormat::Html,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,19 @@
+--- espanso-info/src/wayland/mod.rs
++++ replace <impl AppInfoProvider for WaylandAppInfoProvider>::get_info -> AppInfo with Default::default()
+@@ -25,15 +25,11 @@
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl AppInfoProvider for WaylandAppInfoProvider {
+     // TODO: can we read these info on Wayland?
+     fn get_info(&self) -> AppInfo {
+-        AppInfo {
+-            title: None,
+-            exec: None,
+-            class: None,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

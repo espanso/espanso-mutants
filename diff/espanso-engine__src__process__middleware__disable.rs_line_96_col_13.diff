@@ -1,0 +1,24 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ delete match arm
+@@ -88,20 +88,17 @@
+             EventType::EnableRequest => {
+                 *enabled = true;
+                 has_status_changed = true;
+             }
+             EventType::DisableRequest => {
+                 *enabled = false;
+                 has_status_changed = true;
+             }
+-            EventType::ToggleRequest => {
+-                *enabled = !*enabled;
+-                has_status_changed = true;
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             _ => {}
+         }
+ 
+         if has_status_changed {
+             info!("toggled enabled state, is_enabled = {}", *enabled);
+             dispatch(Event::caused_by(
+                 event.source_id,
+                 if *enabled {

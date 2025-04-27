@@ -1,0 +1,40 @@
+--- espanso-config/src/matches/store/default.rs
++++ replace <impl MatchStore for DefaultMatchStore>::query -> MatchSet with Default::default()
+@@ -44,36 +44,17 @@
+         load_match_groups_recursively(&mut groups, paths, &mut non_fatal_error_sets);
+ 
+         (Self { groups }, non_fatal_error_sets)
+     }
+ }
+ 
+ impl MatchStore for DefaultMatchStore {
+     fn query(&self, paths: &[String]) -> MatchSet {
+-        let mut matches: Vec<&Match> = Vec::new();
+-        let mut global_vars: Vec<&Variable> = Vec::new();
+-        let mut visited_paths = HashSet::new();
+-        let mut visited_matches = HashSet::new();
+-        let mut visited_global_vars = HashSet::new();
+-
+-        query_matches_for_paths(
+-            &self.groups,
+-            &mut visited_paths,
+-            &mut visited_matches,
+-            &mut visited_global_vars,
+-            &mut matches,
+-            &mut global_vars,
+-            paths,
+-        );
+-
+-        MatchSet {
+-            matches,
+-            global_vars,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn loaded_paths(&self) -> Vec<String> {
+         self.groups.keys().cloned().collect()
+     }
+ }
+ 
+ fn load_match_groups_recursively(

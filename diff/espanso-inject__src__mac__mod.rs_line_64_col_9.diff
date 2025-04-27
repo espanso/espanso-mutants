@@ -1,0 +1,29 @@
+--- espanso-inject/src/mac/mod.rs
++++ replace <impl Injector for MacInjector>::send_string -> Result<()> with Ok(())
+@@ -56,25 +56,17 @@
+             }
+         }
+         Ok(virtual_keys)
+     }
+ }
+ 
+ impl Injector for MacInjector {
+     fn send_string(&self, string: &str, options: InjectionOptions) -> Result<()> {
+-        let c_string = CString::new(string)?;
+-        unsafe {
+-            inject_string(
+-                c_string.as_ptr(),
+-                InjectionOptions::default().delay,
+-                options.delay,
+-            );
+-        }
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_keys(&self, keys: &[keys::Key], options: InjectionOptions) -> Result<()> {
+         let virtual_keys = Self::convert_to_vk_array(keys)?;
+ 
+         unsafe {
+             inject_separate_vkeys(
+                 virtual_keys.as_ptr(),

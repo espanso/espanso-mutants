@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -153,17 +153,17 @@
+         14 => Some(0x266B),  // Beamed eighth notes, barred eighth notes, beamed quavers
+         15 => Some(0x263C),  // White sun with rays
+         16 => Some(0x25BA),  // Black right-pointing pointer
+         17 => Some(0x25C4),  // Black left-pointing pointer
+         18 => Some(0x2195),  // Up down arrow
+         19 => Some(0x203C),  // Double exclamation mark
+         20 => Some(0x00B6),  // Pilcrow sign, paragraph sign
+         21 => Some(0x00A7),  // Section sign
+-        22 => Some(0x25AC),  // Black rectangle
++         /* ~ changed by cargo-mutants ~ */  // Black rectangle
+         23 => Some(0x21A8),  // Up down arrow with base
+         24 => Some(0x2191),  // Upwards arrow
+         25 => Some(0x2193),  // Downwards arrow
+         26 => Some(0x2192),  // Rightwards arrow, Z notation total function
+         27 => Some(0x2190),  // Leftwards arrow
+         28 => Some(0x221F),  // Right angle
+         29 => Some(0x2194),  // Left right arrow, Z notation relation
+         30 => Some(0x25B2),  // Black up-pointing triangle

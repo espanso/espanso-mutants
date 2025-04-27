@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ delete match arm
+@@ -337,17 +337,17 @@
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ fn key_sym_to_key(key_sym: i32) -> (Key, Option<Variant>) {
+     match key_sym {
+         // Modifiers
+         0xFFE9 => (Alt, Some(Left)),
+         0xFFEA => (Alt, Some(Right)),
+-        0xFFE5 => (CapsLock, None),
++         /* ~ changed by cargo-mutants ~ */
+         0xFFE3 => (Control, Some(Left)),
+         0xFFE4 => (Control, Some(Right)),
+         0xFFE7 | 0xFFEB => (Meta, Some(Left)),
+         0xFFE8 | 0xFFEC => (Meta, Some(Right)),
+         0xFF7F => (NumLock, None),
+         0xFFE1 => (Shift, Some(Left)),
+         0xFFE2 => (Shift, Some(Right)),
+ 

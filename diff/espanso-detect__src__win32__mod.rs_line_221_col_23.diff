@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace <= with > in <impl Source for Win32Source>::eventloop
+@@ -213,17 +213,17 @@
+                 } else {
+                     trace!("Unable to convert raw event to input event");
+                 }
+             }
+         }
+ 
+         let error_code = unsafe { detect_eventloop(self.handle, callback) };
+ 
+-        if error_code <= 0 {
++        if error_code > /* ~ changed by cargo-mutants ~ */ 0 {
+             error!("Win32Source eventloop returned a negative error code");
+             return Err(Win32SourceError::Unknown().into());
+         }
+ 
+         Ok(())
+     }
+ }
+ 

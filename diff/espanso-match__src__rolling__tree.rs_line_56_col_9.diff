@@ -1,0 +1,25 @@
+--- espanso-match/src/rolling/tree.rs
++++ replace MatcherTreeNode<Id>::from_matches -> MatcherTreeNode<Id> with MatcherTreeNode::new()
+@@ -48,21 +48,17 @@
+     }
+ }
+ 
+ impl<Id> MatcherTreeNode<Id>
+ where
+     Id: Clone,
+ {
+     pub fn from_matches(matches: &[RollingMatch<Id>]) -> MatcherTreeNode<Id> {
+-        let mut root = MatcherTreeNode::default();
+-        for m in matches {
+-            insert_items_recursively(m.id.clone(), &mut root, &m.items);
+-        }
+-        root
++        MatcherTreeNode::new() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn insert_items_recursively<Id>(id: Id, node: &mut MatcherTreeNode<Id>, items: &[RollingItem]) {
+     if items.is_empty() {
+         return;
+     }
+ 

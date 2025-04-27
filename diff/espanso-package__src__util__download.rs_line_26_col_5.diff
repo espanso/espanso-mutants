@@ -1,0 +1,21 @@
+--- espanso-package/src/util/download.rs
++++ replace download_and_extract_zip -> Result<()> with Ok(())
+@@ -18,17 +18,17 @@
+  */
+ 
+ use anyhow::{bail, Context, Result};
+ use sha2::{Digest, Sha256};
+ use std::io::{copy, Cursor};
+ use std::path::Path;
+ 
+ pub fn download_and_extract_zip(url: &str, dest_dir: &Path) -> Result<()> {
+-    download_and_extract_zip_verify_sha256(url, dest_dir, None)
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn download_and_extract_zip_verify_sha256(
+     url: &str,
+     dest_dir: &Path,
+     sha256: Option<&str>,
+ ) -> Result<()> {
+     let data = download(url).context("error downloading archive")?;

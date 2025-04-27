@@ -1,0 +1,21 @@
+--- espanso-package/src/lib.rs
++++ delete ! in get_provider
+@@ -35,17 +35,17 @@
+ pub use provider::{PackageProvider, PackageSpecifier, ProviderOptions};
+ 
+ pub fn get_provider(
+     package: &PackageSpecifier,
+     runtime_dir: &Path,
+     options: &ProviderOptions,
+ ) -> Result<Box<dyn PackageProvider>> {
+     if let Some(git_repo_url) = package.git_repo_url.as_deref() {
+-        if !package.use_native_git {
++        if  /* ~ changed by cargo-mutants ~ */package.use_native_git {
+             let matches_known_hosts = if let Some(github_parts) =
+                 util::github::extract_github_url_parts(git_repo_url)
+             {
+                 if let Some(repo_scheme) =
+                     util::github::resolve_repo_scheme(github_parts, package.git_branch.as_deref())?
+                 {
+                     return Ok(Box::new(provider::github::GitHubPackageProvider::new(
+                         repo_scheme.author,

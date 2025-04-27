@@ -1,0 +1,32 @@
+--- espanso/src/cli/workaround/secure_input.rs
++++ replace run_apple_script -> Result<String> with Ok("xyzzy".into())
+@@ -97,28 +97,17 @@
+     if espanso_mac_utils::get_secure_input_pid().is_some() {
+         bail!("failed to release secure input");
+     }
+ 
+     Ok(())
+ }
+ 
+ fn run_apple_script(script: &str) -> Result<String> {
+-    let mut child = Command::new("osascript")
+-        .arg("-")
+-        .stdin(Stdio::piped())
+-        .stdout(Stdio::piped())
+-        .spawn()?;
+-
+-    let child_stdin = child.stdin.as_mut().unwrap();
+-    child_stdin.write_all(script.as_bytes())?;
+-
+-    let output = child.wait_with_output()?;
+-    let stdout = String::from_utf8_lossy(&output.stdout);
+-    Ok(stdout.to_string())
++    Ok("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn lock_screen() -> Result<()> {
+     let mut child = Command::new("osascript")
+     .arg("-e")
+     .arg(r#"tell application "System Events" to keystroke "q" using {command down,control down}"#)
+     .spawn()?;
+ 

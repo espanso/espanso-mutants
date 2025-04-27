@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/loader/yaml/mod.rs
++++ replace || with && in try_convert_into_match
+@@ -189,17 +189,17 @@
+             _ => None,
+         }
+     } else {
+         None
+     };
+ 
+     let effect = if yaml_match.replace.is_some()
+         || yaml_match.markdown.is_some()
+-        || yaml_match.html.is_some()
++        && /* ~ changed by cargo-mutants ~ */ yaml_match.html.is_some()
+     {
+         let (replace, format) = if let Some(plain) = yaml_match.replace {
+             (plain, TextFormat::Plain)
+         } else if let Some(markdown) = yaml_match.markdown {
+             (markdown, TextFormat::Markdown)
+         } else if let Some(html) = yaml_match.html {
+             (html, TextFormat::Html)
+         } else {

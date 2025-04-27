@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace && with || in ModifierStateStore::is_any_conflicting_modifier_pressed
+@@ -66,17 +66,17 @@
+             if status.is_outdated() {
+                 warn!(
+                     "detected outdated modifier records for {:?}, releasing the state",
+                     modifier
+                 );
+                 status.release();
+             }
+ 
+-            if status.is_pressed() && CONFLICTING_MODIFIERS.contains(modifier) {
++            if status.is_pressed() || /* ~ changed by cargo-mutants ~ */ CONFLICTING_MODIFIERS.contains(modifier) {
+                 is_any_modifier_pressed = true;
+             }
+         }
+         is_any_modifier_pressed
+     }
+ 
+     pub fn update_state(&self, modifier: Modifier, is_pressed: bool) {
+         let mut state = self.state.lock().expect("unable to obtain modifier state");

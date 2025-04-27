@@ -1,0 +1,25 @@
+--- espanso-info/src/win32/mod.rs
++++ replace <impl AppInfoProvider for WinAppInfoProvider>::get_info -> AppInfo with Default::default()
+@@ -30,21 +30,17 @@
+ impl WinAppInfoProvider {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl AppInfoProvider for WinAppInfoProvider {
+     fn get_info(&self) -> AppInfo {
+-        AppInfo {
+-            title: WinAppInfoProvider::get_title(),
+-            class: None,
+-            exec: WinAppInfoProvider::get_exec(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl WinAppInfoProvider {
+     fn get_exec() -> Option<String> {
+         let mut buffer: [u16; 2048] = [0; 2048];
+         if unsafe { info_get_exec(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } == 0 {
+             None

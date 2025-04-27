@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -358,17 +358,17 @@
+         219 => Some(0x2588), // Full block, solid block
+         220 => Some(0x2584), // Lower half block
+         221 => Some(0x258C), // Left half block
+         222 => Some(0x2590), // Right half block
+         223 => Some(0x2580), // Upper half block
+         224 => Some(0x03B1), // Greek small letter alpha
+         225 => Some(0x00DF), // Latin small letter sharp s, eszett
+         226 => Some(0x0393), // Greek capital letter gamma
+-        227 => Some(0x03C0), // Greek small letter pi
++         /* ~ changed by cargo-mutants ~ */ // Greek small letter pi
+         228 => Some(0x03A3), // Greek capital letter sigma
+         229 => Some(0x03C3), // Greek small letter sigma
+         230 => Some(0x00B5), // Micro sign
+         231 => Some(0x03A4), // Greek capital letter tau
+         232 => Some(0x03A6), // Greek capital letter phi
+         233 => Some(0x0398), // Greek capital letter theta
+         234 => Some(0x03A9), // Greek capital letter omega
+         235 => Some(0x03B4), // Greek small letter delta

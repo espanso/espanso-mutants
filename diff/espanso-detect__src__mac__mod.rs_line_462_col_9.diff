@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -454,17 +454,17 @@
+         0x71 => (F15, None),
+         0x6A => (F16, None),
+         0x40 => (F17, None),
+         0x4F => (F18, None),
+         0x50 => (F19, None),
+         0x5A => (F20, None),
+ 
+         // Numpad
+-        0x52 => (Numpad0, None),
++         /* ~ changed by cargo-mutants ~ */
+         0x53 => (Numpad1, None),
+         0x54 => (Numpad2, None),
+         0x55 => (Numpad3, None),
+         0x56 => (Numpad4, None),
+         0x57 => (Numpad5, None),
+         0x58 => (Numpad6, None),
+         0x59 => (Numpad7, None),
+         0x5B => (Numpad8, None),

@@ -1,0 +1,57 @@
+--- espanso/src/cli/edit.rs
++++ replace open_editor -> bool with false
+@@ -156,53 +156,17 @@
+         }
+     } else {
+         config_path.join("match").join("base.yml")
+     }
+ }
+ 
+ pub fn open_editor(file_path: &Path) -> bool {
+     // Check if another editor is defined in the environment variables
+-    let editor_var = std::env::var_os("EDITOR");
+-    let visual_var = std::env::var_os("VISUAL");
+-
+-    // Prioritize the editors specified by the environment variable, use the default one
+-    let editor: String = if let Some(editor_var) = editor_var {
+-        editor_var.to_string_lossy().to_string()
+-    } else if let Some(visual_var) = visual_var {
+-        visual_var.to_string_lossy().to_string()
+-    } else {
+-        default_editor()
+-    };
+-
+-    // Start the editor and wait for its termination
+-    let status = if cfg!(target_os = "windows") {
+-        Command::new(&editor).arg(file_path).spawn()
+-    } else {
+-        // On Unix, spawn the editor using the shell so that it can
+-        // accept parameters. See issue #245
+-        Command::new("/bin/bash")
+-            .arg("-c")
+-            .arg(format!("{} '{}'", editor, file_path.to_string_lossy()))
+-            .spawn()
+-    };
+-
+-    if let Ok(mut child) = status {
+-        // Wait for the user to edit the configuration
+-        let result = child.wait();
+-
+-        if let Ok(exit_status) = result {
+-            exit_status.success()
+-        } else {
+-            false
+-        }
+-    } else {
+-        println!("Error: could not start editor at: {}", &editor);
+-        false
+-    }
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ // fn restart_espanso(paths_overrides: &PathsOverrides) -> Result<()> {
+ //   let espanso_exe_path = std::env::current_exe()?;
+ 
+ //   let mut command = Command::new(&espanso_exe_path.to_string_lossy().to_string());
+ //   command.args(&["restart"]);
+ //   command.with_paths_overrides(paths_overrides);

@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ delete ! in watcher_main
+@@ -76,17 +76,17 @@
+                     let extension = path
+                         .extension()
+                         .unwrap_or_default()
+                         .to_string_lossy()
+                         .to_ascii_lowercase();
+ 
+                     if ["yml", "yaml"].iter().any(|ext| ext == &extension) {
+                         // Only load non-hidden yml files
+-                        !is_file_hidden(&path)
++                         /* ~ changed by cargo-mutants ~ */is_file_hidden(&path)
+                     } else {
+                         // If there is no extension, it's probably a folder
+                         extension.is_empty()
+                     }
+                 } else {
+                     false
+                 }
+             }

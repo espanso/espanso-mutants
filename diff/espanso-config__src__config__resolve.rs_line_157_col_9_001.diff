@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::auto_restart -> bool with true
+@@ -149,17 +149,17 @@
+ 
+     fn clipboard_threshold(&self) -> usize {
+         self.parsed
+             .clipboard_threshold
+             .unwrap_or(DEFAULT_CLIPBOARD_THRESHOLD)
+     }
+ 
+     fn auto_restart(&self) -> bool {
+-        self.parsed.auto_restart.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn pre_paste_delay(&self) -> usize {
+         self.parsed
+             .pre_paste_delay
+             .unwrap_or(DEFAULT_PRE_PASTE_DELAY)
+     }
+ 

@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/store/default.rs
++++ replace <impl MatchStore for DefaultMatchStore>::loaded_paths -> Vec<String> with vec![]
+@@ -67,17 +67,17 @@
+ 
+         MatchSet {
+             matches,
+             global_vars,
+         }
+     }
+ 
+     fn loaded_paths(&self) -> Vec<String> {
+-        self.groups.keys().cloned().collect()
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn load_match_groups_recursively(
+     groups: &mut HashMap<String, MatchGroup>,
+     paths: &[String],
+     non_fatal_error_sets: &mut Vec<NonFatalErrorSet>,
+ ) {

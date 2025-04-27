@@ -1,0 +1,26 @@
+--- espanso/src/cli/edit.rs
++++ replace new -> CliModule with Default::default()
+@@ -31,22 +31,17 @@
+     "/usr/bin/nano".to_owned()
+ }
+ #[cfg(target_os = "windows")]
+ fn default_editor() -> String {
+     "C:\\Windows\\System32\\notepad.exe".to_owned()
+ }
+ 
+ pub fn new() -> CliModule {
+-    CliModule {
+-        requires_paths: true,
+-        subcommand: "edit".to_string(),
+-        entry: edit_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn edit_main(args: CliModuleArgs) -> i32 {
+     let paths = args.paths.expect("missing paths argument");
+     let cli_args = args.cli_args.expect("missing cli_args");
+ 
+     assert!(
+         paths.config.is_dir(),

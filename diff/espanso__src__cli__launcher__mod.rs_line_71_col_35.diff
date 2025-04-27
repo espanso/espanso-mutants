@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ delete ! in launcher_main
+@@ -63,17 +63,17 @@
+         .paths_overrides
+         .expect("missing paths overrides in launcher main");
+     let icon_paths =
+         crate::icon::load_icon_paths(&paths.runtime).expect("unable to load icon paths");
+ 
+     let preferences =
+         crate::preferences::get_default(&paths.runtime).expect("unable to initialize preferences");
+ 
+-    let is_welcome_page_enabled = !preferences.has_completed_wizard();
++    let is_welcome_page_enabled =  /* ~ changed by cargo-mutants ~ */preferences.has_completed_wizard();
+ 
+     let is_move_bundle_page_enabled = crate::cli::util::is_subject_to_app_translocation_on_macos();
+ 
+     let is_legacy_version_page_enabled = false;
+     let is_legacy_version_running_handler = Box::new(util::is_legacy_version_running);
+ 
+     let (is_wrong_edition_page_enabled, wrong_edition_detected_os) =
+         edition_check::is_wrong_edition();

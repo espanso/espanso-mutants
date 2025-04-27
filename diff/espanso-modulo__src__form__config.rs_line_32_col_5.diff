@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_fields -> HashMap<String, FieldConfig> with HashMap::from_iter([(String::new(), Default::default())])
+@@ -24,17 +24,17 @@
+     "espanso".to_owned()
+ }
+ 
+ fn default_icon() -> Option<String> {
+     None
+ }
+ 
+ fn default_fields() -> HashMap<String, FieldConfig> {
+-    HashMap::new()
++    HashMap::from_iter([(String::new(), Default::default())]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_max_form_width() -> i32 {
+     700
+ }
+ 
+ fn default_max_form_height() -> i32 {
+     500

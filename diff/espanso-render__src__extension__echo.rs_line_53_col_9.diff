@@ -1,0 +1,25 @@
+--- espanso-render/src/extension/echo.rs
++++ replace <impl Extension for EchoExtension>::calculate -> crate::ExtensionResult with Default::default()
+@@ -45,21 +45,17 @@
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {
+-        if let Some(Value::String(echo)) = params.get("echo") {
+-            ExtensionResult::Success(ExtensionOutput::Single(echo.clone()))
+-        } else {
+-            ExtensionResult::Error(EchoExtensionError::MissingEchoParameter.into())
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum EchoExtensionError {
+     #[error("missing 'echo' parameter")]
+     MissingEchoParameter,
+ }

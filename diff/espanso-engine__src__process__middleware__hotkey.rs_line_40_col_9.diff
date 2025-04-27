@@ -1,0 +1,28 @@
+--- espanso-engine/src/process/middleware/hotkey.rs
++++ replace <impl Middleware for HotKeyMiddleware>::next -> Event with Default::default()
+@@ -32,24 +32,11 @@
+ }
+ 
+ impl Middleware for HotKeyMiddleware {
+     fn name(&self) -> &'static str {
+         "hotkey"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::HotKey(m_event) = &event.etype {
+-            return Event::caused_by(
+-                event.source_id,
+-                EventType::MatchesDetected(MatchesDetectedEvent {
+-                    matches: vec![DetectedMatch {
+-                        id: m_event.hotkey_id,
+-                        ..Default::default()
+-                    }],
+-                    is_search: false,
+-                }),
+-            );
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

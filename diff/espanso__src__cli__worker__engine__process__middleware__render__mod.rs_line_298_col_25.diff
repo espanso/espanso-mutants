@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ delete match arm
+@@ -290,17 +290,17 @@
+ 
+     if let Some(first) = first_alphabetic {
+         if let Some(second) = second_alphabetic {
+             if first.is_uppercase() {
+                 if second.is_uppercase() {
+                     CasingStyle::Uppercase
+                 } else {
+                     match uppercasing_style {
+-                        Some(UpperCasingStyle::CapitalizeWords) => CasingStyle::CapitalizeWords,
++                         /* ~ changed by cargo-mutants ~ */
+                         _ => CasingStyle::Capitalize,
+                     }
+                 }
+             } else {
+                 CasingStyle::None
+             }
+         } else if first.is_uppercase() {
+             match uppercasing_style {

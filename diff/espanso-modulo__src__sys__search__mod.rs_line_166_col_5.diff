@@ -1,0 +1,66 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace show -> Option<String> with Some("xyzzy".into())
+@@ -158,62 +158,10 @@
+ 
+ struct SearchData {
+     owned_search: interop::OwnedSearch,
+     items: Vec<types::SearchItem>,
+     algorithm: Box<SearchAlgorithmCallback>,
+ }
+ 
+ pub fn show(search: types::Search, algorithm: Box<SearchAlgorithmCallback>) -> Option<String> {
+-    use super::interop::{
+-        interop_show_search, update_items, Interoperable, SearchItem, SearchMetadata,
+-    };
+-
+-    let owned_search: interop::OwnedSearch = (&search).into();
+-    let metadata: *const SearchMetadata = owned_search.as_ptr() as *const SearchMetadata;
+-
+-    let search_data = SearchData {
+-        owned_search,
+-        items: search.items,
+-        algorithm,
+-    };
+-
+-    extern "C" fn search_callback(query: *const c_char, app: *const c_void, data: *const c_void) {
+-        let query = unsafe { CStr::from_ptr(query) };
+-        let query = query.to_string_lossy().to_string();
+-
+-        let search_data = data as *const SearchData;
+-        let search_data = unsafe { &*search_data };
+-
+-        let indexes = (*search_data.algorithm)(&query, &search_data.items);
+-        let items: Vec<SearchItem> = indexes
+-            .into_iter()
+-            .map(|index| search_data.owned_search.interop_items[index])
+-            .collect();
+-
+-        unsafe {
+-            update_items(app, items.as_ptr(), items.len() as c_int);
+-        }
+-    }
+-
+-    let mut result: Option<String> = None;
+-
+-    extern "C" fn result_callback(id: *const c_char, result: *mut c_void) {
+-        let id = unsafe { CStr::from_ptr(id) };
+-        let id = id.to_string_lossy().to_string();
+-        let result: *mut Option<String> = result as *mut Option<String>;
+-        unsafe {
+-            *result = Some(id);
+-        }
+-    }
+-
+-    unsafe {
+-        interop_show_search(
+-            metadata,
+-            search_callback,
+-            std::ptr::from_ref::<SearchData>(&search_data) as *const c_void,
+-            result_callback,
+-            std::ptr::from_mut::<Option<String>>(&mut result) as *mut c_void,
+-        );
+-    }
+-
+-    result
++    Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }

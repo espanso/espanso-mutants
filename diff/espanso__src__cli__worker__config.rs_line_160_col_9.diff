@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl super::engine::dispatch::executor::InjectParamsProvider for ConfigManager<'_>>::get -> super::engine::dispatch::executor::InjectParams with Default::default()
+@@ -152,24 +152,17 @@
+         espanso_clipboard::ClipboardOperationOptions {
+             use_xclip_backend: active.x11_use_xclip_backend(),
+         }
+     }
+ }
+ 
+ impl super::engine::dispatch::executor::InjectParamsProvider for ConfigManager<'_> {
+     fn get(&self) -> super::engine::dispatch::executor::InjectParams {
+-        let active = self.active();
+-        super::engine::dispatch::executor::InjectParams {
+-            disable_x11_fast_inject: active.disable_x11_fast_inject(),
+-            inject_delay: active.inject_delay(),
+-            key_delay: active.key_delay(),
+-            evdev_modifier_delay: active.evdev_modifier_delay(),
+-            x11_use_xdotool_backend: active.x11_use_xdotool_backend(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::MatcherMiddlewareConfigProvider for ConfigManager<'_> {
+     fn max_history_size(&self) -> usize {
+         self.default().backspace_limit()
+     }
+ }

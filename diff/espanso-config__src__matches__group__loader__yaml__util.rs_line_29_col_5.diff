@@ -1,0 +1,29 @@
+--- espanso-config/src/matches/group/loader/yaml/util.rs
++++ replace convert_params -> Result<Params> with Ok(Default::default())
+@@ -21,25 +21,17 @@
+ 
+ use anyhow::Result;
+ use serde_yaml::Mapping;
+ use thiserror::Error;
+ 
+ use crate::matches::{Number, Params, Value};
+ 
+ pub(crate) fn convert_params(m: Mapping) -> Result<Params> {
+-    let mut params = Params::new();
+-
+-    for (key, value) in m {
+-        let key = key.as_str().ok_or(ConversionError::InvalidKeyFormat)?;
+-        let value = convert_value(value)?;
+-        params.insert(key.to_owned(), value);
+-    }
+-
+-    Ok(params)
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn convert_value(value: serde_yaml::Value) -> Result<Value> {
+     Ok(match value {
+         serde_yaml::Value::Null => Value::Null,
+         serde_yaml::Value::Bool(val) => Value::Bool(val),
+         serde_yaml::Value::Number(n) => {
+             if n.is_i64() {

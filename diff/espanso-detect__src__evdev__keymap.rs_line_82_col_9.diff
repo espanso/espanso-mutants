@@ -1,0 +1,27 @@
+--- espanso-detect/src/evdev/keymap.rs
++++ replace Keymap::generate_names -> xkb_rule_names with Default::default()
+@@ -74,23 +74,17 @@
+             model: CString::new(model).expect("unable to create CString for keymap"),
+             layout: CString::new(layout).expect("unable to create CString for keymap"),
+             variant: CString::new(variant).expect("unable to create CString for keymap"),
+             options: CString::new(options).expect("unable to create CString for keymap"),
+         }
+     }
+ 
+     fn generate_names(owned_config: &OwnedRawKeyboardConfig) -> xkb_rule_names {
+-        xkb_rule_names {
+-            rules: owned_config.rules.as_ptr(),
+-            model: owned_config.model.as_ptr(),
+-            layout: owned_config.layout.as_ptr(),
+-            variant: owned_config.variant.as_ptr(),
+-            options: owned_config.options.as_ptr(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for Keymap {
+     fn drop(&mut self) {
+         unsafe {
+             xkb_keymap_unref(self.keymap);
+         }

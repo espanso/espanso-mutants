@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/mod.rs
++++ replace HotKey::has_ctrl -> bool with true
+@@ -70,17 +70,17 @@
+             id,
+             modifiers,
+             key: main_key.unwrap(),
+         })
+     }
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_ctrl(&self) -> bool {
+-        self.modifiers.contains(&ShortcutKey::Control)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_meta(&self) -> bool {
+         self.modifiers.contains(&ShortcutKey::Meta)
+     }
+ 
+     #[allow(dead_code)]

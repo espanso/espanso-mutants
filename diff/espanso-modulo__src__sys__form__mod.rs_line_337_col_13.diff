@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl Interoperable for OwnedRowMetadata>::as_ptr -> *const c_void with Default::default()
+@@ -329,17 +329,17 @@
+         fields: Vec<OwnedField>,
+ 
+         metadata: Vec<FieldMetadata>,
+         interop: Box<RowMetadata>,
+     }
+ 
+     impl Interoperable for OwnedRowMetadata {
+         fn as_ptr(&self) -> *const c_void {
+-            std::ptr::from_ref::<RowMetadata>(&(*self.interop)) as *const c_void
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<types::RowMetadata> for OwnedRowMetadata {
+         fn from(row_metadata: types::RowMetadata) -> Self {
+             let fields: Vec<OwnedField> = row_metadata.fields.into_iter().map(Into::into).collect();
+ 
+             let metadata: Vec<FieldMetadata> = fields

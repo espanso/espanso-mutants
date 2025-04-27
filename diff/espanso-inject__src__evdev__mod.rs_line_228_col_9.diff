@@ -1,0 +1,43 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace EVDEVInjector::wait_until_key_is_released -> Result<()> with Ok(())
+@@ -220,39 +220,17 @@
+         if delay_us != 0 {
+             unsafe {
+                 libc::usleep(delay_us);
+             }
+         }
+     }
+ 
+     fn wait_until_key_is_released(&self, code: u32) -> Result<()> {
+-        if let Some(key_provider) = &self.keyboard_state_provider {
+-            let key_provider_code = code + EVDEV_OFFSET;
+-
+-            if !key_provider.is_key_pressed(key_provider_code) {
+-                return Ok(());
+-            }
+-
+-            // Key is pressed, wait until timeout
+-            let now = Instant::now();
+-            while now.elapsed()
+-                < std::time::Duration::from_millis(DEFAULT_WAIT_KEY_RELEASE_TIMEOUT_MS)
+-            {
+-                if !key_provider.is_key_pressed(key_provider_code) {
+-                    return Ok(());
+-                }
+-
+-                std::thread::sleep(std::time::Duration::from_millis(50));
+-            }
+-
+-            bail!("timed-out while waiting for key release: {}", code);
+-        }
+-        // else Keyboard provider not available,
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn wait_delay(&self, delay_ms: u32) {
+         if delay_ms > 0 {
+             std::thread::sleep(std::time::Duration::from_millis(delay_ms as u64));
+         }
+     }
+ }

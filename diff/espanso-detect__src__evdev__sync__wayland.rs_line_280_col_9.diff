@@ -1,0 +1,24 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl SeatHandler for SimpleWindow>::remove_capability with ()
+@@ -272,20 +272,17 @@
+ 
+     fn remove_capability(
+         &mut self,
+         _conn: &Connection,
+         _: &QueueHandle<Self>,
+         _: wl_seat::WlSeat,
+         capability: Capability,
+     ) {
+-        if capability == Capability::Keyboard && self.keyboard.is_some() {
+-            debug!("Unset keyboard capability");
+-            self.keyboard.take().unwrap().release();
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn remove_seat(&mut self, _: &Connection, _: &QueueHandle<Self>, _: wl_seat::WlSeat) {}
+ }
+ 
+ impl KeyboardHandler for SimpleWindow {
+     fn enter(
+         &mut self,

@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/mod.rs
++++ replace convert_to_match_event -> espanso_match::event::Event with Default::default()
+@@ -32,23 +32,17 @@
+ 
+ #[derive(Clone, EnumAsInner)]
+ pub enum MatcherState<'a> {
+     Rolling(RollingMatcherState<'a, i32>),
+     Regex(RegexMatcherState),
+ }
+ 
+ pub fn convert_to_match_event(event: &MatcherEvent) -> espanso_match::event::Event {
+-    match event {
+-        MatcherEvent::Key { key, chars } => espanso_match::event::Event::Key {
+-            key: convert_to_match_key(key.clone()),
+-            chars: chars.to_owned(),
+-        },
+-        MatcherEvent::VirtualSeparator => espanso_match::event::Event::VirtualSeparator,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn convert_to_engine_result(result: espanso_match::MatchResult<i32>) -> MatchResult {
+     MatchResult {
+         id: result.id,
+         trigger: result.trigger,
+         left_separator: result.left_separator,
+         right_separator: result.right_separator,

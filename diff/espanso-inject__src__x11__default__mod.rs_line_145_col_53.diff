@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace + with * in X11DefaultInjector::generate_maps
+@@ -137,17 +137,17 @@
+         });
+ 
+         let deadkeys = Self::find_deadkeys(display, &input_context)?;
+ 
+         // Cycle through all state/code combinations to populate the reverse lookup tables
+         for key_code in 0..256u32 {
+             for modifier_state in 0..256u32 {
+                 for dead_key in &deadkeys {
+-                    let code_with_offset = key_code + EVDEV_OFFSET;
++                    let code_with_offset = key_code * /* ~ changed by cargo-mutants ~ */ EVDEV_OFFSET;
+ 
+                     let preceding_dead_key = if let Some(dead_key) = dead_key {
+                         let mut dead_key_event = XKeyEvent {
+                             display,
+                             keycode: dead_key.code,
+                             state: dead_key.state,
+ 
+                             // These might not even need to be filled

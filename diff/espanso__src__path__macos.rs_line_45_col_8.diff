@@ -1,0 +1,21 @@
+--- espanso/src/path/macos.rs
++++ delete ! in add_espanso_to_path
+@@ -37,17 +37,17 @@
+         bail!("macOS activated app-translocation on Espanso");
+     }
+ 
+     let target_link_dir = PathBuf::from("/usr/local/bin");
+     let exec_path = std::env::current_exe()?;
+ 
+     let target_link_path = target_link_dir.join("espanso");
+ 
+-    if !target_link_dir.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */target_link_dir.is_dir() {
+         warn!("/usr/local/bin folder does not exist, attempting to create one...");
+ 
+         if let Err(error) = create_dir_all(&target_link_dir) {
+             match error.kind() {
+                 ErrorKind::PermissionDenied if prompt_when_necessary => {
+                     warn!("target link file can't be accessed with current permissions, requesting elevated ones through AppleScript.");
+ 
+                     create_dir_and_link_with_applescript(&exec_path, &target_link_path)

@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ delete match arm
+@@ -116,17 +116,17 @@
+         // error with "command not found" if launched through the Espanso shell
+         // extension. For this reason, Espanso tries to obtain the same PATH value by
+         // spawning a login shell and extracting the PATH after the processing.
+         if cfg!(target_os = "macos") && override_path_on_macos {
+             let supported_mac_shell = match self {
+                 Shell::Bash => Some(MacShell::Bash),
+                 Shell::Nu => Some(MacShell::Nu),
+                 Shell::Pwsh => Some(MacShell::Pwsh),
+-                Shell::Sh => Some(MacShell::Sh),
++                 /* ~ changed by cargo-mutants ~ */
+                 Shell::Zsh => Some(MacShell::Zsh),
+                 _ => None,
+             };
+             if let Some(path_env_override) =
+                 super::exec_util::determine_path_env_variable_override(supported_mac_shell)
+             {
+                 debug!("overriding PATH env variable with: {}", path_env_override);
+                 command.env("PATH", path_env_override);

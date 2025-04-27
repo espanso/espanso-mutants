@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace << with >> in X11DefaultInjector::render_key_combination
+@@ -354,17 +354,17 @@
+         for record in original_records {
+             let mut current_record = *record;
+             current_record.main.state = current_state;
+             records.push(current_record);
+ 
+             // Calculate the state for the next record by applying the modifiers
+             for (mod_index, modifier) in modifiers_codes.iter().enumerate() {
+                 if modifier.contains(&(record.main.code as u8)) {
+-                    current_state |= 1 << mod_index;
++                    current_state |= 1 >> /* ~ changed by cargo-mutants ~ */ mod_index;
+                 }
+             }
+         }
+ 
+         records
+     }
+ 
+     fn get_focused_window(&self) -> Window {

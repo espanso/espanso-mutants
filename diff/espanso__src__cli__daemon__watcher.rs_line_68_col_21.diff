@@ -1,0 +1,21 @@
+--- espanso/src/cli/daemon/watcher.rs
++++ delete match arm
+@@ -60,17 +60,17 @@
+         .expect("unable to start file watcher");
+ 
+     info!("watching for changes in path: {:?}", config_dir);
+ 
+     loop {
+         let should_reload = match rx.recv() {
+             Ok(event) => {
+                 let path = match event {
+-                    DebouncedEvent::Create(path) => Some(path),
++                     /* ~ changed by cargo-mutants ~ */
+                     DebouncedEvent::Write(path) => Some(path),
+                     DebouncedEvent::Remove(path) => Some(path),
+                     DebouncedEvent::Rename(_, path) => Some(path),
+                     _ => None,
+                 };
+ 
+                 if let Some(path) = path {
+                     let extension = path

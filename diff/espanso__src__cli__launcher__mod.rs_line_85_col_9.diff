@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ delete ! in launcher_main
+@@ -77,17 +77,17 @@
+ 
+     let (is_wrong_edition_page_enabled, wrong_edition_detected_os) =
+         edition_check::is_wrong_edition();
+ 
+     let is_migrate_page_enabled = false;
+     let backup_and_migrate_handler = Box::new(move || MigrationResult::Success);
+ 
+     let is_auto_start_page_enabled =
+-        !preferences.has_selected_auto_start_option() && !cfg!(target_os = "linux");
++         /* ~ changed by cargo-mutants ~ */preferences.has_selected_auto_start_option() && !cfg!(target_os = "linux");
+     let preferences_clone = preferences.clone();
+     let auto_start_handler = Box::new(move |auto_start| {
+         preferences_clone.set_has_selected_auto_start_option(true);
+ 
+         if auto_start {
+             match util::configure_auto_start(true) {
+                 Ok(()) => true,
+                 Err(error) => {

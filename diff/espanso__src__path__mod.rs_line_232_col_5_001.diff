@@ -1,0 +1,27 @@
+--- espanso/src/path/mod.rs
++++ replace get_portable_runtime_path -> Option<PathBuf> with None
+@@ -224,23 +224,17 @@
+         if runtime_dir.is_dir() {
+             return Some(runtime_dir);
+         }
+     }
+     None
+ }
+ 
+ fn get_portable_runtime_path() -> Option<PathBuf> {
+-    let espanso_exe_path = std::env::current_exe().expect("unable to obtain executable path");
+-    let exe_dir = espanso_exe_path.parent();
+-    if let Some(parent) = exe_dir {
+-        let config_dir = parent.join(".espanso-runtime");
+-        return Some(config_dir);
+-    }
+-    None
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_legacy_runtime_dir() -> Option<PathBuf> {
+     let data_dir = dirs::data_local_dir().expect("unable to obtain dirs::data_local_dir()");
+     let espanso_dir = data_dir.join("espanso");
+     if is_legacy_runtime_dir(&espanso_dir) {
+         Some(espanso_dir)
+     } else {

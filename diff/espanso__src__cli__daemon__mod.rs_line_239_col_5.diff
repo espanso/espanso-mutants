@@ -1,0 +1,58 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace spawn_worker with ()
+@@ -231,54 +231,17 @@
+   )
+ }
+ 
+ fn spawn_worker(
+     paths_overrides: &PathsOverrides,
+     exit_notify: Sender<i32>,
+     start_reason: Option<String>,
+ ) {
+-    info!("spawning the worker process...");
+-
+-    let espanso_exe_path =
+-        std::env::current_exe().expect("unable to obtain espanso executable location");
+-
+-    let mut command = Command::new(espanso_exe_path.to_string_lossy().to_string());
+-
+-    let mut args = vec!["worker", "--monitor-daemon"];
+-    if let Some(start_reason) = &start_reason {
+-        args.push("--start-reason");
+-        args.push(start_reason);
+-    }
+-    command.args(&args);
+-    command.with_paths_overrides(paths_overrides);
+-
+-    let mut child = command.spawn().expect("unable to spawn worker process");
+-
+-    // Create a monitor thread that will exit with the same non-zero code if
+-    // the worker thread exits
+-    std::thread::Builder::new()
+-        .name("worker-status-monitor".to_string())
+-        .spawn(move || {
+-            let result = child.wait();
+-            if let Ok(status) = result {
+-                if let Some(code) = status.code() {
+-                    if code != WORKER_SUCCESS {
+-                        exit_notify
+-                            .send(code)
+-                            .expect("unable to forward worker exit code");
+-                    }
+-                } else {
+-                    exit_notify
+-                        .send(WORKER_ERROR_EXIT_NO_CODE)
+-                        .expect("unable to forward worker exit code");
+-                }
+-            }
+-        })
+-        .expect("Unable to spawn worker monitor thread");
++    () /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn restart_worker(
+     paths: &Paths,
+     paths_overrides: &PathsOverrides,
+     exit_notify: Sender<i32>,
+     start_reason: Option<String>,
+ ) {

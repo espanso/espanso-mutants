@@ -1,0 +1,31 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace ClipboardInjectorAdapter<'a>::restore_clipboard_guard -> Option<ClipboardRestoreGuard<'a>> with None
+@@ -100,27 +100,17 @@
+                 ..Default::default()
+             },
+         )?;
+ 
+         Ok(())
+     }
+ 
+     fn restore_clipboard_guard(&self) -> Option<ClipboardRestoreGuard<'a>> {
+-        let params = self.params_provider.get();
+-
+-        if params.restore_clipboard {
+-            Some(ClipboardRestoreGuard::lock(
+-                self.clipboard,
+-                params.restore_clipboard_delay.try_into().unwrap(),
+-                self.get_operation_options(),
+-            ))
+-        } else {
+-            None
+-        }
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get_operation_options(&self) -> ClipboardOperationOptions {
+         let params = self.params_provider.get();
+         ClipboardOperationOptions {
+             use_xclip_backend: params.x11_use_xclip_backend,
+         }
+     }

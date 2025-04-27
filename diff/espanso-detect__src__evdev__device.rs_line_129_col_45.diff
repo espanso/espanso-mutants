@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace != with == in Device::read
+@@ -121,17 +121,17 @@
+             for i in 0..nevs {
+                 let event = self.process_event(evs[i].type_, evs[i].code, evs[i].value);
+                 if let Some(event) = event {
+                     events.push(event);
+                 }
+             }
+         }
+ 
+-        if len < 0 && unsafe { *errno_ptr } != EWOULDBLOCK {
++        if len < 0 && unsafe { *errno_ptr } == /* ~ changed by cargo-mutants ~ */ EWOULDBLOCK {
+             if unsafe { *errno_ptr } == ENODEV {
+                 return Err(DeviceError::FailedReadNoSuchDevice.into());
+             }
+ 
+             return Err(DeviceError::FailedRead(unsafe { *errno_ptr }).into());
+         }
+ 
+         Ok(events)

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::id -> i32 with 1
+@@ -49,17 +49,17 @@
+ 
+     filter_title: Option<Regex>,
+     filter_class: Option<Regex>,
+     filter_exec: Option<Regex>,
+ }
+ 
+ impl Config for ResolvedConfig {
+     fn id(&self) -> i32 {
+-        self.id
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn label(&self) -> &str {
+         if let Some(label) = self.parsed.label.as_deref() {
+             return label;
+         }
+ 
+         if let Some(source_path) = self.source_path.as_ref() {

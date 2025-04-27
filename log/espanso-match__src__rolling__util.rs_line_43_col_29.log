@@ -1,0 +1,104 @@
+
+*** espanso-match/src/rolling/util.rs:43:29: replace == with != in extract_string_from_events
+
+*** mutation diff:
+--- espanso-match/src/rolling/util.rs
++++ replace == with != in extract_string_from_events
+@@ -35,17 +35,17 @@
+             chars: Some(chars),
+         } = event
+         {
+             string.push_str(chars);
+ 
+             if *is_word_separator {
+                 if i == 0 {
+                     left_separator = Some(chars.clone());
+-                } else if i == (events.len() - 1) {
++                } else if i != /* ~ changed by cargo-mutants ~ */ (events.len() - 1) {
+                     right_separator = Some(chars.clone());
+                 }
+             }
+         }
+     }
+ 
+     (string, left_separator, right_separator)
+ }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-match@0.1.0
+       Fresh version_check v0.9.2
+       Fresh cfg-if v1.0.0
+       Fresh regex-syntax v0.6.27
+       Fresh memchr v2.5.0
+       Fresh aho-corasick v0.7.19
+       Fresh log v0.4.14
+       Fresh unicase v2.6.0
+       Fresh regex v1.5.5
+       Dirty espanso-match v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-match): the file `espanso-match/src/rolling/util.rs` has changed (1745786430.695493022s, 6s after last build at 1745786424.132774529s)
+   Compiling espanso-match v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-match)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=276e2828d4f92be8 -C extra-filename=-95f43789b61ad67b --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_match --edition=2021 espanso-match/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=68155d0edef3b3b9 -C extra-filename=-ee826f5ca4fa053d --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern unicase=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libunicase-ecc9de5e4eac1ba6.rmeta`
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_match-95f43789b61ad67b`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-match@0.1.0
+       Fresh version_check v0.9.2
+       Fresh cfg-if v1.0.0
+       Fresh regex-syntax v0.6.27
+       Fresh memchr v2.5.0
+       Fresh aho-corasick v0.7.19
+       Fresh log v0.4.14
+       Fresh regex v1.5.5
+       Fresh unicase v2.6.0
+       Fresh espanso-match v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-match)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_match-95f43789b61ad67b`
+
+running 17 tests
+test rolling::tests::test_match_from_string_base_case ... ok
+test rolling::matcher::tests::matcher_process_simple_strings ... ok
+test rolling::tests::test_match_from_string_case_insensitive ... ok
+test rolling::matcher::tests::matcher_process_case_insensitive ... ok
+test rolling::matcher::tests::matcher_process_word_matches ... FAILED
+test rolling::tests::test_match_from_string_left_word ... ok
+test rolling::tests::test_match_from_string_right_word ... ok
+test rolling::tree::tests::generate_tree_from_items_simple_strings ... ok
+test regex::tests::matcher_with_variables ... ok
+test regex::tests::matcher_max_buffer_size ... ok
+test rolling::util::tests::extract_string_from_events_all_chars ... ok
+test rolling::tree::tests::generate_tree_from_items_keys ... ok
+test rolling::tree::tests::generate_tree_from_items_mixed ... ok
+test rolling::util::tests::extract_string_from_events_mixed ... ok
+test rolling::util::tests::extract_string_from_events_no_chars ... ok
+test rolling::util::tests::extract_string_from_events_word_separators ... FAILED
+test regex::tests::matcher_simple_matches ... ok
+
+failures:
+
+---- rolling::matcher::tests::matcher_process_word_matches stdout ----
+
+thread 'rolling::matcher::tests::matcher_process_word_matches' panicked at espanso-match/src/rolling/matcher.rs:291:9:
+assertion `left == right` failed
+  left: [MatchResult { id: 1, trigger: "hi,", left_separator: None, right_separator: None, vars: {} }]
+ right: [MatchResult { id: 1, trigger: "hi,", left_separator: None, right_separator: Some(","), vars: {} }]
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- rolling::util::tests::extract_string_from_events_word_separators stdout ----
+
+thread 'rolling::util::tests::extract_string_from_events_word_separators' panicked at espanso-match/src/rolling/util.rs:104:9:
+assertion `left == right` failed
+  left: (".hi,", Some("."), None)
+ right: (".hi,", Some("."), Some(","))
+
+
+failures:
+    rolling::matcher::tests::matcher_process_word_matches
+    rolling::util::tests::extract_string_from_events_word_separators
+
+test result: FAILED. 15 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p espanso-match --lib`
+
+*** result: Failure(101)

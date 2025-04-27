@@ -1,0 +1,21 @@
+--- espanso/src/path/win.rs
++++ delete ! in remove_espanso_from_path
+@@ -45,17 +45,17 @@
+ 
+     Ok(())
+ }
+ 
+ pub fn remove_espanso_from_path(_: bool) -> Result<()> {
+     let paths = read_paths();
+     let paths_without_espanso: Vec<String> = paths
+         .into_iter()
+-        .filter(|path| !path.contains("espanso"))
++        .filter(|path|  /* ~ changed by cargo-mutants ~ */path.contains("espanso"))
+         .collect();
+     let path = paths_without_espanso.join(";");
+     write_user_path_value(path)
+ }
+ 
+ fn read_user_path_value() -> Result<String> {
+     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+     let env = hkcu.open_subkey("Environment")?;

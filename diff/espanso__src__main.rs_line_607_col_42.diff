@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ replace == with != in main
+@@ -599,17 +599,17 @@
+                 cli_args.match_store = Some(config_result.match_store);
+                 cli_args.non_fatal_errors = config_result.non_fatal_errors;
+             }
+ 
+             if handler.enable_logs {
+                 log_proxy
+                     .set_output_file(
+                         &paths.runtime.join(LOG_FILE_NAME),
+-                        handler.log_mode == LogMode::Read,
++                        handler.log_mode != /* ~ changed by cargo-mutants ~ */ LogMode::Read,
+                         handler.log_mode == LogMode::CleanAndAppend,
+                     )
+                     .expect("unable to set up log output file");
+             }
+ 
+             cli_args.paths = Some(paths);
+         }
+ 

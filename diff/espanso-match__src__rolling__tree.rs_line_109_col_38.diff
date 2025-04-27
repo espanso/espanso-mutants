@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/tree.rs
++++ replace == with != in insert_items_recursively
+@@ -101,17 +101,17 @@
+                         .push((c.clone(), MatcherTreeRef::Matches(vec![id])));
+                 }
+             }
+             RollingItem::CharInsensitive(c) => {
+                 let uni_char = UniCase::new(c.clone());
+                 if let Some(entry) = node
+                     .chars_insensitive
+                     .iter_mut()
+-                    .find(|(c, _)| c == &uni_char)
++                    .find(|(c, _)| c != /* ~ changed by cargo-mutants ~ */ &uni_char)
+                 {
+                     if let MatcherTreeRef::Matches(matches) = &mut entry.1 {
+                         matches.push(id);
+                     } else {
+                         entry.1 = MatcherTreeRef::Matches(vec![id]);
+                     }
+                 } else {
+                     node.chars_insensitive

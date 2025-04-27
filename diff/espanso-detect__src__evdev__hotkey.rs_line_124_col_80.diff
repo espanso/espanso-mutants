@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/hotkey.rs
++++ replace == with != in HotKeyFilter::process_event
+@@ -116,17 +116,17 @@
+         }
+ 
+         if let Some(code) = key_code {
+             self.memory.push((code, Instant::now()));
+ 
+             for (id, codes) in &self.hotkey_raw_map {
+                 if codes
+                     .iter()
+-                    .all(|hk_code| self.memory.iter().any(|(m_code, _)| m_code == hk_code))
++                    .all(|hk_code| self.memory.iter().any(|(m_code, _)| m_code != /* ~ changed by cargo-mutants ~ */ hk_code))
+                 {
+                     hotkey = Some(*id);
+                     break;
+                 }
+             }
+         }
+ 
+         hotkey

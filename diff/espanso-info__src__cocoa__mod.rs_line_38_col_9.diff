@@ -1,0 +1,25 @@
+--- espanso-info/src/cocoa/mod.rs
++++ replace <impl AppInfoProvider for CocoaAppInfoProvider>::get_info -> AppInfo with Default::default()
+@@ -30,21 +30,17 @@
+ impl CocoaAppInfoProvider {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl AppInfoProvider for CocoaAppInfoProvider {
+     fn get_info(&self) -> AppInfo {
+-        AppInfo {
+-            title: self.get_title().or_else(|| self.get_title_fallback()),
+-            class: self.get_class(),
+-            exec: self.get_exec(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl CocoaAppInfoProvider {
+     fn get_exec(&self) -> Option<String> {
+         let mut buffer: [c_char; 2048] = [0; 2048];
+         if unsafe { info_get_exec(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };

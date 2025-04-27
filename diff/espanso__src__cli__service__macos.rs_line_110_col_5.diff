@@ -1,0 +1,38 @@
+--- espanso/src/cli/service/macos.rs
++++ replace unregister -> Result<()> with Ok(())
+@@ -102,34 +102,17 @@
+ 
+ #[derive(Error, Debug)]
+ pub enum RegisterError {
+     #[error("launchctl load failed")]
+     LaunchCtlLoadFailed,
+ }
+ 
+ pub fn unregister() -> Result<()> {
+-    prevent_running_as_root_on_macos();
+-
+-    let home_dir = dirs::home_dir().expect("could not get user home directory");
+-    let library_dir = home_dir.join("Library");
+-    let agents_dir = library_dir.join("LaunchAgents");
+-
+-    let plist_file = agents_dir.join(SERVICE_PLIST_FILE_NAME);
+-    if plist_file.exists() {
+-        let _res = Command::new("launchctl")
+-            .args(["unload", "-w", plist_file.to_str().unwrap_or_default()])
+-            .output();
+-
+-        std::fs::remove_file(&plist_file)?;
+-
+-        Ok(())
+-    } else {
+-        Err(UnregisterError::PlistNotFound.into())
+-    }
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum UnregisterError {
+     #[error("plist entry not found")]
+     PlistNotFound,
+ }
+ 

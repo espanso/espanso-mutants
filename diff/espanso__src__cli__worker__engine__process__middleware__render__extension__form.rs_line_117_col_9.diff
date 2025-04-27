@@ -1,0 +1,33 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ delete match arm
+@@ -109,29 +109,12 @@
+     match value {
+         Value::Array(values) => Some(
+             values
+                 .iter()
+                 .filter_map(|choice| choice.as_string())
+                 .cloned()
+                 .collect(),
+         ),
+-        Value::String(values) => Some(
+-            values
+-                .lines()
+-                .filter_map(|line| {
+-                    if trim_string_values {
+-                        let trimmed_line = line.trim();
+-                        if trimmed_line.is_empty() {
+-                            None
+-                        } else {
+-                            Some(trimmed_line)
+-                        }
+-                    } else {
+-                        Some(line)
+-                    }
+-                })
+-                .map(String::from)
+-                .collect(),
+-        ),
++         /* ~ changed by cargo-mutants ~ */
+         _ => None,
+     }
+ }

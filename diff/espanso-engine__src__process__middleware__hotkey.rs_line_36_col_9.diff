@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/hotkey.rs
++++ replace <impl Middleware for HotKeyMiddleware>::name -> &'static str with "xyzzy"
+@@ -28,17 +28,17 @@
+ impl HotKeyMiddleware {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Middleware for HotKeyMiddleware {
+     fn name(&self) -> &'static str {
+-        "hotkey"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::HotKey(m_event) = &event.etype {
+             return Event::caused_by(
+                 event.source_id,
+                 EventType::MatchesDetected(MatchesDetectedEvent {
+                     matches: vec![DetectedMatch {

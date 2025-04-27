@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/undo.rs
++++ replace == with != in <impl Middleware for UndoMiddleware<'_>>::next
+@@ -56,17 +56,17 @@
+             *record = Some(InjectionRecord {
+                 id: Some(event.source_id),
+                 trigger: Some(m_event.trigger.clone()),
+                 ..Default::default()
+             });
+         } else if let EventType::Rendered(m_event) = &event.etype {
+             if let TextFormat::Plain = m_event.format {
+                 if let Some(record) = &mut *record {
+-                    if record.id == Some(event.source_id) {
++                    if record.id != /* ~ changed by cargo-mutants ~ */ Some(event.source_id) {
+                         record.injected_text = Some(m_event.body.clone());
+                         record.match_id = Some(m_event.match_id);
+                     }
+                 }
+             }
+         } else if let EventType::Keyboard(m_event) = &event.etype {
+             if m_event.status == Status::Pressed {
+                 if m_event.key == Key::Backspace {

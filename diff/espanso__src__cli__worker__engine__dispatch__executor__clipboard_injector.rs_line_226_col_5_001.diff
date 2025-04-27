@@ -1,0 +1,20 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace parse_combination -> Option<Vec<Key>> with Some(vec![])
+@@ -218,16 +218,10 @@
+                     error
+                 );
+             }
+         }
+     }
+ }
+ 
+ fn parse_combination(combination: &str) -> Option<Vec<Key>> {
+-    let tokens = combination.split('+');
+-    let mut keys: Vec<Key> = Vec::new();
+-    for token in tokens {
+-        keys.push(Key::parse(token)?);
+-    }
+-
+-    Some(keys)
++    Some(vec![]) /* ~ changed by cargo-mutants ~ */
+ }

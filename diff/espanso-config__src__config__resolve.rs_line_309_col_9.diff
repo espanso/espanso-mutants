@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::emulate_alt_codes -> bool with true
+@@ -301,19 +301,17 @@
+         self.parsed.show_notifications.unwrap_or(true)
+     }
+ 
+     fn secure_input_notification(&self) -> bool {
+         self.parsed.secure_input_notification.unwrap_or(true)
+     }
+ 
+     fn emulate_alt_codes(&self) -> bool {
+-        self.parsed
+-            .emulate_alt_codes
+-            .unwrap_or(cfg!(target_os = "windows"))
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn post_form_delay(&self) -> usize {
+         self.parsed
+             .post_form_delay
+             .unwrap_or(DEFAULT_POST_FORM_DELAY)
+     }
+ 

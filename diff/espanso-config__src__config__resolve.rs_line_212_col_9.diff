@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::paste_shortcut -> Option<String> with Some("xyzzy".into())
+@@ -204,17 +204,17 @@
+ 
+     fn paste_shortcut_event_delay(&self) -> usize {
+         self.parsed
+             .paste_shortcut_event_delay
+             .unwrap_or(DEFAULT_SHORTCUT_EVENT_DELAY)
+     }
+ 
+     fn paste_shortcut(&self) -> Option<String> {
+-        self.parsed.paste_shortcut.clone()
++        Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn disable_x11_fast_inject(&self) -> bool {
+         self.parsed.disable_x11_fast_inject.unwrap_or(false)
+     }
+ 
+     fn inject_delay(&self) -> Option<usize> {
+         self.parsed.inject_delay

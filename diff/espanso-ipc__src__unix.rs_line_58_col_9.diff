@@ -1,0 +1,63 @@
+--- espanso-ipc/src/unix.rs
++++ replace <impl IPCServer<Event> for UnixIPCServer>::run -> Result<()> with Ok(())
+@@ -50,59 +50,17 @@
+         );
+ 
+         Ok(Self { listener })
+     }
+ }
+ 
+ impl<Event: Send + Sync + DeserializeOwned + Serialize> IPCServer<Event> for UnixIPCServer {
+     fn run(self, handler: EventHandler<Event>) -> Result<()> {
+-        loop {
+-            let (mut stream, _) = self.listener.accept()?;
+-
+-            // Read multiple commands from the client
+-            loop {
+-                match read_line(&mut stream) {
+-                    Ok(Some(line)) => {
+-                        let event: Result<Event, serde_json::Error> = serde_json::from_str(&line);
+-                        match event {
+-                            Ok(event) => match handler(event) {
+-                                EventHandlerResponse::Response(response) => {
+-                                    let mut json_event = serde_json::to_string(&response)?;
+-                                    json_event.push('\n');
+-                                    stream.write_all(json_event.as_bytes())?;
+-                                    stream.flush()?;
+-                                }
+-                                EventHandlerResponse::NoResponse => {
+-                                    // Async event, no need to reply
+-                                }
+-                                EventHandlerResponse::Error(err) => {
+-                                    error!("ipc handler reported an error: {}", err);
+-                                }
+-                                EventHandlerResponse::Exit => {
+-                                    return Ok(());
+-                                }
+-                            },
+-                            Err(error) => {
+-                                error!("received malformed event from ipc stream: {}", error);
+-                                break;
+-                            }
+-                        }
+-                    }
+-                    Ok(None) => {
+-                        // EOF reached
+-                        break;
+-                    }
+-                    Err(error) => {
+-                        error!("error reading ipc stream: {}", error);
+-                        break;
+-                    }
+-                }
+-            }
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct UnixIPCClient {
+     stream: UnixStream,
+ }
+ 
+ impl UnixIPCClient {

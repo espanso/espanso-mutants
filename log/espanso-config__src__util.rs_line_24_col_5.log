@@ -1,0 +1,483 @@
+
+*** espanso-config/src/util.rs:24:5: replace is_yaml_empty -> bool with true
+
+*** mutation diff:
+--- espanso-config/src/util.rs
++++ replace is_yaml_empty -> bool with true
+@@ -16,24 +16,17 @@
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ /// Check if the given string represents an empty YAML.
+ /// In other words, it checks if the document is only composed
+ /// of spaces and/or comments
+ pub fn is_yaml_empty(yaml: &str) -> bool {
+-    for line in yaml.lines() {
+-        let trimmed_line = line.trim();
+-        if !trimmed_line.starts_with('#') && !trimmed_line.is_empty() {
+-            return false;
+-        }
+-    }
+-
+-    true
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ pub mod tests {
+     use super::*;
+     use std::{fs::create_dir_all, path::Path};
+     use tempdir::TempDir;
+ 
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-config@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh regex-syntax v0.6.27
+       Fresh quote v1.0.35
+       Fresh libc v0.2.161
+       Fresh memchr v2.5.0
+       Fresh syn v1.0.67
+       Fresh num-traits v0.2.14
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh getrandom v0.2.2
+       Fresh predicates-core v1.0.2
+       Fresh linked-hash-map v0.5.6
+       Fresh ppv-lite86 v0.2.10
+       Fresh regex v1.5.5
+       Fresh serde_derive v1.0.123
+       Fresh rand_core v0.6.2
+       Fresh float-cmp v0.8.0
+       Fresh yaml-rust v0.4.5
+       Fresh thiserror-impl v1.0.56
+       Fresh treeline v0.1.0
+       Fresh serde v1.0.123
+       Fresh rand_chacha v0.3.0
+       Fresh same-file v1.0.6
+       Fresh normalize-line-endings v0.3.0
+       Fresh difference v2.0.0
+       Fresh heck v0.4.1
+       Fresh unindent v0.1.7
+       Fresh dtoa v0.4.7
+       Fresh remove_dir_all v0.5.3
+       Fresh walkdir v2.3.1
+       Fresh enum-as-inner v0.6.0
+       Fresh rand v0.8.3
+       Fresh serde_yaml v0.8.17
+       Fresh predicates v1.0.8
+       Fresh indoc v1.0.3
+       Fresh anyhow v1.0.38
+       Fresh thiserror v1.0.56
+       Fresh predicates-tree v1.0.2
+       Fresh log v0.4.14
+       Fresh mockall_derive v0.9.1
+       Fresh ordered-float v2.1.1
+       Fresh rand v0.4.6
+       Fresh lazy_static v1.5.0
+       Fresh downcast v0.10.0
+       Fresh dunce v1.0.1
+       Fresh glob v0.3.0
+       Fresh fragile v1.0.0
+       Fresh tempdir v0.3.7
+       Fresh mockall v0.9.1
+       Fresh tempfile v3.2.0
+       Dirty espanso-config v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-config): the file `espanso-config/src/config/resolve.rs` has changed (1745786222.381516162s, 2s after last build at 1745786220.852825882s)
+   Compiling espanso-config v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-config)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_config --edition=2021 espanso-config/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=1b66a01e5b6e5d3f -C extra-filename=-d72e23de752d5677 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern dunce=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libdunce-60cda49bcd5cc254.rlib --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rlib --extern indoc=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libindoc-44b5c1db3de63f5a.dylib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern mockall=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libmockall-ed72868202618a99.rlib --extern ordered_float=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libordered_float-01e73bccb5b96119.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-72684f412b9a6537.rlib --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-7c48d76beb92ab2a.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern tempfile=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempfile-8cbe938fe0b62a64.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern walkdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libwalkdir-f8bf6da8bac78b57.rlib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_config --edition=2021 espanso-config/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=108f3bf03ba6c3a8 -C extra-filename=-6471b91d537ae243 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern dunce=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libdunce-60cda49bcd5cc254.rmeta --extern enum_as_inner=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libenum_as_inner-25954b4b22c17fed.dylib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rmeta --extern indoc=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libindoc-44b5c1db3de63f5a.dylib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern ordered_float=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libordered_float-01e73bccb5b96119.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-72684f412b9a6537.rmeta --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-7c48d76beb92ab2a.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern walkdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libwalkdir-f8bf6da8bac78b57.rmeta`
+warning: unused variable: `yaml`
+  --> espanso-config/src/util.rs:23:22
+   |
+23 | pub fn is_yaml_empty(yaml: &str) -> bool {
+   |                      ^^^^ help: if this is intentional, prefix it with an underscore: `_yaml`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-config` (lib) generated 1 warning
+warning: `espanso-config` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.76s
+  Executable `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_config-d72e23de752d5677`
+
+*** result: Success
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --verbose --package=espanso-config@0.1.0
+       Fresh unicode-ident v1.0.12
+       Fresh cfg-if v1.0.0
+       Fresh autocfg v1.1.0
+       Fresh unicode-xid v0.2.1
+       Fresh proc-macro2 v1.0.94
+       Fresh regex-syntax v0.6.27
+       Fresh quote v1.0.35
+       Fresh libc v0.2.161
+       Fresh memchr v2.5.0
+       Fresh ppv-lite86 v0.2.10
+       Fresh syn v1.0.67
+       Fresh num-traits v0.2.14
+       Fresh syn v2.0.100
+       Fresh aho-corasick v0.7.19
+       Fresh getrandom v0.2.2
+       Fresh linked-hash-map v0.5.6
+       Fresh predicates-core v1.0.2
+       Fresh rand_core v0.6.2
+       Fresh serde_derive v1.0.123
+       Fresh regex v1.5.5
+       Fresh yaml-rust v0.4.5
+       Fresh float-cmp v0.8.0
+       Fresh thiserror-impl v1.0.56
+       Fresh dtoa v0.4.7
+       Fresh serde v1.0.123
+       Fresh rand_chacha v0.3.0
+       Fresh treeline v0.1.0
+       Fresh difference v2.0.0
+       Fresh unindent v0.1.7
+       Fresh normalize-line-endings v0.3.0
+       Fresh remove_dir_all v0.5.3
+       Fresh same-file v1.0.6
+       Fresh heck v0.4.1
+       Fresh serde_yaml v0.8.17
+       Fresh rand v0.8.3
+       Fresh walkdir v2.3.1
+       Fresh predicates v1.0.8
+       Fresh predicates-tree v1.0.2
+       Fresh enum-as-inner v0.6.0
+       Fresh indoc v1.0.3
+       Fresh thiserror v1.0.56
+       Fresh log v0.4.14
+       Fresh anyhow v1.0.38
+       Fresh ordered-float v2.1.1
+       Fresh mockall_derive v0.9.1
+       Fresh rand v0.4.6
+       Fresh downcast v0.10.0
+       Fresh dunce v1.0.1
+       Fresh lazy_static v1.5.0
+       Fresh fragile v1.0.0
+       Fresh glob v0.3.0
+       Fresh mockall v0.9.1
+       Fresh tempdir v0.3.7
+       Fresh tempfile v3.2.0
+warning: unused variable: `yaml`
+  --> espanso-config/src/util.rs:23:22
+   |
+23 | pub fn is_yaml_empty(yaml: &str) -> bool {
+   |                      ^^^^ help: if this is intentional, prefix it with an underscore: `_yaml`
+   |
+   = note: `#[warn(unused_variables)]` on by default
+
+warning: `espanso-config` (lib) generated 1 warning
+       Fresh espanso-config v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-config)
+warning: `espanso-config` (lib test) generated 1 warning (1 duplicate)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running `/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/espanso_config-d72e23de752d5677`
+
+running 79 tests
+test config::resolve::tests::aggregate_excludes_empty_config ... ok
+test config::resolve::tests::aggregate_excludes_extra_excludes ... ok
+test config::resolve::tests::aggregate_excludes_custom_excludes ... ok
+test config::resolve::tests::aggregate_excludes_excludes_and_extra_excludes ... ok
+test config::resolve::tests::aggregate_excludes_no_standard ... ok
+test config::resolve::tests::aggregate_includes_custom_includes ... ok
+test config::resolve::tests::aggregate_includes_empty_config ... ok
+test config::resolve::tests::aggregate_includes_extra_includes ... ok
+test config::resolve::tests::aggregate_includes_includes_and_extra_includes ... ok
+test config::resolve::tests::aggregate_includes_no_standard ... ok
+test config::parse::yaml::tests::conversion_to_parsed_config_works_correctly ... FAILED
+test config::path::tests::calculate_paths_relative_with_parent_modifier ... ok
+test config::resolve::tests::is_match_filter_exec ... FAILED
+test config::resolve::tests::is_match_filter_title ... FAILED
+test config::path::tests::calculate_paths_relative_paths ... ok
+test config::path::tests::calculate_paths_absolute_paths ... ok
+test config::resolve::tests::is_match_filter_os ... FAILED
+test config::resolve::tests::is_match_filter_class ... FAILED
+test config::resolve::tests::merge_parent_field_child_overwrite_parent ... ok
+test config::resolve::tests::merge_parent_field_parent_fallback ... ok
+test config::store::tests::config_store_active_fallback_to_default_if_no_match ... ok
+test config::store::tests::config_store_selects_correctly ... ok
+test config::util::tests::os_matches_macos ... ok
+test config::resolve::tests::is_match_no_filters ... ok
+test config::resolve::tests::is_match_multiple_filters ... FAILED
+test matches::group::loader::tests::load_group_invalid_format ... ok
+test config::resolve::tests::match_paths_generated_correctly ... ok
+test config::resolve::tests::match_paths_generated_correctly_with_underscore_files ... FAILED
+test matches::group::loader::tests::load_group_parsing_error ... FAILED
+test matches::group::loader::tests::load_group_yaml_format ... FAILED
+test matches::group::loader::yaml::tests::basic_match_maps_correctly ... ok
+test matches::group::loader::tests::load_group_missing_extension ... ok
+test matches::group::loader::tests::load_group_yaml_format_2 ... FAILED
+test config::resolve::tests::match_paths_generated_correctly_with_child_config ... FAILED
+test matches::group::loader::yaml::tests::importer_is_supported ... ok
+test matches::group::loader::tests::load_group_yaml_format_casing ... FAILED
+test matches::group::loader::yaml::tests::importer_invalid_syntax ... FAILED
+test matches::group::loader::yaml::tests::left_word_maps_correctly ... ok
+test matches::group::loader::yaml::tests::multiple_triggers_maps_correctly ... ok
+test matches::group::loader::yaml::tests::propagate_case_maps_correctly ... ok
+test matches::group::loader::yaml::tests::importer_works_correctly ... FAILED
+test matches::group::loader::yaml::tests::right_word_maps_correctly ... ok
+test matches::group::loader::yaml::tests::word_maps_correctly ... ok
+test matches::group::loader::yaml::tests::vars_no_params_maps_correctly ... ok
+test matches::group::loader::yaml::util::tests::convert_params_invalid_key_type ... ok
+test matches::group::loader::yaml::tests::vars_inject_vars_and_depends_on ... ok
+test matches::group::loader::yaml::util::tests::convert_params_works_correctly ... ok
+test matches::group::loader::yaml::tests::vars_maps_correctly ... ok
+test matches::group::loader::yaml::util::tests::convert_value_array ... ok
+test matches::group::loader::yaml::tests::uppercase_style_maps_correctly ... ok
+test matches::group::loader::yaml::util::tests::convert_value_null ... ok
+test matches::group::loader::yaml::util::tests::convert_value_bool ... ok
+test matches::group::loader::yaml::util::tests::convert_value_number ... ok
+test matches::group::loader::yaml::util::tests::convert_value_params ... ok
+test matches::group::loader::yaml::util::tests::convert_value_string ... ok
+test matches::store::default::tests::match_store_query_handle_duplicates_when_imports_and_paths_overlap ... FAILED
+test matches::group::path::tests::resolve_imports_parent_relative_path ... ok
+test matches::group::path::tests::resolve_imports_works_correctly ... ok
+test matches::store::default::tests::match_store_loads_correctly ... FAILED
+test matches::tests::match_cause_regex_description ... ok
+test matches::store::default::tests::match_store_handles_circular_dependency ... FAILED
+test matches::tests::match_cause_regex_long_description ... ok
+test matches::tests::match_cause_trigger_description ... ok
+test matches::tests::match_cause_trigger_long_description ... ok
+test matches::store::default::tests::match_store_query_handles_circular_depencencies ... FAILED
+test matches::store::default::tests::match_store_query_multiple_paths ... FAILED
+test matches::group::loader::yaml::tests::form_maps_correctly_legacy_format ... ok
+test matches::store::default::tests::match_store_query_single_path_with_imports ... FAILED
+test util::tests::is_yaml_empty_document_empty ... ok
+test tests::load_fatal_errors ... FAILED
+test matches::group::loader::yaml::tests::form_maps_correctly ... ok
+test tests::load_without_valid_config_dir ... ok
+test util::tests::is_yaml_empty_document_with_comments ... ok
+test util::tests::is_yaml_empty_document_with_comments_and_content ... FAILED
+test tests::load_non_fatal_errors ... FAILED
+test util::tests::is_yaml_empty_document_with_content ... FAILED
+test matches::group::loader::yaml::tests::form_maps_correctly_with_variable_injection ... ok
+test tests::load_non_fatal_match_errors ... FAILED
+test tests::load_works_correctly ... FAILED
+
+failures:
+
+---- config::parse::yaml::tests::conversion_to_parsed_config_works_correctly stdout ----
+
+thread 'config::parse::yaml::tests::conversion_to_parsed_config_works_correctly' panicked at espanso-config/src/config/parse/yaml.rs:323:9:
+assertion `left == right` failed
+  left: ParsedConfig { label: None, backend: None, enable: None, clipboard_threshold: None, auto_restart: None, preserve_clipboard: None, toggle_key: None, paste_shortcut: None, disable_x11_fast_inject: None, word_separators: None, backspace_limit: None, apply_patch: None, search_trigger: None, search_shortcut: None, undo_backspace: None, show_notifications: None, show_icon: None, secure_input_notification: None, post_form_delay: None, max_form_width: None, max_form_height: None, post_search_delay: None, emulate_alt_codes: None, win32_exclude_orphan_events: None, win32_keyboard_layout_cache_interval: None, x11_use_xclip_backend: None, x11_use_xdotool_backend: None, pre_paste_delay: None, restore_clipboard_delay: None, paste_shortcut_event_delay: None, inject_delay: None, key_delay: None, keyboard_layout: None, evdev_modifier_delay: None, includes: None, excludes: None, extra_includes: None, extra_excludes: None, use_standard_includes: None, filter_title: None, filter_class: None, filter_exec: None, filter_os: None }
+ right: ParsedConfig { label: Some("test"), backend: Some("clipboard"), enable: Some(false), clipboard_threshold: Some(200), auto_restart: Some(false), preserve_clipboard: Some(false), toggle_key: Some("CTRL"), paste_shortcut: Some("CTRL+ALT+V"), disable_x11_fast_inject: Some(true), word_separators: Some(["'", "."]), backspace_limit: Some(10), apply_patch: Some(false), search_trigger: Some("search"), search_shortcut: Some("CTRL+SPACE"), undo_backspace: Some(false), show_notifications: Some(false), show_icon: Some(false), secure_input_notification: Some(false), post_form_delay: Some(300), max_form_width: Some(700), max_form_height: Some(500), post_search_delay: Some(400), emulate_alt_codes: Some(true), win32_exclude_orphan_events: Some(false), win32_keyboard_layout_cache_interval: Some(300), x11_use_xclip_backend: Some(true), x11_use_xdotool_backend: Some(true), pre_paste_delay: Some(300), restore_clipboard_delay: Some(400), paste_shortcut_event_delay: Some(10), inject_delay: Some(10), key_delay: Some(20), keyboard_layout: Some({"layout": "test_layout", "model": "test_model", "options": "test_options", "rules": "test_rule", "variant": "test_variant"}), evdev_modifier_delay: Some(40), includes: Some(["test1"]), excludes: Some(["test3"]), extra_includes: Some(["test2"]), extra_excludes: Some(["test4"]), use_standard_includes: Some(true), filter_title: Some("test8"), filter_class: Some("test5"), filter_exec: Some("test6"), filter_os: Some("test7") }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- config::resolve::tests::is_match_filter_exec stdout ----
+
+thread 'config::resolve::tests::is_match_filter_exec' panicked at espanso-config/src/config/resolve.rs:914:9:
+assertion failed: test_filter_is_match("filter_exec: chrome.exe",
+    &AppProperties {
+            title: Some("Google Mail"),
+            class: Some("Chrome"),
+            exec: Some("chrome.exe"),
+        })
+
+---- config::resolve::tests::is_match_filter_title stdout ----
+
+thread 'config::resolve::tests::is_match_filter_title' panicked at espanso-config/src/config/resolve.rs:854:9:
+assertion failed: test_filter_is_match("filter_title: Google",
+    &AppProperties {
+            title: Some("Google Mail"),
+            class: Some("Chrome"),
+            exec: Some("chrome.exe"),
+        })
+
+---- config::resolve::tests::is_match_filter_os stdout ----
+
+thread 'config::resolve::tests::is_match_filter_os' panicked at espanso-config/src/config/resolve.rs:954:9:
+assertion failed: test_filter_is_match(&format!("filter_os: {current}"),
+    &AppProperties {
+            title: Some("Google Mail"),
+            class: Some("Chrome"),
+            exec: Some("chrome.exe"),
+        })
+
+---- config::resolve::tests::is_match_filter_class stdout ----
+
+thread 'config::resolve::tests::is_match_filter_class' panicked at espanso-config/src/config/resolve.rs:884:9:
+assertion failed: test_filter_is_match("filter_class: Chrome",
+    &AppProperties {
+            title: Some("Google Mail"),
+            class: Some("Chrome"),
+            exec: Some("chrome.exe"),
+        })
+
+---- config::resolve::tests::is_match_multiple_filters stdout ----
+
+thread 'config::resolve::tests::is_match_multiple_filters' panicked at espanso-config/src/config/resolve.rs:975:9:
+assertion failed: test_filter_is_match(r#"
+      filter_exec: chrome.exe
+      filter_title: "Youtube"
+      "#,
+    &AppProperties {
+            title: Some("Youtube - Broadcast Yourself"),
+            class: Some("Chrome"),
+            exec: Some("chrome.exe"),
+        })
+
+---- config::resolve::tests::match_paths_generated_correctly_with_underscore_files stdout ----
+
+thread 'config::resolve::tests::match_paths_generated_correctly_with_underscore_files' panicked at espanso-config/src/config/resolve.rs:822:13:
+assertion `left == right` failed
+  left: ["/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/another.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/base.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/sub/sub.yml"]
+ right: ["/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/_sub.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/another.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/base.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.PEycS7wyvWNY/match/sub/sub.yml"]
+
+---- matches::group::loader::tests::load_group_parsing_error stdout ----
+
+thread 'matches::group::loader::tests::load_group_parsing_error' panicked at espanso-config/src/matches/group/loader/mod.rs:117:22:
+called `Result::unwrap_err()` on an `Ok` value: (MatchGroup { imports: [], global_vars: [], matches: [] }, None)
+
+---- matches::group::loader::tests::load_group_yaml_format stdout ----
+
+thread 'matches::group::loader::tests::load_group_yaml_format' panicked at espanso-config/src/matches/group/loader/mod.rs:139:13:
+assertion `left == right` failed
+  left: 0
+ right: 1
+
+---- matches::group::loader::tests::load_group_yaml_format_2 stdout ----
+
+thread 'matches::group::loader::tests::load_group_yaml_format_2' panicked at espanso-config/src/matches/group/loader/mod.rs:157:13:
+assertion `left == right` failed
+  left: 0
+ right: 1
+
+---- config::resolve::tests::match_paths_generated_correctly_with_child_config stdout ----
+
+thread 'config::resolve::tests::match_paths_generated_correctly_with_child_config' panicked at espanso-config/src/config/resolve.rs:783:13:
+assertion `left == right` failed
+  left: ["/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.WuhFZiRanIgs/match/another.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.WuhFZiRanIgs/match/base.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.WuhFZiRanIgs/match/sub/another.yml"]
+ right: ["/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.WuhFZiRanIgs/match/sub/_sub.yml", "/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/tempconfig.WuhFZiRanIgs/match/sub/another.yml"]
+
+---- matches::group::loader::tests::load_group_yaml_format_casing stdout ----
+
+thread 'matches::group::loader::tests::load_group_yaml_format_casing' panicked at espanso-config/src/matches/group/loader/mod.rs:175:13:
+assertion `left == right` failed
+  left: 0
+ right: 1
+
+---- matches::group::loader::yaml::tests::importer_invalid_syntax stdout ----
+
+thread 'matches::group::loader::yaml::tests::importer_invalid_syntax' panicked at espanso-config/src/matches/group/loader/yaml/mod.rs:918:13:
+assertion failed: importer.load_group(&base_file).is_err()
+
+---- matches::group::loader::yaml::tests::importer_works_correctly stdout ----
+
+thread 'matches::group::loader::yaml::tests::importer_works_correctly' panicked at espanso-config/src/matches/group/loader/yaml/mod.rs:869:44:
+called `Option::unwrap()` on a `None` value
+
+---- matches::store::default::tests::match_store_query_handle_duplicates_when_imports_and_paths_overlap stdout ----
+
+thread 'matches::store::default::tests::match_store_query_handle_duplicates_when_imports_and_paths_overlap' panicked at espanso-config/src/matches/store/default.rs:704:13:
+assertion `left == right` failed
+  left: []
+ right: [Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world3", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world2", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["foo"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "bar", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }]
+
+---- matches::store::default::tests::match_store_loads_correctly stdout ----
+
+thread 'matches::store::default::tests::match_store_loads_correctly' panicked at espanso-config/src/matches/store/default.rs:242:13:
+assertion `left == right` failed
+  left: 1
+ right: 3
+
+---- matches::store::default::tests::match_store_handles_circular_dependency stdout ----
+
+thread 'matches::store::default::tests::match_store_handles_circular_dependency' panicked at espanso-config/src/matches/store/default.rs:348:13:
+assertion `left == right` failed
+  left: 1
+ right: 3
+
+---- matches::store::default::tests::match_store_query_handles_circular_depencencies stdout ----
+
+thread 'matches::store::default::tests::match_store_query_handles_circular_depencencies' panicked at espanso-config/src/matches/store/default.rs:511:13:
+assertion `left == right` failed
+  left: []
+ right: [Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world3", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world2", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["foo"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "bar", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }]
+
+---- matches::store::default::tests::match_store_query_multiple_paths stdout ----
+
+thread 'matches::store::default::tests::match_store_query_multiple_paths' panicked at espanso-config/src/matches/store/default.rs:607:13:
+assertion `left == right` failed
+  left: []
+ right: [Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world2", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["foo"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "bar", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world3", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }]
+
+---- matches::store::default::tests::match_store_query_single_path_with_imports stdout ----
+
+thread 'matches::store::default::tests::match_store_query_single_path_with_imports' panicked at espanso-config/src/matches/store/default.rs:414:13:
+assertion `left == right` failed
+  left: []
+ right: [Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world3", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world2", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["foo"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "bar", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }, Match { id: 0, cause: Trigger(TriggerCause { triggers: ["hello"], left_word: false, right_word: false, propagate_case: false, uppercase_style: Uppercase }), effect: Text(TextEffect { replace: "world", vars: [], format: Plain, force_mode: None }), label: None, search_terms: [] }]
+
+---- tests::load_fatal_errors stdout ----
+
+thread 'tests::load_fatal_errors' panicked at espanso-config/src/lib.rs:292:13:
+assertion failed: load(base).is_err()
+
+---- util::tests::is_yaml_empty_document_with_comments_and_content stdout ----
+
+thread 'util::tests::is_yaml_empty_document_with_comments_and_content' panicked at espanso-config/src/util.rs:60:9:
+assertion failed: !is_yaml_empty("\n#comment \n field: true\n")
+
+---- tests::load_non_fatal_errors stdout ----
+
+thread 'tests::load_non_fatal_errors' panicked at espanso-config/src/lib.rs:224:13:
+assertion `left == right` failed
+  left: 0
+ right: 3
+
+---- util::tests::is_yaml_empty_document_with_content stdout ----
+
+thread 'util::tests::is_yaml_empty_document_with_content' panicked at espanso-config/src/util.rs:65:9:
+assertion failed: !is_yaml_empty("\nfield: true\n")
+
+---- tests::load_non_fatal_match_errors stdout ----
+
+thread 'tests::load_non_fatal_match_errors' panicked at espanso-config/src/lib.rs:252:13:
+assertion `left == right` failed
+  left: 0
+ right: 1
+
+---- tests::load_works_correctly stdout ----
+
+thread 'tests::load_works_correctly' panicked at espanso-config/src/lib.rs:131:13:
+assertion `left == right` failed
+  left: 2
+ right: 1
+
+
+failures:
+    config::parse::yaml::tests::conversion_to_parsed_config_works_correctly
+    config::resolve::tests::is_match_filter_class
+    config::resolve::tests::is_match_filter_exec
+    config::resolve::tests::is_match_filter_os
+    config::resolve::tests::is_match_filter_title
+    config::resolve::tests::is_match_multiple_filters
+    config::resolve::tests::match_paths_generated_correctly_with_child_config
+    config::resolve::tests::match_paths_generated_correctly_with_underscore_files
+    matches::group::loader::tests::load_group_parsing_error
+    matches::group::loader::tests::load_group_yaml_format
+    matches::group::loader::tests::load_group_yaml_format_2
+    matches::group::loader::tests::load_group_yaml_format_casing
+    matches::group::loader::yaml::tests::importer_invalid_syntax
+    matches::group::loader::yaml::tests::importer_works_correctly
+    matches::store::default::tests::match_store_handles_circular_dependency
+    matches::store::default::tests::match_store_loads_correctly
+    matches::store::default::tests::match_store_query_handle_duplicates_when_imports_and_paths_overlap
+    matches::store::default::tests::match_store_query_handles_circular_depencencies
+    matches::store::default::tests::match_store_query_multiple_paths
+    matches::store::default::tests::match_store_query_single_path_with_imports
+    tests::load_fatal_errors
+    tests::load_non_fatal_errors
+    tests::load_non_fatal_match_errors
+    tests::load_works_correctly
+    util::tests::is_yaml_empty_document_with_comments_and_content
+    util::tests::is_yaml_empty_document_with_content
+
+test result: FAILED. 53 passed; 26 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `-p espanso-config --lib`
+
+*** result: Failure(101)

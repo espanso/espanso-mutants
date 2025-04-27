@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace + with * in SimpleWindow::draw
+@@ -420,17 +420,17 @@
+                     let b = u32::min(((width - x) * 0xFF) / width, (y * 0xFF) / height);
+                     let color = (a << 24) + (r << 16) + (g << 8) + b;
+ 
+                     let array: &mut [u8; 4] = chunk.try_into().unwrap();
+                     *array = color.to_le_bytes();
+                 });
+ 
+             if let Some(shift) = &mut self.shift {
+-                *shift = (*shift + 1) % width;
++                *shift = (*shift * /* ~ changed by cargo-mutants ~ */ 1) % width;
+             }
+         }
+ 
+         // Damage the entire window
+         self.window
+             .wl_surface()
+             .damage_buffer(0, 0, self.width as i32, self.height as i32);
+ 

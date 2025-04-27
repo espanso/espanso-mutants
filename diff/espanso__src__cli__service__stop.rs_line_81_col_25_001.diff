@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/stop.rs
++++ replace < with > in wait_for_worker_to_be_stopped
+@@ -73,17 +73,17 @@
+     WorkerTimedOut,
+ 
+     #[error("ipc error: `{0}`")]
+     IPCError(Error),
+ }
+ 
+ fn wait_for_worker_to_be_stopped(runtime_dir: &Path) -> bool {
+     let now = Instant::now();
+-    while now.elapsed() < std::time::Duration::from_secs(3) {
++    while now.elapsed() > /* ~ changed by cargo-mutants ~ */ std::time::Duration::from_secs(3) {
+         let lock_file = acquire_worker_lock(runtime_dir);
+         if lock_file.is_some() {
+             return true;
+         }
+ 
+         std::thread::sleep(std::time::Duration::from_millis(200));
+     }
+ 

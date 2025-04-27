@@ -1,0 +1,21 @@
+--- espanso/src/config.rs
++++ delete ! in populate_default_config
+@@ -40,17 +40,17 @@
+ 
+     let sub_config_dir = config_dir.join("config");
+     let sub_match_dir = config_dir.join("match");
+ 
+     if !sub_config_dir.is_dir() {
+         info!("generating config directory in: {:?}", sub_config_dir);
+         std::fs::create_dir_all(&sub_config_dir)?;
+     }
+-    if !sub_match_dir.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */sub_match_dir.is_dir() {
+         info!("generating match directory in: {:?}", sub_match_dir);
+         std::fs::create_dir_all(&sub_match_dir)?;
+     }
+ 
+     let default_file = sub_config_dir.join("default.yml");
+     let match_file = sub_match_dir.join("base.yml");
+ 
+     if !default_file.is_file() {

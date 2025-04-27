@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/cause.rs
++++ replace <impl Middleware for CauseCompensateMiddleware>::name -> &'static str with ""
+@@ -27,17 +27,17 @@
+ impl CauseCompensateMiddleware {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Middleware for CauseCompensateMiddleware {
+     fn name(&self) -> &'static str {
+-        "cause_compensate"
++        "" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::MatchSelected(m_event) = &event.etype {
+             let compensated_event = Event::caused_by(
+                 event.source_id,
+                 EventType::CauseCompensatedMatch(CauseCompensatedMatchEvent {
+                     m: m_event.chosen.clone(),

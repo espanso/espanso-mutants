@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/mod.rs
++++ delete match arm
+@@ -67,17 +67,17 @@
+         Key::Enter => espanso_match::event::Key::Enter,
+         Key::Tab => espanso_match::event::Key::Tab,
+         Key::Space => espanso_match::event::Key::Space,
+         Key::ArrowDown => espanso_match::event::Key::ArrowDown,
+         Key::ArrowLeft => espanso_match::event::Key::ArrowLeft,
+         Key::ArrowRight => espanso_match::event::Key::ArrowRight,
+         Key::ArrowUp => espanso_match::event::Key::ArrowUp,
+         Key::End => espanso_match::event::Key::End,
+-        Key::Home => espanso_match::event::Key::Home,
++         /* ~ changed by cargo-mutants ~ */
+         Key::PageDown => espanso_match::event::Key::PageDown,
+         Key::PageUp => espanso_match::event::Key::PageUp,
+         Key::Escape => espanso_match::event::Key::Escape,
+         Key::Backspace => espanso_match::event::Key::Backspace,
+         Key::F1 => espanso_match::event::Key::F1,
+         Key::F2 => espanso_match::event::Key::F2,
+         Key::F3 => espanso_match::event::Key::F3,
+         Key::F4 => espanso_match::event::Key::F4,

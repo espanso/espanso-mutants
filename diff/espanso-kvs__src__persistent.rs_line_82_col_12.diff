@@ -1,0 +1,21 @@
+--- espanso-kvs/src/persistent.rs
++++ delete ! in <impl KVS for PersistentJsonKVS>::set
+@@ -74,17 +74,17 @@
+ 
+             return Ok(Some(converted_value));
+         }
+ 
+         Ok(None)
+     }
+ 
+     fn set<T: serde::Serialize>(&self, key: &str, value: T) -> Result<()> {
+-        if !is_valid_key_name(key) {
++        if  /* ~ changed by cargo-mutants ~ */is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS write lock");
+ 
+         let serialized_value = serde_json::to_value(value)?;
+         let serialized_string = serde_json::to_string(&serialized_value)?;
+ 

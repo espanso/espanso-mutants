@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/win.rs
++++ delete ! in create_shortcut_target_file
+@@ -151,17 +151,17 @@
+     command.arg("$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($env:SHORTCUT_PATH); $Shortcut.TargetPath = $env:TARGET_PATH; $Shortcut.Arguments = $env:TARGET_ARGS; $Shortcut.Save()");
+     command.env("SHORTCUT_PATH", shortcut_path.to_string_lossy().to_string());
+     command.env("TARGET_PATH", target_path.to_string_lossy().to_string());
+     command.env("TARGET_ARGS", arguments);
+ 
+     set_command_flags(&mut command);
+     let output = command.output()?;
+ 
+-    if !output.status.success() {
++    if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+         return Err(ShortcutError::PowershellNonZeroExitCode.into());
+     }
+ 
+     Ok(())
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ShortcutError {

@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ delete ! in main
+@@ -536,17 +536,17 @@
+                 .build();
+ 
+             let mut outputs: Vec<Box<dyn SharedLogger>> = vec![WriteLogger::new(
+                 LevelFilter::Info,
+                 config.clone(),
+                 log_proxy.clone(),
+             )];
+ 
+-            if !handler.disable_logs_terminal_output {
++            if  /* ~ changed by cargo-mutants ~ */handler.disable_logs_terminal_output {
+                 outputs.insert(0, TermLogger::new(log_level, config, TerminalMode::Mixed));
+             }
+ 
+             CombinedLogger::init(outputs).expect("unable to initialize logs");
+ 
+             // Activate logging for panics
+             log_panics::init();
+         }

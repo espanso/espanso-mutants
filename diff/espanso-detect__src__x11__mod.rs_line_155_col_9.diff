@@ -1,0 +1,69 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace <impl Source for X11Source>::initialize -> Result<()> with Ok(())
+@@ -147,65 +147,17 @@
+ 
+     pub fn is_compatible() -> bool {
+         unsafe { detect_check_x11() != 0 }
+     }
+ }
+ 
+ impl Source for X11Source {
+     fn initialize(&mut self) -> Result<()> {
+-        let mut error_code = 0;
+-        let handle =
+-            unsafe { detect_initialize(std::ptr::from_ref::<X11Source>(self), &mut error_code) };
+-
+-        if handle.is_null() {
+-            let error = match error_code {
+-                -1 => X11SourceError::DisplayFailure(),
+-                -2 => X11SourceError::XRecordMissing(),
+-                -3 => X11SourceError::XKeyboardMissing(),
+-                -4 => {
+-                    X11SourceError::FailedRegistration("cannot initialize record range".to_owned())
+-                }
+-                -5 => X11SourceError::FailedRegistration(
+-                    "cannot initialize XRecord context".to_owned(),
+-                ),
+-                -6 => {
+-                    X11SourceError::FailedRegistration("cannot enable XRecord context".to_owned())
+-                }
+-                _ => X11SourceError::Unknown(),
+-            };
+-            return Err(error.into());
+-        }
+-
+-        let mod_indexes = unsafe { detect_get_modifier_indexes(handle) };
+-        self.valid_modifiers_mask |= 1 << mod_indexes.ctrl;
+-        self.valid_modifiers_mask |= 1 << mod_indexes.alt;
+-        self.valid_modifiers_mask |= 1 << mod_indexes.meta;
+-        self.valid_modifiers_mask |= 1 << mod_indexes.shift;
+-
+-        // Register the hotkeys
+-        let raw_hotkey_mapping = &mut self.raw_hotkey_mapping;
+-        self.hotkeys.iter().for_each(|hk| {
+-            let raw = convert_hotkey_to_raw(hk);
+-            if let Some(raw_hk) = raw {
+-                let result = unsafe { detect_register_hotkey(handle, raw_hk, mod_indexes) };
+-                if result.success == 0 {
+-                    error!("unable to register hotkey: {}", hk);
+-                } else {
+-                    raw_hotkey_mapping.insert((result.key_code, result.state), hk.id);
+-                    debug!("registered hotkey: {}", hk);
+-                }
+-            } else {
+-                error!("unable to generate raw hotkey mapping: {}", hk);
+-            }
+-        });
+-
+-        self.handle = handle;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn eventloop(&self, event_callback: SourceCallback) -> Result<()> {
+         if self.handle.is_null() {
+             error!("Attempt to start X11Source eventloop without initialization");
+             return Err(X11SourceError::Internal().into());
+         }
+ 

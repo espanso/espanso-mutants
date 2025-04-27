@@ -1,0 +1,21 @@
+--- espanso-kvs/src/persistent.rs
++++ delete ! in is_valid_key_name
+@@ -114,17 +114,17 @@
+     }
+ }
+ 
+ fn is_valid_key_name(key: &str) -> bool {
+     if key.is_empty() || key.len() > 200 {
+         return false;
+     }
+ 
+-    if !key.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
++    if  /* ~ changed by cargo-mutants ~ */key.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
+         return false;
+     }
+ 
+     true
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum PersistentJsonKVSError {

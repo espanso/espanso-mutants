@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/cocoa/mod.rs
++++ delete ! in <impl Clipboard for CocoaClipboard>::set_image
+@@ -69,17 +69,17 @@
+         }
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !image_path.exists() || !image_path.is_file() {
++        if !image_path.exists() ||  /* ~ changed by cargo-mutants ~ */image_path.is_file() {
+             return Err(CocoaClipboardError::ImageNotFound(image_path.to_path_buf()).into());
+         }
+ 
+         let path = CString::new(image_path.to_string_lossy().to_string())?;
+         let native_result = unsafe { ffi::clipboard_set_image(path.as_ptr()) };
+ 
+         if native_result > 0 {
+             Ok(())

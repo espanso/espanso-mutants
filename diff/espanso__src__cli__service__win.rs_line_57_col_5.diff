@@ -1,0 +1,56 @@
+--- espanso/src/cli/service/win.rs
++++ replace is_registered -> bool with true
+@@ -49,52 +49,17 @@
+ 
+ #[derive(Error, Debug)]
+ pub enum UnregisterError {
+     #[error("entry not found")]
+     EntryNotFound,
+ }
+ 
+ pub fn is_registered() -> bool {
+-    match get_startup_shortcut_file() {
+-        Ok(shortcut_path) => {
+-            if !shortcut_path.is_file() {
+-                return false;
+-            }
+-
+-            match get_shortcut_target_file(&shortcut_path) {
+-                Ok(target_path) => {
+-                    // Check if the target file is the same as the current binary
+-                    let current_path = std::env::current_exe().expect("unable to get exec path");
+-
+-                    if current_path != target_path {
+-                        warn_eprintln!("WARNING: Espanso is already registered as a service, but it points to another executable,");
+-                        warn_eprintln!("which can create some inconsistencies.");
+-                        warn_eprintln!(
+-              "To fix the problem, unregister and register espanso again with these commands:"
+-            );
+-                        warn_eprintln!("");
+-                        warn_eprintln!("   espanso service unregister");
+-                        warn_eprintln!("   espanso service register");
+-                        warn_eprintln!("");
+-                    }
+-
+-                    true
+-                }
+-                Err(err) => {
+-                    error_eprintln!("unable to determine shortcut target path: {}", err);
+-                    false
+-                }
+-            }
+-        }
+-        Err(err) => {
+-            error_eprintln!("could not locate shortcut file: {}", err);
+-            false
+-        }
+-    }
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn start_service() -> Result<()> {
+     let current_path = std::env::current_exe().expect("unable to get exec path");
+ 
+     Command::new(current_path)
+         .args(["launcher"])
+         .creation_flags(0x0800_0008) // CREATE_NO_WINDOW + DETACHED_PROCESS

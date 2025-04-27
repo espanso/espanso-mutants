@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace <impl ModifierStatusProvider for ModifierStateStore>::is_any_conflicting_modifier_pressed -> bool with true
+@@ -141,17 +141,17 @@
+ 
+     fn press(&mut self) {
+         self.pressed_at = Some(Instant::now());
+     }
+ }
+ 
+ impl ModifierStatusProvider for ModifierStateStore {
+     fn is_any_conflicting_modifier_pressed(&self) -> bool {
+-        self.is_any_conflicting_modifier_pressed()
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::ModifierStateProvider for ModifierStateStore {
+     fn get_modifier_state(&self) -> espanso_engine::process::ModifierState {
+         let mut state = self.state.lock().expect("unable to obtain modifier state");
+ 
+         let mut is_ctrl_down = false;

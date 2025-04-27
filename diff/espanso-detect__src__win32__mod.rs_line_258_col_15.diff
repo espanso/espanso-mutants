@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace |= with &= in convert_hotkey_to_raw
+@@ -250,17 +250,17 @@
+     }
+     if hk.has_alt() {
+         flags |= 0x0001;
+     }
+     if hk.has_meta() {
+         flags |= 0x0008;
+     }
+     if hk.has_shift() {
+-        flags |= 0x0004;
++        flags &= /* ~ changed by cargo-mutants ~ */ 0x0004;
+     }
+ 
+     Some(RawHotKey {
+         id: hk.id,
+         code: key_code,
+         flags,
+     })
+ }

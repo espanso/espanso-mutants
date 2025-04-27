@@ -1,0 +1,37 @@
+--- espanso-package/src/provider/hub.rs
++++ replace EspansoHubPackageProvider::get_index -> Result<PackageIndex> with Ok(Default::default())
+@@ -91,33 +91,17 @@
+         );
+ 
+         Ok(Box::new(package))
+     }
+ }
+ 
+ impl EspansoHubPackageProvider {
+     fn get_index(&self, force_update: bool) -> Result<PackageIndex> {
+-        let old_index = self.get_index_from_cache()?;
+-
+-        if let Some(old_index) = old_index {
+-            if !force_update {
+-                let current_time = std::time::SystemTime::now().duration_since(UNIX_EPOCH)?;
+-                let current_unix = current_time.as_secs();
+-                if old_index.cached_at >= (current_unix - PACKAGE_INDEX_CACHE_INVALIDATION_SECONDS)
+-                {
+-                    info_println!("using cached package index");
+-                    return Ok(old_index.index);
+-                }
+-            }
+-        }
+-
+-        let new_index = EspansoHubPackageProvider::download_index()?;
+-        self.save_index_to_cache(new_index.clone())?;
+-        Ok(new_index)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn download_index() -> Result<PackageIndex> {
+         info_println!("fetching package index...");
+         let json_body = read_string_from_url(ESPANSO_HUB_PACKAGE_INDEX_URL)?;
+ 
+         let index: PackageIndex = serde_json::from_str(&json_body)?;
+ 

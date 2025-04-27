@@ -1,0 +1,39 @@
+--- espanso-engine/src/process/middleware/search.rs
++++ replace <impl Middleware for SearchMiddleware<'_>>::next -> Event with Default::default()
+@@ -40,35 +40,11 @@
+ }
+ 
+ impl Middleware for SearchMiddleware<'_> {
+     fn name(&self) -> &'static str {
+         "search"
+     }
+ 
+     fn next(&self, event: Event, dispatch: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::ShowSearchBar = event.etype {
+-            let detected_matches = Event::caused_by(
+-                event.source_id,
+-                EventType::MatchesDetected(MatchesDetectedEvent {
+-                    matches: self
+-                        .match_provider
+-                        .get_all_matches_ids()
+-                        .into_iter()
+-                        .map(|id| DetectedMatch {
+-                            id,
+-                            trigger: None,
+-                            left_separator: None,
+-                            right_separator: None,
+-                            args: HashMap::new(),
+-                        })
+-                        .collect(),
+-                    is_search: true,
+-                }),
+-            );
+-            dispatch(detected_matches);
+-
+-            return Event::caused_by(event.source_id, EventType::NOOP);
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

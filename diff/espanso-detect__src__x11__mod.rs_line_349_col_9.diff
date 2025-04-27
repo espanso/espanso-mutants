@@ -1,0 +1,26 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -341,22 +341,17 @@
+         INPUT_EVENT_TYPE_MOUSE => {
+             let button = raw_to_mouse_button(raw.key_code);
+ 
+             if let Some(button) = button {
+                 return Some(InputEvent::Mouse(MouseEvent { button, status }));
+             }
+         }
+         // Hotkey events
+-        INPUT_EVENT_TYPE_HOTKEY => {
+-            let state = raw.state & valid_modifiers_mask;
+-            if let Some(id) = raw_hotkey_mapping.get(&(raw.key_code, state)) {
+-                return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: *id }));
+-            }
+-        }
++         /* ~ changed by cargo-mutants ~ */
+         _ => {}
+     }
+ 
+     None
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ // TODO: might need to add also the variants

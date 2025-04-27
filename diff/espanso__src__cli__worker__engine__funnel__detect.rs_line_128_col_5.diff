@@ -1,0 +1,24 @@
+--- espanso/src/cli/worker/engine/funnel/detect.rs
++++ replace convert_to_engine_variant -> Variant with Default::default()
+@@ -120,20 +120,17 @@
+         espanso_detect::event::Key::Numpad7 => Key::Numpad7,
+         espanso_detect::event::Key::Numpad8 => Key::Numpad8,
+         espanso_detect::event::Key::Numpad9 => Key::Numpad9,
+         espanso_detect::event::Key::Other(code) => Key::Other(code),
+     }
+ }
+ 
+ pub fn convert_to_engine_variant(variant: espanso_detect::event::Variant) -> Variant {
+-    match variant {
+-        espanso_detect::event::Variant::Left => Variant::Left,
+-        espanso_detect::event::Variant::Right => Variant::Right,
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn convert_to_engine_status(status: espanso_detect::event::Status) -> Status {
+     match status {
+         espanso_detect::event::Status::Pressed => Status::Pressed,
+         espanso_detect::event::Status::Released => Status::Released,
+     }
+ }

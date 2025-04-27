@@ -1,0 +1,31 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace interop::OwnedErrorSet::to_error_set_metadata -> ErrorSetMetadata with Default::default()
+@@ -46,27 +46,17 @@
+     pub(crate) struct OwnedErrorSet {
+         file_path: Option<CString>,
+         errors: Vec<OwnedErrorMetadata>,
+         pub(crate) interop_errors: Vec<ErrorMetadata>,
+     }
+ 
+     impl OwnedErrorSet {
+         pub fn to_error_set_metadata(&self) -> ErrorSetMetadata {
+-            let file_path_ptr = if let Some(file_path) = self.file_path.as_ref() {
+-                file_path.as_ptr()
+-            } else {
+-                std::ptr::null()
+-            };
+-
+-            ErrorSetMetadata {
+-                file_path: file_path_ptr,
+-                errors: self.interop_errors.as_ptr(),
+-                errors_count: self.interop_errors.len() as c_int,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<&ErrorSet> for OwnedErrorSet {
+         fn from(error_set: &ErrorSet) -> Self {
+             let file_path = error_set.file.as_ref().map(|file_path| {
+                 CString::new(file_path.to_string_lossy().to_string())
+                     .expect("unable to convert file_path to CString")

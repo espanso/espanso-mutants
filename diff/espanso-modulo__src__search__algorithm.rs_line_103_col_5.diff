@@ -1,0 +1,43 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace command_filter -> Box<FilterCallback> with Box::new(Default::default())
+@@ -95,39 +95,10 @@
+ 
+             true
+         })
+         .map(|(i, _)| i)
+         .collect()
+ }
+ 
+ fn command_filter(search_algorithm: Box<FilterCallback>) -> Box<FilterCallback> {
+-    Box::new(move |query, items| {
+-        let (valid_ids, trimmed_query) = if query.starts_with('>') {
+-            (
+-                items
+-                    .iter()
+-                    .enumerate()
+-                    .filter(|(_, item)| item.is_builtin)
+-                    .map(|(i, _)| i)
+-                    .collect::<HashSet<usize>>(),
+-                query.trim_start_matches('>'),
+-            )
+-        } else {
+-            (
+-                items
+-                    .iter()
+-                    .enumerate()
+-                    .filter(|(_, item)| !item.is_builtin)
+-                    .map(|(i, _)| i)
+-                    .collect::<HashSet<usize>>(),
+-                query,
+-            )
+-        };
+-
+-        let results = search_algorithm(trimmed_query, items);
+-
+-        results
+-            .into_iter()
+-            .filter(|id| valid_ids.contains(id))
+-            .collect()
+-    })
++    Box::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }

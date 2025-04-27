@@ -1,0 +1,25 @@
+--- espanso-clipboard/src/wayland/fallback/mod.rs
++++ replace <impl Clipboard for WaylandFallbackClipboard>::set_html -> anyhow::Result<()> with Ok(())
+@@ -146,21 +146,17 @@
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         _fallback_text: Option<&str>,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        self.invoke_command_with_timeout(
+-            Command::new("wl-copy").arg("--type").arg("text/html"),
+-            html.as_bytes(),
+-            "wl-copy",
+-        )
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl WaylandFallbackClipboard {
+     fn invoke_command_with_timeout(
+         &self,
+         command: &mut Command,
+         data: &[u8],

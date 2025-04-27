@@ -1,0 +1,22 @@
+--- espanso-engine/src/process/middleware/suppress.rs
++++ replace <impl Middleware for SuppressMiddleware<'_>>::next -> Event with Default::default()
+@@ -37,18 +37,11 @@
+ }
+ 
+ impl Middleware for SuppressMiddleware<'_> {
+     fn name(&self) -> &'static str {
+         "suppress"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::MatchesDetected(_) = event.etype {
+-            if !self.provider.is_config_enabled() {
+-                trace!("suppressing match detected event as active config has enable=false");
+-                return Event::caused_by(event.source_id, EventType::NOOP);
+-            }
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

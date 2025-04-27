@@ -1,0 +1,21 @@
+--- espanso-match/src/rolling/matcher.rs
++++ replace == with != in RollingMatcher<Id>::find_refs
+@@ -146,17 +146,17 @@
+         node: &'a MatcherTreeNode<Id>,
+         event: &Event,
+         has_previous_state: bool,
+     ) -> Vec<(&'a MatcherTreeRef<Id>, IsWordSeparator)> {
+         let mut refs = Vec::new();
+ 
+         if let Event::Key { key, chars } = event {
+             // Key matching
+-            if let Some((_, node_ref)) = node.keys.iter().find(|(k, _)| k == key) {
++            if let Some((_, node_ref)) = node.keys.iter().find(|(k, _)| k != /* ~ changed by cargo-mutants ~ */ key) {
+                 refs.push((node_ref, false));
+             }
+ 
+             if let Some(char) = chars {
+                 // Char matching
+                 if let Some((_, node_ref)) = node.chars.iter().find(|(c, _)| c == char) {
+                     refs.push((node_ref, false));
+                 }

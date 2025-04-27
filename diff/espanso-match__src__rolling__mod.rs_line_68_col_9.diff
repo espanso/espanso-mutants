@@ -1,0 +1,24 @@
+--- espanso-match/src/rolling/mod.rs
++++ replace RollingMatch<Id>::from_items -> Self with Default::default()
+@@ -60,20 +60,17 @@
+         if opt.right_word {
+             items.push(RollingItem::WordSeparator);
+         }
+ 
+         Self { id, items }
+     }
+ 
+     pub fn from_items(id: Id, items: &[RollingItem]) -> Self {
+-        Self {
+-            id,
+-            items: items.to_vec(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Default)]
+ pub struct StringMatchOptions {
+     pub case_insensitive: bool,
+     pub left_word: bool,
+     pub right_word: bool,

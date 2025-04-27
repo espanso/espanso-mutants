@@ -1,0 +1,28 @@
+--- espanso/src/cli/service/win.rs
++++ replace start_service -> Result<()> with Ok(())
+@@ -88,24 +88,17 @@
+         Err(err) => {
+             error_eprintln!("could not locate shortcut file: {}", err);
+             false
+         }
+     }
+ }
+ 
+ pub fn start_service() -> Result<()> {
+-    let current_path = std::env::current_exe().expect("unable to get exec path");
+-
+-    Command::new(current_path)
+-        .args(["launcher"])
+-        .creation_flags(0x0800_0008) // CREATE_NO_WINDOW + DETACHED_PROCESS
+-        .spawn()?;
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_startup_dir() -> Result<PathBuf> {
+     let home_dir = dirs::home_dir().expect("unable to obtain user's home folder");
+     let app_data = home_dir.join("AppData");
+     let roaming = app_data.join("Roaming");
+     let microsoft = roaming.join("Microsoft");
+     let windows = microsoft.join("Windows");

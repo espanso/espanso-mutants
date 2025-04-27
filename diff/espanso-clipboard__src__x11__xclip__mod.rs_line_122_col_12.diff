@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ delete ! in <impl Clipboard for XClipClipboard>::set_html
+@@ -114,17 +114,17 @@
+     }
+ 
+     fn set_html(
+         &self,
+         html: &str,
+         _: Option<&str>,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !self.is_xclip_available {
++        if  /* ~ changed by cargo-mutants ~ */self.is_xclip_available {
+             bail!("attempted to use XClipClipboard, but `xclip` command can't be called");
+         }
+ 
+         let mut child = Command::new("xclip")
+             .args(["-sel", "clip", "-t", "text/html"])
+             .stdin(Stdio::piped())
+             .spawn()?;
+ 

@@ -1,0 +1,34 @@
+--- espanso/src/cli/service/win.rs
++++ replace create_shortcut_target_file -> Result<()> with Ok(())
+@@ -141,30 +141,16 @@
+     Ok(path)
+ }
+ 
+ fn create_shortcut_target_file(
+     shortcut_path: &Path,
+     target_path: &Path,
+     arguments: &str,
+ ) -> Result<()> {
+-    let mut command = Command::new("powershell");
+-    command.arg("-c");
+-    command.arg("$WshShell = New-Object -comObject WScript.Shell; $Shortcut = $WshShell.CreateShortcut($env:SHORTCUT_PATH); $Shortcut.TargetPath = $env:TARGET_PATH; $Shortcut.Arguments = $env:TARGET_ARGS; $Shortcut.Save()");
+-    command.env("SHORTCUT_PATH", shortcut_path.to_string_lossy().to_string());
+-    command.env("TARGET_PATH", target_path.to_string_lossy().to_string());
+-    command.env("TARGET_ARGS", arguments);
+-
+-    set_command_flags(&mut command);
+-    let output = command.output()?;
+-
+-    if !output.status.success() {
+-        return Err(ShortcutError::PowershellNonZeroExitCode.into());
+-    }
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ShortcutError {
+     #[error("powershell exit with non-zero code")]
+     PowershellNonZeroExitCode,
+ }

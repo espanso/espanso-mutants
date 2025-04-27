@@ -1,0 +1,266 @@
+espanso-modulo/src/form/parser/layout.rs:35:5: replace parse_layout -> Vec<Vec<Token>> with vec![]
+espanso-config/src/matches/group/path.rs:30:5: replace resolve_imports -> Result<(Vec<String>, Vec<ErrorRecord>)> with Ok((vec![], vec![]))
+espanso-config/src/util.rs:24:5: replace is_yaml_empty -> bool with true
+espanso-inject/src/mac/mod.rs:49:9: replace MacInjector::convert_to_vk_array -> Result<Vec<i32>> with Ok(vec![1])
+espanso-inject/src/mac/mod.rs:49:9: replace MacInjector::convert_to_vk_array -> Result<Vec<i32>> with Ok(vec![0])
+espanso-config/src/matches/group/loader/yaml/mod.rs:64:42: replace == with != in <impl Importer for YAMLImporter>::is_supported
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), None, Some("xyzzy".into()))
+espanso-match/src/rolling/matcher.rs:150:9: replace RollingMatcher<Id>::find_refs -> Vec<(&'a MatcherTreeRef<Id>, IsWordSeparator)> with vec![]
+espanso-match/src/rolling/util.rs:43:29: replace == with != in extract_string_from_events
+espanso-kvs/src/persistent.rs:100:12: delete ! in <impl KVS for PersistentJsonKVS>::delete
+espanso-render/src/renderer/util.rs:50:9: delete match arm
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some("xyzzy".into()), Some("xyzzy".into()))
+espanso-config/src/matches/group/loader/yaml/mod.rs:312:5: replace try_convert_into_variable -> Result<(Variable, Vec<Warning>)> with Ok((Default::default(), vec![]))
+espanso-render/src/renderer/util.rs:132:9: delete match arm
+espanso-kvs/src/persistent.rs:118:5: replace is_valid_key_name -> bool with false
+espanso-render/src/renderer/resolve.rs:87:53: replace - with / in generate_nodes
+espanso-match/src/rolling/tree.rs:148:82: replace == with != in insert_items_recursively
+espanso-package/src/archive/default.rs:50:35: delete ! in <impl Archiver for DefaultArchiver>::save
+espanso-config/src/lib.rs:40:8: delete ! in load
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), None, Some("xyzzy".into()))
+espanso-config/src/config/store.rs:102:40: replace || with && in DefaultConfigStore::load
+espanso-render/src/renderer/util.rs:29:5: replace get_body_variable_names -> HashSet<&str> with HashSet::new()
+espanso-config/src/matches/group/loader/yaml/mod.rs:64:19: replace == with != in <impl Importer for YAMLImporter>::is_supported
+espanso-render/src/extension/echo.rs:44:9: replace <impl Extension for EchoExtension>::name -> &str with "xyzzy"
+espanso-render/src/renderer/resolve.rs:171:16: delete ! in resolve_dependencies
+espanso-render/src/renderer/mod.rs:99:38: replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some("xyzzy".into()), None)
+espanso-config/src/config/resolve.rs:81:13: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-kvs/src/persistent.rs:118:23: replace || with && in is_valid_key_name
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some(String::new()), None)
+espanso-render/src/renderer/util.rs:49:5: replace get_value_variable_names_recursively -> HashSet<&str> with HashSet::from_iter(["xyzzy"])
+espanso-config/src/config/resolve.rs:82:13: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-config/src/config/resolve.rs:124:56: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-detect/src/hotkey/mod.rs:99:9: replace <impl Display for HotKey>::fmt -> std::fmt::Result with Ok(Default::default())
+espanso-render/src/renderer/util.rs:123:5: replace inject_variables_into_value -> Result<()> with Ok(())
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some("xyzzy".into()), Some(String::new()))
+espanso-detect/src/mac/mod.rs:350:47: replace > with == in <impl From<RawInputEvent> for Option<InputEvent>>::from
+espanso-config/src/matches/group/loader/yaml/mod.rs:318:50: replace && with || in try_convert_into_variable
+espanso-config/src/config/resolve.rs:482:9: replace ResolvedConfig::aggregate_excludes -> HashSet<String> with HashSet::from_iter([String::new()])
+espanso-config/src/config/store.rs:59:9: replace <impl ConfigStore for DefaultConfigStore>::get_all_match_paths -> HashSet<String> with HashSet::from_iter(["xyzzy".into()])
+espanso-config/src/config/store.rs:72:12: delete ! in DefaultConfigStore::load
+espanso-match/src/rolling/tree.rs:125:17: delete match arm
+espanso-render/src/renderer/util.rs:109:5: replace unescape_variable_inections -> String with String::new()
+espanso-config/src/config/resolve.rs:482:9: replace ResolvedConfig::aggregate_excludes -> HashSet<String> with HashSet::from_iter(["xyzzy".into()])
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some("xyzzy".into()), None)
+espanso-mac-utils/src/lib.rs:79:5: replace get_app_name_from_path -> Option<String> with Some("xyzzy".into())
+espanso-config/src/config/resolve.rs:75:9: replace <impl Config for ResolvedConfig>::match_paths -> &[String] with Vec::leak(Vec::new())
+espanso-config/src/config/parse/yaml.rs:183:9: replace <impl TryFrom<YAMLConfig> for ParsedConfig>::try_from -> Result<Self, Self::Error> with Ok(Default::default())
+espanso-config/src/config/resolve.rs:500:9: replace ResolvedConfig::generate_match_paths -> HashSet<String> with HashSet::from_iter(["xyzzy".into()])
+espanso-config/src/matches/group/loader/yaml/mod.rs:196:9: replace || with && in try_convert_into_match
+espanso-detect/src/hotkey/keys.rs:220:13: delete match arm
+espanso-kvs/src/persistent.rs:100:9: replace <impl KVS for PersistentJsonKVS>::delete -> Result<()> with Ok(())
+espanso-render/src/extension/script.rs:96:40: replace > with == in <impl Extension for ScriptExtension>::calculate
+espanso-render/src/extension/date.rs:89:9: replace DateExtension<'_>::format_date_with_locale -> String with "xyzzy".into()
+espanso-render/src/renderer/mod.rs:74:45: replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+espanso-kvs/src/persistent.rs:118:5: replace is_valid_key_name -> bool with true
+espanso-match/src/regex/mod.rs:107:28: delete ! in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+espanso-config/src/matches/group/loader/yaml/util.rs:29:5: replace convert_params -> Result<Params> with Ok(Default::default())
+espanso-render/src/renderer/util.rs:70:5: replace render_variables -> Result<String> with Ok("xyzzy".into())
+espanso-config/src/matches/group/loader/yaml/mod.rs:318:26: delete ! in try_convert_into_variable
+espanso-render/src/renderer/resolve.rs:86:18: replace > with == in generate_nodes
+espanso-modulo/src/form/parser/split.rs:32:9: replace <impl Iterator for SplitCaptures<'_, 't>>::next -> Option<SplitState<'t>> with None
+espanso-match/src/rolling/matcher.rs:169:39: replace == with != in RollingMatcher<Id>::find_refs
+espanso-detect/src/mac/mod.rs:350:47: replace > with < in <impl From<RawInputEvent> for Option<InputEvent>>::from
+espanso-detect/src/hotkey/mod.rs:78:9: replace HotKey::has_ctrl -> bool with true
+espanso-config/src/config/resolve.rs:359:9: replace ResolvedConfig::load -> Result<Self> with Ok(Default::default())
+espanso-kvs/src/persistent.rs:122:60: replace == with != in is_valid_key_name
+espanso-config/src/config/resolve.rs:500:9: replace ResolvedConfig::generate_match_paths -> HashSet<String> with HashSet::new()
+espanso-render/src/extension/script.rs:129:24: delete ! in <impl Extension for ScriptExtension>::calculate
+espanso-config/src/config/store.rs:102:17: replace && with || in DefaultConfigStore::load
+espanso-match/src/rolling/matcher.rs:194:9: replace RollingMatcher<Id>::is_word_separator -> bool with false
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some(String::new()), Some("xyzzy".into()))
+espanso-config/src/config/resolve.rs:458:9: replace ResolvedConfig::aggregate_includes -> HashSet<String> with HashSet::from_iter([String::new()])
+espanso-render/src/renderer/util.rs:38:5: replace get_params_variable_names -> HashSet<&str> with HashSet::from_iter(["xyzzy"])
+espanso-detect/src/hotkey/mod.rs:83:9: replace HotKey::has_meta -> bool with true
+espanso-config/src/matches/group/loader/yaml/mod.rs:71:9: replace <impl Importer for YAMLImporter>::load_group -> anyhow::Result<(crate::matches::group::MatchGroup, Option<NonFatalErrorSet>)> with Ok((Default::default(), None))
+espanso-config/src/matches/mod.rs:91:9: replace MatchCause::description -> Option<&str> with Some("xyzzy")
+espanso-detect/src/hotkey/mod.rs:88:9: replace HotKey::has_alt -> bool with false
+espanso-detect/src/hotkey/keys.rs:218:9: replace ShortcutKey::parse -> Option<ShortcutKey> with None
+espanso-modulo/src/form/parser/layout.rs:53:24: delete ! in parse_layout
+espanso-render/src/extension/date.rs:103:5: replace convert_locale_string_to_locale -> Option<Locale> with None
+espanso-engine/src/process/middleware/markdown.rs:73:5: replace remove_paragraph_tag_if_single_occurrence -> &str with ""
+espanso-detect/src/mac/mod.rs:385:13: delete match arm
+espanso-modulo/src/form/parser/layout.rs:35:5: replace parse_layout -> Vec<Vec<Token>> with vec![vec![]]
+espanso-config/src/config/store.rs:59:9: replace <impl ConfigStore for DefaultConfigStore>::get_all_match_paths -> HashSet<String> with HashSet::from_iter([String::new()])
+espanso-detect/src/hotkey/keys.rs:221:13: delete match arm
+espanso-config/src/matches/group/loader/yaml/mod.rs:151:9: delete match arm
+espanso-detect/src/mac/mod.rs:332:9: replace <impl From<RawInputEvent> for Option<InputEvent>>::from -> Option<InputEvent> with None
+espanso-kvs/src/persistent.rs:55:12: delete ! in <impl KVS for PersistentJsonKVS>::get
+espanso-render/src/renderer/util.rs:49:5: replace get_value_variable_names_recursively -> HashSet<&str> with HashSet::from_iter([""])
+espanso-render/src/extension/util.rs:24:5: replace convert_to_env_variables -> HashMap<String, String> with HashMap::from_iter([(String::new(), "xyzzy".into())])
+espanso-config/src/config/resolve.rs:75:9: replace <impl Config for ResolvedConfig>::match_paths -> &[String] with Vec::leak(vec![String::new()])
+espanso-render/src/renderer/mod.rs:216:5: replace get_matching_template -> Option<&'a Template> with None
+espanso-match/src/rolling/tree.rs:70:20: replace == with != in insert_items_recursively
+espanso-render/src/extension/exec_util.rs:98:5: replace launch_command_and_get_output -> Option<String> with Some(String::new())
+espanso-render/src/extension/script.rs:96:40: replace > with < in <impl Extension for ScriptExtension>::calculate
+espanso-package/src/package/default.rs:48:9: replace <impl Package for DefaultPackage>::name -> &str with "xyzzy"
+espanso-match/src/rolling/util.rs:43:46: replace - with / in extract_string_from_events
+espanso-config/src/config/resolve.rs:458:9: replace ResolvedConfig::aggregate_includes -> HashSet<String> with HashSet::new()
+espanso-config/src/config/resolve.rs:79:9: replace <impl Config for ResolvedConfig>::is_match -> bool with false
+espanso-config/src/matches/group/path.rs:30:5: replace resolve_imports -> Result<(Vec<String>, Vec<ErrorRecord>)> with Ok((vec![String::new()], vec![]))
+espanso-render/src/renderer/util.rs:124:9: delete match arm
+espanso-inject/src/mac/raw_keys.rs:23:5: replace convert_key_to_vkey -> Option<i32> with Some(0)
+espanso-render/src/extension/util.rs:24:5: replace convert_to_env_variables -> HashMap<String, String> with HashMap::new()
+espanso-config/src/config/store.rs:59:9: replace <impl ConfigStore for DefaultConfigStore>::get_all_match_paths -> HashSet<String> with HashSet::new()
+espanso-config/src/config/store.rs:49:9: replace <impl ConfigStore for DefaultConfigStore>::configs -> Vec<Arc<dyn Config>> with vec![]
+espanso-ui/src/menu.rs:30:9: replace Menu::to_json -> Result<String> with Ok(String::new())
+espanso-render/src/renderer/util.rs:38:5: replace get_params_variable_names -> HashSet<&str> with HashSet::from_iter([""])
+espanso-config/src/matches/store/default.rs:140:24: delete ! in query_matches_for_paths
+espanso-config/src/config/resolve.rs:500:9: replace ResolvedConfig::generate_match_paths -> HashSet<String> with HashSet::from_iter([String::new()])
+espanso-render/src/extension/date.rs:60:23: replace + with - in <impl Extension for DateExtension<'_>>::calculate
+espanso-config/src/config/resolve.rs:124:38: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-render/src/extension/date.rs:89:9: replace DateExtension<'_>::format_date_with_locale -> String with String::new()
+espanso-config/src/config/resolve.rs:124:21: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-detect/src/hotkey/mod.rs:83:9: replace HotKey::has_meta -> bool with false
+espanso-kvs/src/persistent.rs:82:9: replace <impl KVS for PersistentJsonKVS>::set -> Result<()> with Ok(())
+espanso-match/src/rolling/tree.rs:128:17: delete match arm
+espanso-detect/src/mac/mod.rs:333:13: delete match arm
+espanso-config/src/config/util.rs:43:9: delete match arm
+espanso-config/src/matches/group/path.rs:30:5: replace resolve_imports -> Result<(Vec<String>, Vec<ErrorRecord>)> with Ok((vec!["xyzzy".into()], vec![]))
+espanso-detect/src/mac/mod.rs:352:82: replace + with - in <impl From<RawInputEvent> for Option<InputEvent>>::from
+espanso-kvs/src/persistent.rs:118:36: replace > with < in is_valid_key_name
+espanso-match/src/regex/mod.rs:95:25: replace > with < in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some(String::new()), Some(String::new()))
+espanso-match/src/rolling/tree.rs:136:75: replace == with != in insert_items_recursively
+espanso-kvs/src/persistent.rs:122:8: delete ! in is_valid_key_name
+espanso-ui/src/menu.rs:30:9: replace Menu::to_json -> Result<String> with Ok("xyzzy".into())
+espanso-package/src/archive/util.rs:55:5: replace create_package_source_file -> Result<()> with Ok(())
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some(String::new()), None)
+espanso-detect/src/hotkey/mod.rs:93:9: replace HotKey::has_shift -> bool with false
+espanso-config/src/config/path.rs:34:5: replace calculate_paths -> HashSet<String> with HashSet::from_iter([String::new()])
+espanso-config/src/config/path.rs:34:5: replace calculate_paths -> HashSet<String> with HashSet::from_iter(["xyzzy".into()])
+espanso-kvs/src/persistent.rs:122:55: replace || with && in is_valid_key_name
+espanso-engine/src/process/middleware/markdown.rs:73:5: replace remove_paragraph_tag_if_single_occurrence -> &str with "xyzzy"
+espanso-config/src/matches/store/default.rs:85:12: delete ! in load_match_groups_recursively
+espanso-render/src/renderer/util.rs:49:5: replace get_value_variable_names_recursively -> HashSet<&str> with HashSet::new()
+espanso-detect/src/mac/mod.rs:352:82: replace + with * in <impl From<RawInputEvent> for Option<InputEvent>>::from
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some(String::new()), Some("xyzzy".into()))
+espanso-config/src/matches/group/loader/yaml/mod.rs:64:9: replace <impl Importer for YAMLImporter>::is_supported -> bool with false
+espanso-detect/src/hotkey/keys.rs:128:9: replace <impl Display for ShortcutKey>::fmt -> std::fmt::Result with Ok(Default::default())
+espanso-package/src/archive/read.rs:30:8: delete ! in read_archived_package
+espanso-config/src/config/resolve.rs:460:51: replace || with && in ResolvedConfig::aggregate_includes
+espanso-mac-utils/src/lib.rs:79:5: replace get_app_name_from_path -> Option<String> with None
+espanso-detect/src/hotkey/keys.rs:219:13: delete match arm
+espanso-detect/src/mac/mod.rs:481:9: delete match arm
+espanso-match/src/rolling/tree.rs:65:5: replace insert_items_recursively with ()
+espanso-render/src/renderer/util.rs:113:5: replace inject_variables_into_params -> Result<Params> with Ok(Default::default())
+espanso-config/src/config/store.rs:102:31: replace == with != in DefaultConfigStore::load
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), None, Some(String::new()))
+espanso-match/src/rolling/matcher.rs:75:9: replace <impl Matcher<'a, RollingMatcherState<'a, Id>, Id> for RollingMatcher<Id>>::process -> (RollingMatcherState<'a, Id>, Vec<MatchResult<Id>>) with (RollingMatcherState::from(Default::default()), vec![])
+espanso-ipc/src/unix.rs:58:9: replace <impl IPCServer<Event> for UnixIPCServer>::run -> Result<()> with Ok(())
+espanso-render/src/extension/script.rs:129:49: replace || with && in <impl Extension for ScriptExtension>::calculate
+espanso-render/src/renderer/resolve.rs:43:5: replace resolve_evaluation_order -> Result<Vec<&'a Variable>> with Ok(vec![])
+espanso-package/src/archive/default.rs:127:16: delete ! in <impl Archiver for DefaultArchiver>::list
+espanso-detect/src/hotkey/mod.rs:88:9: replace HotKey::has_alt -> bool with true
+espanso-package/src/archive/default.rs:144:12: delete ! in <impl Archiver for DefaultArchiver>::delete
+espanso-inject/src/keys.rs:236:13: delete match arm
+espanso-config/src/config/store.rs:101:17: replace && with || in DefaultConfigStore::load
+espanso-match/src/regex/mod.rs:136:16: delete ! in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+espanso-package/src/archive/default.rs:123:9: replace <impl Archiver for DefaultArchiver>::list -> Result<Vec<StoredPackage>> with Ok(vec![])
+espanso-render/src/extension/date.rs:97:9: replace DateExtension<'_>::format_date_with_locale_string -> String with String::new()
+espanso-render/src/renderer/util.rs:109:5: replace unescape_variable_inections -> String with "xyzzy".into()
+espanso-match/src/rolling/util.rs:43:46: replace - with + in extract_string_from_events
+espanso-config/src/matches/mod.rs:91:9: replace MatchCause::description -> Option<&str> with None
+espanso-config/src/config/store.rs:101:32: replace != with == in DefaultConfigStore::load
+espanso-package/src/resolver.rs:41:49: replace == with != in resolve_package
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), None, Some(String::new()))
+espanso-package/src/util/github.rs:37:5: replace extract_github_url_parts -> Option<GitHubParts> with None
+espanso-config/src/config/resolve.rs:458:9: replace ResolvedConfig::aggregate_includes -> HashSet<String> with HashSet::from_iter(["xyzzy".into()])
+espanso-inject/src/mac/mod.rs:49:9: replace MacInjector::convert_to_vk_array -> Result<Vec<i32>> with Ok(vec![-1])
+espanso-package/src/resolver.rs:53:54: replace == with != in resolve_package
+espanso-match/src/rolling/matcher.rs:184:12: delete ! in RollingMatcher<Id>::find_refs
+espanso-kvs/src/persistent.rs:55:9: replace <impl KVS for PersistentJsonKVS>::get -> Result<Option<T>> with Ok(None)
+espanso-config/src/matches/group/loader/yaml/mod.rs:64:29: replace || with && in <impl Importer for YAMLImporter>::is_supported
+espanso-render/src/renderer/util.rs:70:5: replace render_variables -> Result<String> with Ok(String::new())
+espanso-render/src/renderer/util.rs:29:5: replace get_body_variable_names -> HashSet<&str> with HashSet::from_iter(["xyzzy"])
+espanso-config/src/matches/store/default.rs:133:24: delete ! in query_matches_for_paths
+espanso-render/src/extension/util.rs:24:5: replace convert_to_env_variables -> HashMap<String, String> with HashMap::from_iter([("xyzzy".into(), "xyzzy".into())])
+espanso-package/src/archive/default.rs:50:32: replace && with || in <impl Archiver for DefaultArchiver>::save
+espanso-match/src/rolling/tree.rs:93:82: replace == with != in insert_items_recursively
+espanso-config/src/util.rs:24:5: replace is_yaml_empty -> bool with false
+espanso-match/src/regex/mod.rs:80:9: replace <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process -> (RegexMatcherState, Vec<MatchResult<Id>>) with (Default::default(), vec![])
+espanso-render/src/renderer/util.rs:137:9: delete match arm
+espanso-render/src/renderer/resolve.rs:87:53: replace - with + in generate_nodes
+espanso-render/src/extension/shell.rs:263:24: delete ! in <impl Extension for ShellExtension>::calculate
+espanso-package/src/archive/default.rs:101:12: delete ! in <impl Archiver for DefaultArchiver>::get
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), None, None)
+espanso-config/src/matches/store/default.rs:75:9: replace <impl MatchStore for DefaultMatchStore>::loaded_paths -> Vec<String> with vec![]
+espanso-package/src/resolver.rs:70:5: replace resolve_all_packages -> Result<Vec<ResolvedPackage>> with Ok(vec![])
+espanso-inject/src/mac/mod.rs:49:9: replace MacInjector::convert_to_vk_array -> Result<Vec<i32>> with Ok(vec![])
+espanso-render/src/renderer/resolve.rs:76:5: replace generate_nodes -> HashMap<&'a str, Node<'a>> with HashMap::new()
+espanso-config/src/matches/store/default.rs:117:5: replace query_matches_for_paths with ()
+espanso-config/src/config/util.rs:42:5: replace os_matches -> bool with true
+espanso-render/src/extension/exec_util.rs:98:5: replace launch_command_and_get_output -> Option<String> with Some("xyzzy".into())
+espanso-config/src/matches/group/loader/yaml/mod.rs:148:9: delete match arm
+espanso-config/src/util.rs:26:46: delete ! in is_yaml_empty
+espanso-render/src/renderer/resolve.rs:155:5: replace resolve_dependencies -> Result<()> with Ok(())
+espanso-mac-utils/src/lib.rs:79:5: replace get_app_name_from_path -> Option<String> with Some(String::new())
+espanso-package/src/archive/default.rs:142:9: replace <impl Archiver for DefaultArchiver>::delete -> Result<()> with Ok(())
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), Some("xyzzy".into()), Some(String::new()))
+espanso-config/src/util.rs:26:43: replace && with || in is_yaml_empty
+espanso-detect/src/hotkey/mod.rs:78:9: replace HotKey::has_ctrl -> bool with false
+espanso-render/src/renderer/resolve.rs:86:18: replace > with < in generate_nodes
+espanso-config/src/matches/group/loader/yaml/mod.rs:131:45: replace && with || in try_convert_into_match
+espanso-render/src/extension/util.rs:24:5: replace convert_to_env_variables -> HashMap<String, String> with HashMap::from_iter([("xyzzy".into(), String::new())])
+espanso-config/src/config/store.rs:78:12: delete ! in DefaultConfigStore::load
+espanso-inject/src/keys.rs:235:9: replace Key::parse -> Option<Key> with None
+espanso-config/src/matches/store/default.rs:84:5: replace load_match_groups_recursively with ()
+espanso-match/src/rolling/tree.rs:56:9: replace MatcherTreeNode<Id>::from_matches -> MatcherTreeNode<Id> with MatcherTreeNode::from(Default::default())
+espanso-detect/src/hotkey/keys.rs:222:13: delete match arm
+espanso-config/src/config/util.rs:42:5: replace os_matches -> bool with false
+espanso-config/src/matches/group/loader/mod.rs:41:5: replace load_match_group -> Result<(MatchGroup, Option<NonFatalErrorSet>)> with Ok((Default::default(), None))
+espanso-detect/src/mac/mod.rs:340:13: delete match arm
+espanso-config/src/matches/store/default.rs:118:12: delete ! in query_matches_for_paths
+espanso-package/src/resolver.rs:91:5: replace find_all_manifests -> Result<Vec<PathBuf>> with Ok(vec![])
+espanso-config/src/config/path.rs:34:5: replace calculate_paths -> HashSet<String> with HashSet::new()
+espanso-detect/src/hotkey/keys.rs:276:13: delete match arm
+espanso-config/src/config/resolve.rs:482:9: replace ResolvedConfig::aggregate_excludes -> HashSet<String> with HashSet::new()
+espanso-inject/src/mac/raw_keys.rs:23:5: replace convert_key_to_vkey -> Option<i32> with Some(1)
+espanso-config/src/matches/group/loader/yaml/mod.rs:150:9: delete match arm
+espanso-engine/src/process/middleware/markdown.rs:74:24: replace <= with > in remove_paragraph_tag_if_single_occurrence
+espanso-config/src/config/store.rs:78:38: delete ! in DefaultConfigStore::load
+espanso-config/src/config/resolve.rs:80:13: replace && with || in <impl Config for ResolvedConfig>::is_match
+espanso-inject/src/mac/raw_keys.rs:23:5: replace convert_key_to_vkey -> Option<i32> with None
+espanso-match/src/rolling/util.rs:41:22: replace == with != in extract_string_from_events
+espanso-config/src/matches/group/loader/yaml/mod.rs:149:9: delete match arm
+espanso-config/src/config/parse/mod.rs:81:9: replace ParsedConfig::load -> Result<Self> with Ok(Default::default())
+espanso-config/src/matches/mod.rs:102:9: replace MatchCause::long_description -> String with String::new()
+espanso-render/src/extension/date.rs:260:9: delete match arm
+espanso-config/src/config/resolve.rs:406:9: replace ResolvedConfig::merge_parsed with ()
+espanso-render/src/extension/util.rs:24:5: replace convert_to_env_variables -> HashMap<String, String> with HashMap::from_iter([(String::new(), String::new())])
+espanso-render/src/extension/echo.rs:44:9: replace <impl Extension for EchoExtension>::name -> &str with ""
+espanso-match/src/rolling/matcher.rs:160:80: replace == with != in RollingMatcher<Id>::find_refs
+espanso-render/src/extension/script.rs:129:52: delete ! in <impl Extension for ScriptExtension>::calculate
+espanso-modulo/src/form/parser/split.rs:37:30: replace >= with < in <impl Iterator for SplitCaptures<'_, 't>>::next
+espanso-kvs/src/persistent.rs:82:12: delete ! in <impl KVS for PersistentJsonKVS>::set
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some("xyzzy".into()), Some("xyzzy".into()))
+espanso-package/src/archive/default.rs:106:12: delete ! in <impl Archiver for DefaultArchiver>::get
+espanso-config/src/util.rs:26:12: delete ! in is_yaml_empty
+espanso-render/src/renderer/util.rs:38:5: replace get_params_variable_names -> HashSet<&str> with HashSet::new()
+espanso-package/src/archive/util.rs:30:5: replace copy_dir_without_dot_files -> Result<()> with Ok(())
+espanso-match/src/rolling/tree.rs:164:38: replace == with != in insert_items_recursively
+espanso-config/src/matches/group/loader/yaml/mod.rs:64:9: replace <impl Importer for YAMLImporter>::is_supported -> bool with true
+espanso-package/src/util/gitlab.rs:38:5: replace extract_gitlab_url_parts -> Option<GitLabParts> with None
+espanso-config/src/matches/group/loader/yaml/mod.rs:129:5: replace try_convert_into_match -> Result<(Match, Vec<Warning>)> with Ok((Default::default(), vec![]))
+espanso-render/src/extension/script.rs:135:28: delete ! in <impl Extension for ScriptExtension>::calculate
+espanso-detect/src/mac/mod.rs:479:5: replace raw_to_mouse_button -> Option<MouseButton> with None
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with (String::new(), None, None)
+espanso-inject/src/mac/raw_keys.rs:23:5: replace convert_key_to_vkey -> Option<i32> with Some(-1)
+espanso-config/src/matches/group/mod.rs:39:9: replace MatchGroup::load -> Result<(Self, Option<NonFatalErrorSet>)> with Ok((Default::default(), None))
+espanso-config/src/matches/mod.rs:91:9: replace MatchCause::description -> Option<&str> with Some("")
+espanso-render/src/renderer/util.rs:29:5: replace get_body_variable_names -> HashSet<&str> with HashSet::from_iter([""])
+espanso-config/src/counter.rs:33:5: replace next_id -> StructId with Default::default()
+espanso-render/src/renderer/util.rs:127:27: replace != with == in inject_variables_into_value
+espanso-match/src/rolling/tree.rs:81:75: replace == with != in insert_items_recursively
+espanso-config/src/matches/mod.rs:102:9: replace MatchCause::long_description -> String with "xyzzy".into()
+espanso-render/src/extension/date.rs:97:9: replace DateExtension<'_>::format_date_with_locale_string -> String with "xyzzy".into()
+espanso-package/src/package/default.rs:48:9: replace <impl Package for DefaultPackage>::name -> &str with ""
+espanso-render/src/renderer/resolve.rs:127:43: replace || with && in create_node_from_var
+espanso-render/src/extension/exec_util.rs:30:5: replace determine_path_env_variable_override -> Option<String> with Some(String::new())
+espanso-config/src/config/resolve.rs:75:9: replace <impl Config for ResolvedConfig>::match_paths -> &[String] with Vec::leak(vec!["xyzzy".into()])
+espanso-package/src/resolver.rs:91:5: replace find_all_manifests -> Result<Vec<PathBuf>> with Ok(vec![Default::default()])
+espanso-match/src/rolling/util.rs:27:5: replace extract_string_from_events -> (String, Option<String>, Option<String>) with ("xyzzy".into(), Some(String::new()), Some(String::new()))
+espanso-render/src/extension/exec_util.rs:30:5: replace determine_path_env_variable_override -> Option<String> with Some("xyzzy".into())
+espanso-config/src/config/resolve.rs:79:9: replace <impl Config for ResolvedConfig>::is_match -> bool with true
+espanso-config/src/lib.rs:40:32: delete ! in load

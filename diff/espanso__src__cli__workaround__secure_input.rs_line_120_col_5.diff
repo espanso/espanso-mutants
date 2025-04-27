@@ -1,0 +1,27 @@
+--- espanso/src/cli/workaround/secure_input.rs
++++ replace lock_screen -> Result<()> with Ok(())
+@@ -112,23 +112,17 @@
+     child_stdin.write_all(script.as_bytes())?;
+ 
+     let output = child.wait_with_output()?;
+     let stdout = String::from_utf8_lossy(&output.stdout);
+     Ok(stdout.to_string())
+ }
+ 
+ fn lock_screen() -> Result<()> {
+-    let mut child = Command::new("osascript")
+-    .arg("-e")
+-    .arg(r#"tell application "System Events" to keystroke "q" using {command down,control down}"#)
+-    .spawn()?;
+-
+-    child.wait()?;
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_running_apps() -> Result<HashSet<String>> {
+     let apps_raw = run_apple_script(GET_RUNNING_APPS_SCRIPT)?;
+     let mut apps = HashSet::new();
+     for app in apps_raw.trim().split(", ") {
+         apps.insert(app.to_string());
+     }

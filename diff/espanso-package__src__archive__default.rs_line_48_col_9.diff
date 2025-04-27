@@ -1,0 +1,68 @@
+--- espanso-package/src/archive/default.rs
++++ replace <impl Archiver for DefaultArchiver>::save -> Result<ArchivedPackage> with Ok(Default::default())
+@@ -40,64 +40,17 @@
+ 
+ impl Archiver for DefaultArchiver {
+     fn save(
+         &self,
+         package: &dyn Package,
+         specifier: &PackageSpecifier,
+         save_options: &SaveOptions,
+     ) -> Result<ArchivedPackage> {
+-        let target_dir = self.package_dir.join(package.name());
+-
+-        if target_dir.is_dir() && !save_options.overwrite_existing {
+-            bail!("package {} is already installed", package.name());
+-        }
+-
+-        // Backup the previous directory if present
+-        let backup_dir = self.package_dir.join(format!("{}.old", package.name()));
+-        let _backup_guard = if target_dir.is_dir() {
+-            std::fs::rename(&target_dir, &backup_dir)
+-                .context("unable to backup old package directory")?;
+-
+-            // If the function returns due to an error, restore the previous directory
+-            Some(scopeguard::guard(
+-                (backup_dir.clone(), target_dir.clone()),
+-                |(backup_dir, target_dir)| {
+-                    if backup_dir.is_dir() {
+-                        if target_dir.is_dir() {
+-                            std::fs::remove_dir_all(&target_dir)
+-                                .expect("unable to remove dirty package directory");
+-                        }
+-
+-                        std::fs::rename(backup_dir, target_dir)
+-                            .expect("unable to restore backup directory");
+-                    }
+-                },
+-            ))
+-        } else {
+-            None
+-        };
+-
+-        std::fs::create_dir_all(&target_dir).context("unable to create target directory")?;
+-
+-        super::util::copy_dir_without_dot_files(package.location(), &target_dir)
+-            .context("unable to copy package files")?;
+-
+-        super::util::create_package_source_file(specifier, &target_dir)
+-            .context("unable to create _pkgsource.yml file")?;
+-
+-        // Remove backup
+-        if backup_dir.is_dir() {
+-            std::fs::remove_dir_all(backup_dir).context("unable to remove backup directory")?;
+-        }
+-
+-        let archived_package = super::read::read_archived_package(&target_dir)
+-            .context("unable to load archived package")?;
+-
+-        Ok(archived_package)
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn get(&self, name: &str) -> Result<StoredPackage> {
+         let target_dir = self.package_dir.join(name);
+ 
+         if !target_dir.is_dir() {
+             bail!("package '{}' not found", name);
+         }

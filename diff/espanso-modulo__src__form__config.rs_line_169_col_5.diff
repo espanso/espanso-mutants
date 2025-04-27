@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_multiline -> bool with true
+@@ -161,17 +161,17 @@
+     "text".to_owned()
+ }
+ 
+ fn default_default() -> Option<String> {
+     None
+ }
+ 
+ fn default_multiline() -> bool {
+-    false
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_values() -> Vec<String> {
+     Vec::new()
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct AutoFieldConfig {

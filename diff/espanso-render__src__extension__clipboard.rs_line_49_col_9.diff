@@ -1,0 +1,25 @@
+--- espanso-render/src/extension/clipboard.rs
++++ replace <impl Extension for ClipboardExtension<'_>>::calculate -> crate::ExtensionResult with Default::default()
+@@ -41,21 +41,17 @@
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         _: &Params,
+     ) -> crate::ExtensionResult {
+-        if let Some(clipboard) = self.provider.get_text() {
+-            ExtensionResult::Success(ExtensionOutput::Single(clipboard))
+-        } else {
+-            ExtensionResult::Error(ClipboardExtensionError::MissingClipboard.into())
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ClipboardExtensionError {
+     #[error("clipboard provider returned error")]
+     MissingClipboard,
+ }

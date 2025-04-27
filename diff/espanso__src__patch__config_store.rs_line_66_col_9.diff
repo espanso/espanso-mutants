@@ -1,0 +1,21 @@
+--- espanso/src/patch/config_store.rs
++++ replace <impl ConfigStore for PatchedConfigStore>::default -> Arc<dyn Config> with Arc::new(Default::default())
+@@ -58,17 +58,17 @@
+             config_store,
+             patches: active_patches,
+         }
+     }
+ }
+ 
+ impl ConfigStore for PatchedConfigStore {
+     fn default(&self) -> Arc<dyn Config> {
+-        self.config_store.default()
++        Arc::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn active(&self, app: &espanso_config::config::AppProperties) -> Arc<dyn Config> {
+         let active_config = self.config_store.active(app);
+ 
+         if !active_config.apply_patch() {
+             return active_config;
+         }

@@ -1,0 +1,22 @@
+--- espanso-info/src/lib.rs
++++ replace get_provider -> Result<Box<dyn AppInfoProvider>> with Ok(Box::new(Default::default()))
+@@ -48,18 +48,17 @@
+ #[cfg(target_os = "windows")]
+ pub fn get_provider() -> Result<Box<dyn AppInfoProvider>> {
+     info!("using Win32AppInfoProvider");
+     Ok(Box::new(win32::WinAppInfoProvider::new()))
+ }
+ 
+ #[cfg(target_os = "macos")]
+ pub fn get_provider() -> Result<Box<dyn AppInfoProvider>> {
+-    info!("using CocoaAppInfoProvider");
+-    Ok(Box::new(cocoa::CocoaAppInfoProvider::new()))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(not(feature = "wayland"))]
+ pub fn get_provider() -> Result<Box<dyn AppInfoProvider>> {
+     info!("using X11AppInfoProvider");
+     Ok(Box::new(x11::X11AppInfoProvider::new()))
+ }

@@ -1,0 +1,21 @@
+--- espanso/src/path/linux.rs
++++ replace is_espanso_in_path -> bool with true
+@@ -17,17 +17,17 @@
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use anyhow::Result;
+ use std::path::PathBuf;
+ use thiserror::Error;
+ 
+ pub fn is_espanso_in_path() -> bool {
+-    PathBuf::from("/usr/local/bin/espanso").is_file()
++    true /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn add_espanso_to_path(_: bool) -> Result<()> {
+     let target_link_dir = PathBuf::from("/usr/local/bin");
+     let exec_path = get_binary_path()?;
+ 
+     if !target_link_dir.is_dir() {
+         return Err(PathError::UsrLocalBinDirDoesNotExist.into());

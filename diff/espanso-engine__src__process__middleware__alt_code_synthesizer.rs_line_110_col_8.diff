@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete ! in convert_buffer_into_char
+@@ -102,17 +102,17 @@
+ }
+ 
+ fn convert_buffer_into_char(buffer: &str) -> Option<String> {
+     if buffer.is_empty() {
+         debug!("unable to generate ALT code as the buffer is empty");
+         return None;
+     }
+ 
+-    if !buffer.chars().all(char::is_numeric) {
++    if  /* ~ changed by cargo-mutants ~ */buffer.chars().all(char::is_numeric) {
+         debug!("unable to generate ALT code as some of the buffer chars are not numeric");
+         return None;
+     }
+ 
+     // According to: https://en.wikipedia.org/wiki/Alt_code
+     // The conversion works as follow:
+     // * If the number is smaller than 256 and does not start with 0, then we use a patched version of the CP437 encoding
+     // * If the number is smaller than 256 and starts with 0 we use the CP1252 encoding

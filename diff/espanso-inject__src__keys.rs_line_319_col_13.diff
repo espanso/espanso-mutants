@@ -1,0 +1,21 @@
+--- espanso-inject/src/keys.rs
++++ delete match arm
+@@ -311,17 +311,17 @@
+             "8" => Some(Key::N8),
+             "9" => Some(Key::N9),
+             "NUMPAD0" => Some(Key::Numpad0),
+             "NUMPAD1" => Some(Key::Numpad1),
+             "NUMPAD2" => Some(Key::Numpad2),
+             "NUMPAD3" => Some(Key::Numpad3),
+             "NUMPAD4" => Some(Key::Numpad4),
+             "NUMPAD5" => Some(Key::Numpad5),
+-            "NUMPAD6" => Some(Key::Numpad6),
++             /* ~ changed by cargo-mutants ~ */
+             "NUMPAD7" => Some(Key::Numpad7),
+             "NUMPAD8" => Some(Key::Numpad8),
+             "NUMPAD9" => Some(Key::Numpad9),
+             _ => None,
+         };
+ 
+         if parsed.is_none() {
+             // Attempt to parse raw keys

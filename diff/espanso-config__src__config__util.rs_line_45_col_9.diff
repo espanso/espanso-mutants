@@ -1,0 +1,21 @@
+--- espanso-config/src/config/util.rs
++++ delete match arm
+@@ -37,17 +37,17 @@
+     }
+   };
+ }
+ 
+ pub fn os_matches(os: &str) -> bool {
+     match os {
+         "macos" => cfg!(target_os = "macos"),
+         "windows" => cfg!(target_os = "windows"),
+-        "linux" => cfg!(target_os = "linux"),
++         /* ~ changed by cargo-mutants ~ */
+         _ => false,
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+ 

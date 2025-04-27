@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace == with != in is_event_of_interest
+@@ -202,17 +202,17 @@
+                     keyboard_event.key,
+                     Key::Alt | Key::Shift | Key::CapsLock | Key::Meta | Key::NumLock | Key::Control
+                 )
+             } else {
+                 // Skip non-press events
+                 false
+             }
+         }
+-        EventType::Mouse(mouse_event) => mouse_event.status == Status::Pressed,
++        EventType::Mouse(mouse_event) => mouse_event.status != /* ~ changed by cargo-mutants ~ */ Status::Pressed,
+         EventType::MatchInjected => true,
+         _ => false,
+     }
+ }
+ 
+ fn convert_to_matcher_event(event_type: &EventType) -> Option<MatcherEvent> {
+     match event_type {
+         EventType::Keyboard(keyboard_event) => Some(MatcherEvent::Key {

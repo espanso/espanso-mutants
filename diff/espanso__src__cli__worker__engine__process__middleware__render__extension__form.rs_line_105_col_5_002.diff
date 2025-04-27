@@ -1,0 +1,45 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/extension/form.rs
++++ replace extract_values -> Option<Vec<String>> with Some(vec!["xyzzy".into()])
+@@ -97,41 +97,10 @@
+         } else {
+             error!("malformed form field format for '{}'", name);
+         }
+     }
+     out
+ }
+ 
+ fn extract_values(value: &Value, trim_string_values: Option<&Value>) -> Option<Vec<String>> {
+-    let trim_string_values = *trim_string_values
+-        .and_then(|v| v.as_bool())
+-        .unwrap_or(&true);
+-
+-    match value {
+-        Value::Array(values) => Some(
+-            values
+-                .iter()
+-                .filter_map(|choice| choice.as_string())
+-                .cloned()
+-                .collect(),
+-        ),
+-        Value::String(values) => Some(
+-            values
+-                .lines()
+-                .filter_map(|line| {
+-                    if trim_string_values {
+-                        let trimmed_line = line.trim();
+-                        if trimmed_line.is_empty() {
+-                            None
+-                        } else {
+-                            Some(trimmed_line)
+-                        }
+-                    } else {
+-                        Some(line)
+-                    }
+-                })
+-                .map(String::from)
+-                .collect(),
+-        ),
+-        _ => None,
+-    }
++    Some(vec!["xyzzy".into()]) /* ~ changed by cargo-mutants ~ */
+ }

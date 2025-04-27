@@ -1,0 +1,35 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ delete match arm
+@@ -110,31 +110,17 @@
+                     event.source_id,
+                     EventType::KeySequenceInject(KeySequenceInjectRequest {
+                         keys: (0..m_event.cursor_hint_back_count)
+                             .map(|_| Key::ArrowLeft)
+                             .collect(),
+                     }),
+                 )
+             }
+-            EventType::TriggerCompensation(m_event) => {
+-                let mut backspace_count = m_event.trigger.chars().count();
+-
+-                // We want to preserve the left separator if present
+-                if let Some(left_separator) = &m_event.left_separator {
+-                    backspace_count -= left_separator.chars().count();
+-                }
+-
+-                Event::caused_by(
+-                    event.source_id,
+-                    EventType::KeySequenceInject(KeySequenceInjectRequest {
+-                        keys: (0..backspace_count).map(|_| Key::Backspace).collect(),
+-                    }),
+-                )
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             EventType::Undo(m_event) => {
+                 // We subtract one, because the backspace that triggered the undo feature
+                 // already removed the last char
+                 let backspace_count = m_event.replace.chars().count() - 1;
+ 
+                 dispatch(Event::caused_by(
+                     event.source_id,
+                     EventType::TextInject(TextInjectRequest {

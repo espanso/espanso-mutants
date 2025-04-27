@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace == with != in Device::process_event
+@@ -155,17 +155,17 @@
+         let keycode: xkb_keycode_t = EVDEV_OFFSET as u32 + code as u32;
+         let keymap = unsafe { xkb_state_get_keymap(self.get_state()) };
+ 
+         if value == KEY_STATE_REPEAT && unsafe { xkb_keymap_key_repeats(keymap, keycode) } == 0 {
+             return None;
+         }
+ 
+         let sym = unsafe { xkb_state_key_get_one_sym(self.get_state(), keycode) };
+-        if sym == 0 {
++        if sym != /* ~ changed by cargo-mutants ~ */ 0 {
+             return None;
+         }
+ 
+         // Extract the utf8 char
+         let mut buffer: [c_char; 16] = [0; 16];
+         unsafe {
+             xkb_state_key_get_utf8(
+                 self.get_state(),

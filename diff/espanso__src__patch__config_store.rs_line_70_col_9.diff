@@ -1,0 +1,32 @@
+--- espanso/src/patch/config_store.rs
++++ replace <impl ConfigStore for PatchedConfigStore>::active -> Arc<dyn Config> with Arc::new(Default::default())
+@@ -62,28 +62,17 @@
+ }
+ 
+ impl ConfigStore for PatchedConfigStore {
+     fn default(&self) -> Arc<dyn Config> {
+         self.config_store.default()
+     }
+ 
+     fn active(&self, app: &espanso_config::config::AppProperties) -> Arc<dyn Config> {
+-        let active_config = self.config_store.active(app);
+-
+-        if !active_config.apply_patch() {
+-            return active_config;
+-        }
+-
+-        // Check if a patch should be applied
+-        if let Some(patch) = self.patches.iter().find(|patch| (patch.should_patch)(app)) {
+-            (patch.apply)(active_config, patch.name)
+-        } else {
+-            active_config
+-        }
++        Arc::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn configs(&self) -> Vec<Arc<dyn Config>> {
+         self.config_store.configs()
+     }
+ 
+     fn get_all_match_paths(&self) -> std::collections::HashSet<String> {
+         self.config_store.get_all_match_paths()

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -437,17 +437,17 @@
+         0x0F => Some(0x000F), // #SHIFT IN
+         0x10 => Some(0x0010), // #DATA LINK ESCAPE
+         0x11 => Some(0x0011), // #DEVICE CONTROL ONE
+         0x12 => Some(0x0012), // #DEVICE CONTROL TWO
+         0x13 => Some(0x0013), // #DEVICE CONTROL THREE
+         0x14 => Some(0x0014), // #DEVICE CONTROL FOUR
+         0x15 => Some(0x0015), // #NEGATIVE ACKNOWLEDGE
+         0x16 => Some(0x0016), // #SYNCHRONOUS IDLE
+-        0x17 => Some(0x0017), // #END OF TRANSMISSION BLOCK
++         /* ~ changed by cargo-mutants ~ */ // #END OF TRANSMISSION BLOCK
+         0x18 => Some(0x0018), // #CANCEL
+         0x19 => Some(0x0019), // #END OF MEDIUM
+         0x1A => Some(0x001A), // #SUBSTITUTE
+         0x1B => Some(0x001B), // #ESCAPE
+         0x1C => Some(0x001C), // #FILE SEPARATOR
+         0x1D => Some(0x001D), // #GROUP SEPARATOR
+         0x1E => Some(0x001E), // #RECORD SEPARATOR
+         0x1F => Some(0x001F), // #UNIT SEPARATOR

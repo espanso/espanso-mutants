@@ -1,0 +1,41 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl UIRemote for Win32Remote>::show_context_menu with ()
+@@ -293,37 +293,17 @@
+ 
+     fn show_notification(&self, message: &str) {
+         if let Err(err) = notification::show_notification(message) {
+             error!("Unable to show notification: {}", err);
+         }
+     }
+ 
+     fn show_context_menu(&self, menu: &Menu) {
+-        let handle = self.handle.load(Ordering::Acquire);
+-        if handle.is_null() {
+-            error!("Unable to show context menu, pointer is null");
+-            return;
+-        }
+-
+-        match menu.to_json() {
+-            Ok(payload) => {
+-                let c_string = CString::new(payload);
+-                match c_string {
+-                    Ok(c_string) => unsafe { ui_show_context_menu(handle, c_string.as_ptr()) },
+-                    Err(error) => error!(
+-            "Unable to show context menu, impossible to convert payload to c_string: {}",
+-            error
+-          ),
+-                }
+-            }
+-            Err(error) => {
+-                error!("Unable to show context menu, {}", error);
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn exit(&self) {
+         let handle = self.handle.load(Ordering::Acquire);
+         if handle.is_null() {
+             error!("Unable to exit eventloop, pointer is null");
+             return;
+         }

@@ -1,0 +1,29 @@
+--- espanso-config/src/config/mod.rs
++++ replace <impl std::fmt::Display for RMLVOConfig>::fmt -> std::fmt::Result with Ok(Default::default())
+@@ -322,25 +322,17 @@
+     pub model: Option<String>,
+     pub layout: Option<String>,
+     pub variant: Option<String>,
+     pub options: Option<String>,
+ }
+ 
+ impl std::fmt::Display for RMLVOConfig {
+     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+-        write!(
+-            f,
+-            "[R={}, M={}, L={}, V={}, O={}]",
+-            self.rules.as_deref().unwrap_or_default(),
+-            self.model.as_deref().unwrap_or_default(),
+-            self.layout.as_deref().unwrap_or_default(),
+-            self.variant.as_deref().unwrap_or_default(),
+-            self.options.as_deref().unwrap_or_default(),
+-        )
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub fn load_store(config_dir: &Path) -> Result<(impl ConfigStore, Vec<NonFatalErrorSet>)> {
+     store::DefaultConfigStore::load(config_dir)
+ }
+ 
+ #[derive(Error, Debug)]

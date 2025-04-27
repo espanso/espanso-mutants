@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/mod.rs
++++ delete ! in init_and_spawn
+@@ -117,17 +117,17 @@
+         error!("detection thread initialization failed: {:?}", error);
+         return Err(DetectSourceError::ThreadInitFailed.into());
+     }
+ 
+     // Wait for the initialization status
+     let has_initialized = init_rx
+         .recv()
+         .expect("unable to receive from the init_rx channel");
+-    if !has_initialized {
++    if  /* ~ changed by cargo-mutants ~ */has_initialized {
+         return Err(DetectSourceError::InitFailed.into());
+     }
+ 
+     Ok((
+         DetectSource { receiver },
+         modifier_state_store,
+         sequencer,
+         key_state_store,

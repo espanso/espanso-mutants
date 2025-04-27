@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ replace show::backup_and_migrate -> c_int with Default::default()
+@@ -44,17 +44,17 @@
+     let (_c_accessibility_image_2_path, c_accessibility_image_2_path_ptr) =
+         convert_to_cstring_or_null(options.accessibility_image_2_path);
+ 
+     extern "C" fn is_legacy_version_running() -> c_int {
+         -1
+     }
+ 
+     extern "C" fn backup_and_migrate() -> c_int {
+-        3 // WIZARD_MIGRATE_RESULT_UNKNOWN_FAILURE
++        Default::default() /* ~ changed by cargo-mutants ~ */ // WIZARD_MIGRATE_RESULT_UNKNOWN_FAILURE
+     }
+ 
+     extern "C" fn auto_start(auto_start: c_int) -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in auto_start method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.auto_start.as_ref() {

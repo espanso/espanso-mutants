@@ -1,0 +1,23 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/icon.rs
++++ replace <impl IconHandler for IconHandlerAdapter<'_>>::update_icon -> anyhow::Result<()> with Ok(())
+@@ -28,19 +28,11 @@
+ impl<'a> IconHandlerAdapter<'a> {
+     pub fn new(remote: &'a dyn UIRemote) -> Self {
+         Self { remote }
+     }
+ }
+ 
+ impl IconHandler for IconHandlerAdapter<'_> {
+     fn update_icon(&self, status: &IconStatus) -> anyhow::Result<()> {
+-        let icon = match status {
+-            IconStatus::Enabled => TrayIcon::Normal,
+-            IconStatus::Disabled => TrayIcon::Disabled,
+-            IconStatus::SecureInputDisabled => TrayIcon::SystemDisabled,
+-        };
+-
+-        self.remote.update_tray_icon(icon);
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

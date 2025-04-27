@@ -1,0 +1,21 @@
+--- espanso/src/gui/modulo/manager.rs
++++ delete ! in ModuloManager::invoke
+@@ -96,17 +96,17 @@
+                             Ok(()) => {
+                                 // Get the output
+                                 match child.wait_with_output() {
+                                     Ok(child_output) => {
+                                         let output = String::from_utf8_lossy(&child_output.stdout);
+ 
+                                         // Check also if the program reports an error
+                                         let error = String::from_utf8_lossy(&child_output.stderr);
+-                                        if !error.is_empty() {
++                                        if  /* ~ changed by cargo-mutants ~ */error.is_empty() {
+                                             error!("modulo reported an error: {}", error);
+                                         }
+ 
+                                         if !child_output.status.success() {
+                                             error!(
+                                                 "modulo exited with non-zero status code: {:?}",
+                                                 child_output.status.code()
+                                             );

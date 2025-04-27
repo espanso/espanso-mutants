@@ -1,0 +1,32 @@
+--- espanso-modulo/src/form/config.rs
++++ delete match arm
+@@ -131,28 +131,17 @@
+                 };
+ 
+                 if let Some(default) = &other.default {
+                     config.default.clone_from(default);
+                 }
+ 
+                 FieldTypeConfig::Choice(config)
+             }
+-            "list" => {
+-                let mut config = ListFieldConfig {
+-                    values: other.values.clone(),
+-                    ..Default::default()
+-                };
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                FieldTypeConfig::List(config)
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             _ => {
+                 panic!("invalid field type: {}", other.field_type);
+             }
+         };
+ 
+         Self { field_type }
+     }
+ }

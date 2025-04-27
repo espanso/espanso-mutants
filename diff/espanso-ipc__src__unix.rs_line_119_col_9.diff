@@ -1,0 +1,37 @@
+--- espanso-ipc/src/unix.rs
++++ replace <impl IPCClient<Event> for UnixIPCClient>::send_sync -> Result<Event> with Ok(Default::default())
+@@ -111,33 +111,17 @@
+         let stream = UnixStream::connect(socket_path)?;
+ 
+         Ok(Self { stream })
+     }
+ }
+ 
+ impl<Event: Serialize + DeserializeOwned> IPCClient<Event> for UnixIPCClient {
+     fn send_sync(&mut self, event: Event) -> Result<Event> {
+-        {
+-            let mut json_event = serde_json::to_string(&event)?;
+-            json_event.push('\n');
+-            self.stream.write_all(json_event.as_bytes())?;
+-            self.stream.flush()?;
+-        }
+-
+-        // Read the response
+-        if let Some(line) = read_line(&mut self.stream)? {
+-            let event: Result<Event, serde_json::Error> = serde_json::from_str(&line);
+-            match event {
+-                Ok(response) => Ok(response),
+-                Err(err) => Err(IPCClientError::MalformedResponse(err.into()).into()),
+-            }
+-        } else {
+-            Err(IPCClientError::EmptyResponse.into())
+-        }
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_async(&mut self, event: Event) -> Result<()> {
+         let mut json_event = serde_json::to_string(&event)?;
+         json_event.push('\n');
+         self.stream.write_all(json_event.as_bytes())?;
+         self.stream.flush()?;
+ 

@@ -1,0 +1,28 @@
+--- espanso-inject/src/evdev/state.rs
++++ replace State::update_key with ()
+@@ -32,24 +32,17 @@
+         }
+ 
+         Ok(Self {
+             state: ScopeGuard::into_inner(state),
+         })
+     }
+ 
+     pub fn update_key(&self, code: u32, pressed: bool) {
+-        let direction = if pressed {
+-            super::ffi::xkb_key_direction::DOWN
+-        } else {
+-            super::ffi::xkb_key_direction::UP
+-        };
+-        unsafe {
+-            xkb_state_update_key(self.state, code, direction);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get_string(&self, code: u32) -> Option<String> {
+         let mut buffer: [c_char; 16] = [0; 16];
+         let len = unsafe {
+             xkb_state_key_get_utf8(
+                 self.state,
+                 code,

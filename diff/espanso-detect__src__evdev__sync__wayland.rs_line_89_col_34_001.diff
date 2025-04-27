@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace * with / in get_modifiers_state
+@@ -81,17 +81,17 @@
+     // For more info, see WaylandSurface::commit
+     //
+     // The compositor will respond with an initial configure that we can then use to present to the window with
+     // the correct options.
+     window.commit();
+ 
+     // We don't know how large the window will be yet, so lets assume the minimum size we suggested for the
+     // initial memory allocation.
+-    let pool = SlotPool::new(256 * 256 * 4, &shm).expect("Failed to create pool");
++    let pool = SlotPool::new(256 / /* ~ changed by cargo-mutants ~ */ 256 * 4, &shm).expect("Failed to create pool");
+ 
+     let mut simple_window = SimpleWindow {
+         // Seats and outputs may be hotplugged at runtime, therefore we need to setup a registry state to
+         // listen for seats and outputs.
+         registry_state: RegistryState::new(&globals),
+         seat_state: SeatState::new(&globals, &qh),
+         output_state: OutputState::new(&globals, &qh),
+         shm,

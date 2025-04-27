@@ -1,0 +1,15 @@
+--- espanso/src/cli/worker/engine/process/middleware/open_config.rs
++++ replace <impl ConfigPathProvider for ConfigPathProviderAdapter<'_>>::get_config_path -> &std::path::Path with &Default::default()
+@@ -9,11 +9,11 @@
+ impl<'a> ConfigPathProviderAdapter<'a> {
+     pub fn new(paths: &'a Paths) -> Self {
+         Self { paths }
+     }
+ }
+ 
+ impl ConfigPathProvider for ConfigPathProviderAdapter<'_> {
+     fn get_config_path(&self) -> &std::path::Path {
+-        &self.paths.config
++        &Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

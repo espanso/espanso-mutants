@@ -1,0 +1,24 @@
+--- espanso/src/path/win.rs
++++ replace write_user_path_value -> Result<()> with Ok(())
+@@ -65,20 +65,17 @@
+ 
+ fn read_paths() -> Vec<String> {
+     let path_value = read_user_path_value().unwrap_or_default();
+     let paths = path_value.split(';');
+     paths.map(String::from).collect()
+ }
+ 
+ fn write_user_path_value(value: String) -> Result<()> {
+-    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+-    let env = hkcu.open_subkey_with_flags("Environment", KEY_ALL_ACCESS)?;
+-    env.set_value("Path", &value)?;
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn send_change_broadcast() {
+     let wide_string = widestring::WideString::from("Environment".to_string());
+ 
+     unsafe {
+         // a null ptr
+         let res = std::ptr::null_mut::<usize>();

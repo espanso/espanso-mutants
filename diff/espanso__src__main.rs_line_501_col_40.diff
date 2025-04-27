@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ replace == with != in main
+@@ -493,17 +493,17 @@
+ 
+     let alias = ALIASES
+         .iter()
+         .find(|cli| matches.subcommand_matches(&cli.subcommand).is_some());
+ 
+     let mut handler = if let Some(alias) = alias {
+         CLI_HANDLERS
+             .iter()
+-            .find(|cli| cli.subcommand == alias.forward_into)
++            .find(|cli| cli.subcommand != /* ~ changed by cargo-mutants ~ */ alias.forward_into)
+     } else {
+         CLI_HANDLERS
+             .iter()
+             .find(|cli| matches.subcommand_matches(&cli.subcommand).is_some())
+     };
+ 
+     if handler.is_none() {
+         // When started from the macOS App Bundle, override the default

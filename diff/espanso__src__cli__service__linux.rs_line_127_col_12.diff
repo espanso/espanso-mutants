@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in is_registered
+@@ -119,17 +119,17 @@
+     SystemdCallFailed(anyhow::Error),
+ }
+ 
+ pub fn is_registered() -> bool {
+     let res = Command::new("systemctl")
+         .args(["--user", "is-enabled", LINUX_SERVICE_NAME])
+         .output();
+     if let Ok(output) = res {
+-        if !output.status.success() {
++        if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+             return false;
+         }
+ 
+         // Make sure the systemd service points to the right binary
+         static EXEC_PATH_REGEX: LazyLock<Regex> =
+             LazyLock::new(|| Regex::new("ExecStart=(?P<path>.*?)\\s").unwrap());
+ 
+         match Command::new("systemctl")

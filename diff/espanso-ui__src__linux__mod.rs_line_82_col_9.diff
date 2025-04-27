@@ -1,0 +1,22 @@
+--- espanso-ui/src/linux/mod.rs
++++ replace <impl UIRemote for LinuxRemote>::exit with ()
+@@ -74,18 +74,17 @@
+         }
+     }
+ 
+     fn show_context_menu(&self, _: &crate::menu::Menu) {
+         // NOOP on linux
+     }
+ 
+     fn exit(&self) {
+-        self.stop()
+-            .expect("unable to send termination signal to ui eventloop");
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub struct LinuxEventLoop {
+     rx: Receiver<()>,
+ }
+ 
+ impl LinuxEventLoop {

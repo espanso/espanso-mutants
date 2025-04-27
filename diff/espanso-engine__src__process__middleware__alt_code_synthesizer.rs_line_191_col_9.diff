@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -183,17 +183,17 @@
+         44 => Some(0x002C),  // Comma, decimal separator
+         45 => Some(0x002D),  // Hyphen, minus sign
+         46 => Some(0x002E),  // Full stop, period, dot, decimal point
+         47 => Some(0x002F),  // Solidus, slash, forward slash, virgule
+         48 => Some(0x0030),  // Digit zero
+         49 => Some(0x0031),  // Digit one
+         50 => Some(0x0032),  // Digit two
+         51 => Some(0x0033),  // Digit three
+-        52 => Some(0x0034),  // Digit four
++         /* ~ changed by cargo-mutants ~ */  // Digit four
+         53 => Some(0x0035),  // Digit five
+         54 => Some(0x0036),  // Digit six
+         55 => Some(0x0037),  // Digit seven
+         56 => Some(0x0038),  // Digit eight
+         57 => Some(0x0039),  // Digit nine
+         58 => Some(0x003A),  // Colon
+         59 => Some(0x003B),  // Semicolon
+         60 => Some(0x003C),  // Less-than sign

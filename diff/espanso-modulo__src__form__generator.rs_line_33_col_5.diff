@@ -1,0 +1,55 @@
+--- espanso-modulo/src/form/generator.rs
++++ replace create_field -> Field with Default::default()
+@@ -25,51 +25,17 @@
+ use std::collections::HashMap;
+ 
+ pub fn generate(config: FormConfig) -> Form {
+     let structure = super::parser::layout::parse_layout(&config.layout);
+     build_form(config, structure)
+ }
+ 
+ fn create_field(token: &Token, field_map: &HashMap<String, FieldConfig>) -> Field {
+-    match token {
+-        Token::Text(text) => Field {
+-            field_type: FieldType::Label(LabelMetadata { text: text.clone() }),
+-            ..Default::default()
+-        },
+-        Token::Field(name) => {
+-            let config = if let Some(config) = field_map.get(name) {
+-                config.clone()
+-            } else {
+-                FieldConfig::default()
+-            };
+-
+-            let field_type = match &config.field_type {
+-                FieldTypeConfig::Text(config) => FieldType::Text(TextMetadata {
+-                    default_text: config.default.clone(),
+-                    multiline: config.multiline,
+-                }),
+-                FieldTypeConfig::Choice(config) => FieldType::Choice(ChoiceMetadata {
+-                    values: config.values.clone(),
+-                    choice_type: ChoiceType::Dropdown,
+-                    default_value: config.default.clone(),
+-                }),
+-                FieldTypeConfig::List(config) => FieldType::Choice(ChoiceMetadata {
+-                    values: config.values.clone(),
+-                    choice_type: ChoiceType::List,
+-                    default_value: config.default.clone(),
+-                }),
+-            };
+-
+-            Field {
+-                id: Some(name.clone()),
+-                field_type,
+-            }
+-        }
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn build_form(form: FormConfig, structure: Vec<Vec<Token>>) -> Form {
+     let field_map = form.fields;
+     let mut fields = Vec::new();
+ 
+     for row in &structure {
+         let current_field = if row.len() == 1 {

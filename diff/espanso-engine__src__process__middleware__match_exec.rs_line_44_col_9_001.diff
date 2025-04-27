@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/match_exec.rs
++++ replace <impl Middleware for MatchExecRequestMiddleware<'_>>::name -> &'static str with "xyzzy"
+@@ -36,17 +36,17 @@
+ impl<'a> MatchExecRequestMiddleware<'a> {
+     pub fn new(match_resolver: &'a dyn MatchResolver) -> Self {
+         Self { match_resolver }
+     }
+ }
+ 
+ impl Middleware for MatchExecRequestMiddleware<'_> {
+     fn name(&self) -> &'static str {
+-        "match_exec_request"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::MatchExecRequest(m_event) = &event.etype {
+             let mut matches = if let Some(trigger) = &m_event.trigger {
+                 self.match_resolver.find_matches_from_trigger(trigger)
+             } else {
+                 Vec::new()

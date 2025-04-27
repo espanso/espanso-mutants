@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace != with == in X11DefaultInjector::find_deadkeys
+@@ -281,17 +281,17 @@
+                             &mut event,
+                             buffer.as_mut_ptr(),
+                             (buffer.len() - 1) as i32,
+                             &mut sym,
+                             std::ptr::null_mut(),
+                         )
+                     };
+ 
+-                    if sym != 0 && !seen_keysyms.contains(&sym) {
++                    if sym == /* ~ changed by cargo-mutants ~ */ 0 && !seen_keysyms.contains(&sym) {
+                         let key_record = KeyPair {
+                             code: code_with_offset,
+                             state: modifier_state,
+                         };
+                         deadkeys.push(Some(key_record));
+                         seen_keysyms.insert(sym);
+                     }
+                 }

@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace && with || in <impl Config for ResolvedConfig>::is_match
+@@ -116,17 +116,17 @@
+             } else {
+                 false
+             }
+         } else {
+             true
+         };
+ 
+         // All the filters that have been specified must be true to define a match
+-        is_os_match && is_exec_match && is_title_match && is_class_match
++        is_os_match || /* ~ changed by cargo-mutants ~ */ is_exec_match && is_title_match && is_class_match
+     }
+ 
+     fn backend(&self) -> Backend {
+         match self
+             .parsed
+             .backend
+             .as_deref()
+             .map(str::to_lowercase)

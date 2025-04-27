@@ -1,0 +1,21 @@
+--- espanso/src/path/linux.rs
++++ delete ! in add_espanso_to_path
+@@ -24,17 +24,17 @@
+ pub fn is_espanso_in_path() -> bool {
+     PathBuf::from("/usr/local/bin/espanso").is_file()
+ }
+ 
+ pub fn add_espanso_to_path(_: bool) -> Result<()> {
+     let target_link_dir = PathBuf::from("/usr/local/bin");
+     let exec_path = get_binary_path()?;
+ 
+-    if !target_link_dir.is_dir() {
++    if  /* ~ changed by cargo-mutants ~ */target_link_dir.is_dir() {
+         return Err(PathError::UsrLocalBinDirDoesNotExist.into());
+     }
+ 
+     let target_link_path = target_link_dir.join("espanso");
+ 
+     if let Err(error) = std::os::unix::fs::symlink(exec_path, target_link_path) {
+         return Err(PathError::SymlinkError(error).into());
+     }

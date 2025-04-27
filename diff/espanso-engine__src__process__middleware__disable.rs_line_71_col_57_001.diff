@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ replace < with == in <impl Middleware for DisableMiddleware>::next
+@@ -63,17 +63,17 @@
+         let mut enabled = self.enabled.borrow_mut();
+ 
+         match &event.etype {
+             EventType::Keyboard(m_event) => {
+                 if m_event.status == Status::Released {
+                     let mut last_toggle_press = self.last_toggle_press.borrow_mut();
+                     if is_toggle_key(m_event, &self.options) {
+                         if let Some(previous_press) = *last_toggle_press {
+-                            if previous_press.elapsed() < self.options.toggle_key_maximum_window {
++                            if previous_press.elapsed() == /* ~ changed by cargo-mutants ~ */ self.options.toggle_key_maximum_window {
+                                 *enabled = !*enabled;
+                                 *last_toggle_press = None;
+                                 has_status_changed = true;
+                             } else {
+                                 *last_toggle_press = Some(Instant::now());
+                             }
+                         } else {
+                             *last_toggle_press = Some(Instant::now());

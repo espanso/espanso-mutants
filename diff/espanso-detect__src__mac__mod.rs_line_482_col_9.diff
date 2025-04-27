@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -474,17 +474,17 @@
+         _ => (Other(key_code), None),
+     }
+ }
+ 
+ fn raw_to_mouse_button(raw: i32) -> Option<MouseButton> {
+     match raw {
+         INPUT_MOUSE_LEFT_BUTTON => Some(MouseButton::Left),
+         INPUT_MOUSE_RIGHT_BUTTON => Some(MouseButton::Right),
+-        INPUT_MOUSE_MIDDLE_BUTTON => Some(MouseButton::Middle),
++         /* ~ changed by cargo-mutants ~ */
+         _ => None,
+     }
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use std::ffi::CString;
+ 

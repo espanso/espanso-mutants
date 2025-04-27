@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ replace == with != in <impl Middleware for AltCodeSynthesizerMiddleware<'_>>::next
+@@ -73,17 +73,17 @@
+                             Key::Numpad5 => buffer.push('5'),
+                             Key::Numpad6 => buffer.push('6'),
+                             Key::Numpad7 => buffer.push('7'),
+                             Key::Numpad8 => buffer.push('8'),
+                             Key::Numpad9 => buffer.push('9'),
+                             _ => {}
+                         }
+                     }
+-                } else if keyboard_event.key == Key::Alt {
++                } else if keyboard_event.key != /* ~ changed by cargo-mutants ~ */ Key::Alt {
+                     if let Some(codes) = &*code_buffer {
+                         if let Some(target_char) = convert_buffer_into_char(codes) {
+                             dispatch(Event::caused_by(
+                                 event.source_id,
+                                 EventType::TextInject(TextInjectRequest {
+                                     text: target_char,
+                                     ..Default::default()
+                                 }),

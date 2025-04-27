@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/x11/xclip/mod.rs
++++ delete match arm
+@@ -89,17 +89,17 @@
+             bail!("attempted to use XClipClipboard, but `xclip` command can't be called");
+         }
+ 
+         let extension = image_path.extension();
+         let mime = match extension {
+             Some(ext) => {
+                 let ext = ext.to_string_lossy().to_lowercase();
+                 match ext.as_ref() {
+-                    "png" => "image/png",
++                     /* ~ changed by cargo-mutants ~ */
+                     "jpg" | "jpeg" => "image/jpeg",
+                     "gif" => "image/gif",
+                     "svg" => "image/svg",
+                     _ => "image/png",
+                 }
+             }
+             None => "image/png",
+         };

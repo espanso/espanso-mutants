@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ replace > with < in <impl Clipboard for Win32Clipboard>::set_image
+@@ -71,17 +71,17 @@
+     ) -> anyhow::Result<()> {
+         if !image_path.exists() || !image_path.is_file() {
+             return Err(Win32ClipboardError::ImageNotFound(image_path.to_path_buf()).into());
+         }
+ 
+         let path = U16CString::from_os_str(image_path.as_os_str())?;
+         let native_result = unsafe { ffi::clipboard_set_image(path.as_ptr()) };
+ 
+-        if native_result > 0 {
++        if native_result < /* ~ changed by cargo-mutants ~ */ 0 {
+             Ok(())
+         } else {
+             Err(Win32ClipboardError::SetOperationFailed().into())
+         }
+     }
+ 
+     fn set_html(
+         &self,

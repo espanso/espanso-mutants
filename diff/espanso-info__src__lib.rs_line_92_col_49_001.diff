@@ -1,0 +1,14 @@
+--- espanso-info/src/lib.rs
++++ replace > with == in expansion_is_in_progress
+@@ -84,10 +84,10 @@
+     if EXPANSION_NUM_EVENTS_REMAINING.fetch_sub(1, SeqCst) == 0 {
+         // Defensively do saturating subtract. Events may have been added, so can't unconditionally
+         // store 0.
+         let _ = EXPANSION_NUM_EVENTS_REMAINING.compare_exchange(usize::MAX, 0, SeqCst, SeqCst);
+     }
+ }
+ #[cfg(target_os = "windows")]
+ pub fn expansion_is_in_progress() -> bool {
+-    EXPANSION_NUM_EVENTS_REMAINING.load(SeqCst) > 0
++    EXPANSION_NUM_EVENTS_REMAINING.load(SeqCst) == /* ~ changed by cargo-mutants ~ */ 0
+ }

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -385,17 +385,17 @@
+         246 => Some(0x00F7), // Division sign, obelus
+         247 => Some(0x2248), // Almost equal to, asymptotic to
+         248 => Some(0x00B0), // Degree sign
+         249 => Some(0x2219), // Bullet operator
+         250 => Some(0x00B7), // Middle dot, midpoint (in typography), interpunct, Georgian comma, Greek ano teleia
+         251 => Some(0x221A), // Square root, radical sign
+         252 => Some(0x207F), // Superscript Latin small letter n
+         253 => Some(0x00B2), // Superscript two, squared
+-        254 => Some(0x25A0), // Black square
++         /* ~ changed by cargo-mutants ~ */ // Black square
+         255 => Some(0x00A0), // No-break space, non-breaking space, nbsp
+         _ => None,
+     }
+ }
+ 
+ // Taken from here: https://unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WINDOWS/CP1252.TXT
+ /*
+ #

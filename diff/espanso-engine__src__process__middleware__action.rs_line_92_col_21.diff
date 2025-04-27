@@ -1,0 +1,26 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ delete match arm
+@@ -84,22 +84,17 @@
+                             }),
+                             TextFormat::Markdown => {
+                                 EventType::MarkdownInject(MarkdownInjectRequest {
+                                     markdown: m_event.body.clone(),
+                                 })
+                             }
+                         },
+                     ),
+-                    EventType::ImageResolved(m_event) => Event::caused_by(
+-                        event.source_id,
+-                        EventType::ImageInject(ImageInjectRequest {
+-                            image_path: m_event.image_path.clone(),
+-                        }),
+-                    ),
++                     /* ~ changed by cargo-mutants ~ */
+                     _ => unreachable!(),
+                 }
+             }
+             EventType::CursorHintCompensation(m_event) => {
+                 dispatch(Event::caused_by(
+                     event.source_id,
+                     EventType::DiscardPrevious(DiscardPreviousEvent {
+                         minimum_source_id: self.event_sequence_provider.get_next_id(),

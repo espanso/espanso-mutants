@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace == with != in X11DefaultInjector::find_deadkeys
+@@ -266,17 +266,17 @@
+                     x: 1,
+                     y: 1,
+                     subwindow: 0,
+                     serial: 0,
+                     send_event: 0,
+                 };
+ 
+                 let filter = unsafe { XFilterEvent(&mut event, 0) };
+-                if filter == 1 {
++                if filter != /* ~ changed by cargo-mutants ~ */ 1 {
+                     let mut sym: KeySym = 0;
+                     let mut buffer: [c_char; 10] = [0; 10];
+ 
+                     unsafe {
+                         Xutf8LookupString(
+                             *input_context,
+                             &mut event,
+                             buffer.as_mut_ptr(),

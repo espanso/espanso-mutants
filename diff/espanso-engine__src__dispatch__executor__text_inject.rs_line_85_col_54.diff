@@ -1,0 +1,21 @@
+--- espanso-engine/src/dispatch/executor/text_inject.rs
++++ replace > with == in <impl Executor for TextInjectExecutor<'_>>::execute
+@@ -77,17 +77,17 @@
+             } else if let Mode::Clipboard = active_mode {
+                 self.clipboard_injector
+             } else if let Mode::Event = active_mode {
+                 self.event_injector
+             } else if let Mode::Auto {
+                 clipboard_threshold,
+             } = active_mode
+             {
+-                if inject_event.text.chars().count() > clipboard_threshold {
++                if inject_event.text.chars().count() == /* ~ changed by cargo-mutants ~ */ clipboard_threshold {
+                     self.clipboard_injector
+                 } else if cfg!(target_os = "linux") {
+                     if inject_event.text.is_ascii() {
+                         self.event_injector
+                     } else {
+                         self.clipboard_injector
+                     }
+                 } else {

@@ -1,0 +1,23 @@
+--- espanso-ui/src/win32/mod.rs
++++ delete match arm
+@@ -334,19 +334,17 @@
+ 
+ #[allow(clippy::single_match)] // TODO: remove after another match is used
+ impl From<RawUIEvent> for Option<UIEvent> {
+     fn from(raw: RawUIEvent) -> Option<UIEvent> {
+         match raw.event_type {
+             UI_EVENT_TYPE_ICON_CLICK => {
+                 return Some(UIEvent::TrayIconClick);
+             }
+-            UI_EVENT_TYPE_CONTEXT_MENU_CLICK => {
+-                return Some(UIEvent::ContextMenuClick(raw.context_menu_id));
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             UI_EVENT_TYPE_HEARTBEAT => {
+                 return Some(UIEvent::Heartbeat);
+             }
+             _ => {}
+         }
+ 
+         None
+     }

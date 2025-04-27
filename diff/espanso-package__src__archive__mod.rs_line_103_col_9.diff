@@ -1,0 +1,29 @@
+--- espanso-package/src/archive/mod.rs
++++ replace <impl From<&PackageSpecifier> for PackageSource>::from -> Self with Default::default()
+@@ -95,25 +95,17 @@
+                 use_native_git: _,
+             } => write!(f, "git: {repo_url}"),
+         }
+     }
+ }
+ 
+ impl From<&PackageSpecifier> for PackageSource {
+     fn from(package: &PackageSpecifier) -> Self {
+-        if let Some(git_repo_url) = package.git_repo_url.as_deref() {
+-            Self::Git {
+-                repo_url: git_repo_url.to_string(),
+-                repo_branch: package.git_branch.clone(),
+-                use_native_git: package.use_native_git,
+-            }
+-        } else {
+-            Self::Hub
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl From<&ArchivedPackage> for PackageSpecifier {
+     fn from(package: &ArchivedPackage) -> Self {
+         match &package.source {
+             PackageSource::Hub => PackageSpecifier {
+                 name: package.manifest.name.to_string(),

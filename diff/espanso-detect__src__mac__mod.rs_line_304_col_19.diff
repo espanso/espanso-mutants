@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace |= with &= in convert_hotkey_to_raw
+@@ -296,17 +296,17 @@
+     let key_code = hk.key.to_code()?;
+     let code: Result<u16, _> = key_code.try_into();
+     if let Ok(code) = code {
+         let mut flags = 0;
+         if hk.has_ctrl() {
+             flags |= 1 << 12;
+         }
+         if hk.has_alt() {
+-            flags |= 1 << 11;
++            flags &= /* ~ changed by cargo-mutants ~ */ 1 << 11;
+         }
+         if hk.has_meta() {
+             flags |= 1 << 8;
+         }
+         if hk.has_shift() {
+             flags |= 1 << 9;
+         }
+ 

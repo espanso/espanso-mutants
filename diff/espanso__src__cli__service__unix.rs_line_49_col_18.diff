@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/unix.rs
++++ delete - in fork_daemon
+@@ -41,17 +41,17 @@
+     if sid < 0 {
+         return Err(ForkError::SetSidFailed.into());
+     }
+ 
+     // Detach stdout and stderr
+     let null_path = std::ffi::CString::new("/dev/null").expect("CString unwrap failed");
+     unsafe {
+         let fd = libc::open(null_path.as_ptr(), libc::O_RDWR, 0);
+-        if fd != -1 {
++        if fd !=  /* ~ changed by cargo-mutants ~ */1 {
+             libc::dup2(fd, libc::STDIN_FILENO);
+             libc::dup2(fd, libc::STDOUT_FILENO);
+             libc::dup2(fd, libc::STDERR_FILENO);
+         }
+     };
+ 
+     spawn_launcher(paths_overrides)
+ }

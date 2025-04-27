@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/choice.rs
++++ replace <impl Extension for ChoiceExtension<'_>>::name -> &'static str with "xyzzy"
+@@ -47,17 +47,17 @@
+ impl<'a> ChoiceExtension<'a> {
+     pub fn new(selector: &'a dyn ChoiceSelector) -> Self {
+         Self { selector }
+     }
+ }
+ 
+ impl Extension for ChoiceExtension<'_> {
+     fn name(&self) -> &'static str {
+-        "choice"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn calculate(
+         &self,
+         _: &crate::Context,
+         _: &crate::Scope,
+         params: &Params,
+     ) -> crate::ExtensionResult {

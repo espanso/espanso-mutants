@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace * with / in <impl Injector for X11DefaultInjector>::send_keys
+@@ -524,17 +524,17 @@
+         // Compute all the key record sequence first to make sure a mapping is available
+         let syms = convert_to_sym_array(keys)?;
+         let records = self.convert_to_record_array(&syms)?;
+ 
+         if options.disable_fast_inject {
+             self.xtest_release_all_keys();
+         }
+ 
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
++        let delay_us = options.delay as u32 / /* ~ changed by cargo-mutants ~ */ 1000; // Convert to micro seconds
+ 
+         for record in records {
+             if options.disable_fast_inject {
+                 self.xtest_send_key(&record.main, true, delay_us);
+                 self.xtest_send_key(&record.main, false, delay_us);
+             } else {
+                 self.send_key(focused_window, &record.main, true, delay_us);
+                 self.send_key(focused_window, &record.main, false, delay_us);

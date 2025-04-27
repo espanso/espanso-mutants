@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/ui.rs
++++ replace <impl funnel::Source<'a> for UISource<'a>>::register -> usize with 0
+@@ -38,17 +38,17 @@
+             ui_receiver,
+             sequencer,
+         }
+     }
+ }
+ 
+ impl<'a> funnel::Source<'a> for UISource<'a> {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+-        select.recv(&self.ui_receiver)
++        0 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+         let ui_event = op
+             .recv(&self.ui_receiver)
+             .expect("unable to select data from UISource receiver");
+ 
+         Some(Event {

@@ -1,0 +1,43 @@
+--- espanso-engine/src/process/middleware/markdown.rs
++++ replace <impl Middleware for MarkdownMiddleware>::next -> Event with Default::default()
+@@ -32,39 +32,17 @@
+ }
+ 
+ impl Middleware for MarkdownMiddleware {
+     fn name(&self) -> &'static str {
+         "markdown"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+-        if let EventType::MarkdownInject(m_event) = &event.etype {
+-            // Render the markdown into HTML
+-            // NOTE: we wrap the `to_html` call between catch_unwind because if the markdown is malformed,
+-            // the library panics. Ideally, the library would return a Result::Err in that case, but
+-            // for now it doesn't, so we employ that workaround.
+-            // See also: https://github.com/espanso/espanso/issues/759
+-            let html = std::panic::catch_unwind(|| markdown::to_html(&m_event.markdown));
+-            if let Ok(html) = html {
+-                let html = html.trim();
+-                let html = remove_paragraph_tag_if_single_occurrence(html);
+-
+-                return Event::caused_by(
+-                    event.source_id,
+-                    EventType::HtmlInject(HtmlInjectRequest {
+-                        html: html.to_owned(),
+-                    }),
+-                );
+-            }
+-            error!("unable to convert markdown to HTML, is it malformed?");
+-            return Event::caused_by(event.source_id, EventType::NOOP);
+-        }
+-
+-        event
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ // If the match is composed of a single paragraph, we remove the tag to avoid
+ // a forced "newline" on some editors. In other words, we assume that if the snippet
+ // is composed of a single paragraph, then it should be inlined.
+ // On the other hand, if the snippet is composed of multiple paragraphs, then we
+ // avoid removing the paragraph to prevent HTML corruption.

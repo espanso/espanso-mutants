@@ -1,0 +1,39 @@
+--- espanso/src/cli/worker/engine/process/middleware/render/mod.rs
++++ replace convert_value -> espanso_render::Value with Default::default()
+@@ -157,35 +157,17 @@
+     let mut new_params = espanso_render::Params::new();
+     for (key, value) in params {
+         new_params.insert(key, convert_value(value));
+     }
+     new_params
+ }
+ 
+ fn convert_value(value: espanso_config::matches::Value) -> espanso_render::Value {
+-    match value {
+-        espanso_config::matches::Value::Null => espanso_render::Value::Null,
+-        espanso_config::matches::Value::Bool(v) => espanso_render::Value::Bool(v),
+-        espanso_config::matches::Value::Number(n) => match n {
+-            espanso_config::matches::Number::Integer(i) => {
+-                espanso_render::Value::Number(espanso_render::Number::Integer(i))
+-            }
+-            espanso_config::matches::Number::Float(f) => {
+-                espanso_render::Value::Number(espanso_render::Number::Float(f.into_inner()))
+-            }
+-        },
+-        espanso_config::matches::Value::String(s) => espanso_render::Value::String(s),
+-        espanso_config::matches::Value::Array(v) => {
+-            espanso_render::Value::Array(v.into_iter().map(convert_value).collect())
+-        }
+-        espanso_config::matches::Value::Object(params) => {
+-            espanso_render::Value::Object(convert_params(params))
+-        }
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ impl<'a> Renderer<'a> for RendererAdapter<'a> {
+     fn render(
+         &'a self,
+         match_id: i32,
+         trigger: Option<&str>,
+         trigger_vars: HashMap<String, String>,

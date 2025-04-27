@@ -1,0 +1,28 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace show::dont_show_again_changed with ()
+@@ -123,24 +123,17 @@
+ 
+     let owned_error_sets: Vec<OwnedErrorSet> = options.error_sets.iter().map(Into::into).collect();
+     let error_sets: Vec<ErrorSetMetadata> = owned_error_sets
+         .iter()
+         .map(sys::troubleshooting::interop::OwnedErrorSet::to_error_set_metadata)
+         .collect();
+ 
+     extern "C" fn dont_show_again_changed(dont_show: c_int) {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in dont_show_again_changed method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.dont_show_again_changed.as_ref() {
+-            let value = dont_show == 1;
+-            (*handler_ref)(value);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     extern "C" fn open_file(file_path: *const c_char) {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in open_file method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.open_file.as_ref() {

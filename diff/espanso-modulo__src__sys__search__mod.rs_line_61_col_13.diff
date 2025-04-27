@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/search/mod.rs
++++ replace interop::<impl Interoperable for OwnedSearch>::as_ptr -> *const c_void with Default::default()
+@@ -53,17 +53,17 @@
+         hint: CString,
+         items: Vec<OwnedSearchItem>,
+         pub(crate) interop_items: Vec<SearchItem>,
+         interop: Box<SearchMetadata>,
+     }
+ 
+     impl Interoperable for OwnedSearch {
+         fn as_ptr(&self) -> *const c_void {
+-            std::ptr::from_ref::<SearchMetadata>(&(*self.interop)) as *const c_void
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<&types::Search> for OwnedSearch {
+         fn from(search: &types::Search) -> Self {
+             let title = CString::new(search.title.clone())
+                 .expect("unable to convert search title to CString");
+ 

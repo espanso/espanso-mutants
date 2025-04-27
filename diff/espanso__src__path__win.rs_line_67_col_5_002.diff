@@ -1,0 +1,23 @@
+--- espanso/src/path/win.rs
++++ replace read_paths -> Vec<String> with vec![]
+@@ -59,19 +59,17 @@
+ fn read_user_path_value() -> Result<String> {
+     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+     let env = hkcu.open_subkey("Environment")?;
+     let path: String = env.get_value("Path")?;
+     Ok(path)
+ }
+ 
+ fn read_paths() -> Vec<String> {
+-    let path_value = read_user_path_value().unwrap_or_default();
+-    let paths = path_value.split(';');
+-    paths.map(String::from).collect()
++    vec![] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn write_user_path_value(value: String) -> Result<()> {
+     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+     let env = hkcu.open_subkey_with_flags("Environment", KEY_ALL_ACCESS)?;
+     env.set_value("Path", &value)?;
+     Ok(())
+ }

@@ -1,0 +1,27 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIRemote for MacRemote>::show_notification with ()
+@@ -185,23 +185,17 @@
+         if let Some(index) = self.icon_indexes.get(&icon) {
+             unsafe { ui_update_tray_icon((*index) as i32) }
+         } else {
+             error!("Unable to update tray icon, invalid icon id");
+         }
+     }
+ 
+     fn show_notification(&self, message: &str) {
+-        let c_string = CString::new(message);
+-        match c_string {
+-            Ok(message) => unsafe { ui_show_notification(message.as_ptr(), 3.0) },
+-            Err(error) => {
+-                error!("Unable to show notification {}", error);
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_context_menu(&self, menu: &Menu) {
+         match menu.to_json() {
+             Ok(payload) => {
+                 let c_string = CString::new(payload);
+                 match c_string {
+                     Ok(c_string) => unsafe { ui_show_context_menu(c_string.as_ptr()) },

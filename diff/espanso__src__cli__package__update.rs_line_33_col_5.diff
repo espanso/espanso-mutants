@@ -1,0 +1,58 @@
+--- espanso/src/cli/package/update.rs
++++ replace update_package -> Result<UpdateResults> with Ok(Default::default())
+@@ -25,54 +25,17 @@
+ use crate::{error_eprintln, info_println, warn_eprintln};
+ 
+ pub enum UpdateResults {
+     Success,
+     PartialFailure,
+ }
+ 
+ pub fn update_package(paths: &Paths, matches: &ArgMatches) -> Result<UpdateResults> {
+-    let package_name = matches
+-        .value_of("package_name")
+-        .ok_or_else(|| anyhow!("missing package name"))?;
+-
+-    let archiver =
+-        espanso_package::get_archiver(&paths.packages).context("unable to get package archiver")?;
+-
+-    let packages_to_update = if package_name == "all" {
+-        let packages = archiver.list()?;
+-        info_println!("updating {} packages", packages.len());
+-
+-        packages
+-            .into_iter()
+-            .map(|package| match package {
+-                StoredPackage::Legacy(legacy) => legacy.name,
+-                StoredPackage::Modern(modern) => modern.manifest.name,
+-            })
+-            .collect()
+-    } else {
+-        vec![package_name.to_owned()]
+-    };
+-
+-    let mut update_errors = Vec::new();
+-
+-    for package_name in &packages_to_update {
+-        if let Err(err) = perform_package_update(paths, &*archiver, package_name) {
+-            error_eprintln!("error updating package '{}': {:?}", package_name, err);
+-            update_errors.push(err);
+-        }
+-    }
+-
+-    if update_errors.is_empty() {
+-        Ok(UpdateResults::Success)
+-    } else if packages_to_update.len() == update_errors.len() {
+-        Err(update_errors.pop().expect("unable to extract error"))
+-    } else {
+-        Ok(UpdateResults::PartialFailure)
+-    }
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn perform_package_update(
+     paths: &Paths,
+     archiver: &dyn Archiver,
+     package_name: &str,
+ ) -> Result<()> {
+     info_println!("updating package: {}", package_name);

@@ -1,0 +1,21 @@
+--- espanso-modulo/src/sys/form/mod.rs
++++ replace interop::<impl Interoperable for OwnedChoiceMetadata>::as_ptr -> *const c_void with Default::default()
+@@ -282,17 +282,17 @@
+         values: Vec<CString>,
+         values_ptr_array: Vec<*const c_char>,
+         default_value: CString,
+         interop: Box<ChoiceMetadata>,
+     }
+ 
+     impl Interoperable for OwnedChoiceMetadata {
+         fn as_ptr(&self) -> *const c_void {
+-            std::ptr::from_ref::<ChoiceMetadata>(&(*self.interop)) as *const c_void
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     impl From<types::ChoiceMetadata> for OwnedChoiceMetadata {
+         fn from(metadata: types::ChoiceMetadata) -> Self {
+             let values: Vec<CString> = metadata
+                 .values
+                 .into_iter()

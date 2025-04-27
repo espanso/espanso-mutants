@@ -1,0 +1,29 @@
+--- espanso-modulo/src/sys/wizard/mod.rs
++++ replace show::auto_start -> c_int with Default::default()
+@@ -48,25 +48,17 @@
+         -1
+     }
+ 
+     extern "C" fn backup_and_migrate() -> c_int {
+         3 // WIZARD_MIGRATE_RESULT_UNKNOWN_FAILURE
+     }
+ 
+     extern "C" fn auto_start(auto_start: c_int) -> c_int {
+-        let lock = HANDLERS
+-            .lock()
+-            .expect("unable to acquire lock in auto_start method");
+-        let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+-        if let Some(handler_ref) = handlers_ref.auto_start.as_ref() {
+-            i32::from((*handler_ref)(auto_start != 0))
+-        } else {
+-            -1
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     extern "C" fn add_to_path() -> c_int {
+         let lock = HANDLERS
+             .lock()
+             .expect("unable to acquire lock in add_to_path method");
+         let handlers_ref = (*lock).as_ref().expect("unable to unwrap handlers");
+         if let Some(handler_ref) = handlers_ref.add_to_path.as_ref() {

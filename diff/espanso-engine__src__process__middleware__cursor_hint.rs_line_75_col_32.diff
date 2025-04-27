@@ -1,0 +1,18 @@
+--- espanso-engine/src/process/middleware/cursor_hint.rs
++++ replace - with + in process_cursor_hint
+@@ -67,14 +67,14 @@
+         let char_index = char_str.graphemes(true).count();
+         let total_size = body.graphemes(true).count();
+ 
+         // Remove the $|$ placeholder
+         let body = body.replace("$|$", "");
+ 
+         // Calculate the amount of rewind moves needed (LEFT ARROW).
+         // Subtract also 3, equal to the number of chars of the placeholder "$|$"
+-        let moves = total_size - char_index - 3;
++        let moves = total_size + /* ~ changed by cargo-mutants ~ */ char_index - 3;
+         (body, Some(moves))
+     } else {
+         (body, None)
+     }
+ }

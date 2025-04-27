@@ -1,0 +1,57 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace <impl UIEventLoop for Win32EventLoop>::run -> Result<()> with Ok(())
+@@ -191,53 +191,17 @@
+             .fill(std::thread::current().id())
+             .expect("Unable to set initialization thread id");
+ 
+         Ok(())
+     }
+ 
+     fn run(&self, event_callback: UIEventCallback) -> Result<()> {
+         // Make sure the run() method is called in the same thread as initialize()
+-        if let Some(init_id) = self.init_thread_id.borrow() {
+-            assert!(
+-                init_id == &std::thread::current().id(),
+-                "Win32EventLoop run() and initialize() methods should be called in the same thread"
+-            );
+-        }
+-
+-        let window_handle = self.handle.load(Ordering::Acquire);
+-        if window_handle.is_null() {
+-            error!("Attempt to run Win32EventLoop on a null window handle");
+-            return Err(Win32UIError::InvalidHandle().into());
+-        }
+-
+-        if self.event_callback.fill(event_callback).is_err() {
+-            error!("Unable to set Win32EventLoop callback");
+-            return Err(Win32UIError::InternalError().into());
+-        }
+-
+-        extern "C" fn callback(_self: *mut Win32EventLoop, event: RawUIEvent) {
+-            if let Some(callback) = unsafe { (*_self).event_callback.borrow() } {
+-                let event: Option<UIEvent> = event.into();
+-                if let Some(event) = event {
+-                    callback(event);
+-                } else {
+-                    trace!("Unable to convert raw event to input event");
+-                }
+-            }
+-        }
+-
+-        let error_code = unsafe { ui_eventloop(window_handle, callback) };
+-
+-        if error_code <= 0 {
+-            error!("Win32EventLoop exited with <= 0 code");
+-            return Err(Win32UIError::InternalError().into());
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for Win32EventLoop {
+     fn drop(&mut self) {
+         let handle = self.handle.swap(std::ptr::null_mut(), Ordering::Acquire);
+         if handle.is_null() {
+             error!("Win32EventLoop destruction cannot be performed, handle is null");

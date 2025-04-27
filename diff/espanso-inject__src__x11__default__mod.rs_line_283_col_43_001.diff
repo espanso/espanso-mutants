@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace - with / in X11DefaultInjector::find_deadkeys
+@@ -275,17 +275,17 @@
+                     let mut sym: KeySym = 0;
+                     let mut buffer: [c_char; 10] = [0; 10];
+ 
+                     unsafe {
+                         Xutf8LookupString(
+                             *input_context,
+                             &mut event,
+                             buffer.as_mut_ptr(),
+-                            (buffer.len() - 1) as i32,
++                            (buffer.len() / /* ~ changed by cargo-mutants ~ */ 1) as i32,
+                             &mut sym,
+                             std::ptr::null_mut(),
+                         )
+                     };
+ 
+                     if sym != 0 && !seen_keysyms.contains(&sym) {
+                         let key_record = KeyPair {
+                             code: code_with_offset,

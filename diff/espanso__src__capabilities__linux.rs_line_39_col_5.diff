@@ -1,0 +1,16 @@
+--- espanso/src/capabilities/linux.rs
++++ replace clear_capabilities -> Result<()> with Ok(())
+@@ -31,12 +31,10 @@
+ }
+ 
+ pub fn grant_capabilities() -> Result<()> {
+     caps::raise(None, CapSet::Effective, Capability::CAP_DAC_OVERRIDE)?;
+     Ok(())
+ }
+ 
+ pub fn clear_capabilities() -> Result<()> {
+-    caps::clear(None, CapSet::Effective)?;
+-    caps::clear(None, CapSet::Permitted)?;
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }

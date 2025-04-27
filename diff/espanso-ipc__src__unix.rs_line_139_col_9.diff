@@ -1,0 +1,20 @@
+--- espanso-ipc/src/unix.rs
++++ replace <impl IPCClient<Event> for UnixIPCClient>::send_async -> Result<()> with Ok(())
+@@ -131,16 +131,11 @@
+                 Err(err) => Err(IPCClientError::MalformedResponse(err.into()).into()),
+             }
+         } else {
+             Err(IPCClientError::EmptyResponse.into())
+         }
+     }
+ 
+     fn send_async(&mut self, event: Event) -> Result<()> {
+-        let mut json_event = serde_json::to_string(&event)?;
+-        json_event.push('\n');
+-        self.stream.write_all(json_event.as_bytes())?;
+-        self.stream.flush()?;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }

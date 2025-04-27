@@ -1,0 +1,29 @@
+--- espanso-package/src/provider/hub.rs
++++ replace EspansoHubPackageProvider::get_index_from_cache -> Result<Option<CachedPackageIndex>> with Ok(Some(Default::default()))
+@@ -120,25 +120,17 @@
+         let json_body = read_string_from_url(ESPANSO_HUB_PACKAGE_INDEX_URL)?;
+ 
+         let index: PackageIndex = serde_json::from_str(&json_body)?;
+ 
+         Ok(index)
+     }
+ 
+     fn get_index_from_cache(&self) -> Result<Option<CachedPackageIndex>> {
+-        let target_file = self.runtime_dir.join(PACKAGE_INDEX_CACHE_FILE);
+-        if !target_file.is_file() {
+-            return Ok(None);
+-        }
+-
+-        let content =
+-            std::fs::read_to_string(&target_file).context("unable to read package index cache")?;
+-        let index: CachedPackageIndex = serde_json::from_str(&content)?;
+-        Ok(Some(index))
++        Ok(Some(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn save_index_to_cache(&self, index: PackageIndex) -> Result<()> {
+         let target_file = self.runtime_dir.join(PACKAGE_INDEX_CACHE_FILE);
+         let current_time = std::time::SystemTime::now().duration_since(UNIX_EPOCH)?;
+         let current_unix = current_time.as_secs();
+         let cached_index = CachedPackageIndex {
+             cached_at: current_unix,

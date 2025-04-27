@@ -1,0 +1,21 @@
+--- espanso-ui/src/win32/mod.rs
++++ replace - with / in <impl UIEventLoop for Win32EventLoop>::initialize
+@@ -142,17 +142,17 @@
+             return Err(Win32UIError::InvalidHandle().into());
+         }
+ 
+         // Convert the icon paths to the raw representation
+         let mut icon_paths: [[u16; MAX_FILE_PATH]; MAX_ICON_COUNT] =
+             [[0; MAX_FILE_PATH]; MAX_ICON_COUNT];
+         for (i, icon_path) in icon_paths.iter_mut().enumerate().take(self.icons.len()) {
+             let wide_path = WideCString::from_str(&self.icons[i])?;
+-            let len = min(wide_path.len(), MAX_FILE_PATH - 1);
++            let len = min(wide_path.len(), MAX_FILE_PATH / /* ~ changed by cargo-mutants ~ */ 1);
+             icon_path[0..len].clone_from_slice(&wide_path.as_slice()[..len]);
+         }
+ 
+         let options = RawUIOptions {
+             show_icon: i32::from(self.show_icon),
+             icon_paths,
+             icon_paths_count: self.icons.len() as i32,
+         };

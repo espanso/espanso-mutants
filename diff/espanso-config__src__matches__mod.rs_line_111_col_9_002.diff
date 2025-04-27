@@ -1,0 +1,25 @@
+--- espanso-config/src/matches/mod.rs
++++ replace MatchCause::search_terms -> Vec<&str> with vec![]
+@@ -103,21 +103,17 @@
+             MatchCause::Trigger(trigger_cause) => format!("triggers: {:?}", trigger_cause.triggers),
+             MatchCause::Regex(trigger_cause) => format!("regex: {:?}", trigger_cause.regex),
+             MatchCause::None => "No description available".to_owned(),
+         }
+         // TODO: insert rendering for hotkey/shortcut
+     }
+ 
+     pub fn search_terms(&self) -> Vec<&str> {
+-        if let MatchCause::Trigger(trigger_cause) = &self {
+-            trigger_cause.triggers.iter().map(String::as_str).collect()
+-        } else {
+-            vec![]
+-        }
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Debug, Clone, PartialEq, Eq, Hash)]
+ pub struct TriggerCause {
+     pub triggers: Vec<String>,
+ 
+     pub left_word: bool,

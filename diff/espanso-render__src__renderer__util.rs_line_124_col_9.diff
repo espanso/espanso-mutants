@@ -1,0 +1,28 @@
+--- espanso-render/src/renderer/util.rs
++++ delete match arm
+@@ -116,24 +116,17 @@
+         inject_variables_into_value(value, scope)?;
+     }
+ 
+     Ok(params)
+ }
+ 
+ fn inject_variables_into_value(value: &mut Value, scope: &Scope) -> Result<()> {
+     match value {
+-        Value::String(s_value) => {
+-            let new_value = render_variables(s_value, scope)?;
+-
+-            if &new_value != s_value {
+-                s_value.clear();
+-                s_value.push_str(&new_value);
+-            }
+-        }
++         /* ~ changed by cargo-mutants ~ */
+         Value::Array(values) => {
+             for value in values {
+                 inject_variables_into_value(value, scope)?;
+             }
+         }
+         Value::Object(fields) => {
+             for value in fields.values_mut() {
+                 inject_variables_into_value(value, scope)?;

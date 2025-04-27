@@ -1,0 +1,15 @@
+--- espanso/src/cli/worker/engine/funnel/sequencer.rs
++++ replace <impl EventSequenceProvider for Sequencer>::get_next_id -> SourceId with Default::default()
+@@ -38,11 +38,11 @@
+ 
+     pub fn next_id(&self) -> SourceId {
+         self.current_id.fetch_add(1, Ordering::SeqCst)
+     }
+ }
+ 
+ impl EventSequenceProvider for Sequencer {
+     fn get_next_id(&self) -> SourceId {
+-        self.next_id()
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }

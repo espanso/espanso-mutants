@@ -1,0 +1,28 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace raw_to_mouse_button -> Option<MouseButton> with None
+@@ -430,24 +430,17 @@
+         0xFFB9 => (Numpad9, None),
+ 
+         // Other keys, includes the raw code provided by the operating system
+         _ => (Other(key_sym), None),
+     }
+ }
+ 
+ fn raw_to_mouse_button(raw: i32) -> Option<MouseButton> {
+-    match raw {
+-        INPUT_MOUSE_LEFT_BUTTON => Some(MouseButton::Left),
+-        INPUT_MOUSE_RIGHT_BUTTON => Some(MouseButton::Right),
+-        INPUT_MOUSE_MIDDLE_BUTTON => Some(MouseButton::Middle),
+-        INPUT_MOUSE_BUTTON_1 => Some(MouseButton::Button1),
+-        INPUT_MOUSE_BUTTON_2 => Some(MouseButton::Button2),
+-        _ => None,
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use std::ffi::CString;
+ 
+     use super::*;
+ 

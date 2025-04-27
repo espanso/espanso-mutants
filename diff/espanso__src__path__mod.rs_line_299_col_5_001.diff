@@ -1,0 +1,26 @@
+--- espanso/src/path/mod.rs
++++ replace get_default_packages_dir -> Option<PathBuf> with None
+@@ -291,22 +291,17 @@
+     if legacy_dir.is_dir() {
+         Some(legacy_dir)
+     } else {
+         None
+     }
+ }
+ 
+ fn get_default_packages_dir(config_dir: &Path) -> Option<PathBuf> {
+-    let packages_dir = get_default_packages_path(config_dir);
+-    if packages_dir.is_dir() {
+-        Some(packages_dir)
+-    } else {
+-        None
+-    }
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_default_packages_path(config_dir: &Path) -> PathBuf {
+     config_dir.join("match").join("packages")
+ }
+ 
+ fn is_portable_mode() -> bool {
+     let espanso_exe_path = std::env::current_exe().expect("unable to obtain executable path");

@@ -1,0 +1,21 @@
+--- espanso/src/cli/service/linux.rs
++++ delete ! in start_service
+@@ -180,17 +180,17 @@
+ pub fn start_service() -> Result<()> {
+     // Check if systemd is available in the system
+     if let Ok(status) = Command::new("systemctl")
+         .args(["--version"])
+         .stdin(Stdio::null())
+         .stdout(Stdio::null())
+         .status()
+     {
+-        if !status.success() {
++        if  /* ~ changed by cargo-mutants ~ */status.success() {
+             return Err(StartError::SystemctlNonZeroExitCode.into());
+         }
+     } else {
+         error_eprintln!(
+             "Systemd was not found in this system, which means espanso can't run in managed mode"
+         );
+         error_eprintln!(
+             "You can run it in unmanaged mode with `espanso service start --unmanaged`"

@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/date.rs
++++ replace + with * in <impl Extension for DateExtension<'_>>::calculate
+@@ -52,17 +52,17 @@
+         params: &Params,
+     ) -> crate::ExtensionResult {
+         let mut now = self.get_date();
+ 
+         // Compute the given offset
+         let offset = params.get("offset");
+         if let Some(Value::Number(Number::Integer(offset))) = offset {
+             let offset = Duration::seconds(*offset);
+-            now = now + offset;
++            now = now * /* ~ changed by cargo-mutants ~ */ offset;
+         }
+ 
+         let format = params.get("format");
+         let locale = params
+             .get("locale")
+             .and_then(|val| val.as_string())
+             .map_or_else(|| self.locale_provider.get_system_locale(), String::from);
+ 

@@ -1,0 +1,21 @@
+--- espanso-package/src/archive/default.rs
++++ delete ! in <impl Archiver for DefaultArchiver>::get
+@@ -93,17 +93,17 @@
+             .context("unable to load archived package")?;
+ 
+         Ok(archived_package)
+     }
+ 
+     fn get(&self, name: &str) -> Result<StoredPackage> {
+         let target_dir = self.package_dir.join(name);
+ 
+-        if !target_dir.is_dir() {
++        if  /* ~ changed by cargo-mutants ~ */target_dir.is_dir() {
+             bail!("package '{}' not found", name);
+         }
+ 
+         let manifest_path = target_dir.join("_manifest.yml");
+         if !manifest_path.is_file() {
+             return Ok(StoredPackage::Legacy(LegacyPackage {
+                 name: name.to_string(),
+             }));

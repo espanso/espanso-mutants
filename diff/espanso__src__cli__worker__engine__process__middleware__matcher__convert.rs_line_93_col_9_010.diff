@@ -1,0 +1,30 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/convert.rs
++++ replace MatchConverter<'a>::get_regex_matches -> Vec<RegexMatch<i32>> with vec![RegexMatch::from(0)]
+@@ -85,26 +85,17 @@
+             }
+         }
+ 
+         matches
+     }
+ 
+     // TODO: (might need to move the conversion logic into a separate function)
+     pub fn get_regex_matches(&self) -> Vec<RegexMatch<i32>> {
+-        let match_set = self.global_match_set();
+-        let mut matches = Vec::new();
+-
+-        for m in match_set.matches {
+-            if let MatchCause::Regex(cause) = &m.cause {
+-                matches.push(RegexMatch::new(m.id, &cause.regex));
+-            }
+-        }
+-
+-        matches
++        vec![RegexMatch::from(0)] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn get_hotkeys(&self) -> Vec<HotKey> {
+         let mut hotkeys = Vec::new();
+ 
+         // TODO: read user-defined matches
+ 
+         // Then convert built-in ones

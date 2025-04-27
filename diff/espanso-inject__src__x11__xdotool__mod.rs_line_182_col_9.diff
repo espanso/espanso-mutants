@@ -1,0 +1,52 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace <impl Injector for X11XDOToolInjector>::send_keys -> anyhow::Result<()> with Ok(())
+@@ -174,48 +174,17 @@
+         }
+     }
+ 
+     fn send_keys(
+         &self,
+         keys: &[crate::keys::Key],
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+-        let key_syms: Vec<String> = keys
+-            .iter()
+-            .filter_map(|key| unsafe { convert_key_to_keysym((*self.xdo).xdpy, key) })
+-            .collect();
+-
+-        let delay = options.delay * 1000;
+-
+-        for key in key_syms {
+-            let c_str = CString::new(key).context("unable to generate CString")?;
+-
+-            if options.disable_fast_inject {
+-                unsafe {
+-                    xdo_send_keysequence_window(
+-                        self.xdo,
+-                        CURRENTWINDOW,
+-                        c_str.as_ptr(),
+-                        delay.try_into().unwrap(),
+-                    );
+-                }
+-            } else {
+-                unsafe {
+-                    fast_send_keysequence_window(
+-                        self.xdo,
+-                        self.get_focused_window(),
+-                        c_str.as_ptr(),
+-                        delay.try_into().unwrap(),
+-                    );
+-                }
+-            }
+-        }
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_key_combination(
+         &self,
+         keys: &[crate::keys::Key],
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+         let key_syms: Vec<String> = keys

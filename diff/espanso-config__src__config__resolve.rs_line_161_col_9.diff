@@ -1,0 +1,23 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::pre_paste_delay -> usize with 1
+@@ -153,19 +153,17 @@
+             .unwrap_or(DEFAULT_CLIPBOARD_THRESHOLD)
+     }
+ 
+     fn auto_restart(&self) -> bool {
+         self.parsed.auto_restart.unwrap_or(true)
+     }
+ 
+     fn pre_paste_delay(&self) -> usize {
+-        self.parsed
+-            .pre_paste_delay
+-            .unwrap_or(DEFAULT_PRE_PASTE_DELAY)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn toggle_key(&self) -> Option<ToggleKey> {
+         match self
+             .parsed
+             .toggle_key
+             .as_deref()
+             .map(str::to_lowercase)

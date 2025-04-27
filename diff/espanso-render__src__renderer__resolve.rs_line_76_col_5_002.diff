@@ -1,0 +1,68 @@
+--- espanso-render/src/renderer/resolve.rs
++++ replace generate_nodes -> HashMap<&'a str, Node<'a>> with HashMap::from_iter([("xyzzy", Default::default())])
+@@ -68,64 +68,17 @@
+     Ok(ordered_variables)
+ }
+ 
+ fn generate_nodes<'a>(
+     body: &'a str,
+     local_vars: &'a [&'a Variable],
+     global_vars: &'a [&'a Variable],
+ ) -> HashMap<&'a str, Node<'a>> {
+-    let mut local_vars_nodes = Vec::new();
+-    for (index, var) in local_vars.iter().enumerate() {
+-        let mut dependencies = HashSet::new();
+-        if var.inject_vars {
+-            dependencies.extend(super::util::get_params_variable_names(&var.params));
+-        }
+-        dependencies.extend(var.depends_on.iter().map(String::as_str));
+-
+-        // Every local variable depends on the one before it.
+-        // Needed to guarantee execution order within local vars.
+-        if index > 0 {
+-            let previous_var = local_vars.get(index - 1);
+-            if let Some(previous_var) = previous_var {
+-                dependencies.insert(&previous_var.name);
+-            }
+-        }
+-
+-        local_vars_nodes.push(Node {
+-            name: &var.name,
+-            variable: Some(var),
+-            dependencies: Some(dependencies),
+-        });
+-    }
+-
+-    let global_vars_nodes = global_vars.iter().map(|var| create_node_from_var(var));
+-
+-    // The body depends on all local variables + the variables read inside it (which might be global)
+-    let mut body_dependencies: HashSet<&str> =
+-        local_vars_nodes.iter().map(|node| node.name).collect();
+-    body_dependencies.extend(super::util::get_body_variable_names(body));
+-
+-    let body_node = Node {
+-        name: "__match_body",
+-        variable: None,
+-        dependencies: Some(body_dependencies),
+-    };
+-
+-    let mut node_map = HashMap::new();
+-
+-    node_map.insert(body_node.name, body_node);
+-    global_vars_nodes.into_iter().for_each(|node| {
+-        node_map.insert(node.name, node);
+-    });
+-    for node in local_vars_nodes {
+-        node_map.insert(node.name, node);
+-    }
+-
+-    node_map
++    HashMap::from_iter([("xyzzy", Default::default())]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn create_node_from_var(var: &Variable) -> Node {
+     let dependencies = if var.inject_vars || !var.depends_on.is_empty() {
+         let mut vars = HashSet::new();
+ 
+         if var.inject_vars {
+             vars.extend(super::util::get_params_variable_names(&var.params));

@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace <impl TextInjector for ClipboardInjectorAdapter<'_>>::inject_text -> anyhow::Result<()> with Ok(())
+@@ -127,24 +127,17 @@
+ }
+ 
+ impl TextInjector for ClipboardInjectorAdapter<'_> {
+     fn name(&self) -> &'static str {
+         "clipboard"
+     }
+ 
+     fn inject_text(&self, text: &str) -> anyhow::Result<()> {
+-        let _guard = self.restore_clipboard_guard();
+-
+-        self.clipboard
+-            .set_text(text, &self.get_operation_options())?;
+-
+-        self.send_paste_combination()?;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl HtmlInjector for ClipboardInjectorAdapter<'_> {
+     fn inject_html(&self, html: &str, fallback_text: &str) -> anyhow::Result<()> {
+         let _guard = self.restore_clipboard_guard();
+ 
+         self.clipboard

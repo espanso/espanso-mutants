@@ -1,0 +1,21 @@
+--- espanso-render/src/renderer/mod.rs
++++ replace == with != in <impl Renderer for DefaultRenderer<'_>>::render
+@@ -91,17 +91,17 @@
+             ) {
+                 Ok(variables) => variables,
+                 Err(err) => return RenderResult::Error(err),
+             };
+ 
+             // Compute the variable outputs
+             let mut scope = Scope::new();
+             for variable in variables {
+-                if variable.var_type == "match" {
++                if variable.var_type != /* ~ changed by cargo-mutants ~ */ "match" {
+                     // Recursive call
+                     // Call render recursively
+                     if let Some(sub_template) =
+                         get_matching_template(variable, context.templates.as_slice())
+                     {
+                         match self.render(sub_template, context, options) {
+                             RenderResult::Success(output) => {
+                                 scope.insert(&variable.name, ExtensionOutput::Single(output));

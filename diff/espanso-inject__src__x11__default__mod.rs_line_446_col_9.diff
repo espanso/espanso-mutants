@@ -1,0 +1,39 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::xtest_release_all_keys with ()
+@@ -438,35 +438,17 @@
+         if delay_us != 0 {
+             unsafe {
+                 libc::usleep(delay_us);
+             }
+         }
+     }
+ 
+     fn xtest_release_all_keys(&self) {
+-        let mut keys: [u8; 32] = [0; 32];
+-        unsafe {
+-            XQueryKeymap(self.display, keys.as_mut_ptr());
+-        }
+-
+-        #[allow(clippy::needless_range_loop)]
+-        for i in 0..32 {
+-            // Only those that are pressed should be changed
+-            if keys[i] != 0 {
+-                for k in 0..8 {
+-                    if (keys[i] & (1 << k)) != 0 {
+-                        let key_code = i * 8 + k;
+-                        unsafe {
+-                            XTestFakeKeyEvent(self.display, key_code as u32, 0, 0);
+-                        }
+-                    }
+-                }
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for X11DefaultInjector {
+     fn drop(&mut self) {
+         unsafe {
+             XCloseDisplay(self.display);
+         }

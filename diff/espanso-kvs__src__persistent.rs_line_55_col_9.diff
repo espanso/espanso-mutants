@@ -1,0 +1,44 @@
+--- espanso-kvs/src/persistent.rs
++++ replace <impl KVS for PersistentJsonKVS>::get -> Result<Option<T>> with Ok(Some(Default::default()))
+@@ -47,40 +47,17 @@
+             kvs_dir,
+             store: Arc::new(Mutex::new(HashMap::new())),
+         })
+     }
+ }
+ 
+ impl KVS for PersistentJsonKVS {
+     fn get<T: serde::de::DeserializeOwned>(&self, key: &str) -> Result<Option<T>> {
+-        if !is_valid_key_name(key) {
+-            return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+-        }
+-
+-        let mut lock = self.store.lock().expect("unable to obtain KVS read lock");
+-
+-        if let Some(cached_value) = lock.get(key) {
+-            let converted_value = serde_json::from_value(cached_value.clone())?;
+-            return Ok(Some(converted_value));
+-        }
+-
+-        // Not found in the cache, read from the file
+-        let target_file = self.kvs_dir.join(key);
+-        if target_file.is_file() {
+-            let content = std::fs::read_to_string(&target_file)?;
+-            let deserialized_value: Value = serde_json::from_str(&content)?;
+-            let converted_value = serde_json::from_value(deserialized_value.clone())?;
+-
+-            lock.insert(key.to_string(), deserialized_value);
+-
+-            return Ok(Some(converted_value));
+-        }
+-
+-        Ok(None)
++        Ok(Some(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set<T: serde::Serialize>(&self, key: &str, value: T) -> Result<()> {
+         if !is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS write lock");

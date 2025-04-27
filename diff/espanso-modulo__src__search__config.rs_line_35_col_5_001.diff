@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/config.rs
++++ replace default_algorithm -> String with "xyzzy".into()
+@@ -27,17 +27,17 @@
+     None
+ }
+ 
+ fn default_items() -> Vec<SearchItem> {
+     Vec::new()
+ }
+ 
+ fn default_algorithm() -> String {
+-    "ikey".to_owned()
++    "xyzzy".into() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct SearchConfig {
+     #[serde(default = "default_title")]
+     pub title: String,
+ 
+     #[serde(default = "default_icon")]

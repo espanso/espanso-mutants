@@ -1,0 +1,31 @@
+--- espanso/src/path/linux.rs
++++ replace remove_espanso_from_path -> Result<()> with Ok(())
+@@ -38,27 +38,17 @@
+     if let Err(error) = std::os::unix::fs::symlink(exec_path, target_link_path) {
+         return Err(PathError::SymlinkError(error).into());
+     }
+ 
+     Ok(())
+ }
+ 
+ pub fn remove_espanso_from_path(_: bool) -> Result<()> {
+-    let target_link_path = PathBuf::from("/usr/local/bin/espanso");
+-
+-    if std::fs::symlink_metadata(&target_link_path).is_err() {
+-        return Err(PathError::SymlinkNotFound.into());
+-    }
+-
+-    if let Err(error) = std::fs::remove_file(&target_link_path) {
+-        return Err(PathError::SymlinkError(error).into());
+-    }
+-
+-    Ok(())
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum PathError {
+     #[error("/usr/local/bin directory doesn't exist")]
+     UsrLocalBinDirDoesNotExist,
+ 
+     #[error("symlink error: `{0}`")]

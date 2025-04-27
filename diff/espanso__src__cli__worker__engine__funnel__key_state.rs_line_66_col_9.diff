@@ -1,0 +1,30 @@
+--- espanso/src/cli/worker/engine/funnel/key_state.rs
++++ replace KeyStateStore::update_state with ()
+@@ -58,26 +58,17 @@
+ 
+             status.is_pressed()
+         } else {
+             false
+         }
+     }
+ 
+     pub fn update_state(&self, key_code: u32, is_pressed: bool) {
+-        let mut state = self.state.lock().expect("unable to obtain key state");
+-        if let Some(status) = state.keys.get_mut(&key_code) {
+-            if is_pressed {
+-                status.press();
+-            } else {
+-                status.release();
+-            }
+-        } else {
+-            state.keys.insert(key_code, KeyStatus::new(is_pressed));
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Default)]
+ struct KeyState {
+     keys: HashMap<u32, KeyStatus>,
+ }
+ 

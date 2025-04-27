@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/mod.rs
++++ replace HotKey::has_alt -> bool with false
+@@ -80,17 +80,17 @@
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_meta(&self) -> bool {
+         self.modifiers.contains(&ShortcutKey::Meta)
+     }
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_alt(&self) -> bool {
+-        self.modifiers.contains(&ShortcutKey::Alt)
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     #[allow(dead_code)]
+     pub(crate) fn has_shift(&self) -> bool {
+         self.modifiers.contains(&ShortcutKey::Shift)
+     }
+ }
+ 

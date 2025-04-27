@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ delete ! in is_event_of_interest
+@@ -193,17 +193,17 @@
+                     {
+                         if (65025..=65276).contains(raw_code) {
+                             return false;
+                         }
+                     }
+                 }
+ 
+                 // Skip modifier keys
+-                !matches!(
++                 /* ~ changed by cargo-mutants ~ */matches!(
+                     keyboard_event.key,
+                     Key::Alt | Key::Shift | Key::CapsLock | Key::Meta | Key::NumLock | Key::Control
+                 )
+             } else {
+                 // Skip non-press events
+                 false
+             }
+         }

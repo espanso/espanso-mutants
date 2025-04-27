@@ -1,0 +1,26 @@
+--- espanso-engine/src/process/middleware/disable.rs
++++ replace is_toggle_key -> bool with false
+@@ -120,22 +120,10 @@
+         }
+         // TODO: also ignore hotkey and mouse events
+ 
+         event
+     }
+ }
+ 
+ fn is_toggle_key(event: &KeyboardEvent, options: &DisableOptions) -> bool {
+-    if options
+-        .toggle_key
+-        .as_ref()
+-        .is_some_and(|key| key == &event.key)
+-    {
+-        if let (Some(variant), Some(e_variant)) = (&options.toggle_key_variant, &event.variant) {
+-            variant == e_variant
+-        } else {
+-            true
+-        }
+-    } else {
+-        false
+-    }
++    false /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,27 @@
+--- espanso-clipboard/src/cocoa/mod.rs
++++ replace <impl Clipboard for CocoaClipboard>::set_text -> anyhow::Result<()> with Ok(())
+@@ -55,23 +55,17 @@
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             Some(string.to_string_lossy().to_string())
+         } else {
+             None
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        let string = CString::new(text)?;
+-        let native_result = unsafe { ffi::clipboard_set_text(string.as_ptr()) };
+-        if native_result > 0 {
+-            Ok(())
+-        } else {
+-            Err(CocoaClipboardError::SetOperationFailed().into())
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if !image_path.exists() || !image_path.is_file() {

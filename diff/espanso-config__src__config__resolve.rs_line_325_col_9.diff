@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::max_form_height -> usize with 1
+@@ -317,17 +317,17 @@
+             .unwrap_or(DEFAULT_POST_FORM_DELAY)
+     }
+ 
+     fn max_form_width(&self) -> usize {
+         self.parsed.max_form_width.unwrap_or(700)
+     }
+ 
+     fn max_form_height(&self) -> usize {
+-        self.parsed.max_form_height.unwrap_or(500)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn post_search_delay(&self) -> usize {
+         self.parsed
+             .post_search_delay
+             .unwrap_or(DEFAULT_POST_SEARCH_DELAY)
+     }
+ 

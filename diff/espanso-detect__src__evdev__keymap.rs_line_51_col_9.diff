@@ -1,0 +1,48 @@
+--- espanso-detect/src/evdev/keymap.rs
++++ replace Keymap::generate_owned_rmlvo -> OwnedRawKeyboardConfig with Default::default()
+@@ -43,44 +43,17 @@
+         })
+     }
+ 
+     pub fn get_handle(&self) -> *mut xkb_keymap {
+         self.keymap
+     }
+ 
+     fn generate_owned_rmlvo(rmlvo: Option<KeyboardConfig>) -> OwnedRawKeyboardConfig {
+-        let rules = rmlvo
+-            .as_ref()
+-            .and_then(|config| config.rules.clone())
+-            .unwrap_or_default();
+-        let model = rmlvo
+-            .as_ref()
+-            .and_then(|config| config.model.clone())
+-            .unwrap_or_default();
+-        let layout = rmlvo
+-            .as_ref()
+-            .and_then(|config| config.layout.clone())
+-            .unwrap_or_default();
+-        let variant = rmlvo
+-            .as_ref()
+-            .and_then(|config| config.variant.clone())
+-            .unwrap_or_default();
+-        let options = rmlvo
+-            .as_ref()
+-            .and_then(|config| config.options.clone())
+-            .unwrap_or_default();
+-
+-        OwnedRawKeyboardConfig {
+-            rules: CString::new(rules).expect("unable to create CString for keymap"),
+-            model: CString::new(model).expect("unable to create CString for keymap"),
+-            layout: CString::new(layout).expect("unable to create CString for keymap"),
+-            variant: CString::new(variant).expect("unable to create CString for keymap"),
+-            options: CString::new(options).expect("unable to create CString for keymap"),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn generate_names(owned_config: &OwnedRawKeyboardConfig) -> xkb_rule_names {
+         xkb_rule_names {
+             rules: owned_config.rules.as_ptr(),
+             model: owned_config.model.as_ptr(),
+             layout: owned_config.layout.as_ptr(),
+             variant: owned_config.variant.as_ptr(),

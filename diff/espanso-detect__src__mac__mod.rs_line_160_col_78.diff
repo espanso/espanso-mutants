@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace == with != in native_callback
+@@ -152,17 +152,17 @@
+             if current_mod_state.is_command_down && raw_event.is_command_pressed == 0 {
+                 compensating_events.push((Key::Meta, 0x37));
+                 current_mod_state.is_command_down = false;
+             }
+             if current_mod_state.is_ctrl_down && raw_event.is_control_pressed == 0 {
+                 compensating_events.push((Key::Control, 0x3B));
+                 current_mod_state.is_ctrl_down = false;
+             }
+-            if current_mod_state.is_shift_down && raw_event.is_shift_pressed == 0 {
++            if current_mod_state.is_shift_down && raw_event.is_shift_pressed != /* ~ changed by cargo-mutants ~ */ 0 {
+                 compensating_events.push((Key::Shift, 0x38));
+                 current_mod_state.is_shift_down = false;
+             }
+             if current_mod_state.is_option_down && raw_event.is_option_pressed == 0 {
+                 compensating_events.push((Key::Alt, 0x3A));
+                 current_mod_state.is_option_down = false;
+             }
+         }

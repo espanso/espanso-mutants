@@ -1,0 +1,28 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace Device::update_key with ()
+@@ -189,24 +189,17 @@
+         } else {
+             unsafe { xkb_state_update_key(self.get_state(), keycode, xkb_key_direction::DOWN) };
+         }
+ 
+         Some(RawInputEvent::Keyboard(event))
+     }
+ 
+     pub fn update_key(&mut self, code: u32, pressed: bool) {
+-        let direction = if pressed {
+-            super::ffi::xkb_key_direction::DOWN
+-        } else {
+-            super::ffi::xkb_key_direction::UP
+-        };
+-        unsafe {
+-            xkb_state_update_key(self.get_state(), code, direction);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     pub fn update_modifier_state(
+         &mut self,
+         modifiers_state: ModifiersState,
+         modifiers_map: &HashMap<String, u32>,
+     ) {
+         if modifiers_state.alt {

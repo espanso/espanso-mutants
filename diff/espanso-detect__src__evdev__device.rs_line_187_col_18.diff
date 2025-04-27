@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/device.rs
++++ replace == with != in Device::process_event
+@@ -179,17 +179,17 @@
+ 
+         let event = RawKeyboardEvent {
+             state: value,
+             code: keycode,
+             sym,
+             value: content,
+         };
+ 
+-        if value == KEY_STATE_RELEASE {
++        if value != /* ~ changed by cargo-mutants ~ */ KEY_STATE_RELEASE {
+             unsafe { xkb_state_update_key(self.get_state(), keycode, xkb_key_direction::UP) };
+         } else {
+             unsafe { xkb_state_update_key(self.get_state(), keycode, xkb_key_direction::DOWN) };
+         }
+ 
+         Some(RawInputEvent::Keyboard(event))
+     }
+ 

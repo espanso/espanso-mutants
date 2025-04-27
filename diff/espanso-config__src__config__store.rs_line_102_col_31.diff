@@ -1,0 +1,21 @@
+--- espanso-config/src/config/store.rs
++++ replace == with != in DefaultConfigStore::load
+@@ -94,17 +94,17 @@
+                 .extension()
+                 .unwrap_or_default()
+                 .to_string_lossy()
+                 .to_lowercase();
+ 
+             // Additional config files are loaded best-effort
+             if config_file.is_file()
+                 && config_file != default_file
+-                && (extension == "yml" || extension == "yaml")
++                && (extension != /* ~ changed by cargo-mutants ~ */ "yml" || extension == "yaml")
+             {
+                 match ResolvedConfig::load(&config_file, Some(&default)) {
+                     Ok(config) => {
+                         customs.push(Arc::new(config));
+                         debug!("loaded config at path: {:?}", config_file);
+                     }
+                     Err(err) => {
+                         error!(

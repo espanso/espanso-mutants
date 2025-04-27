@@ -1,0 +1,21 @@
+--- espanso-config/src/matches/group/loader/yaml/mod.rs
++++ delete match arm
+@@ -179,17 +179,17 @@
+     } else {
+         MatchCause::None
+     };
+ 
+     let force_mode = if let Some(true) = yaml_match.force_clipboard {
+         Some(TextInjectMode::Clipboard)
+     } else if let Some(mode) = yaml_match.force_mode {
+         match mode.to_lowercase().as_str() {
+-            "clipboard" => Some(TextInjectMode::Clipboard),
++             /* ~ changed by cargo-mutants ~ */
+             "keys" => Some(TextInjectMode::Keys),
+             _ => None,
+         }
+     } else {
+         None
+     };
+ 
+     let effect = if yaml_match.replace.is_some()

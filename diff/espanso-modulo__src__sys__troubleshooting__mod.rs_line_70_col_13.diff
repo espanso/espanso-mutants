@@ -1,0 +1,37 @@
+--- espanso-modulo/src/sys/troubleshooting/mod.rs
++++ replace interop::<impl From<&ErrorSet> for OwnedErrorSet>::from -> Self with Default::default()
+@@ -62,33 +62,17 @@
+                 errors: self.interop_errors.as_ptr(),
+                 errors_count: self.interop_errors.len() as c_int,
+             }
+         }
+     }
+ 
+     impl From<&ErrorSet> for OwnedErrorSet {
+         fn from(error_set: &ErrorSet) -> Self {
+-            let file_path = error_set.file.as_ref().map(|file_path| {
+-                CString::new(file_path.to_string_lossy().to_string())
+-                    .expect("unable to convert file_path to CString")
+-            });
+-
+-            let errors: Vec<OwnedErrorMetadata> = error_set.errors.iter().map(Into::into).collect();
+-
+-            let interop_errors: Vec<ErrorMetadata> = errors
+-                .iter()
+-                .map(sys::troubleshooting::interop::OwnedErrorMetadata::to_error_metadata)
+-                .collect();
+-
+-            Self {
+-                file_path,
+-                errors,
+-                interop_errors,
+-            }
++            Default::default() /* ~ changed by cargo-mutants ~ */
+         }
+     }
+ 
+     pub(crate) struct OwnedErrorMetadata {
+         level: c_int,
+         message: CString,
+     }
+ 

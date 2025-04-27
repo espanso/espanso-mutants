@@ -1,0 +1,29 @@
+--- espanso-detect/src/layout/mod.rs
++++ replace get_active_layout -> Option<String> with Some(String::new())
+@@ -33,25 +33,16 @@
+ #[cfg(not(feature = "wayland"))]
+ pub fn get_active_layout() -> Option<String> {
+     x11::get_active_layout()
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(feature = "wayland")]
+ pub fn get_active_layout() -> Option<String> {
+-    if gnome::is_gnome() {
+-        gnome::get_active_layout()
+-    } else {
+-        use log::debug;
+-        debug!(
+-            "Wayland compositor detected: {}",
+-            wayland::get_compositor_name()
+-        );
+-        None
+-    }
++    Some(String::new()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(not(target_os = "linux"))]
+ pub fn get_active_layout() -> Option<String> {
+     // Not available on Windows and macOS yet
+     None
+ }

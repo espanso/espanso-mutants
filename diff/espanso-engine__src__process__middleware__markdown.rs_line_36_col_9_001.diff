@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/markdown.rs
++++ replace <impl Middleware for MarkdownMiddleware>::name -> &'static str with "xyzzy"
+@@ -28,17 +28,17 @@
+ impl MarkdownMiddleware {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl Middleware for MarkdownMiddleware {
+     fn name(&self) -> &'static str {
+-        "markdown"
++        "xyzzy" /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         if let EventType::MarkdownInject(m_event) = &event.etype {
+             // Render the markdown into HTML
+             // NOTE: we wrap the `to_html` call between catch_unwind because if the markdown is malformed,
+             // the library panics. Ideally, the library would return a Result::Err in that case, but
+             // for now it doesn't, so we employ that workaround.

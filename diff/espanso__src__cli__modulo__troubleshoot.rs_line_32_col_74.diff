@@ -1,0 +1,21 @@
+--- espanso/src/cli/modulo/troubleshoot.rs
++++ delete ! in troubleshoot_main
+@@ -24,17 +24,17 @@
+ use crate::preferences::Preferences;
+ use espanso_modulo::troubleshooting::{TroubleshootingHandlers, TroubleshootingOptions};
+ 
+ pub fn troubleshoot_main(paths: &Paths, icon_paths: &IconPaths) -> i32 {
+     let preferences =
+         crate::preferences::get_default(&paths.runtime).expect("unable to initialize preferences");
+ 
+     let dont_show_again_handler = Box::new(move |dont_show: bool| {
+-        preferences.set_should_display_troubleshoot_for_non_fatal_errors(!dont_show);
++        preferences.set_should_display_troubleshoot_for_non_fatal_errors( /* ~ changed by cargo-mutants ~ */dont_show);
+     });
+ 
+     let open_file_handler = Box::new(move |file_path: &Path| {
+         if let Err(err) = opener::open(file_path) {
+             eprintln!("error opening file: {err}");
+         }
+     });
+ 

@@ -1,0 +1,21 @@
+--- espanso-match/src/regex/mod.rs
++++ delete ! in <impl Matcher<'a, RegexMatcherState, Id> for RegexMatcher<Id>>::process
+@@ -128,17 +128,17 @@
+                 } else {
+                     error!(
+                         "received inconsistent index from regex set with index: {}",
+                         index
+                     );
+                 }
+             }
+ 
+-            if !matches.is_empty() {
++            if  /* ~ changed by cargo-mutants ~ */matches.is_empty() {
+                 return (RegexMatcherState::default(), matches);
+             }
+         }
+ 
+         let current_state = RegexMatcherState { buffer };
+         (current_state, Vec::new())
+     }
+ }

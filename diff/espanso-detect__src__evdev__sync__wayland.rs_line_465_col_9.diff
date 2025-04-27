@@ -1,0 +1,16 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl ProvidesRegistryState for SimpleWindow>::registry -> &mut RegistryState with Box::leak(Box::new(Default::default()))
+@@ -457,12 +457,12 @@
+ delegate_xdg_shell!(SimpleWindow);
+ delegate_xdg_window!(SimpleWindow);
+ delegate_activation!(SimpleWindow);
+ 
+ delegate_registry!(SimpleWindow);
+ 
+ impl ProvidesRegistryState for SimpleWindow {
+     fn registry(&mut self) -> &mut RegistryState {
+-        &mut self.registry_state
++        Box::leak(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+     registry_handlers![OutputState, SeatState,];
+ }

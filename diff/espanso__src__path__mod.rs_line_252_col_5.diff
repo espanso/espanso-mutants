@@ -1,0 +1,26 @@
+--- espanso/src/path/mod.rs
++++ replace get_default_runtime_dir -> Option<PathBuf> with Some(Default::default())
+@@ -244,22 +244,17 @@
+     if is_legacy_runtime_dir(&espanso_dir) {
+         Some(espanso_dir)
+     } else {
+         None
+     }
+ }
+ 
+ fn get_default_runtime_dir() -> Option<PathBuf> {
+-    let default_dir = get_default_runtime_path();
+-    if default_dir.is_dir() {
+-        Some(default_dir)
+-    } else {
+-        None
+-    }
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_default_runtime_path() -> PathBuf {
+     let runtime_dir = dirs::cache_dir().expect("unable to obtain dirs::cache_dir()");
+     runtime_dir.join("espanso")
+ }
+ 
+ fn get_packages_dir(config_dir: &Path, legacy_data_dir: &Path) -> Option<PathBuf> {

@@ -1,0 +1,19 @@
+--- espanso-render/src/extension/exec_util.rs
++++ delete ! in launch_command_and_get_output
+@@ -94,15 +94,15 @@
+     }
+ }
+ 
+ fn launch_command_and_get_output(command: &str, args: &[&str]) -> Option<String> {
+     use std::process::Command;
+ 
+     let output = Command::new(command).args(args).output().ok()?;
+ 
+-    if !output.status.success() {
++    if  /* ~ changed by cargo-mutants ~ */output.status.success() {
+         return None;
+     }
+ 
+     let output_str = String::from_utf8_lossy(&output.stdout);
+     Some(output_str.to_string())
+ }

@@ -1,0 +1,34 @@
+--- espanso-engine/src/dispatch/executor/html_inject.rs
++++ replace <impl Executor for HtmlInjectExecutor<'_>>::execute -> bool with false
+@@ -36,30 +36,11 @@
+ impl<'a> HtmlInjectExecutor<'a> {
+     pub fn new(injector: &'a dyn HtmlInjector) -> Self {
+         Self { injector }
+     }
+ }
+ 
+ impl Executor for HtmlInjectExecutor<'_> {
+     fn execute(&self, event: &Event) -> bool {
+-        if let EventType::HtmlInject(inject_event) = &event.etype {
+-            // Render the text fallback for those applications that don't support HTML clipboard
+-            let decorator = html2text::render::text_renderer::TrivialDecorator::new();
+-            let fallback_text = html2text::from_read_with_decorator(
+-                inject_event.html.as_bytes(),
+-                1_000_000,
+-                decorator,
+-            );
+-
+-            if let Err(error) = self
+-                .injector
+-                .inject_html(&inject_event.html, &fallback_text)
+-            {
+-                error!("html injector reported an error: {:?}", error);
+-            }
+-
+-            return true;
+-        }
+-
+-        false
++        false /* ~ changed by cargo-mutants ~ */
+     }
+ }

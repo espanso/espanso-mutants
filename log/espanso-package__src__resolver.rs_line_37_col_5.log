@@ -1,0 +1,185 @@
+
+*** espanso-package/src/resolver.rs:37:5: replace resolve_package -> Result<ResolvedPackage> with Ok(Default::default())
+
+*** mutation diff:
+--- espanso-package/src/resolver.rs
++++ replace resolve_package -> Result<ResolvedPackage> with Ok(Default::default())
+@@ -29,46 +29,17 @@
+     pub base_dir: PathBuf,
+ }
+ 
+ pub fn resolve_package(
+     base_dir: &Path,
+     name: &str,
+     version: Option<&str>,
+ ) -> Result<ResolvedPackage> {
+-    let packages = resolve_all_packages(base_dir)?;
+-
+-    let mut matching_packages: Vec<ResolvedPackage> = packages
+-        .into_iter()
+-        .filter(|package| package.manifest.name == name)
+-        .collect();
+-
+-    if matching_packages.is_empty() {
+-        bail!("no package found with name: {}", name);
+-    }
+-
+-    matching_packages.sort_by(|a, b| natord::compare(&a.manifest.version, &b.manifest.version));
+-
+-    let matching_package = if let Some(explicit_version) = version {
+-        matching_packages
+-            .into_iter()
+-            .find(|package| package.manifest.version == explicit_version)
+-    } else {
+-        matching_packages.into_iter().next_back()
+-    };
+-
+-    if let Some(matching_package) = matching_package {
+-        Ok(matching_package)
+-    } else {
+-        bail!(
+-            "unable to find version: {} for package: {}",
+-            version.unwrap_or_default(),
+-            name
+-        );
+-    }
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn resolve_all_packages(base_dir: &Path) -> Result<Vec<ResolvedPackage>> {
+     let manifest_files = find_all_manifests(base_dir)?;
+ 
+     if manifest_files.is_empty() {
+         bail!("no manifests found in base_dir");
+     }
+
+
+*** /Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/cargo test --no-run --verbose --package=espanso-package@0.1.0
+       Fresh autocfg v1.1.0
+       Fresh cfg-if v1.0.0
+       Fresh unicode-ident v1.0.12
+       Fresh libc v0.2.161
+       Fresh pin-project-lite v0.2.14
+       Fresh bytes v1.1.0
+       Fresh proc-macro2 v1.0.94
+       Fresh log v0.4.14
+       Fresh unicode-xid v0.2.1
+       Fresh memchr v2.5.0
+       Fresh futures-core v0.3.17
+       Fresh quote v1.0.35
+       Fresh once_cell v1.19.0
+       Fresh itoa v0.4.7
+       Fresh version_check v0.9.2
+       Fresh mio v0.8.6
+       Fresh syn v1.0.67
+       Fresh tracing-core v0.1.32
+       Fresh socket2 v0.4.9
+       Fresh num_cpus v1.13.0
+       Fresh serde_derive v1.0.123
+       Fresh tinyvec_macros v0.1.0
+       Fresh pkg-config v0.3.19
+       Fresh cc v1.0.73
+       Fresh fnv v1.0.7
+       Fresh matches v0.1.9
+       Fresh tracing v0.1.40
+       Fresh tokio v1.28.2
+       Fresh http v0.2.4
+       Fresh serde v1.0.123
+       Fresh tinyvec v1.3.1
+       Fresh typenum v1.14.0
+       Fresh futures-task v0.3.17
+       Fresh slab v0.4.9
+       Fresh hashbrown v0.14.3
+       Fresh pin-utils v0.1.0
+       Fresh percent-encoding v2.1.0
+       Fresh futures-io v0.3.17
+       Fresh equivalent v1.0.1
+       Fresh futures-sink v0.3.17
+       Fresh indexmap v2.2.2
+       Fresh form_urlencoded v1.0.1
+       Fresh futures-util v0.3.17
+       Fresh tokio-util v0.7.3
+       Fresh unicode-normalization v0.1.19
+       Fresh generic-array v0.14.4
+       Fresh ryu v1.0.5
+       Fresh syn v2.0.100
+       Fresh adler v1.0.2
+       Fresh unicode-bidi v0.3.6
+       Fresh itoa v1.0.6
+       Fresh try-lock v0.2.3
+       Fresh futures-channel v0.3.17
+       Fresh miniz_oxide v0.4.4
+       Fresh thiserror-impl v1.0.56
+       Fresh idna v0.2.3
+       Fresh h2 v0.3.26
+       Fresh want v0.3.0
+       Fresh crc32fast v1.2.1
+       Fresh httparse v1.8.0
+       Fresh bzip2-sys v0.1.11+1.0.8
+       Fresh http-body v0.4.3
+       Fresh linked-hash-map v0.5.6
+       Fresh tower-service v0.3.1
+       Fresh httpdate v1.0.1
+       Fresh encoding_rs v0.8.28
+       Fresh yaml-rust v0.4.5
+       Fresh bzip2 v0.4.4
+       Fresh flate2 v1.0.20
+       Fresh thiserror v1.0.56
+       Fresh hyper v0.14.26
+       Fresh serde_urlencoded v0.7.1
+       Fresh url v2.2.2
+       Fresh digest v0.9.0
+       Fresh block-buffer v0.9.0
+       Fresh aho-corasick v0.7.19
+       Fresh cpufeatures v0.2.1
+       Fresh rand v0.4.6
+       Fresh time v0.1.44
+       Fresh ipnet v2.3.1
+       Fresh opaque-debug v0.3.0
+       Fresh regex-syntax v0.6.27
+       Fresh mime v0.3.16
+       Fresh base64 v0.21.0
+       Fresh remove_dir_all v0.5.3
+       Fresh byteorder v1.4.3
+       Fresh dtoa v0.4.7
+       Fresh anyhow v1.0.38
+       Fresh reqwest v0.11.17
+       Fresh regex v1.5.5
+       Fresh sha2 v0.9.6
+       Fresh serde_yaml v0.8.17
+       Fresh tempdir v0.3.7
+       Fresh zip v0.5.13
+       Fresh serde_json v1.0.62
+       Fresh glob v0.3.0
+       Fresh scopeguard v1.1.0
+       Fresh hex v0.4.3
+       Fresh fs_extra v1.3.0
+       Fresh natord v1.0.9
+       Dirty espanso-package v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package): the file `espanso-package/src/resolver.rs` has changed (1745787315.851435825s, 1m 59s after last build at 1745787196.763556512s)
+   Compiling espanso-package v0.1.0 (/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/espanso-package)
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=4aeeb8831fdc8245 -C extra-filename=-beb94f098d1bf181 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rlib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rlib --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rlib --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rlib --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rlib --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib`
+     Running `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=7f266be59c903aaa -C extra-filename=-e3d3ef9ba9184585 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rmeta --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rmeta --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rmeta --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rmeta --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rmeta --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rmeta --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib`
+error[E0277]: the trait bound `ResolvedPackage: Default` is not satisfied
+  --> espanso-package/src/resolver.rs:37:8
+   |
+37 |     Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+   |        ^^^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `ResolvedPackage`
+
+error[E0277]: the trait bound `resolver::ResolvedPackage: Default` is not satisfied
+  --> espanso-package/src/resolver.rs:37:8
+   |
+37 |     Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+   |        ^^^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `resolver::ResolvedPackage`
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `espanso-package` (lib) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=7f266be59c903aaa -C extra-filename=-e3d3ef9ba9184585 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rmeta --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rmeta --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rmeta --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rmeta --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rmeta --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rmeta --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rmeta --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rmeta --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rmeta --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rmeta --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rmeta --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rmeta --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rmeta --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rmeta --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rmeta --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rmeta -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib` (exit status: 1)
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `espanso-package` (lib test) due to 1 previous error
+
+Caused by:
+  process didn't exit successfully: `/Users/aucamaillot/.rustup/toolchains/beta-aarch64-apple-darwin/bin/rustc --crate-name espanso_package --edition=2021 espanso-package/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 -C split-debuginfo=unpacked '--warn=clippy::pedantic' '--deny=clippy::wildcard_imports' '--allow=clippy::used_underscore_binding' '--allow=clippy::unused_self' '--allow=clippy::unnecessary_wraps' '--allow=clippy::too_many_lines' '--allow=clippy::struct_field_names' '--allow=clippy::struct_excessive_bools' '--allow=clippy::similar_names' '--deny=clippy::semicolon_if_nothing_returned' '--allow=clippy::ptr_as_ptr' '--allow=clippy::no_effect_underscore_binding' '--allow=clippy::needless_pass_by_value' '--allow=clippy::must_use_candidate' '--allow=clippy::module_name_repetitions' '--allow=clippy::missing_panics_doc' '--allow=clippy::missing_errors_doc' '--allow=clippy::match_same_arms' '--allow=clippy::items_after_statements' '--deny=clippy::enum_glob_use' '--allow=clippy::cast_sign_loss' '--allow=clippy::cast_possible_wrap' '--allow=clippy::cast_possible_truncation' '--allow=clippy::cast_lossless' '--allow=clippy::borrow_as_ptr' '--allow=clippy::as_conversions' --test --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values("default-tls", "rustls-tls"))' -C metadata=4aeeb8831fdc8245 -C extra-filename=-beb94f098d1bf181 --out-dir /private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps -C incremental=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/incremental -L dependency=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps --extern anyhow=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libanyhow-0c628cd8133a8384.rlib --extern fs_extra=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libfs_extra-856d1633d7b21db5.rlib --extern glob=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libglob-41829232cae73c89.rlib --extern hex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libhex-4b7082e3e354a40e.rlib --extern log=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/liblog-43fa8c102ec312ab.rlib --extern natord=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libnatord-b430cd094b1b14a3.rlib --extern regex=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libregex-450b5e6da8c3698c.rlib --extern reqwest=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libreqwest-c861f0d7cc826dd6.rlib --extern scopeguard=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libscopeguard-b432eba89f71791c.rlib --extern serde=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde-bb743d4e2e4444fe.rlib --extern serde_json=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_json-de3d85e0b3e324f1.rlib --extern serde_yaml=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libserde_yaml-880a1c6dd048aa26.rlib --extern sha2=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libsha2-0a62ea0de9e8edf0.rlib --extern tempdir=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libtempdir-725215259bd000b8.rlib --extern thiserror=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libthiserror-dacb47178848b153.rlib --extern zip=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/deps/libzip-31255849a6273b05.rlib -L native=/private/var/folders/6f/_7411vhs4c58v7633qtsvlwc0000gn/T/cargo-mutants-espanso-jHWQVe.tmp/target/debug/build/bzip2-sys-640bf48b4d59e09c/out/lib` (exit status: 1)
+
+*** result: Failure(101)

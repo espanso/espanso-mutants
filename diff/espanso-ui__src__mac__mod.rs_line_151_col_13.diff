@@ -1,0 +1,28 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace <impl UIEventLoop for MacEventLoop>::run::callback with ()
+@@ -143,24 +143,17 @@
+         }
+ 
+         if self._event_callback.fill(event_callback).is_err() {
+             error!("Unable to set MacEventLoop callback");
+             return Err(MacUIError::InternalError().into());
+         }
+ 
+         extern "C" fn callback(_self: *mut MacEventLoop, event: RawUIEvent) {
+-            if let Some(callback) = unsafe { (*_self)._event_callback.borrow() } {
+-                let event: Option<UIEvent> = event.into();
+-                if let Some(event) = event {
+-                    callback(event);
+-                } else {
+-                    trace!("Unable to convert raw event to input event");
+-                }
+-            }
++            () /* ~ changed by cargo-mutants ~ */
+         }
+ 
+         let error_code = unsafe { ui_eventloop(callback) };
+ 
+         if error_code <= 0 {
+             error!("MacEventLoop exited with <= 0 code");
+             return Err(MacUIError::InternalError().into());
+         }

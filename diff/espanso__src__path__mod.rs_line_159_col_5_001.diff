@@ -1,0 +1,27 @@
+--- espanso/src/path/mod.rs
++++ replace get_home_espanso_dir -> Option<PathBuf> with None
+@@ -151,23 +151,17 @@
+         if config_dir.is_dir() {
+             return Some(config_dir);
+         }
+     }
+     None
+ }
+ 
+ fn get_home_espanso_dir() -> Option<PathBuf> {
+-    if let Some(home_dir) = dirs::home_dir() {
+-        let config_espanso_dir = home_dir.join(".espanso");
+-        if config_espanso_dir.is_dir() {
+-            return Some(config_espanso_dir);
+-        }
+-    }
+-    None
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_home_config_espanso_dir() -> Option<PathBuf> {
+     if let Some(home_dir) = dirs::home_dir() {
+         let home_espanso_dir = home_dir.join(".config").join("espanso");
+         if home_espanso_dir.is_dir() {
+             return Some(home_espanso_dir);
+         }

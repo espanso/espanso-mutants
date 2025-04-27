@@ -1,0 +1,41 @@
+--- espanso/src/cli/worker/builtin/debug.rs
++++ replace create_match_show_active_app_info -> BuiltInMatch with Default::default()
+@@ -79,37 +79,17 @@
+                 title: "Active configuration".to_string(),
+             })
+         },
+         ..Default::default()
+     }
+ }
+ 
+ pub fn create_match_show_active_app_info() -> BuiltInMatch {
+-    BuiltInMatch {
+-        id: generate_next_builtin_id(),
+-        label: "Show active application information (detect)",
+-        triggers: vec!["#detect#".to_string()],
+-        action: |context| {
+-            let info = context.get_active_app_info();
+-
+-            let dump = format!(
+-                "title: '{}'\nexec: '{}'\nclass: '{}'",
+-                info.title.unwrap_or_default(),
+-                info.exec.unwrap_or_default(),
+-                info.class.unwrap_or_default()
+-            );
+-
+-            EventType::ShowText(ShowTextEvent {
+-                text: dump,
+-                title: "Active application information (detect)".to_string(),
+-            })
+-        },
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn create_match_show_logs() -> BuiltInMatch {
+     BuiltInMatch {
+         id: generate_next_builtin_id(),
+         label: "Show Espanso's logs",
+         triggers: vec!["#log#".to_string()],
+         action: |_| EventType::ShowLogs,

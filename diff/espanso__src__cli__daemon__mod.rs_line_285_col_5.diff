@@ -1,0 +1,45 @@
+--- espanso/src/cli/daemon/mod.rs
++++ replace restart_worker with ()
+@@ -277,41 +277,10 @@
+ }
+ 
+ fn restart_worker(
+     paths: &Paths,
+     paths_overrides: &PathsOverrides,
+     exit_notify: Sender<i32>,
+     start_reason: Option<String>,
+ ) {
+-    match create_ipc_client_to_worker(&paths.runtime) {
+-        Ok(mut worker_ipc) => {
+-            if let Err(err) = worker_ipc.send_async(IPCEvent::Exit) {
+-                error!(
+-                    "unable to send termination signal to worker process: {}",
+-                    err
+-                );
+-            }
+-        }
+-        Err(err) => {
+-            error!("could not establish IPC connection with worker: {}", err);
+-        }
+-    }
+-
+-    // Wait until the worker process has terminated
+-    let start = Instant::now();
+-    let mut has_timed_out = true;
+-    while start.elapsed() < std::time::Duration::from_secs(30) {
+-        let lock_file = acquire_worker_lock(&paths.runtime);
+-        if lock_file.is_some() {
+-            has_timed_out = false;
+-            break;
+-        }
+-
+-        std::thread::sleep(std::time::Duration::from_millis(100));
+-    }
+-
+-    if has_timed_out {
+-        error!("could not restart worker, as the exit process has timed out");
+-    } else {
+-        spawn_worker(paths_overrides, exit_notify, start_reason);
+-    }
++    () /* ~ changed by cargo-mutants ~ */
+ }

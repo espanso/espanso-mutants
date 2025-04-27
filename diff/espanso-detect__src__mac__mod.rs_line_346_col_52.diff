@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ replace == with != in <impl From<RawInputEvent> for Option<InputEvent>>::from
+@@ -338,17 +338,17 @@
+         match raw.event_type {
+             // Keyboard events
+             INPUT_EVENT_TYPE_KEYBOARD => {
+                 let (key, variant) = key_code_to_key(raw.key_code);
+ 
+                 // When a global keyboard shortcut is relased, the callback returns an event with keycode 0
+                 // and status 0.
+                 // We need to handle it for this reason: https://github.com/espanso/espanso/issues/791
+-                if raw.key_code == 0 && raw.status == 0 {
++                if raw.key_code == 0 && raw.status != /* ~ changed by cargo-mutants ~ */ 0 {
+                     return Some(InputEvent::AllModifiersReleased);
+                 }
+ 
+                 let value = if raw.buffer_len > 0 {
+                     let raw_string_result =
+                         CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
+                     match raw_string_result {
+                         Ok(c_string) => {

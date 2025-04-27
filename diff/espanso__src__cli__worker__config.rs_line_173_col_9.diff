@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl espanso_engine::process::MatcherMiddlewareConfigProvider for ConfigManager<'_>>::max_history_size -> usize with 1
+@@ -165,17 +165,17 @@
+             evdev_modifier_delay: active.evdev_modifier_delay(),
+             x11_use_xdotool_backend: active.x11_use_xdotool_backend(),
+         }
+     }
+ }
+ 
+ impl espanso_engine::process::MatcherMiddlewareConfigProvider for ConfigManager<'_> {
+     fn max_history_size(&self) -> usize {
+-        self.default().backspace_limit()
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl espanso_engine::process::UndoEnabledProvider for ConfigManager<'_> {
+     fn is_undo_enabled(&self) -> bool {
+         // Disable undo_backspace on Wayland for now as it's not stable
+         if cfg!(feature = "wayland") {
+             return false;

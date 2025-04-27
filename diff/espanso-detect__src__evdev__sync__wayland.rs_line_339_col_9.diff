@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl KeyboardHandler for SimpleWindow>::release_key with ()
+@@ -331,17 +331,17 @@
+     fn release_key(
+         &mut self,
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         _: u32,
+         event: KeyEvent,
+     ) {
+-        debug!("Key release: {event:?}");
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn update_modifiers(
+         &mut self,
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         _serial: u32,

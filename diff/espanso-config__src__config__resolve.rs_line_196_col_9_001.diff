@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::preserve_clipboard -> bool with true
+@@ -188,17 +188,17 @@
+             err => {
+                 error!("invalid toggle_key specified {:?}", err);
+                 None
+             }
+         }
+     }
+ 
+     fn preserve_clipboard(&self) -> bool {
+-        self.parsed.preserve_clipboard.unwrap_or(true)
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn restore_clipboard_delay(&self) -> usize {
+         self.parsed
+             .restore_clipboard_delay
+             .unwrap_or(DEFAULT_RESTORE_CLIPBOARD_DELAY)
+     }
+ 

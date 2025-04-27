@@ -1,0 +1,29 @@
+--- espanso/src/path/mod.rs
++++ replace get_legacy_mac_dir -> Option<PathBuf> with None
+@@ -188,25 +188,17 @@
+     config_dir.join("espanso")
+ }
+ 
+ // Due to the original behavior of the dirs crate, espanso placed the config
+ // directory in the Preferences folder on macOS, but this is not an optimal
+ // approach.
+ // For more context, see: https://github.com/espanso/espanso/issues/611
+ fn get_legacy_mac_dir() -> Option<PathBuf> {
+-    if cfg!(target_os = "macos") {
+-        if let Some(preferences_dir) = dirs::preference_dir() {
+-            let espanso_dir = preferences_dir.join("espanso");
+-            if espanso_dir.is_dir() {
+-                return Some(espanso_dir);
+-            }
+-        }
+-    }
+-    None
++    None /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_runtime_dir() -> Option<PathBuf> {
+     if let Some(runtime_dir) = get_portable_runtime_dir() {
+         debug!("detected portable runtime dir: {:?}", runtime_dir);
+         Some(runtime_dir)
+     } else if let Some(legacy_dir) = get_legacy_runtime_dir() {
+         debug!("detected legacy runtime dir: {:?}", legacy_dir);

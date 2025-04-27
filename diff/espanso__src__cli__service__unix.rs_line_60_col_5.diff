@@ -1,0 +1,33 @@
+--- espanso/src/cli/service/unix.rs
++++ replace spawn_launcher -> Result<()> with Ok(())
+@@ -52,29 +52,17 @@
+             libc::dup2(fd, libc::STDERR_FILENO);
+         }
+     };
+ 
+     spawn_launcher(paths_overrides)
+ }
+ 
+ pub fn spawn_launcher(paths_overrides: &PathsOverrides) -> Result<()> {
+-    let espanso_exe_path = std::env::current_exe()?;
+-    let mut command = std::process::Command::new(espanso_exe_path.to_string_lossy().to_string());
+-    command.args(["launcher"]);
+-    command.with_paths_overrides(paths_overrides);
+-
+-    let mut child = command.spawn()?;
+-    let result = child.wait()?;
+-
+-    if result.success() {
+-        Ok(())
+-    } else {
+-        Err(ForkError::LauncherSpawnFailure.into())
+-    }
++    Ok(()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ForkError {
+     #[error("unable to fork")]
+     ForkFailed,
+ 
+     #[error("setsid failed")]

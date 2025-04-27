@@ -1,0 +1,27 @@
+--- espanso-package/src/provider/git.rs
++++ replace GitPackageProvider::is_git_installed -> bool with true
+@@ -25,23 +25,17 @@
+ pub struct GitPackageProvider {}
+ 
+ impl GitPackageProvider {
+     pub fn new() -> Self {
+         Self {}
+     }
+ 
+     fn is_git_installed() -> bool {
+-        if let Ok(output) = Command::new("git").arg("--version").output() {
+-            if output.status.success() {
+-                return true;
+-            }
+-        }
+-
+-        false
++        true /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn clone_repo(dest_dir: &Path, repo_url: &str, repo_branch: Option<&str>) -> Result<()> {
+         let mut args = vec!["clone"];
+ 
+         if let Some(branch) = repo_branch {
+             args.push("-b");
+             args.push(branch);

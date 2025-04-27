@@ -1,0 +1,28 @@
+--- espanso/src/cli/worker/config.rs
++++ replace <impl super::engine::process::middleware::render::ConfigProvider<'a> for ConfigManager<'a>>::configs -> Vec<(Arc<dyn Config>, MatchSet)> with vec![]
+@@ -95,24 +95,17 @@
+         let mut output = active_user_defined_matches;
+         output.extend(builtin_matches);
+         output
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::render::ConfigProvider<'a> for ConfigManager<'a> {
+     fn configs(&self) -> Vec<(Arc<dyn Config>, MatchSet)> {
+-        self.config_store
+-            .configs()
+-            .into_iter()
+-            .map(|config| {
+-                let match_set = self.match_store.query(config.match_paths());
+-                (config, match_set)
+-            })
+-            .collect()
++        vec![] /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn active(&self) -> (Arc<dyn Config>, MatchSet) {
+         self.active_context()
+     }
+ }
+ 
+ impl espanso_engine::dispatch::ModeProvider for ConfigManager<'_> {

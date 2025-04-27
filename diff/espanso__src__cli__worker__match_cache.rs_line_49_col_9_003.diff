@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/match_cache.rs
++++ replace MatchCache<'a>::ids -> Vec<i32> with vec![-1]
+@@ -41,17 +41,17 @@
+         for m in global_set.matches {
+             cache.insert(m.id, m);
+         }
+ 
+         Self { cache }
+     }
+ 
+     fn ids(&self) -> Vec<i32> {
+-        self.cache.keys().copied().collect()
++        vec![-1] /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl<'a> super::engine::process::middleware::render::MatchProvider<'a> for MatchCache<'a> {
+     fn matches(&self) -> Vec<&'a Match> {
+         self.cache.values().copied().collect()
+     }
+ 

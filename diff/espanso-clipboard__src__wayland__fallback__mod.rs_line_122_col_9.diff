@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/wayland/fallback/mod.rs
++++ replace <impl Clipboard for WaylandFallbackClipboard>::set_text -> anyhow::Result<()> with Ok(())
+@@ -114,17 +114,17 @@
+             Err(err) => {
+                 error!("could not invoke 'wl-paste': {}", err);
+                 None
+             }
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        self.invoke_command_with_timeout(&mut Command::new("wl-copy"), text.as_bytes(), "wl-copy")
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if !image_path.exists() || !image_path.is_file() {

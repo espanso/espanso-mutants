@@ -1,0 +1,24 @@
+--- espanso/src/cli/worker/engine/funnel/modifier.rs
++++ replace ModifierStateStore::clear_state with ()
+@@ -88,20 +88,17 @@
+                     status.release();
+                 }
+                 break;
+             }
+         }
+     }
+ 
+     pub fn clear_state(&self) {
+-        let mut state = self.state.lock().expect("unable to obtain modifier state");
+-        for (_, status) in &mut state.modifiers {
+-            status.release();
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ struct ModifiersState {
+     modifiers: Vec<(Modifier, ModifierStatus)>,
+ }
+ 
+ impl Default for ModifiersState {

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -178,17 +178,17 @@
+         39 => Some(0x0027),  // Apostrophe
+         40 => Some(0x0028),  // Left parenthesis, opening parenthesis
+         41 => Some(0x0029),  // Right parenthesis, closing parenthesis
+         42 => Some(0x002A),  // Asterisk, star
+         43 => Some(0x002B),  // Plus sign
+         44 => Some(0x002C),  // Comma, decimal separator
+         45 => Some(0x002D),  // Hyphen, minus sign
+         46 => Some(0x002E),  // Full stop, period, dot, decimal point
+-        47 => Some(0x002F),  // Solidus, slash, forward slash, virgule
++         /* ~ changed by cargo-mutants ~ */  // Solidus, slash, forward slash, virgule
+         48 => Some(0x0030),  // Digit zero
+         49 => Some(0x0031),  // Digit one
+         50 => Some(0x0032),  // Digit two
+         51 => Some(0x0033),  // Digit three
+         52 => Some(0x0034),  // Digit four
+         53 => Some(0x0035),  // Digit five
+         54 => Some(0x0036),  // Digit six
+         55 => Some(0x0037),  // Digit seven

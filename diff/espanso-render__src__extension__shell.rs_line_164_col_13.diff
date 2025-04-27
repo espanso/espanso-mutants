@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ delete match arm
+@@ -156,17 +156,17 @@
+             "bash" => Some(Shell::Bash),
+             "cmd" => Some(Shell::Cmd),
+             "nu" => Some(Shell::Nu),
+             "powershell" => Some(Shell::Powershell),
+             "pwsh" => Some(Shell::Pwsh),
+             "sh" => Some(Shell::Sh),
+             "wsl" => Some(Shell::WSL),
+             "wsl2" => Some(Shell::WSL2),
+-            "zsh" => Some(Shell::Zsh),
++             /* ~ changed by cargo-mutants ~ */
+             _ => None,
+         }
+     }
+ }
+ 
+ impl Default for Shell {
+     fn default() -> Shell {
+         if cfg!(target_os = "windows") {

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -422,17 +422,17 @@
+         0x00 => Some(0x0000), // #NULL
+         0x01 => Some(0x0001), // #START OF HEADING
+         0x02 => Some(0x0002), // #START OF TEXT
+         0x03 => Some(0x0003), // #END OF TEXT
+         0x04 => Some(0x0004), // #END OF TRANSMISSION
+         0x05 => Some(0x0005), // #ENQUIRY
+         0x06 => Some(0x0006), // #ACKNOWLEDGE
+         0x07 => Some(0x0007), // #BELL
+-        0x08 => Some(0x0008), // #BACKSPACE
++         /* ~ changed by cargo-mutants ~ */ // #BACKSPACE
+         0x09 => Some(0x0009), // #HORIZONTAL TABULATION
+         0x0A => Some(0x000A), // #LINE FEED
+         0x0B => Some(0x000B), // #VERTICAL TABULATION
+         0x0C => Some(0x000C), // #FORM FEED
+         0x0D => Some(0x000D), // #CARRIAGE RETURN
+         0x0E => Some(0x000E), // #SHIFT OUT
+         0x0F => Some(0x000F), // #SHIFT IN
+         0x10 => Some(0x0010), // #DATA LINK ESCAPE

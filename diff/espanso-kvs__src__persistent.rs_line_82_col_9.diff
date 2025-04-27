@@ -1,0 +1,35 @@
+--- espanso-kvs/src/persistent.rs
++++ replace <impl KVS for PersistentJsonKVS>::set -> Result<()> with Ok(())
+@@ -74,31 +74,17 @@
+ 
+             return Ok(Some(converted_value));
+         }
+ 
+         Ok(None)
+     }
+ 
+     fn set<T: serde::Serialize>(&self, key: &str, value: T) -> Result<()> {
+-        if !is_valid_key_name(key) {
+-            return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+-        }
+-
+-        let mut lock = self.store.lock().expect("unable to obtain KVS write lock");
+-
+-        let serialized_value = serde_json::to_value(value)?;
+-        let serialized_string = serde_json::to_string(&serialized_value)?;
+-
+-        lock.insert(key.to_string(), serialized_value);
+-
+-        let target_file = self.kvs_dir.join(key);
+-        std::fs::write(target_file, serialized_string)?;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn delete(&self, key: &str) -> Result<()> {
+         if !is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS delete lock");

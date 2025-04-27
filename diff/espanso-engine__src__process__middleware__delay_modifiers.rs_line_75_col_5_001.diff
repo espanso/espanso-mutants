@@ -1,0 +1,23 @@
+--- espanso-engine/src/process/middleware/delay_modifiers.rs
++++ replace is_injection_event -> bool with false
+@@ -67,19 +67,10 @@
+             }
+         }
+ 
+         event
+     }
+ }
+ 
+ fn is_injection_event(event_type: &EventType) -> bool {
+-    matches!(
+-        event_type,
+-        EventType::TriggerCompensation(_)
+-            | EventType::CursorHintCompensation(_)
+-            | EventType::KeySequenceInject(_)
+-            | EventType::TextInject(_)
+-            | EventType::ImageInject(_)
+-            | EventType::HtmlInject(_)
+-            | EventType::MarkdownInject(_)
+-    )
++    false /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,48 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace X11DefaultInjector::send_key with ()
+@@ -372,44 +372,17 @@
+         let mut revert_to = 0;
+         unsafe {
+             XGetInputFocus(self.display, &mut focused_window, &mut revert_to);
+         }
+         focused_window
+     }
+ 
+     fn send_key(&self, window: Window, record: &KeyPair, pressed: bool, delay_us: u32) {
+-        let root_window = unsafe { XDefaultRootWindow(self.display) };
+-        let mut event = XKeyEvent {
+-            display: self.display,
+-            keycode: record.code,
+-            state: record.state,
+-            window,
+-            root: root_window,
+-            same_screen: 1,
+-            time: 0,
+-            type_: if pressed { KeyPress } else { KeyRelease },
+-            x_root: 1,
+-            y_root: 1,
+-            x: 1,
+-            y: 1,
+-            subwindow: 0,
+-            serial: 0,
+-            send_event: 0,
+-        };
+-        unsafe {
+-            XSendEvent(self.display, window, 1, 0, &mut event);
+-            XFlush(self.display);
+-        }
+-
+-        if delay_us != 0 {
+-            unsafe {
+-                libc::usleep(delay_us);
+-            }
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn xtest_send_modifiers(&self, modmask: u32, pressed: bool) {
+         let modifiers_codes = self.get_modifier_codes();
+         for (mod_index, modifier_codes) in modifiers_codes.into_iter().enumerate() {
+             if (modmask & (1 << mod_index)) != 0 {
+                 for keycode in modifier_codes {
+                     let is_press = i32::from(pressed);

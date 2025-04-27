@@ -1,0 +1,24 @@
+--- espanso/src/cli/worker/engine/dispatch/executor/clipboard_injector.rs
++++ replace ClipboardInjectorAdapter<'a>::get_operation_options -> ClipboardOperationOptions with Default::default()
+@@ -114,20 +114,17 @@
+                 self.get_operation_options(),
+             ))
+         } else {
+             None
+         }
+     }
+ 
+     fn get_operation_options(&self) -> ClipboardOperationOptions {
+-        let params = self.params_provider.get();
+-        ClipboardOperationOptions {
+-            use_xclip_backend: params.x11_use_xclip_backend,
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl TextInjector for ClipboardInjectorAdapter<'_> {
+     fn name(&self) -> &'static str {
+         "clipboard"
+     }
+ 

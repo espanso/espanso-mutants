@@ -1,0 +1,21 @@
+--- espanso-detect/src/hotkey/keys.rs
++++ delete match arm
+@@ -227,17 +227,17 @@
+             "DOWN" => Some(ShortcutKey::ArrowDown),
+             "LEFT" => Some(ShortcutKey::ArrowLeft),
+             "RIGHT" => Some(ShortcutKey::ArrowRight),
+             "UP" => Some(ShortcutKey::ArrowUp),
+             "END" => Some(ShortcutKey::End),
+             "HOME" => Some(ShortcutKey::Home),
+             "PAGEDOWN" => Some(ShortcutKey::PageDown),
+             "PAGEUP" => Some(ShortcutKey::PageUp),
+-            "F1" => Some(ShortcutKey::F1),
++             /* ~ changed by cargo-mutants ~ */
+             "F2" => Some(ShortcutKey::F2),
+             "F3" => Some(ShortcutKey::F3),
+             "F4" => Some(ShortcutKey::F4),
+             "F5" => Some(ShortcutKey::F5),
+             "F6" => Some(ShortcutKey::F6),
+             "F7" => Some(ShortcutKey::F7),
+             "F8" => Some(ShortcutKey::F8),
+             "F9" => Some(ShortcutKey::F9),

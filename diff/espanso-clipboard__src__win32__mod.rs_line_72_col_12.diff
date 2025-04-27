@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ delete ! in <impl Clipboard for Win32Clipboard>::set_image
+@@ -64,17 +64,17 @@
+         }
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+-        if !image_path.exists() || !image_path.is_file() {
++        if  /* ~ changed by cargo-mutants ~ */image_path.exists() || !image_path.is_file() {
+             return Err(Win32ClipboardError::ImageNotFound(image_path.to_path_buf()).into());
+         }
+ 
+         let path = U16CString::from_os_str(image_path.as_os_str())?;
+         let native_result = unsafe { ffi::clipboard_set_image(path.as_ptr()) };
+ 
+         if native_result > 0 {
+             Ok(())

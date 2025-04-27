@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ delete ! in case_insensitive_keyword
+@@ -75,17 +75,17 @@
+     let lowercase_query = query.to_lowercase();
+     let keywords: Vec<&str> = lowercase_query.split_whitespace().collect();
+     items
+         .iter()
+         .enumerate()
+         .filter(|(_, item)| {
+             for keyword in &keywords {
+                 if !item.label.to_lowercase().contains(keyword)
+-                    && !item
++                    &&  /* ~ changed by cargo-mutants ~ */item
+                         .trigger
+                         .as_deref()
+                         .is_some_and(|t| t.to_lowercase().contains(keyword))
+                     && !item
+                         .search_terms
+                         .iter()
+                         .any(|term| term.to_lowercase().contains(keyword))
+                 {

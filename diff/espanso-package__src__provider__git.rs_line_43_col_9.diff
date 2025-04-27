@@ -1,0 +1,42 @@
+--- espanso-package/src/provider/git.rs
++++ replace GitPackageProvider::clone_repo -> Result<()> with Ok(())
+@@ -35,38 +35,17 @@
+                 return true;
+             }
+         }
+ 
+         false
+     }
+ 
+     fn clone_repo(dest_dir: &Path, repo_url: &str, repo_branch: Option<&str>) -> Result<()> {
+-        let mut args = vec!["clone"];
+-
+-        if let Some(branch) = repo_branch {
+-            args.push("-b");
+-            args.push(branch);
+-        }
+-
+-        args.push(repo_url);
+-
+-        let dest_dir_str = dest_dir.to_string_lossy().to_string();
+-        args.push(&dest_dir_str);
+-
+-        let output = Command::new("git")
+-            .args(&args)
+-            .output()
+-            .context("git command reported error")?;
+-
+-        if !output.status.success() {
+-            let stderr = String::from_utf8_lossy(&output.stderr);
+-            bail!("git command exited with non-zero status: {}", stderr);
+-        }
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl PackageProvider for GitPackageProvider {
+     fn name(&self) -> String {
+         "git".to_string()
+     }
+ 

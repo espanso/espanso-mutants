@@ -1,0 +1,24 @@
+--- espanso/src/icon.rs
++++ replace extract_icon -> Result<PathBuf> with Ok(Default::default())
+@@ -144,20 +144,10 @@
+             LOGO_NO_BACKGROUND_BINARY,
+             &runtime_dir.join("icon_no_background.png"),
+         )?),
+         ..Default::default()
+     })
+ }
+ 
+ fn extract_icon(data: &[u8], target_file: &Path) -> Result<PathBuf> {
+-    if target_file.exists() {
+-        debug!(
+-            "skipping extraction for '{:?}', as it's already present",
+-            target_file
+-        );
+-    } else {
+-        std::fs::write(target_file, data)?;
+-        info!("extracted icon to: {:?}", target_file);
+-    }
+-
+-    Ok(target_file.to_owned())
++    Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }

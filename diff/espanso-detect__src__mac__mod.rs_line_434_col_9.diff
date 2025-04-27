@@ -1,0 +1,21 @@
+--- espanso-detect/src/mac/mod.rs
++++ delete match arm
+@@ -426,17 +426,17 @@
+         0x7C => (ArrowRight, None),
+         0x7E => (ArrowUp, None),
+         0x77 => (End, None),
+         0x73 => (Home, None),
+         0x79 => (PageDown, None),
+         0x74 => (PageUp, None),
+ 
+         // UI
+-        0x35 => (Escape, None),
++         /* ~ changed by cargo-mutants ~ */
+ 
+         // Editing keys
+         0x33 => (Backspace, None),
+ 
+         // Function keys
+         0x7A => (F1, None),
+         0x78 => (F2, None),
+         0x63 => (F3, None),

@@ -1,0 +1,25 @@
+--- espanso/src/path/mod.rs
++++ replace is_legacy_runtime_dir -> bool with true
+@@ -328,21 +328,10 @@
+ ];
+ 
+ // Run an heuristic to determine if the given directory
+ // is a legacy runtime dir or not.
+ // Unfortunately, due to the way the legacy path works
+ // we really have to analyse the content to determine this
+ // information
+ fn is_legacy_runtime_dir(path: &Path) -> bool {
+-    if !path.is_dir() {
+-        return false;
+-    }
+-
+-    for candidate in LEGACY_RUNTIME_DIR_CANDIDATES_FILE {
+-        let candidate_path = path.join(candidate);
+-        if candidate_path.is_file() {
+-            return true;
+-        }
+-    }
+-
+-    false
++    true /* ~ changed by cargo-mutants ~ */
+ }

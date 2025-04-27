@@ -1,0 +1,17 @@
+--- espanso/src/cli/worker/engine/process/middleware/matcher/mod.rs
++++ delete match arm
+@@ -91,13 +91,13 @@
+         Key::F12 => espanso_match::event::Key::F12,
+         Key::F13 => espanso_match::event::Key::F13,
+         Key::F14 => espanso_match::event::Key::F14,
+         Key::F15 => espanso_match::event::Key::F15,
+         Key::F16 => espanso_match::event::Key::F16,
+         Key::F17 => espanso_match::event::Key::F17,
+         Key::F18 => espanso_match::event::Key::F18,
+         Key::F19 => espanso_match::event::Key::F19,
+-        Key::F20 => espanso_match::event::Key::F20,
++         /* ~ changed by cargo-mutants ~ */
+         Key::Other(_) => espanso_match::event::Key::Other,
+         _ => espanso_match::event::Key::Other,
+     }
+ }

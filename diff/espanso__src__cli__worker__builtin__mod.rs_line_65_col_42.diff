@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/builtin/mod.rs
++++ replace || with && in get_builtin_matches
+@@ -57,17 +57,17 @@
+         debug::create_match_paste_active_app_info(),
+         debug::create_match_show_active_config_info(),
+         debug::create_match_show_active_app_info(),
+         debug::create_match_show_logs(),
+         process::create_match_exit(),
+         process::create_match_restart(),
+     ];
+ 
+-    if config.search_trigger().is_some() || config.search_shortcut().is_some() {
++    if config.search_trigger().is_some() && /* ~ changed by cargo-mutants ~ */ config.search_shortcut().is_some() {
+         matches.push(search::create_match_trigger_search_bar(
+             config.search_trigger(),
+             config.search_shortcut(),
+         ));
+     }
+ 
+     matches
+ }

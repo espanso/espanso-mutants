@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_max_form_width -> i32 with 0
+@@ -28,17 +28,17 @@
+     None
+ }
+ 
+ fn default_fields() -> HashMap<String, FieldConfig> {
+     HashMap::new()
+ }
+ 
+ fn default_max_form_width() -> i32 {
+-    700
++    0 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn default_max_form_height() -> i32 {
+     500
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct FormConfig {

@@ -1,0 +1,21 @@
+--- espanso-detect/src/x11/mod.rs
++++ delete match arm
+@@ -154,17 +154,17 @@
+     fn initialize(&mut self) -> Result<()> {
+         let mut error_code = 0;
+         let handle =
+             unsafe { detect_initialize(std::ptr::from_ref::<X11Source>(self), &mut error_code) };
+ 
+         if handle.is_null() {
+             let error = match error_code {
+                 -1 => X11SourceError::DisplayFailure(),
+-                -2 => X11SourceError::XRecordMissing(),
++                 /* ~ changed by cargo-mutants ~ */
+                 -3 => X11SourceError::XKeyboardMissing(),
+                 -4 => {
+                     X11SourceError::FailedRegistration("cannot initialize record range".to_owned())
+                 }
+                 -5 => X11SourceError::FailedRegistration(
+                     "cannot initialize XRecord context".to_owned(),
+                 ),
+                 -6 => {

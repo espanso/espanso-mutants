@@ -1,0 +1,21 @@
+--- espanso-render/src/extension/shell.rs
++++ delete match arm
+@@ -155,17 +155,17 @@
+         match shell {
+             "bash" => Some(Shell::Bash),
+             "cmd" => Some(Shell::Cmd),
+             "nu" => Some(Shell::Nu),
+             "powershell" => Some(Shell::Powershell),
+             "pwsh" => Some(Shell::Pwsh),
+             "sh" => Some(Shell::Sh),
+             "wsl" => Some(Shell::WSL),
+-            "wsl2" => Some(Shell::WSL2),
++             /* ~ changed by cargo-mutants ~ */
+             "zsh" => Some(Shell::Zsh),
+             _ => None,
+         }
+     }
+ }
+ 
+ impl Default for Shell {
+     fn default() -> Shell {

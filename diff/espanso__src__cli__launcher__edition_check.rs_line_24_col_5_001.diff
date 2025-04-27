@@ -1,0 +1,34 @@
+--- espanso/src/cli/launcher/edition_check.rs
++++ replace is_wrong_edition -> (bool, DetectedOS) with (false, Default::default())
+@@ -16,30 +16,17 @@
+  * You should have received a copy of the GNU General Public License
+  * along with espanso.  If not, see <https://www.gnu.org/licenses/>.
+  */
+ 
+ use crate::warn_eprintln;
+ use espanso_modulo::wizard::DetectedOS;
+ 
+ pub fn is_wrong_edition() -> (bool, DetectedOS) {
+-    if !cfg!(target_os = "linux") {
+-        return (false, DetectedOS::Unknown);
+-    }
+-
+-    match get_session_type().as_deref() {
+-        Some("x11") if cfg!(feature = "wayland") => return (true, DetectedOS::X11),
+-        Some("wayland") if !cfg!(feature = "wayland") => return (true, DetectedOS::Wayland),
+-        None => {
+-            warn_eprintln!("could not automatically determine the session type (X11/Wayland), so make sure you have the correct espanso version!");
+-        }
+-        _ => {}
+-    }
+-
+-    (false, DetectedOS::Unknown)
++    (false, Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn get_session_type() -> Option<String> {
+     let output = std::process::Command::new("sh")
+         .arg("-c")
+         .arg("loginctl show-session $(loginctl | grep $(whoami) | awk '{print $1}') -p Type")
+         .output()
+         .ok()?;

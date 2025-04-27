@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/context.rs
++++ replace Context::get_handle -> *mut xkb_context with Default::default()
+@@ -23,17 +23,17 @@
+         }
+ 
+         Ok(Self {
+             context: ScopeGuard::into_inner(context),
+         })
+     }
+ 
+     pub fn get_handle(&self) -> *mut xkb_context {
+-        self.context
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for Context {
+     fn drop(&mut self) {
+         unsafe {
+             xkb_context_unref(self.context);
+         }

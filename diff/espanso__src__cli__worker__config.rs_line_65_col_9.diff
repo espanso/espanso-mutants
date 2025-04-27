@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/config.rs
++++ replace ConfigManager<'a>::default -> Arc<dyn Config> with Arc::new(Default::default())
+@@ -57,17 +57,17 @@
+ 
+     pub fn active_context(&self) -> (Arc<dyn Config>, MatchSet) {
+         let config = self.active();
+         let match_paths = config.match_paths();
+         (config.clone(), self.match_store.query(match_paths))
+     }
+ 
+     pub fn default(&self) -> Arc<dyn Config> {
+-        self.config_store.default()
++        Arc::new(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn to_app_properties(info: &AppInfo) -> AppProperties {
+     AppProperties {
+         title: info.title.as_deref(),
+         class: info.class.as_deref(),
+         exec: info.exec.as_deref(),

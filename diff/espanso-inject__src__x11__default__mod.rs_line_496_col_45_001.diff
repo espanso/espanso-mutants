@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace * with + in <impl Injector for X11DefaultInjector>::send_string
+@@ -488,17 +488,17 @@
+             .map(|char| {
+                 self.char_map
+                     .get(&char)
+                     .copied()
+                     .ok_or_else(|| X11InjectorError::CharMapping(char).into())
+             })
+             .collect();
+ 
+-        let delay_us = options.delay as u32 * 1000; // Convert to micro seconds
++        let delay_us = options.delay as u32 + /* ~ changed by cargo-mutants ~ */ 1000; // Convert to micro seconds
+ 
+         for record in records? {
+             if options.disable_fast_inject {
+                 if let Some(deadkey) = &record.preceding_dead_key {
+                     self.xtest_send_key(deadkey, true, delay_us);
+                     self.xtest_send_key(deadkey, false, delay_us);
+                 }
+ 

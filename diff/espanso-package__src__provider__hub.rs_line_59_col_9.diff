@@ -1,0 +1,55 @@
+--- espanso-package/src/provider/hub.rs
++++ replace <impl PackageProvider for EspansoHubPackageProvider>::download -> Result<Box<dyn Package>> with Ok(Box::new(Default::default()))
+@@ -51,51 +51,17 @@
+ }
+ 
+ impl PackageProvider for EspansoHubPackageProvider {
+     fn name(&self) -> String {
+         "espanso-hub".to_string()
+     }
+ 
+     fn download(&self, package: &PackageSpecifier) -> Result<Box<dyn Package>> {
+-        let index = self
+-            .get_index(self.force_index_update)
+-            .context("unable to get package index from espanso hub")?;
+-
+-        let package_info = index
+-            .get_package(&package.name, package.version.as_deref())
+-            .ok_or_else(|| {
+-                anyhow!(
+-                    "unable to find package '{}@{}' in the espanso hub",
+-                    package.name,
+-                    package.version.as_deref().unwrap_or("latest")
+-                )
+-            })?;
+-
+-        let archive_sha256 = read_string_from_url(&package_info.archive_sha256_url)
+-            .context("unable to read archive sha256 signature")?;
+-
+-        let temp_dir = tempdir::TempDir::new("espanso-package-download")?;
+-
+-        crate::util::download::download_and_extract_zip_verify_sha256(
+-            &package_info.archive_url,
+-            temp_dir.path(),
+-            Some(&archive_sha256),
+-        )?;
+-
+-        let resolved_package =
+-            resolve_package(temp_dir.path(), &package.name, package.version.as_deref())?;
+-
+-        let package = DefaultPackage::new(
+-            resolved_package.manifest,
+-            temp_dir,
+-            resolved_package.base_dir,
+-        );
+-
+-        Ok(Box::new(package))
++        Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl EspansoHubPackageProvider {
+     fn get_index(&self, force_update: bool) -> Result<PackageIndex> {
+         let old_index = self.get_index_from_cache()?;
+ 
+         if let Some(old_index) = old_index {

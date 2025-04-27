@@ -1,0 +1,21 @@
+--- espanso-package/src/archive/default.rs
++++ delete ! in <impl Archiver for DefaultArchiver>::delete
+@@ -136,17 +136,17 @@
+         }
+ 
+         Ok(output)
+     }
+ 
+     fn delete(&self, name: &str) -> Result<()> {
+         let target_dir = self.package_dir.join(name);
+ 
+-        if !target_dir.is_dir() {
++        if  /* ~ changed by cargo-mutants ~ */target_dir.is_dir() {
+             bail!("package {} not found", name);
+         }
+ 
+         std::fs::remove_dir_all(&target_dir).context("unable to remove package directory")?;
+ 
+         Ok(())
+     }
+ }

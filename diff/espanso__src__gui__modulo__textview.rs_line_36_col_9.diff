@@ -1,0 +1,24 @@
+--- espanso/src/gui/modulo/textview.rs
++++ replace <impl TextUI for ModuloTextUI<'_>>::show_text -> anyhow::Result<()> with Ok(())
+@@ -28,20 +28,17 @@
+ impl<'a> ModuloTextUI<'a> {
+     pub fn new(manager: &'a ModuloManager) -> Self {
+         Self { manager }
+     }
+ }
+ 
+ impl TextUI for ModuloTextUI<'_> {
+     fn show_text(&self, title: &str, text: &str) -> anyhow::Result<()> {
+-        self.manager
+-            .spawn(&["textview", "--title", title, "-i", "-"], text)?;
+-
+-        Ok(())
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_file(&self, title: &str, path: &std::path::Path) -> anyhow::Result<()> {
+         let path_str = path.to_string_lossy().to_string();
+         self.manager
+             .spawn(&["textview", "--title", title, "-i", &path_str], "")?;
+ 
+         Ok(())

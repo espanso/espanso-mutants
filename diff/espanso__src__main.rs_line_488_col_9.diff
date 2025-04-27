@@ -1,0 +1,22 @@
+--- espanso/src/main.rs
++++ delete match arm
+@@ -480,18 +480,17 @@
+     // to detect if the executable was launched inside an AppBundle, and if so, launch the "launcher" handler
+     // This should only apply when on macOS.
+ 
+     let matches = clap_instance.clone().get_matches();
+     let log_level = match matches.get_count("v") {
+         0 | 1 => LevelFilter::Info,
+ 
+         // Trace mode is only available in debug mode for security reasons
+-        #[cfg(debug_assertions)]
+-        3 => LevelFilter::Trace,
++         /* ~ changed by cargo-mutants ~ */
+ 
+         _ => LevelFilter::Debug,
+     };
+ 
+     let alias = ALIASES
+         .iter()
+         .find(|cli| matches.subcommand_matches(&cli.subcommand).is_some());
+ 

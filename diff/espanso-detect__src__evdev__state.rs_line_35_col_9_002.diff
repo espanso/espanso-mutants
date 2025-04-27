@@ -1,0 +1,26 @@
+--- espanso-detect/src/evdev/state.rs
++++ replace State::get_sym -> Option<u32> with Some(1)
+@@ -27,22 +27,17 @@
+         }
+ 
+         Ok(Self {
+             state: ScopeGuard::into_inner(state),
+         })
+     }
+ 
+     pub fn get_sym(&self, code: u32) -> Option<u32> {
+-        let sym = unsafe { xkb_state_key_get_one_sym(self.state, code) };
+-        if sym == 0 {
+-            None
+-        } else {
+-            Some(sym)
+-        }
++        Some(1) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Drop for State {
+     fn drop(&mut self) {
+         unsafe {
+             xkb_state_unref(self.state);
+         }

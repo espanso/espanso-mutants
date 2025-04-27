@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace * with / in SimpleWindow::draw
+@@ -366,17 +366,17 @@
+ }
+ 
+ #[allow(clippy::many_single_char_names)]
+ #[allow(clippy::single_match_else)]
+ impl SimpleWindow {
+     pub fn draw(&mut self, _conn: &Connection, qh: &QueueHandle<Self>) {
+         let width = self.width;
+         let height = self.height;
+-        let stride = self.width as i32 * 4;
++        let stride = self.width as i32 / /* ~ changed by cargo-mutants ~ */ 4;
+ 
+         let buffer = self.buffer.get_or_insert_with(|| {
+             self.pool
+                 .create_buffer(
+                     width as i32,
+                     height as i32,
+                     stride,
+                     wl_shm::Format::Argb8888,

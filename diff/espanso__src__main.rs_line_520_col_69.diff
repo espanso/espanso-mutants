@@ -1,0 +1,21 @@
+--- espanso/src/main.rs
++++ replace == with != in main
+@@ -512,17 +512,17 @@
+             if context == "bundle" {
+                 handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand == "launcher");
+             }
+         }
+ 
+         // When started from a Linux app image, override the default handler with the launcher
+         // to start espanso when launching it directly
+         if std::env::var_os("APPIMAGE").is_some() {
+-            handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand == "launcher");
++            handler = CLI_HANDLERS.iter().find(|cli| cli.subcommand != /* ~ changed by cargo-mutants ~ */ "launcher");
+         }
+     }
+ 
+     if let Some(handler) = handler {
+         let log_proxy = FileProxy::new();
+         if handler.enable_logs {
+             let config = ConfigBuilder::new()
+                 .set_time_to_local(true)

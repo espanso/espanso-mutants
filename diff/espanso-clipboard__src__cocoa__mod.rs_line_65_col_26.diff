@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/cocoa/mod.rs
++++ replace > with == in <impl Clipboard for CocoaClipboard>::set_text
+@@ -57,17 +57,17 @@
+         } else {
+             None
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+         let string = CString::new(text)?;
+         let native_result = unsafe { ffi::clipboard_set_text(string.as_ptr()) };
+-        if native_result > 0 {
++        if native_result == /* ~ changed by cargo-mutants ~ */ 0 {
+             Ok(())
+         } else {
+             Err(CocoaClipboardError::SetOperationFailed().into())
+         }
+     }
+ 
+     fn set_image(
+         &self,

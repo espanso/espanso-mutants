@@ -1,0 +1,28 @@
+--- espanso/src/cli/modulo/mod.rs
++++ replace new -> CliModule with Default::default()
+@@ -26,24 +26,17 @@
+ #[cfg(feature = "modulo")]
+ mod textview;
+ #[cfg(feature = "modulo")]
+ mod troubleshoot;
+ #[cfg(feature = "modulo")]
+ mod welcome;
+ 
+ pub fn new() -> CliModule {
+-    #[allow(clippy::needless_update)]
+-    CliModule {
+-        requires_paths: true,
+-        enable_logs: false,
+-        subcommand: "modulo".to_string(),
+-        entry: modulo_main,
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(feature = "modulo")]
+ fn modulo_main(args: CliModuleArgs) -> i32 {
+     let paths = args.paths.expect("missing paths in modulo main");
+     let cli_args = args.cli_args.expect("missing cli_args in modulo main");
+     let icon_paths =
+         crate::icon::load_icon_paths(&paths.runtime).expect("unable to load icon paths");

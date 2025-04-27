@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/default/mod.rs
++++ replace & with ^ in X11DefaultInjector::xtest_send_modifiers
+@@ -405,17 +405,17 @@
+                 libc::usleep(delay_us);
+             }
+         }
+     }
+ 
+     fn xtest_send_modifiers(&self, modmask: u32, pressed: bool) {
+         let modifiers_codes = self.get_modifier_codes();
+         for (mod_index, modifier_codes) in modifiers_codes.into_iter().enumerate() {
+-            if (modmask & (1 << mod_index)) != 0 {
++            if (modmask ^ /* ~ changed by cargo-mutants ~ */ (1 << mod_index)) != 0 {
+                 for keycode in modifier_codes {
+                     let is_press = i32::from(pressed);
+                     unsafe {
+                         XTestFakeKeyEvent(self.display, keycode as u32, is_press, 0);
+                         XSync(self.display, 0);
+                     }
+                 }
+             }

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ replace == with != in <impl Middleware for AltCodeSynthesizerMiddleware<'_>>::next
+@@ -55,17 +55,17 @@
+         match &event.etype {
+             EventType::Keyboard(keyboard_event)
+                 if self
+                     .enabled_state_provider
+                     .is_alt_code_synthesizer_enabled() =>
+             {
+                 let mut code_buffer = self.code_buffer.borrow_mut();
+ 
+-                if keyboard_event.status == Status::Pressed {
++                if keyboard_event.status != /* ~ changed by cargo-mutants ~ */ Status::Pressed {
+                     if let Key::Alt = &keyboard_event.key {
+                         *code_buffer = Some(String::new());
+                     } else if let Some(buffer) = &mut *code_buffer {
+                         match keyboard_event.key {
+                             Key::Numpad0 => buffer.push('0'),
+                             Key::Numpad1 => buffer.push('1'),
+                             Key::Numpad2 => buffer.push('2'),
+                             Key::Numpad3 => buffer.push('3'),

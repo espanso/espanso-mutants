@@ -1,0 +1,31 @@
+--- espanso-config/src/config/resolve.rs
++++ replace ResolvedConfig::generate_match_paths -> HashSet<String> with HashSet::from_iter([String::new()])
+@@ -492,27 +492,17 @@
+                 excludes.insert(exclude.to_string());
+             }
+         }
+ 
+         excludes
+     }
+ 
+     fn generate_match_paths(config: &ParsedConfig, base_dir: &Path) -> HashSet<String> {
+-        let includes = Self::aggregate_includes(config);
+-        let excludes = Self::aggregate_excludes(config);
+-
+-        // Extract the paths
+-        let exclude_paths = calculate_paths(base_dir, excludes.iter());
+-        let include_paths = calculate_paths(base_dir, includes.iter());
+-
+-        include_paths
+-            .difference(&exclude_paths)
+-            .cloned()
+-            .collect::<HashSet<_>>()
++        HashSet::from_iter([String::new()]) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum ResolveError {
+     #[error("unable to resolve parent path")]
+     ParentResolveFailed(),
+ }

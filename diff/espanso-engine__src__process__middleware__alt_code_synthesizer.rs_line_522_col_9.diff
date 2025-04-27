@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/alt_code_synthesizer.rs
++++ delete match arm
+@@ -514,17 +514,17 @@
+         0x5C => Some(0x005C), // #REVERSE SOLIDUS
+         0x5D => Some(0x005D), // #RIGHT SQUARE BRACKET
+         0x5E => Some(0x005E), // #CIRCUMFLEX ACCENT
+         0x5F => Some(0x005F), // #LOW LINE
+         0x60 => Some(0x0060), // #GRAVE ACCENT
+         0x61 => Some(0x0061), // #LATIN SMALL LETTER A
+         0x62 => Some(0x0062), // #LATIN SMALL LETTER B
+         0x63 => Some(0x0063), // #LATIN SMALL LETTER C
+-        0x64 => Some(0x0064), // #LATIN SMALL LETTER D
++         /* ~ changed by cargo-mutants ~ */ // #LATIN SMALL LETTER D
+         0x65 => Some(0x0065), // #LATIN SMALL LETTER E
+         0x66 => Some(0x0066), // #LATIN SMALL LETTER F
+         0x67 => Some(0x0067), // #LATIN SMALL LETTER G
+         0x68 => Some(0x0068), // #LATIN SMALL LETTER H
+         0x69 => Some(0x0069), // #LATIN SMALL LETTER I
+         0x6A => Some(0x006A), // #LATIN SMALL LETTER J
+         0x6B => Some(0x006B), // #LATIN SMALL LETTER K
+         0x6C => Some(0x006C), // #LATIN SMALL LETTER L

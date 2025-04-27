@@ -1,0 +1,24 @@
+--- espanso-render/src/extension/choice.rs
++++ delete match arm
+@@ -76,20 +76,17 @@
+                     label: line,
+                     id: line,
+                 })
+                 .collect()
+         } else if let Some(Value::Array(values)) = params.get("values") {
+             let choices: Result<Vec<Choice>> = values
+                 .iter()
+                 .map(|value| match value {
+-                    Value::String(string) => Ok(Choice {
+-                        id: string,
+-                        label: string,
+-                    }),
++                     /* ~ changed by cargo-mutants ~ */
+                     Value::Object(fields) => Ok(Choice {
+                         id: fields
+                             .get("id")
+                             .and_then(|val| val.as_string())
+                             .ok_or(ChoiceError::InvalidObjectValue)?,
+                         label: fields
+                             .get("label")
+                             .and_then(|val| val.as_string())

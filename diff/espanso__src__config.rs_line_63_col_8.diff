@@ -1,0 +1,21 @@
+--- espanso/src/config.rs
++++ delete ! in populate_default_config
+@@ -55,17 +55,17 @@
+ 
+     if !default_file.is_file() {
+         info!(
+             "populating default.yml file with initial content: {:?}",
+             default_file
+         );
+         std::fs::write(default_file, DEFAULT_CONFIG_FILE_CONTENT)?;
+     }
+-    if !match_file.is_file() {
++    if  /* ~ changed by cargo-mutants ~ */match_file.is_file() {
+         info!(
+             "populating base.yml file with initial content: {:?}",
+             match_file
+         );
+         std::fs::write(match_file, DEFAULT_MATCH_FILE_CONTENT)?;
+     }
+ 
+     Ok(())

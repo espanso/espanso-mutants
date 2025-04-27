@@ -1,0 +1,25 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace <impl Injector for X11XDOToolInjector>::send_string -> anyhow::Result<()> with Ok(())
+@@ -162,21 +162,17 @@
+         }
+ 
+         Ok(())
+     }
+ }
+ 
+ impl Injector for X11XDOToolInjector {
+     fn send_string(&self, string: &str, options: crate::InjectionOptions) -> anyhow::Result<()> {
+-        if options.disable_fast_inject {
+-            self.xfake_send_string(string, options)
+-        } else {
+-            self.fast_send_string(string, options)
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn send_keys(
+         &self,
+         keys: &[crate::keys::Key],
+         options: crate::InjectionOptions,
+     ) -> anyhow::Result<()> {
+         let key_syms: Vec<String> = keys

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/ipc.rs
++++ replace <impl funnel::Source<'a> for IpcEventSource<'a>>::register -> usize with 1
+@@ -38,17 +38,17 @@
+             ipc_event_receiver,
+             sequencer,
+         }
+     }
+ }
+ 
+ impl<'a> funnel::Source<'a> for IpcEventSource<'a> {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+-        select.recv(&self.ipc_event_receiver)
++        1 /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+         let ipc_event = op
+             .recv(&self.ipc_event_receiver)
+             .expect("unable to select data from IpcEventSource receiver");
+ 
+         // Execute only events that have been whitelisted

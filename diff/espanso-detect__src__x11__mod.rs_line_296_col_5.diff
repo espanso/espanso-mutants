@@ -1,0 +1,83 @@
+--- espanso-detect/src/x11/mod.rs
++++ replace convert_raw_input_event_to_input_event -> Option<InputEvent> with Some(Default::default())
+@@ -288,79 +288,17 @@
+     Internal(),
+ }
+ 
+ fn convert_raw_input_event_to_input_event(
+     raw: RawInputEvent,
+     raw_hotkey_mapping: &HashMap<(i32, u32), i32>,
+     valid_modifiers_mask: u32,
+ ) -> Option<InputEvent> {
+-    let status = match raw.status {
+-        INPUT_STATUS_RELEASED => Released,
+-        INPUT_STATUS_PRESSED => Pressed,
+-        _ => Pressed,
+-    };
+-
+-    match raw.event_type {
+-        // Keyboard events
+-        INPUT_EVENT_TYPE_KEYBOARD => {
+-            let (key, variant) = key_sym_to_key(raw.key_sym);
+-            let value = if raw.buffer_len > 0 {
+-                let raw_string_result =
+-                    CStr::from_bytes_with_nul(&raw.buffer[..((raw.buffer_len + 1) as usize)]);
+-                match raw_string_result {
+-                    Ok(c_string) => {
+-                        let string_result = c_string.to_str();
+-                        match string_result {
+-                            Ok(value) => Some(value.to_string()),
+-                            Err(err) => {
+-                                warn!("char conversion error: {}", err);
+-                                None
+-                            }
+-                        }
+-                    }
+-                    Err(err) => {
+-                        warn!("Received malformed char: {}", err);
+-                        None
+-                    }
+-                }
+-            } else {
+-                None
+-            };
+-
+-            return Some(InputEvent::Keyboard(KeyboardEvent {
+-                key,
+-                value,
+-                status,
+-                variant,
+-                code: raw
+-                    .key_code
+-                    .try_into()
+-                    .expect("invalid keycode conversion to u32"),
+-            }));
+-        }
+-        // Mouse events
+-        INPUT_EVENT_TYPE_MOUSE => {
+-            let button = raw_to_mouse_button(raw.key_code);
+-
+-            if let Some(button) = button {
+-                return Some(InputEvent::Mouse(MouseEvent { button, status }));
+-            }
+-        }
+-        // Hotkey events
+-        INPUT_EVENT_TYPE_HOTKEY => {
+-            let state = raw.state & valid_modifiers_mask;
+-            if let Some(id) = raw_hotkey_mapping.get(&(raw.key_code, state)) {
+-                return Some(InputEvent::HotKey(HotKeyEvent { hotkey_id: *id }));
+-            }
+-        }
+-        _ => {}
+-    }
+-
+-    None
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ // Mappings from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+ // TODO: might need to add also the variants
+ fn key_sym_to_key(key_sym: i32) -> (Key, Option<Variant>) {
+     match key_sym {
+         // Modifiers
+         0xFFE9 => (Alt, Some(Left)),

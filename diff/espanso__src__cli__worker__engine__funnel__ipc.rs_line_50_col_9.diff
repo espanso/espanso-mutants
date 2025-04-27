@@ -1,0 +1,37 @@
+--- espanso/src/cli/worker/engine/funnel/ipc.rs
++++ replace <impl funnel::Source<'a> for IpcEventSource<'a>>::receive -> Option<Event> with None
+@@ -42,33 +42,17 @@
+ }
+ 
+ impl<'a> funnel::Source<'a> for IpcEventSource<'a> {
+     fn register(&'a self, select: &mut Select<'a>) -> usize {
+         select.recv(&self.ipc_event_receiver)
+     }
+ 
+     fn receive(&self, op: SelectedOperation) -> Option<Event> {
+-        let ipc_event = op
+-            .recv(&self.ipc_event_receiver)
+-            .expect("unable to select data from IpcEventSource receiver");
+-
+-        // Execute only events that have been whitelisted
+-        if !is_event_type_allowed(&ipc_event) {
+-            warn!(
+-                "received black-listed event from IPC stream, blocking it: {:?}",
+-                ipc_event
+-            );
+-            return None;
+-        }
+-
+-        Some(Event {
+-            source_id: self.sequencer.next_id(),
+-            etype: ipc_event,
+-        })
++        None /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ fn is_event_type_allowed(event: &EventType) -> bool {
+     matches!(
+         event,
+         EventType::MatchExecRequest(_)
+             | EventType::ShowSearchBar

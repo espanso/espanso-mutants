@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace + with * in EVDEVInjector::generate_maps
+@@ -162,17 +162,17 @@
+         // Cycle through all code/modifiers combinations to populate the reverse lookup tables
+         for key_code in 8..256u32 {
+             for modifier_combination in &modifier_combinations {
+                 let state = State::new(keymap)?;
+ 
+                 // Apply the modifiers
+                 for modifier in modifier_combination {
+                     // We need to add the EVDEV offset for xkbcommon to recognize it correctly
+-                    state.update_key(*modifier + EVDEV_OFFSET, true);
++                    state.update_key(*modifier * /* ~ changed by cargo-mutants ~ */ EVDEV_OFFSET, true);
+                 }
+ 
+                 let key_record = KeyRecord {
+                     code: key_code - EVDEV_OFFSET,
+                     modifiers: modifier_combination.clone(),
+                 };
+ 
+                 // Keysym was found

@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/ui/notification.rs
++++ delete ! in <impl espanso_engine::process::NotificationManager for NotificationManager<'_>>::notify_status_change
+@@ -53,17 +53,17 @@
+     pub fn notify_keyboard_layout_reloaded(&self) {
+         self.notify("Updated keyboard layout!");
+     }
+ }
+ 
+ impl espanso_engine::process::NotificationManager for NotificationManager<'_> {
+     fn notify_status_change(&self, enabled: bool) {
+         // Don't notify the status change outside Linux for now
+-        if !cfg!(target_os = "linux") {
++        if  /* ~ changed by cargo-mutants ~ */cfg!(target_os = "linux") {
+             return;
+         }
+ 
+         if enabled {
+             self.notify("Espanso enabled!");
+         } else {
+             self.notify("Espanso disabled!");
+         }

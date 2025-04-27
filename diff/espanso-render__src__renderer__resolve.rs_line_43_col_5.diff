@@ -1,0 +1,46 @@
+--- espanso-render/src/renderer/resolve.rs
++++ replace resolve_evaluation_order -> Result<Vec<&'a Variable>> with Ok(vec![])
+@@ -35,42 +35,17 @@
+     dependencies: Option<HashSet<&'a str>>,
+ }
+ 
+ pub(crate) fn resolve_evaluation_order<'a>(
+     body: &'a str,
+     local_vars: &'a [&'a Variable],
+     global_vars: &'a [&'a Variable],
+ ) -> Result<Vec<&'a Variable>> {
+-    let node_map = generate_nodes(body, local_vars, global_vars);
+-
+-    let body_node = node_map
+-        .get("__match_body")
+-        .ok_or_else(|| anyhow!("missing body node"))?;
+-
+-    let eval_order = RefCell::new(Vec::new());
+-    let resolved = RefCell::new(HashSet::new());
+-    let seen = RefCell::new(HashSet::new());
+-    {
+-        resolve_dependencies(body_node, &node_map, &eval_order, &resolved, &seen)?;
+-    }
+-
+-    let eval_order_ref = eval_order.borrow();
+-
+-    let mut ordered_variables = Vec::new();
+-    for var_name in &(*eval_order_ref) {
+-        let node = node_map
+-            .get(var_name)
+-            .ok_or_else(|| anyhow!("could not find dependency node for variable: {}", var_name))?;
+-        if let Some(var) = node.variable {
+-            ordered_variables.push(var);
+-        }
+-    }
+-
+-    Ok(ordered_variables)
++    Ok(vec![]) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn generate_nodes<'a>(
+     body: &'a str,
+     local_vars: &'a [&'a Variable],
+     global_vars: &'a [&'a Variable],
+ ) -> HashMap<&'a str, Node<'a>> {
+     let mut local_vars_nodes = Vec::new();

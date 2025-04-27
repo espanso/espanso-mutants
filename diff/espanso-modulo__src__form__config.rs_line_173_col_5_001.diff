@@ -1,0 +1,21 @@
+--- espanso-modulo/src/form/config.rs
++++ replace default_values -> Vec<String> with vec![]
+@@ -165,17 +165,17 @@
+     None
+ }
+ 
+ fn default_multiline() -> bool {
+     false
+ }
+ 
+ fn default_values() -> Vec<String> {
+-    Vec::new()
++    vec![] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Debug, Serialize, Deserialize, Clone)]
+ pub struct AutoFieldConfig {
+     #[serde(rename = "type", default = "default_type")]
+     pub field_type: String,
+ 
+     #[serde(default = "default_default")]

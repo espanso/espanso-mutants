@@ -1,0 +1,25 @@
+--- espanso-info/src/x11/mod.rs
++++ replace <impl AppInfoProvider for X11AppInfoProvider>::get_info -> AppInfo with Default::default()
+@@ -30,21 +30,17 @@
+ impl X11AppInfoProvider {
+     pub fn new() -> Self {
+         Self {}
+     }
+ }
+ 
+ impl AppInfoProvider for X11AppInfoProvider {
+     fn get_info(&self) -> AppInfo {
+-        AppInfo {
+-            title: self.get_title(),
+-            class: self.get_class(),
+-            exec: self.get_exec(),
+-        }
++        Default::default() /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl X11AppInfoProvider {
+     fn get_exec(&self) -> Option<String> {
+         let mut buffer: [c_char; 2048] = [0; 2048];
+         if unsafe { info_get_exec(buffer.as_mut_ptr(), (buffer.len() - 1) as i32) } > 0 {
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };

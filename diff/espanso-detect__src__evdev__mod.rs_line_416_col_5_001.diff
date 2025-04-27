@@ -1,0 +1,28 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace raw_to_mouse_button -> Option<MouseButton> with Some(Default::default())
+@@ -408,24 +408,17 @@
+ 
+         // Other keys, includes the raw code provided by the operating system
+         _ => (Other(key_sym), None),
+     }
+ }
+ 
+ // These codes can be found in the "input-event-codes.h" header file
+ fn raw_to_mouse_button(raw: u16) -> Option<MouseButton> {
+-    match raw {
+-        BTN_LEFT => Some(MouseButton::Left),
+-        BTN_RIGHT => Some(MouseButton::Right),
+-        BTN_MIDDLE => Some(MouseButton::Middle),
+-        BTN_SIDE => Some(MouseButton::Button1),
+-        BTN_EXTRA => Some(MouseButton::Button2),
+-        _ => None,
+-    }
++    Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[cfg(test)]
+ mod tests {
+     use device::RawMouseEvent;
+ 
+     use crate::event::{InputEvent, Key::Other, KeyboardEvent};
+ 

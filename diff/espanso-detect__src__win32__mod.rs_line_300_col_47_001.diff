@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ replace > with == in <impl From<RawInputEvent> for Option<InputEvent>>::from
+@@ -292,17 +292,17 @@
+ 
+                 // If the raw event does not include an explicit variant, use the hint provided by the key code
+                 let variant = match raw.variant {
+                     INPUT_LEFT_VARIANT => Some(Left),
+                     INPUT_RIGHT_VARIANT => Some(Right),
+                     _ => variant_hint,
+                 };
+ 
+-                let value = if raw.buffer_len > 0 {
++                let value = if raw.buffer_len == /* ~ changed by cargo-mutants ~ */ 0 {
+                     let raw_string_result = U16CStr::from_slice_with_nul(&raw.buffer);
+                     match raw_string_result {
+                         Ok(c_string) => {
+                             let string_result = c_string.to_string();
+                             match string_result {
+                                 Ok(value) => Some(value),
+                                 Err(err) => {
+                                     warn!("Widechar conversion error: {}", err);

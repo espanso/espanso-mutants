@@ -1,0 +1,32 @@
+--- espanso-render/src/extension/shell.rs
++++ replace Shell::from_string -> Option<Shell> with Some(Default::default())
+@@ -147,28 +147,17 @@
+             let wsl_env = tokens.join(":");
+             command.env("WSLENV", wsl_env);
+         }
+ 
+         command.output()
+     }
+ 
+     fn from_string(shell: &str) -> Option<Shell> {
+-        match shell {
+-            "bash" => Some(Shell::Bash),
+-            "cmd" => Some(Shell::Cmd),
+-            "nu" => Some(Shell::Nu),
+-            "powershell" => Some(Shell::Powershell),
+-            "pwsh" => Some(Shell::Pwsh),
+-            "sh" => Some(Shell::Sh),
+-            "wsl" => Some(Shell::WSL),
+-            "wsl2" => Some(Shell::WSL2),
+-            "zsh" => Some(Shell::Zsh),
+-            _ => None,
+-        }
++        Some(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl Default for Shell {
+     fn default() -> Shell {
+         if cfg!(target_os = "windows") {
+             Shell::Powershell
+         } else if cfg!(target_os = "macos") {

@@ -1,0 +1,21 @@
+--- espanso-engine/src/process/middleware/notification.rs
++++ delete match arm
+@@ -39,17 +39,17 @@
+ 
+ impl Middleware for NotificationMiddleware<'_> {
+     fn name(&self) -> &'static str {
+         "notification"
+     }
+ 
+     fn next(&self, event: Event, _: &mut dyn FnMut(Event)) -> Event {
+         match &event.etype {
+-            EventType::Enabled => self.notification_manager.notify_status_change(true),
++             /* ~ changed by cargo-mutants ~ */
+             EventType::Disabled => self.notification_manager.notify_status_change(false),
+             EventType::RenderingError => self.notification_manager.notify_rendering_error(),
+             _ => {}
+         }
+ 
+         event
+     }
+ }

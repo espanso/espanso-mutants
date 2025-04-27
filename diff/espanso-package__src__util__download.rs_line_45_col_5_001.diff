@@ -1,0 +1,26 @@
+--- espanso-package/src/util/download.rs
++++ replace read_string_from_url -> Result<String> with Ok("xyzzy".into())
+@@ -37,22 +37,17 @@
+         if !verify_sha256(&data, sha256) {
+             bail!("signature mismatch");
+         }
+     }
+     extract_zip(data, dest_dir).context("error extracting archive")
+ }
+ 
+ pub fn read_string_from_url(url: &str) -> Result<String> {
+-    let client = reqwest::blocking::Client::builder();
+-    let client = client.build()?;
+-
+-    let response = client.get(url).send()?;
+-
+-    Ok(response.text()?)
++    Ok("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn download(url: &str) -> Result<Vec<u8>> {
+     let client = reqwest::blocking::Client::builder();
+     let client = client.build()?;
+ 
+     let mut response = client.get(url).send()?;
+ 

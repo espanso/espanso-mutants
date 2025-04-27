@@ -1,0 +1,27 @@
+--- espanso-clipboard/src/x11/native/mod.rs
++++ replace <impl Clipboard for X11NativeClipboard>::set_text -> anyhow::Result<()> with Ok(())
+@@ -47,23 +47,17 @@
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             Some(string.to_string_lossy().to_string())
+         } else {
+             None
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {
+-        let string = CString::new(text)?;
+-        let native_result = unsafe { ffi::clipboard_x11_set_text(string.as_ptr()) };
+-        if native_result > 0 {
+-            Ok(())
+-        } else {
+-            Err(X11NativeClipboardError::SetOperationFailed().into())
+-        }
++        Ok(()) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn set_image(
+         &self,
+         image_path: &std::path::Path,
+         _: &ClipboardOperationOptions,
+     ) -> anyhow::Result<()> {
+         if !image_path.exists() || !image_path.is_file() {

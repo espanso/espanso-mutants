@@ -1,0 +1,33 @@
+--- espanso-ui/src/mac/mod.rs
++++ replace create -> Result<(MacRemote, MacEventLoop)> with Ok((Default::default(), Default::default()))
+@@ -64,29 +64,17 @@
+ 
+ pub struct MacUIOptions<'a> {
+     pub show_icon: bool,
+     pub icon_paths: &'a Vec<(TrayIcon, String)>,
+ }
+ 
+ pub fn create(options: MacUIOptions) -> Result<(MacRemote, MacEventLoop)> {
+     // Validate icons
+-    assert!(options.icon_paths.len() <= MAX_ICON_COUNT, "MacOS UI received too many icon paths, please increase the MAX_ICON_COUNT constant to support more");
+-    // Convert the icon paths to the internal representation
+-    let mut icon_indexes: HashMap<TrayIcon, usize> = HashMap::new();
+-    let mut icons = Vec::new();
+-    for (index, (tray_icon, path)) in options.icon_paths.iter().enumerate() {
+-        icon_indexes.insert(tray_icon.clone(), index);
+-        icons.push(path.clone());
+-    }
+-
+-    let eventloop = MacEventLoop::new(icons, options.show_icon);
+-    let remote = MacRemote::new(icon_indexes);
+-
+-    Ok((remote, eventloop))
++    Ok((Default::default(), Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub type MacUIEventCallback = Box<dyn Fn(UIEvent)>;
+ 
+ pub struct MacEventLoop {
+     show_icon: bool,
+     icons: Vec<String>,
+ 

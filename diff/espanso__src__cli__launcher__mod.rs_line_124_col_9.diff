@@ -1,0 +1,21 @@
+--- espanso/src/cli/launcher/mod.rs
++++ delete ! in launcher_main
+@@ -116,17 +116,17 @@
+         Ok(()) => true,
+         Err(error) => {
+             eprintln!("Add to path returned error: {error}");
+             false
+         }
+     });
+ 
+     let is_accessibility_page_enabled = if cfg!(target_os = "macos") {
+-        !accessibility::is_accessibility_enabled()
++         /* ~ changed by cargo-mutants ~ */accessibility::is_accessibility_enabled()
+     } else {
+         false
+     };
+     let is_accessibility_enabled_handler = Box::new(accessibility::is_accessibility_enabled);
+     let enable_accessibility_handler = Box::new(move || {
+         accessibility::prompt_enable_accessibility();
+     });
+ 

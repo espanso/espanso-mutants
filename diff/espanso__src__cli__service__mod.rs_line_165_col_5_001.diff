@@ -1,0 +1,33 @@
+--- espanso/src/cli/service/mod.rs
++++ replace stop_main -> i32 with -1
+@@ -157,29 +157,17 @@
+     error_eprintln!(
+     "      Please try running 'espanso restart' or manually killing all Espanso processes, then try again."
+   );
+ 
+     SERVICE_TIMED_OUT
+ }
+ 
+ fn stop_main(paths: &Paths) -> i32 {
+-    let lock_file = acquire_worker_lock(&paths.runtime);
+-    if lock_file.is_some() {
+-        error_eprintln!("espanso is not running!");
+-        return SERVICE_NOT_RUNNING;
+-    }
+-    drop(lock_file);
+-
+-    if let Err(err) = stop::terminate_worker(&paths.runtime) {
+-        error_eprintln!("unable to stop espanso: {}", err);
+-        return SERVICE_FAILURE;
+-    }
+-
+-    SERVICE_SUCCESS
++    -1 /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn status_main(paths: &Paths) -> i32 {
+     let lock_file = acquire_worker_lock(&paths.runtime);
+     if lock_file.is_some() {
+         error_eprintln!("espanso is not running");
+         return SERVICE_NOT_RUNNING;
+     }

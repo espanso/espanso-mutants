@@ -1,0 +1,45 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ replace case_insensitive_keyword -> Vec<usize> with vec![]
+@@ -67,41 +67,17 @@
+                     .iter()
+                     .any(|term| term.to_lowercase().contains(&lowercase_query))
+         })
+         .map(|(i, _)| i)
+         .collect()
+ }
+ 
+ fn case_insensitive_keyword(query: &str, items: &[SearchItem]) -> Vec<usize> {
+-    let lowercase_query = query.to_lowercase();
+-    let keywords: Vec<&str> = lowercase_query.split_whitespace().collect();
+-    items
+-        .iter()
+-        .enumerate()
+-        .filter(|(_, item)| {
+-            for keyword in &keywords {
+-                if !item.label.to_lowercase().contains(keyword)
+-                    && !item
+-                        .trigger
+-                        .as_deref()
+-                        .is_some_and(|t| t.to_lowercase().contains(keyword))
+-                    && !item
+-                        .search_terms
+-                        .iter()
+-                        .any(|term| term.to_lowercase().contains(keyword))
+-                {
+-                    return false;
+-                }
+-            }
+-
+-            true
+-        })
+-        .map(|(i, _)| i)
+-        .collect()
++    vec![] /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn command_filter(search_algorithm: Box<FilterCallback>) -> Box<FilterCallback> {
+     Box::new(move |query, items| {
+         let (valid_ids, trimmed_query) = if query.starts_with('>') {
+             (
+                 items
+                     .iter()

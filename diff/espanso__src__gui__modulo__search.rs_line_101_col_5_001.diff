@@ -1,0 +1,30 @@
+--- espanso/src/gui/modulo/search.rs
++++ replace convert_items -> Vec<ModuloSearchItemConfig> with vec![Default::default()]
+@@ -93,26 +93,10 @@
+     id: &'a str,
+     label: &'a str,
+     trigger: Option<&'a str>,
+     search_terms: Vec<&'a str>,
+     is_builtin: bool,
+ }
+ 
+ fn convert_items(items: &[SearchItem]) -> Vec<ModuloSearchItemConfig> {
+-    items
+-        .iter()
+-        .map(|item| ModuloSearchItemConfig {
+-            id: &item.id,
+-            label: &item.label,
+-            trigger: item.tag.as_deref(),
+-            search_terms: if item.additional_search_terms.is_empty() {
+-                vec![]
+-            } else {
+-                item.additional_search_terms
+-                    .iter()
+-                    .map(String::as_str)
+-                    .collect()
+-            },
+-            is_builtin: item.is_builtin,
+-        })
+-        .collect()
++    vec![Default::default()] /* ~ changed by cargo-mutants ~ */
+ }

@@ -1,0 +1,37 @@
+--- espanso-engine/src/process/middleware/action.rs
++++ delete match arm
+@@ -93,33 +93,17 @@
+                         event.source_id,
+                         EventType::ImageInject(ImageInjectRequest {
+                             image_path: m_event.image_path.clone(),
+                         }),
+                     ),
+                     _ => unreachable!(),
+                 }
+             }
+-            EventType::CursorHintCompensation(m_event) => {
+-                dispatch(Event::caused_by(
+-                    event.source_id,
+-                    EventType::DiscardPrevious(DiscardPreviousEvent {
+-                        minimum_source_id: self.event_sequence_provider.get_next_id(),
+-                    }),
+-                ));
+-
+-                Event::caused_by(
+-                    event.source_id,
+-                    EventType::KeySequenceInject(KeySequenceInjectRequest {
+-                        keys: (0..m_event.cursor_hint_back_count)
+-                            .map(|_| Key::ArrowLeft)
+-                            .collect(),
+-                    }),
+-                )
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             EventType::TriggerCompensation(m_event) => {
+                 let mut backspace_count = m_event.trigger.chars().count();
+ 
+                 // We want to preserve the left separator if present
+                 if let Some(left_separator) = &m_event.left_separator {
+                     backspace_count -= left_separator.chars().count();
+                 }
+ 

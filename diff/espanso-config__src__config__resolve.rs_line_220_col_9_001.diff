@@ -1,0 +1,21 @@
+--- espanso-config/src/config/resolve.rs
++++ replace <impl Config for ResolvedConfig>::inject_delay -> Option<usize> with Some(1)
+@@ -212,17 +212,17 @@
+         self.parsed.paste_shortcut.clone()
+     }
+ 
+     fn disable_x11_fast_inject(&self) -> bool {
+         self.parsed.disable_x11_fast_inject.unwrap_or(false)
+     }
+ 
+     fn inject_delay(&self) -> Option<usize> {
+-        self.parsed.inject_delay
++        Some(1) /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn key_delay(&self) -> Option<usize> {
+         self.parsed.key_delay
+     }
+ 
+     fn word_separators(&self) -> Vec<String> {
+         self.parsed.word_separators.clone().unwrap_or_else(|| {

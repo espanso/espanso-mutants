@@ -1,0 +1,23 @@
+--- espanso-render/src/extension/exec_util.rs
++++ replace launch_command_and_get_output -> Option<String> with Some("xyzzy".into())
+@@ -90,19 +90,10 @@
+     } else if shell.ends_with("/zsh") {
+         Some(MacShell::Zsh)
+     } else {
+         None
+     }
+ }
+ 
+ fn launch_command_and_get_output(command: &str, args: &[&str]) -> Option<String> {
+-    use std::process::Command;
+-
+-    let output = Command::new(command).args(args).output().ok()?;
+-
+-    if !output.status.success() {
+-        return None;
+-    }
+-
+-    let output_str = String::from_utf8_lossy(&output.stdout);
+-    Some(output_str.to_string())
++    Some("xyzzy".into()) /* ~ changed by cargo-mutants ~ */
+ }

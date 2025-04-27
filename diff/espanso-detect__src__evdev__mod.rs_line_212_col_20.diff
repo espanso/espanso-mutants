@@ -1,0 +1,21 @@
+--- espanso-detect/src/evdev/mod.rs
++++ replace < with > in <impl Source for EVDEVSource>::eventloop
+@@ -204,17 +204,17 @@
+         }
+ 
+         let mut hotkey_filter = self._hotkey_filter.borrow_mut();
+ 
+         // Read events indefinitely
+         let mut evs: [epoll_event; 16] = unsafe { std::mem::zeroed() };
+         loop {
+             let ret = unsafe { epoll_wait(*epfd, evs.as_mut_ptr(), 16, -1) };
+-            if ret < 0 {
++            if ret > /* ~ changed by cargo-mutants ~ */ 0 {
+                 if unsafe { *errno_ptr } == EINTR {
+                     continue;
+                 }
+                 error!("Could not poll for events, {}", unsafe { *errno_ptr });
+                 return Err(EVDEVSourceError::Internal().into());
+             }
+ 
+             for ev in evs.iter().take(ret as usize) {

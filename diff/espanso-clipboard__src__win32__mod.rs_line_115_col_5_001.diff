@@ -1,0 +1,58 @@
+--- espanso-clipboard/src/win32/mod.rs
++++ replace generate_html_descriptor -> String with String::new()
+@@ -107,54 +107,17 @@
+     }
+ }
+ 
+ fn generate_html_descriptor(html: &str) -> String {
+     // In order to set the HTML clipboard, we have to create a prefix with a specific format
+     // For more information, look here:
+     // https://docs.microsoft.com/en-us/windows/win32/dataxchg/html-clipboard-format
+     // https://docs.microsoft.com/en-za/troubleshoot/cpp/add-html-code-clipboard
+-    let content = format!("<!--StartFragment-->{html}<!--EndFragment-->");
+-
+-    let tokens = [
+-        "Version:0.9",
+-        "StartHTML:<<STR*#>",
+-        "EndHTML:<<END*#>",
+-        "StartFragment:<<SFG#*>",
+-        "EndFragment:<<EFG#*>",
+-        "<html>",
+-        "<body>",
+-        &content,
+-        "</body>",
+-        "</html>",
+-    ];
+-
+-    let mut render = tokens.join("\r\n");
+-
+-    // Now replace the placeholders with the actual positions
+-    render = render.replace(
+-        "<<STR*#>",
+-        &format!("{:0>8}", render.find("<html>").unwrap_or_default()),
+-    );
+-    render = render.replace("<<END*#>", &format!("{:0>8}", render.len()));
+-    render = render.replace(
+-        "<<SFG#*>",
+-        &format!(
+-            "{:0>8}",
+-            render.find("<!--StartFragment-->").unwrap_or_default() + "<!--StartFragment-->".len()
+-        ),
+-    );
+-    render = render.replace(
+-        "<<EFG#*>",
+-        &format!(
+-            "{:0>8}",
+-            render.find("<!--EndFragment-->").unwrap_or_default()
+-        ),
+-    );
+-    render
++    String::new() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ #[derive(Error, Debug)]
+ pub enum Win32ClipboardError {
+     #[error("clipboard set operation failed")]
+     SetOperationFailed(),
+ 
+     #[error("image not found: `{0}`")]

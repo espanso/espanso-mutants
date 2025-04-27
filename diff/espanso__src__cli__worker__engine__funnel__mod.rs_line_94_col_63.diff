@@ -1,0 +1,21 @@
+--- espanso/src/cli/worker/engine/funnel/mod.rs
++++ replace == with != in init_and_spawn
+@@ -86,17 +86,17 @@
+                                 modifier_state_store_clone.clear_state();
+                             }
+ 
+                             // Update the key state (if needed)
+                             if let Some(key_state_store) = &key_state_store_clone {
+                                 if let InputEvent::Keyboard(keyboard_event) = &event {
+                                     key_state_store.update_state(
+                                         keyboard_event.code,
+-                                        keyboard_event.status == Status::Pressed,
++                                        keyboard_event.status != /* ~ changed by cargo-mutants ~ */ Status::Pressed,
+                                     );
+                                 }
+                             }
+ 
+                             // Generate a monotonically increasing id for the current event
+                             let source_id = sequencer_clone.next_id();
+ 
+                             sender

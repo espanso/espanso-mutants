@@ -1,0 +1,36 @@
+--- espanso-engine/src/process/middleware/matcher.rs
++++ replace is_invalidating_event -> bool with false
+@@ -221,32 +221,17 @@
+         }),
+         EventType::Mouse(_) => Some(MatcherEvent::VirtualSeparator),
+         EventType::MatchInjected => Some(MatcherEvent::VirtualSeparator),
+         _ => None,
+     }
+ }
+ 
+ fn is_invalidating_event(event_type: &EventType) -> bool {
+-    match event_type {
+-        EventType::Keyboard(keyboard_event) => matches!(
+-            keyboard_event.key,
+-            Key::ArrowDown
+-                | Key::ArrowLeft
+-                | Key::ArrowRight
+-                | Key::ArrowUp
+-                | Key::End
+-                | Key::Home
+-                | Key::PageDown
+-                | Key::PageUp
+-                | Key::Escape
+-        ),
+-        EventType::Mouse(_) => true,
+-        _ => false,
+-    }
++    false /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ fn should_skip_key_event_due_to_modifier_press(modifier_state: &ModifierState) -> bool {
+     if cfg!(target_os = "macos") {
+         modifier_state.is_meta_down
+     } else if cfg!(target_os = "windows") {
+         false
+     } else if cfg!(target_os = "linux") {

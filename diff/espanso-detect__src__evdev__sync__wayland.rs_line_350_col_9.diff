@@ -1,0 +1,29 @@
+--- espanso-detect/src/evdev/sync/wayland.rs
++++ replace <impl KeyboardHandler for SimpleWindow>::update_modifiers with ()
+@@ -342,25 +342,17 @@
+     fn update_modifiers(
+         &mut self,
+         _: &Connection,
+         _: &QueueHandle<Self>,
+         _: &wl_keyboard::WlKeyboard,
+         _serial: u32,
+         modifiers: Modifiers,
+     ) {
+-        debug!("Update modifiers: {modifiers:?}");
+-        self.modifiers = Some(ModifiersState {
+-            ctrl: modifiers.ctrl,
+-            alt: modifiers.alt,
+-            shift: modifiers.shift,
+-            caps_lock: modifiers.caps_lock,
+-            meta: modifiers.logo,
+-            num_lock: modifiers.num_lock,
+-        });
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ impl ShmHandler for SimpleWindow {
+     fn shm_state(&mut self) -> &mut Shm {
+         &mut self.shm
+     }
+ }

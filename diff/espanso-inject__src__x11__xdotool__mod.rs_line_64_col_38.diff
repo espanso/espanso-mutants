@@ -1,0 +1,21 @@
+--- espanso-inject/src/x11/xdotool/mod.rs
++++ replace << with >> in X11XDOToolInjector::xfake_release_all_keys
+@@ -56,17 +56,17 @@
+             XQueryKeymap((*self.xdo).xdpy, keys.as_mut_ptr());
+         }
+ 
+         #[allow(clippy::needless_range_loop)]
+         for i in 0..32 {
+             // Only those that are pressed should be changed
+             if keys[i] != 0 {
+                 for k in 0..8 {
+-                    if (keys[i] & (1 << k)) != 0 {
++                    if (keys[i] & (1 >> /* ~ changed by cargo-mutants ~ */ k)) != 0 {
+                         let key_code = i * 8 + k;
+                         unsafe {
+                             XTestFakeKeyEvent((*self.xdo).xdpy, key_code as u32, 0, 0);
+                         }
+                     }
+                 }
+             }
+         }

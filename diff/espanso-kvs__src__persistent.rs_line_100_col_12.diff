@@ -1,0 +1,21 @@
+--- espanso-kvs/src/persistent.rs
++++ delete ! in <impl KVS for PersistentJsonKVS>::delete
+@@ -92,17 +92,17 @@
+ 
+         let target_file = self.kvs_dir.join(key);
+         std::fs::write(target_file, serialized_string)?;
+ 
+         Ok(())
+     }
+ 
+     fn delete(&self, key: &str) -> Result<()> {
+-        if !is_valid_key_name(key) {
++        if  /* ~ changed by cargo-mutants ~ */is_valid_key_name(key) {
+             return Err(PersistentJsonKVSError::InvalidKey(key.to_string()).into());
+         }
+ 
+         let mut lock = self.store.lock().expect("unable to obtain KVS delete lock");
+ 
+         lock.remove(key);
+ 
+         let target_file = self.kvs_dir.join(key);

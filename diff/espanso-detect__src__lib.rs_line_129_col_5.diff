@@ -1,0 +1,17 @@
+--- espanso-detect/src/lib.rs
++++ replace get_source -> Result<Box<dyn Source>> with Ok(Box::new(Default::default()))
+@@ -121,13 +121,12 @@
+         info!("using X11Source");
+         Ok(Box::new(x11::X11Source::new(&options.hotkeys)))
+     }
+ }
+ 
+ #[cfg(target_os = "linux")]
+ #[cfg(feature = "wayland")]
+ pub fn get_source(options: SourceCreationOptions) -> Result<Box<dyn Source>> {
+-    info!("using EVDEVSource");
+-    Ok(Box::new(evdev::EVDEVSource::new(options)))
++    Ok(Box::new(Default::default())) /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub use layout::get_active_layout;

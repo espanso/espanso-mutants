@@ -1,0 +1,21 @@
+--- espanso-detect/src/win32/mod.rs
++++ delete match arm
+@@ -408,17 +408,17 @@
+         0x7E => (F15, None),
+         0x7F => (F16, None),
+         0x80 => (F17, None),
+         0x81 => (F18, None),
+         0x82 => (F19, None),
+         0x83 => (F20, None),
+ 
+         // Numpad
+-        0x60 => (Numpad0, None),
++         /* ~ changed by cargo-mutants ~ */
+         0x61 => (Numpad1, None),
+         0x62 => (Numpad2, None),
+         0x63 => (Numpad3, None),
+         0x64 => (Numpad4, None),
+         0x65 => (Numpad5, None),
+         0x66 => (Numpad6, None),
+         0x67 => (Numpad7, None),
+         0x68 => (Numpad8, None),

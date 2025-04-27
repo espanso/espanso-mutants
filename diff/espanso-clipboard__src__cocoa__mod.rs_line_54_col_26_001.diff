@@ -1,0 +1,21 @@
+--- espanso-clipboard/src/cocoa/mod.rs
++++ replace > with == in <impl Clipboard for CocoaClipboard>::get_text
+@@ -46,17 +46,17 @@
+             return None;
+         }
+ 
+         // allocate the buffer with extra space for null terminator
+         let mut buffer: Vec<c_char> = vec![0; (length as usize) + 1];
+         let native_result =
+             unsafe { ffi::clipboard_get_text(buffer.as_mut_ptr(), buffer.len() as i32) };
+ 
+-        if native_result > 0 {
++        if native_result == /* ~ changed by cargo-mutants ~ */ 0 {
+             let string = unsafe { CStr::from_ptr(buffer.as_ptr()) };
+             Some(string.to_string_lossy().to_string())
+         } else {
+             None
+         }
+     }
+ 
+     fn set_text(&self, text: &str, _: &ClipboardOperationOptions) -> anyhow::Result<()> {

@@ -1,0 +1,21 @@
+--- espanso-modulo/src/search/algorithm.rs
++++ delete ! in command_filter
+@@ -111,17 +111,17 @@
+                     .collect::<HashSet<usize>>(),
+                 query.trim_start_matches('>'),
+             )
+         } else {
+             (
+                 items
+                     .iter()
+                     .enumerate()
+-                    .filter(|(_, item)| !item.is_builtin)
++                    .filter(|(_, item)|  /* ~ changed by cargo-mutants ~ */item.is_builtin)
+                     .map(|(i, _)| i)
+                     .collect::<HashSet<usize>>(),
+                 query,
+             )
+         };
+ 
+         let results = search_algorithm(trimmed_query, items);
+ 

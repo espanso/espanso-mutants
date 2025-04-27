@@ -1,0 +1,28 @@
+--- espanso-ui/src/linux/mod.rs
++++ replace <impl UIRemote for LinuxRemote>::show_notification with ()
+@@ -59,24 +59,17 @@
+ }
+ 
+ impl UIRemote for LinuxRemote {
+     fn update_tray_icon(&self, _: crate::icons::TrayIcon) {
+         // NOOP on linux
+     }
+ 
+     fn show_notification(&self, message: &str) {
+-        if let Err(error) = Notification::new()
+-            .summary("Espanso")
+-            .body(message)
+-            .icon(&self.notification_icon_path)
+-            .show()
+-        {
+-            error!("Unable to show notification: {}", error);
+-        }
++        () /* ~ changed by cargo-mutants ~ */
+     }
+ 
+     fn show_context_menu(&self, _: &crate::menu::Menu) {
+         // NOOP on linux
+     }
+ 
+     fn exit(&self) {
+         self.stop()

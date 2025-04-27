@@ -1,0 +1,21 @@
+--- espanso-inject/src/evdev/mod.rs
++++ replace != with == in EVDEVInjector::send_key
+@@ -212,17 +212,17 @@
+                     .cloned()
+                     .ok_or_else(|| EVDEVInjectorError::SymMappingFailure(*sym as u32).into())
+             })
+             .collect()
+     }
+ 
+     fn send_key(&self, code: u32, pressed: bool, delay_us: u32) {
+         self.device.emit(code, pressed);
+-        if delay_us != 0 {
++        if delay_us == /* ~ changed by cargo-mutants ~ */ 0 {
+             unsafe {
+                 libc::usleep(delay_us);
+             }
+         }
+     }
+ 
+     fn wait_until_key_is_released(&self, code: u32) -> Result<()> {
+         if let Some(key_provider) = &self.keyboard_state_provider {

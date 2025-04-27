@@ -1,0 +1,31 @@
+--- espanso-modulo/src/form/config.rs
++++ delete match arm
+@@ -108,27 +108,17 @@
+         let auto_field = AutoFieldConfig::deserialize(deserializer)?;
+         Ok(FieldConfig::from(&auto_field))
+     }
+ }
+ 
+ impl<'a> From<&'a AutoFieldConfig> for FieldConfig {
+     fn from(other: &'a AutoFieldConfig) -> Self {
+         let field_type = match other.field_type.as_ref() {
+-            "text" => {
+-                let mut config = TextFieldConfig::default();
+-
+-                if let Some(default) = &other.default {
+-                    config.default.clone_from(default);
+-                }
+-
+-                config.multiline = other.multiline;
+-
+-                FieldTypeConfig::Text(config)
+-            }
++             /* ~ changed by cargo-mutants ~ */
+             "choice" => {
+                 let mut config = ChoiceFieldConfig {
+                     values: other.values.clone(),
+                     ..Default::default()
+                 };
+ 
+                 if let Some(default) = &other.default {
+                     config.default.clone_from(default);

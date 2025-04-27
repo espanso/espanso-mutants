@@ -1,0 +1,26 @@
+--- espanso-package/src/package/mod.rs
++++ replace <impl std::fmt::Debug for dyn Package>::fmt -> std::fmt::Result with Ok(Default::default())
+@@ -30,22 +30,13 @@
+     fn author(&self) -> &str;
+ 
+     // Directory containing the package files
+     fn location(&self) -> &Path;
+ }
+ 
+ impl std::fmt::Debug for dyn Package {
+     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+-        writeln!(
+-            f,
+-            "name: {}\nversion: {}\ntitle: {}\ndescription: {}\nauthor: {}\nlocation: {:?}",
+-            self.name(),
+-            self.version(),
+-            self.title(),
+-            self.description(),
+-            self.author(),
+-            self.location()
+-        )
++        Ok(Default::default()) /* ~ changed by cargo-mutants ~ */
+     }
+ }
+ 
+ pub use default::DefaultPackage;

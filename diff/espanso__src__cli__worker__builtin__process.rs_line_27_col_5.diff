@@ -1,0 +1,27 @@
+--- espanso/src/cli/worker/builtin/process.rs
++++ replace create_match_exit -> BuiltInMatch with Default::default()
+@@ -19,23 +19,17 @@
+ 
+ use espanso_engine::event::{EventType, ExitMode};
+ 
+ use crate::cli::worker::builtin::generate_next_builtin_id;
+ 
+ use super::BuiltInMatch;
+ 
+ pub fn create_match_exit() -> BuiltInMatch {
+-    BuiltInMatch {
+-        id: generate_next_builtin_id(),
+-        label: "Exit espanso",
+-        triggers: Vec::new(),
+-        action: |_| EventType::ExitRequested(ExitMode::ExitAllProcesses),
+-        ..Default::default()
+-    }
++    Default::default() /* ~ changed by cargo-mutants ~ */
+ }
+ 
+ pub fn create_match_restart() -> BuiltInMatch {
+     BuiltInMatch {
+         id: generate_next_builtin_id(),
+         label: "Restart espanso",
+         triggers: Vec::new(),
+         action: |_| EventType::ExitRequested(ExitMode::RestartWorker),

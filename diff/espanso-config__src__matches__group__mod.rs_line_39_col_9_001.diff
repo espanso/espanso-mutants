@@ -1,0 +1,15 @@
+--- espanso-config/src/matches/group/mod.rs
++++ replace MatchGroup::load -> Result<(Self, Option<NonFatalErrorSet>)> with Ok((Default::default(), None))
+@@ -31,11 +31,11 @@
+ pub(crate) struct MatchGroup {
+     pub imports: Vec<String>,
+     pub global_vars: Vec<Variable>,
+     pub matches: Vec<Match>,
+ }
+ 
+ impl MatchGroup {
+     pub fn load(group_path: &Path) -> Result<(Self, Option<NonFatalErrorSet>)> {
+-        loader::load_match_group(group_path)
++        Ok((Default::default(), None)) /* ~ changed by cargo-mutants ~ */
+     }
+ }
